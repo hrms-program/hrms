@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header" />
+
+<body>
+<tt:constant enumcode="ic-deal-status,ic-operate,boolean"/>
+    <section class="content">
+        <div class="box box-solid" style="margin-top:20px">
+            <div id="result" class="box-body">
+                <table id="dataGrid"></table>
+            </div>
+        </div>
+    </section>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function() {
+        initDataGrid();
+    });
+
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                    { title: "机构名称", field: "org"},
+                    { title: "应上报人数", field: "todo" },
+                    { title: "已上报合格人数", field: "y"},
+                    { title: "上报不合格人数", field: "n" },
+                    { title: "未上报人数", field: "un"},
+                    { title:"机构上报状态",field : "confirmState"},
+                    { title: "操作",field: "id", width:"15%",align: 'center',events: operateEvents, formatter: operateFormatter}
+            ],
+            url: '/hrms/report/confirm/findOrg',
+            searchbar: '#searchbar',
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            clickToSelect: true,
+            toolbar: "#toolbar",
+            showRefresh: true
+        });
+    }
+
+    function operateFormatter(value, row, index) {
+    	if(value == null){
+   		 return [
+            '<a  class="add" href="javascript:void(0);">',
+            '<i class="glyphicon glyphicon-edit"></i>上报',
+            '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+   		      ].join('');
+    	}
+    }
+
+    window.operateEvents = {
+        'click .add' : function (e, value, row, index) {
+        	$.ajax({
+        		url : '/hrms/report/confirm/reportOrg', //用于文件上传的服务器端请求地址
+        		type : "POST",
+        		dataType : 'JSON', //返回值类型 一般设置为json
+        		data : {"id":row.org}, //返回值类型 一般设置为json
+        		success : function(data) { //服务器成功响应处理函数
+        			if (data.status == 1) {
+        				layer.alert(data.message);
+        			} else if (data.status == 0) {
+        				layer.alert(data.message);
+        			}
+        		},
+        		error : function(data) { //服务器响应失败处理函数
+        			layer.alert("网络异常，请退出登录后再重试！",{icon:5});
+        		}
+        	});
+        },'click .edit' : function (e, value, row, index) {
+           edit(row.agencyName,row.id);
+        }
+    };
+    
+    /*]]>*/
+    </script>
+</body>
+
+</html>

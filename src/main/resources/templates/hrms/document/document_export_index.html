@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header" />
+<style>
+.layui-colla-title{
+	height:28px;
+	line-height:28px;
+}
+.layui-colla-content{
+	padding:4px 15px;
+}
+.gray-bg{
+	padding:5px;
+}
+#queryForm{
+   margin-bottom:5px;
+}
+#queryForm input,#queryForm select{
+	width:150px;
+	height:24px;
+	line-height:24px;
+}
+</style>
+<body>
+	<tt:constant enumcode="sex,work_status,cadres_person_type,personnel_compilation,management_level,boolean" />
+	<section class="content">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<i class="fa fa-search"></i>
+				<h3 class="box-title">查询</h3>
+			</div>
+			<div class="box-body">
+					<form class="form-horizontal" id="queryForm">
+						<div class="form-group">
+                        		<div class="col-md-3"><label class="col-sm-4" for="name">姓名</label>
+									<div class="col-sm-8">
+										<input type="text" id="name" name="name" placeholder="支持模糊查询" />
+									</div></div>
+								<div class="col-md-3"><label class="col-sm-4" for="identificationNo">身份证号</label>
+									<div class="col-sm-8">
+										<input type="text" id="identificationNo" name="identificationNo" />
+									</div></div>
+								<div class="col-md-3"><label class="col-sm-4" for="documentCode">档案编码</label>
+									<div class="col-sm-8">
+										<input type="text" id="documentCode" name="documentCode" />
+									</div></div>
+								<div class="col-md-3"><label class="col-sm-4" for="workStatus">在岗情况</label>
+									<div class="col-sm-8">
+										<select id="workStatus" name="workStatus" class="tonto-select-constant" enumcode="work_status">
+											<option value="">---请选择---</option>
+										</select>
+									</div></div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-3"><label class="col-sm-4" for="deptCode">所属单位</label>
+									<div class="col-sm-8">
+										<select id="deptCode" name="deptCode">
+											<option value="">---请选择---</option>
+										</select>
+									</div></div>
+								<div class="col-md-3"><label class="col-sm-4" for="section">所属科室</label>
+									<div class="col-sm-8">
+										<input type="text" id="section" name="section" />
+									</div></div>
+								<div class="col-md-3"><label class="col-sm-4" for="personnelCompilation">人事编制</label>
+									<div class="col-sm-8">
+										<select id="personnelCompilation" name="personnelCompilation" class="tonto-select-constant" enumcode="personnel_compilation">
+											<option value="">---请选择---</option>
+										</select>
+									</div></div>
+								<div class="col-md-3"><label class="col-sm-4" for="managementLevel">干部类别</label>
+									<div class="col-sm-8">
+										<select id="managementLevel" name="managementLevel" class="tonto-select-constant" enumcode="management_level">
+											<option value="">---请选择---</option>
+										</select>
+									</div></div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-3"><label class="col-sm-4" for="isSecondment">是否借出</label>
+									<div class="col-sm-8">
+										<select id="isSecondment" name="isSecondment" class="tonto-select-constant" enumcode="boolean">
+											<option value="">---请选择---</option>
+										</select>
+									</div></div>
+								<div class="col-md-3"><label class="col-sm-4" for="personType">人员性质</label>
+									<div class="col-sm-8">
+										<select id="personType" name="personType" class="tonto-select-constant" enumcode="cadres_person_type">
+											<option value="">---请选择---</option>
+										</select>
+									</div></div>
+								<div class="col-md-3"><label class="col-sm-4" for="sex">性别</label>
+									<div class="col-sm-8">
+										<select id="sex" name="sex" class="tonto-select-constant" enumcode="sex">
+											<option value="">---请选择---</option>
+										</select>
+									</div></div>
+								<div class="col-md-3"><label class="col-sm-4" for="profession">熟悉专业</label>
+									<div class="col-sm-8">
+										<input type="text" id="profession" name="profession"
+											placeholder="支持模糊查询" />
+									</div></div>
+							</div>
+						</tbody>
+					<!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+					<input type="text" style="display: none">
+					</form>
+				<div class="col-md-12">
+					<div class="pull-right">
+						<button type="button" style="width: 100px"
+							class="btn btn-primary tonto-btn-search"
+							onclick="table.refresh()">查询</button>
+						<button type="button" style="width: 100px" class="btn btn-default"
+							onclick="$.reset('#queryForm')">重置</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+			<div class="box box-solid layui-collapse" lay-filter="test">
+				<div >
+					<h3 class="layui-colla-title">基本信息&nbsp;&nbsp;&nbsp;&nbsp;(<a href="javascript:void(0);" onclick="selectAll();">全选</a>&nbsp;&nbsp;<a href="javascript:void(0);" onclick="unSelectAll();">全不选</a>)</h3>
+					<div class="layui-colla-content  layui-show">
+						<p>
+						 	<input type="checkbox" id="condition" name="condition" value="documentCode" title="档案编码 ">档案编码
+						 	<input type="checkbox" id="condition" name="condition" value="name" checked="checked" title="姓名 ">姓名
+							<input type="checkbox" id="condition" name="condition" value="sexName">性别
+							<input type="checkbox" id="condition" name="condition" value="idnumber" checked="checked">身份证号
+							<input type="checkbox" id="condition" name="condition" value="nation">民族
+							<input type="checkbox" id="condition" name="condition" value="birthday">出生日期
+							<input type="checkbox" id="condition" name="condition" value="telph">手机号
+							<input type="checkbox" id="condition" name="condition" value="oph">办公室电话
+							<input type="checkbox" id="condition" name="condition" value="partyName">政治面貌
+							<input type="checkbox" id="condition" name="condition" value="partyTime">入党/团时间
+							<input type="checkbox" id="condition" name="condition" value="nativePlace">籍贯
+							<input type="checkbox" id="condition" name="condition" value="birthPlace">出生地
+							<input type="checkbox" id="condition" name="condition" value="profession">熟悉专业
+						</p>
+						<p>
+							<input type="checkbox" id="condition" name="condition" value="workTime" checked="checked">参加工作日期
+							<input type="checkbox" id="condition" name="condition" value="managementLevel" checked="checked">干部类别
+							<input type="checkbox" id="condition" name="condition" value="personType" checked="checked">人员性质
+						</p>
+					</div>
+				</div>
+				<div class="layui-colla-item">
+					<h3 class="layui-colla-title">工作信息</h3>
+					<div class="layui-colla-content layui-show">
+						<p>
+						<input type="checkbox" id="condition" name="condition" value="deptCodeName" checked="checked">所属机构
+				    	<input type="checkbox" id="condition" name="condition" value="section" checked="checked">所属部门/科室
+				    	<input type="checkbox" id="condition" name="condition" value="compilationDept">编制所在单位(公章全称)
+				    	<input type="checkbox" id="condition" name="condition" value="personnelCompilationName">人事编制
+				    	&nbsp;&nbsp;&nbsp;&nbsp;
+				    	<input type="checkbox" id="condition" name="condition" value="isSecondment" checked="checked">是否借出
+				    	<input type="checkbox" id="condition" name="condition" value="secondDeptCode" checked="checked">借调(入)单位
+				    	<input type="checkbox" id="condition" name="condition" value="secondSection">借调(入)部门/科室
+				    	</p>
+				    	<p>
+				    	<input type="checkbox" id="condition" name="condition" value="orgTime">服务本机构时间
+				    	<input type="checkbox" id="condition" name="condition" value="workStatusName">在岗情况
+				    	<input type="checkbox" id="condition" name="condition" value="retiredDate">退线时间
+				    	<input type="checkbox" id="condition" name="condition" value="workYear">退休时工龄
+				    	</p>
+					</div>
+				</div>
+				<div class="layui-colla-item">
+					<h3 class="layui-colla-title">党政职务信息</h3>
+					<div class="layui-colla-content layui-show">
+						<p><span>行政职务</span>
+							<input type="checkbox" id="condition" name="condition" value="currentAdministrativePost.name" checked="checked">行政职务
+							<input type="checkbox" id="condition" name="condition" value="currentAdministrativePost.dateBegin">开始时间
+							<input type="checkbox" id="condition" name="condition" value="currentAdministrativePost.positionLevel">职务层次
+							<input type="checkbox" id="condition" name="condition" value="currentAdministrativePost.isLeader">是否领导职务
+						</p>
+						<p><span>党内职务</span>
+							<input type="checkbox" id="condition" name="condition" value="currentInnerpartyPost.name" checked="checked">党内职务
+							<input type="checkbox" id="condition" name="condition" value="currentInnerpartyPost.dateBegin">开始时间
+							<input type="checkbox" id="condition" name="condition" value="currentInnerpartyPost.positionLevel">职务层次
+							<input type="checkbox" id="condition" name="condition" value="currentInnerpartyPost.isLeader">是否领导职务
+						</p>
+					</div>
+				</div>
+				<div class="layui-colla-item">
+					<h3 class="layui-colla-title">背景信息</h3>
+					<div class="layui-colla-content layui-show">
+						<p><span>学历信息</span>
+							<input type="checkbox" id="condition" name="condition" value="initialEducation">初始学历
+					    	<input type="checkbox" id="condition" name="condition" value="highestEducation">最高学历
+						</p>
+					</div>
+				</div>
+			</div>
+			
+		<div class="box box-solid" style="margin-top: 20px">
+			<div id="result" class="box-body">
+				<table id="dataGrid"></table>
+				<a id="downloadExcel" type="button" class="btn btn-info btn-sm" 
+	  					href="javascript:void(0)" style="margin-right: 5%; background-color: #64b660; border: none;">导出EXCEL</a>
+			</div>
+		</div>
+	</section>
+	
+	<div th:include="hrms/footer" />
+	<script type="text/javascript" src="/static/js/document/documentExport.js"></script>
+	<script type="text/javascript">
+		/*<![CDATA[*/
+		layui.use([ 'element', 'layer' ], function() {
+			var element = layui.element;
+			var layer = layui.layer;
+
+			//监听折叠
+			element.on('collapse(test)', function(data) {
+				//layer.msg('展开状态：' + data.show);
+			});
+		});
+		           
+		var table;
+		$(function() {
+			initDataGrid();
+		});
+
+		function initDataGrid() {
+			var limit = $("#pageLimit").val();
+			var offset = $("#pageOffset").val();
+			var page = (limit && offset) ? offset / limit + 1 : 1;
+
+			table = $.createTable("#dataGrid", {
+				idField : "id",
+				columns : [ [ 
+	               {field : 'documentCode',title : '档案编码',visible:false},
+		           {field : 'deptCodeName',title : '所属单位'},
+		           {field : 'section',title : '所属部门/科室'},
+		           {field : 'compilationDept',title : '本人编制所在单位',visible:false},
+		           {field : 'name',title : '姓名'},
+		           {field : 'sexName',title : '性别',visible:false},
+		           {field : 'identificationNo',title : '身份证号'},
+		           {field : 'birthday',title : '出生日期',visible:false},
+		           {field : 'personType',title : '人员性质',enumcode:'cadres_person_type'},
+		           {field : 'partyName',title : '政治面貌',visible:false},
+		           {field : 'partyTime',title : '入党/团时间',visible:false},
+		           {field : 'workTime',title : '参加工作时间'},
+		           {field : 'managementLevel',title : '干部类别',enumcode:'management_level'},
+		           {field : 'nation',title : '民族',visible:false},
+		           {field : 'nativePlace',title : '籍贯',visible:false},
+		           {field : 'birthPlace',title : '出生地',visible:false},
+		           {field : 'oph',title : '办公电话',visible:false},
+		           {field : 'telph',title : '手机号',visible:false},
+		           {field : 'address',title : '家庭住址',visible:false},
+		           {field : 'personnelCompilationName',title : '人事编制',visible:false},
+		           {field : 'orgTime',title : '服务本机构时间',visible:false},
+		           {field : 'workStatusName',title : '在岗情况',visible:false},
+		           {field : 'isSecondment',title : '是否借出',enumcode:'boolean'},
+		           {field : 'secondDeptCode',title : '借调(入)<br/>单位'},
+		           {field : 'secondSection',title : '借调(入)<br/>部门/科室',visible:false},
+		           
+		           {field : 'currentAdministrativePost.name',title : '行政职务<br/>名称'},
+		           {field : 'currentAdministrativePost.dateBegin',title : '行政职务<br/>开始时间',visible:false},
+		           {field : 'currentAdministrativePost.positionLevel',title : '行政职务<br/>职务层次',visible:false},
+		           {field : 'currentAdministrativePost.isLeader',title : '行政职务<br/>是否领导职务',visible:false},
+		           
+		           {field : 'currentInnerpartyPost.name',title : '党内职务<br/>名称'},
+		           {field : 'currentInnerpartyPost.dateBegin',title : '党内职务<br/>名称',visible:false},
+		           {field : 'currentInnerpartyPost.positionLevel',title : '党内职务<br/>职务层次',visible:false},
+		           {field : 'currentInnerpartyPost.isLeader',title : '党内职务<br/>是否领导职务',visible:false},
+		           
+		           {field : 'isLeader',title : '是否领导职务',visible:false},
+		           {field : 'isMember',title : '是否领导班子成员',visible:false},
+		           {field : 'isReserveCadres',title : '是否后备干部',visible:false},
+		           {field : 'retiredDate',title : '退线时间',visible:false},
+		           {field : 'initialEducation',title : '初始学历',visible:false},
+		           {field : 'highestEducation',title : '最高学历',visible:false},
+		           {field : 'governmentTitle',title : '党政职务',visible:false},
+		           {field : 'jobLevel',title : '现职务层次',visible:false},
+		           {field : 'health',title : '健康状况',visible:false},
+		           {field : 'profession',title : '熟悉专业，<br/>有何特色',visible:false},
+		           {field : 'professionalSort',title : '专业类别',visible:false},
+		           {field : 'professionLevel',title : '专业级别',visible:false},
+		           {field : 'healthTechnicalTitle',title : '卫计类<br/>专业技术职称',visible:false},
+		           {field : 'nonhealthTechnicalTitle',title : '非卫计类<br/>专业技术职称',visible:false},
+		           {field : 'technicalPosition',title : '个人最高级别专业技术职务',visible:false},
+		           {field : 'technicalTime',title : '获得最高专业技术职务时间',visible:false},
+		           {field : 'hirepositionTime',title : '聘用最高级别专业技术职务时间',visible:false},
+		           {field : 'isGeneral',title : '是否全科医生',visible:false},
+		           {field : 'salaryLevel',title : '执行工资标准',visible:false},
+		           {field : 'salaryGrade',title : '执行工资档次',visible:false},
+		           {field : 'workYear',title : '退休时工龄',visible:false}             
+				] ],
+				url : '/hrms/documentExport/listForExport',
+				searchbar : '#searchbar',
+				joinArrayValue : true, // 开启多选值拼接
+				showColumns : true,
+				/* pageSize : limit || undefined,
+				pageNumber : page || 1, */
+				pageSize : 10, // 如果设置了分页，每页数据条数
+				pageNumber : 1, // 如果设置了分布，首页页码
+				pagination : true,
+				clickToSelect : true,
+				toolbar : "#downloadExcel",
+				showRefresh : true,
+				queryParams : function(params) {
+					var param=$('#queryForm').serializeJsonObject();
+	            	param['limit']=params.limit;   
+	            	param['offset']=params.offset;
+	            	param['sort']=params.sort;
+	            	param['order']=params.order;
+	            	//以下是添加其它特殊条件
+	            	//param["WHC_Age"] = $("#WHC_Age").val() + "~" + $("#WHC_Age2").val();
+	                return param;
+				}
+			});
+		}
+		/*]]>*/
+	</script>
+</body>
+
+</html>

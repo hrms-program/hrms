@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.complaint.ComplaintIdentificationBindRecordMapper">
+
+    <select id="findComplaintPersonnel" resultType="com.paladin.hrms.service.complaint.dto.ComplaintIdentificationBindSimpleVO">
+        SELECT
+        a.id AS personnelId,
+        a.identification_no AS identificationNo,
+        a.identification_type AS identificationType,
+        a.`name`,
+        a.sex,
+        c.`status` AS result,
+        a.agency_name AS agencyName
+        FROM
+        org_personnel AS a
+        LEFT JOIN complaint_identification_bind AS c ON a.id = c.personnel_id
+        WHERE
+        a.is_delete = 0
+        <if test="permission.cityCode!=null">
+            AND a.city_code =#{permission.cityCode}
+        </if>
+        <if test="permission.cityCodes!=null">
+            AND a.city_code IN
+            <foreach collection="permission.cityCodes" index="index"
+                     item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="permission.townCode!=null">
+            AND a.town_code =#{permission.townCode}
+        </if>
+        <if test="permission.townCodes!=null">
+            AND a.town_code IN
+            <foreach collection="permission.townCodes" index="index"
+                     item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="permission.districtCode!=null">
+            AND a.district_code =#{permission.districtCode}
+        </if>
+        <if test="permission.districtCodes!=null">
+            AND a.district_code IN
+            <foreach collection="permission.districtCodes" index="index"
+                     item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="permission.agencyId!=null">
+            AND a.agency_id =#{permission.agencyId}
+        </if>
+        <if test="permission.agencyIds!=null">
+            AND a.agency_id IN
+            <foreach collection="permission.agencyIds" index="index"
+                     item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="query.name != null and query.name != ''">
+            AND  a.name LIKE CONCAT('%',#{query.name},'%')
+        </if>
+        <if test="query.agencyName != null and query.agencyName != ''">
+            AND   a.agency_name =#{query.agencyName}
+        </if>
+    </select>
+    <select id="findComplaintRecord" resultType="com.paladin.hrms.service.complaint.dto.ComplaintIdentificationBindSimpleVO">
+        SELECT
+        c.id,
+        a.`name`,
+        a.sex,
+        a.agency_name AS agencyName,
+        c.result
+        FROM
+        complaint_identification_bind_record AS c
+        LEFT JOIN org_personnel AS a ON c.personnel_id = a.id
+        WHERE
+        a.is_delete = 0
+        <if test="permission.cityCode!=null">
+            AND a.city_code =#{permission.cityCode}
+        </if>
+        <if test="permission.cityCodes!=null">
+            AND a.city_code IN
+            <foreach collection="permission.cityCodes" index="index"
+                     item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="permission.townCode!=null">
+            AND a.town_code =#{permission.townCode}
+        </if>
+        <if test="permission.townCodes!=null">
+            AND a.town_code IN
+            <foreach collection="permission.townCodes" index="index"
+                     item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="permission.districtCode!=null">
+            AND a.district_code =#{permission.districtCode}
+        </if>
+        <if test="permission.districtCodes!=null">
+            AND a.district_code IN
+            <foreach collection="permission.districtCodes" index="index"
+                     item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="permission.agencyId!=null">
+            AND a.agency_id =#{permission.agencyId}
+        </if>
+        <if test="permission.agencyIds!=null">
+            AND a.agency_id IN
+            <foreach collection="permission.agencyIds" index="index"
+                     item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="query.name != null and query.name != ''">
+            AND  a.name LIKE CONCAT('%',#{query.name},'%')
+        </if>
+        <if test="query.agencyName != null and query.agencyName != ''">
+            AND   a.agency_name =#{query.agencyName}
+        </if>
+        <if test="query.result != null">
+            AND c.result = #{query.result}
+        </if>
+    </select>
+    <update id="updateState">
+      UPDATE  complaint_identification_bind
+      <set>
+          <if test="bind.checkDate != null">
+              complaint_identification_bind.check_date = #{bind.checkDate},
+          </if>
+          <if test="bind.checkPeople != null and bind.checkPeople != ''">
+              complaint_identification_bind.check_people = #{bind.checkPeople},
+          </if>
+          <if test="bind.illustrate != null and bind.illustrate != ''">
+              complaint_identification_bind.illustrate = #{bind.illustrate},
+          </if>
+          <if test="bind.status != null">
+              complaint_identification_bind.status = #{bind.status},
+          </if>
+      </set>
+        WHERE complaint_identification_bind.status = 0
+        <if test="bind.personnelId != null and bind.personnelId != ''">
+            AND complaint_identification_bind.personnel_id = #{bind.personnelId}
+        </if>
+    </update>
+    <select id="getComplaintPersonnel"   resultType="com.paladin.hrms.controller.complaint.pojo.ComplaintIdentificationBindVO">
+      SELECT
+        a.id AS personnelId,
+        a.identification_no AS nowIdentificationNo,
+        c.used_identification_type AS usedIdentificationType,
+        c.used_identification_no AS usedIdentificationNo,
+        c.attachments,
+        c.`status`,
+        c.illustrate,
+        c.check_people AS checkPeople,
+        c.check_date AS checkDate
+        FROM
+        org_personnel AS a
+        LEFT JOIN complaint_identification_bind AS c ON a.id = c.personnel_id
+        WHERE
+        a.is_delete = 0
+        AND a.id =#{id}
+    </select>
+</mapper>

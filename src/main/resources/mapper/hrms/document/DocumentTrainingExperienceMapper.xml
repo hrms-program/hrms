@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.document.DocumentTrainingExperienceMapper">
+  <resultMap id="BaseResultMap" type="com.paladin.hrms.model.document.DocumentTrainingExperience">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="busi_id" jdbcType="VARCHAR" property="busiId" />
+    <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="date_begin" jdbcType="DATE" property="dateBegin" />
+    <result column="date_end" jdbcType="DATE" property="dateEnd" />
+    <result column="is_graduation" jdbcType="VARCHAR" property="isGraduation" />
+    <result column="check_state" jdbcType="VARCHAR" property="checkState" />
+    <result column="have_file" jdbcType="VARCHAR" property="haveFile" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="update_id" jdbcType="VARCHAR" property="updateId" />
+    <result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, busi_id, relation_id, type, unit, address, date_begin, date_end, is_graduation, check_state, 
+    have_file, remark, create_id, create_at, update_id, update_at, state
+  </sql>
+<!--   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from document_training_experience
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.paladin.hrms.model.document.TrainingExperience">
+    insert into document_training_experience (id, busi_id, relation_id, type, 
+      unit, address, date_begin, 
+      date_end, is_graduation, check_state, 
+      have_file, remark, create_id, 
+      create_at, update_id, update_at, 
+      state)
+    values (#{id,jdbcType=VARCHAR},#{busiId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{dateBegin,jdbcType=DATE}, 
+      #{dateEnd,jdbcType=DATE}, #{isGraduation,jdbcType=VARCHAR}, #{checkState,jdbcType=VARCHAR}, 
+      #{haveFile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createId,jdbcType=VARCHAR}, 
+      #{createAt,jdbcType=TIMESTAMP}, #{updateId,jdbcType=VARCHAR}, #{updateAt,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.paladin.hrms.model.document.TrainingExperience">
+    insert into document_training_experience
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="busiId != null">
+        busi_id,
+      </if>
+      <if test="relationId != null">
+        relation_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="dateBegin != null">
+        date_begin,
+      </if>
+      <if test="dateEnd != null">
+        date_end,
+      </if>
+      <if test="isGraduation != null">
+        is_graduation,
+      </if>
+      <if test="checkState != null">
+        check_state,
+      </if>
+      <if test="haveFile != null">
+        have_file,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createId != null">
+        create_id,
+      </if>
+      <if test="createAt != null">
+        create_at,
+      </if>
+      <if test="updateId != null">
+        update_id,
+      </if>
+      <if test="updateAt != null">
+        update_at,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null">
+        #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="dateBegin != null">
+        #{dateBegin,jdbcType=DATE},
+      </if>
+      <if test="dateEnd != null">
+        #{dateEnd,jdbcType=DATE},
+      </if>
+      <if test="isGraduation != null">
+        #{isGraduation,jdbcType=VARCHAR},
+      </if>
+      <if test="checkState != null">
+        #{checkState,jdbcType=VARCHAR},
+      </if>
+      <if test="haveFile != null">
+        #{haveFile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.paladin.hrms.model.document.TrainingExperience">
+    update document_training_experience
+    <set>
+      <if test="busiId != null">
+        busi_id = #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        relation_id = #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="dateBegin != null">
+        date_begin = #{dateBegin,jdbcType=DATE},
+      </if>
+      <if test="dateEnd != null">
+        date_end = #{dateEnd,jdbcType=DATE},
+      </if>
+      <if test="isGraduation != null">
+        is_graduation = #{isGraduation,jdbcType=VARCHAR},
+      </if>
+      <if test="checkState != null">
+        check_state = #{checkState,jdbcType=VARCHAR},
+      </if>
+      <if test="haveFile != null">
+        have_file = #{haveFile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        update_at = #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.paladin.hrms.model.document.TrainingExperience">
+    update document_training_experience
+    set busi_id = #{busiId,jdbcType=VARCHAR},
+      relation_id = #{relationId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      date_begin = #{dateBegin,jdbcType=DATE},
+      date_end = #{dateEnd,jdbcType=DATE},
+      is_graduation = #{isGraduation,jdbcType=VARCHAR},
+      check_state = #{checkState,jdbcType=VARCHAR},
+      have_file = #{haveFile,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_id = #{createId,jdbcType=VARCHAR},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      update_id = #{updateId,jdbcType=VARCHAR},
+      update_at = #{updateAt,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update> -->
+  
+  <!-- 以下代码非自动生成 -->
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+  	from document_training_experience
+  	<where>
+		state = '1'
+	  <if test="busiId != null">
+        and busi_id = #{busiId,jdbcType=VARCHAR}
+      </if>
+	  <if test="relationId != null">
+        and relation_id = #{relationId,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null">
+        and type = #{type,jdbcType=VARCHAR}
+      </if>
+      <if test="unit != null">
+        and unit = #{unit,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null">
+        and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="dateBegin != null">
+        and date_begin = #{dateBegin,jdbcType=DATE}
+      </if>
+      <if test="dateEnd != null">
+        and date_end = #{dateEnd,jdbcType=DATE}
+      </if>
+      <if test="isGraduation != null">
+        and is_graduation = #{isGraduation,jdbcType=VARCHAR}
+      </if>
+      <if test="checkState != null">
+        and check_state = #{checkState,jdbcType=VARCHAR}
+      </if>
+      <if test="haveFile != null">
+        and have_file = #{haveFile,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="createId != null">
+        and create_id = #{createId,jdbcType=VARCHAR}
+      </if>
+      <if test="createAt != null">
+        and create_at = #{createAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateId != null">
+        and update_id = #{updateId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateAt != null">
+        and update_at = #{updateAt,jdbcType=TIMESTAMP}
+      </if>
+	</where>
+	<choose>
+		<when test="sort != null and sort.trim() != ''">
+			order by ${sort} ${order}
+		</when>
+		<otherwise>
+			order by id desc
+		</otherwise>
+	</choose>
+	<if test="offset != null and limit != null">
+		limit #{offset}, #{limit}
+	</if>
+  </select>
+  
+  <select id="queryTrainingExperienceByBusiId" parameterType="String" resultMap="BaseResultMap">
+        select
+		<include refid="Base_Column_List" />
+		from document_training_experience
+		where busi_id = #{busiId,jdbcType=VARCHAR}
+		and state = '1'
+  </select>
+  
+   <update id="deleteTrainingExperience" parameterType="String">
+        update document_training_experience
+        set state = '99'
+        where busi_id = #{busiId}
+        and state = '1'
+  </update>
+</mapper>

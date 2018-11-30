@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header" />
+
+<body>
+<tt:constant enumcode="sex"/>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header">
+            </div>
+            <div class="box-body">
+                <form class="form-horizontal" action="/hrms/org/agency/manager/updatePwd" onsubmit="return check();" method="post">
+                    <div class="form-group">
+                        <label for="account"  class="col-sm-2 control-label">登录名：</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" readonly="readonly" name="account" th:value="${account}"/> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="account" class="col-sm-2 control-label">密码：</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" placeholder="请输入密码"  id="password" name="password"/> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-2 control-label">确认密码：</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" placeholder="请输入确认密码"  id="confirmPassword" name="confirmPassword"/> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-5 col-sm-2">
+                            <button type="submit" class="btn btn-primary btn-block">确定</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+   	function check(){
+    	var password=$("#password").val();
+    	var confirmPassword=$("#confirmPassword").val();
+    	if(password.length < 8){
+    		layer.msg('密码长度必须大于8位数');
+    		return false;
+    	}
+    	if(password != confirmPassword){
+    		layer.msg('俩次输入的密码不一致');
+    		return false;
+    	}
+    	return true;
+    }
+    /*]]>*/
+    </script>
+</body>
+
+</html>

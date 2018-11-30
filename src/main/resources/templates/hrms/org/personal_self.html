@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="hrms/header" />
+<link rel="stylesheet" href="/static/js/hrms/org/personal_edit.css">
+<link rel="stylesheet" href="/static/assets/cropper/cropper.css">
+
+<body>
+    <tt:constant enumcode="practice-category-type,identification-type,sex,nationality,nation,political-affiliation,duty,practice-category,personnel-type,peronnel-status,academic-degree,education,education-type,major-type,personal-info-status,dept-type,work-post-type,formation,inorout,employ-post,work-content,major,positional-type,tech-post,reward_type,cultivate-type,cultivete-end-situation,assess-result,science-education-type,duty,paper-type,boolean" />
+    <div class="container">
+        <input type="hidden" id="personnel_id" th:value="${id}" />
+        <div class="file-header">
+            <div class="col-md-2 col-sm-12">
+                <div class="page-title-wrap">
+                    <h1 class="page-title">
+                        <span class="name"><i class="icon-page-title"></i>人员档案</span>
+                    </h1>
+                </div>
+            </div>
+            <div class="col-md-10 col-sm-12">
+                <div id="anchor-point">
+                    <ul>
+                        <li class="top-twenty">
+                            <a href="#base_view">基本信息</a>
+                        </li>
+                        <li class="top-twenty">
+                            <a href="#job_view">工作信息</a>
+                        </li>
+                        <li class="top-twenty">
+                            <a href="javascript:void(0)">行政职务</a>
+                        </li>
+                        <li class="top-twenty">
+                            <a href="javascript:void(0)">党内职务</a>
+                        </li>
+                        <li class="top-fifty">
+                            <a href="#workExperience_view">工作经历</a>
+                        </li>
+                        <li class="top-fifty">
+                            <a href="#education_view">教育经历</a>
+                        </li>
+                        <li class="top-fifty">
+                            <a href="#positionalInfo_view">职称信息</a>
+                        </li>
+                        <li class="top-fifty">
+                            <a href="#cultivate_view">培训经历</a>
+                        </li>
+                        <li class="top-fifty">
+                            <a href="javascript:void(0)">奖惩情况</a>
+                        </li>
+                        <li class="top-fifty">
+                            <a href="#yearassess_view">年度考核</a>
+                        </li>
+                        <li class="top-fifty">
+                            <a href="javascript:void(0)">家庭成员</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+        <!--基本信息-->
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="glyphicon glyphicon-user"></i>
+                <h3 class="box-title">基本信息</h3>
+                <div class="box-tools pull-right">
+                    <a class="btn" id="base_edit_btn" href="javascript:void(0)"><i class="fa fa-edit"></i>编辑</a>
+                </div>
+            </div>
+            <!-- 显示 -->
+            <div id="base_view" class="box-body">
+                <form class="form-horizontal">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="usedName" class="col-sm-6 control-label">曾用名：</label>
+                            <div class="col-sm-6">
+                                <p name="usedName" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="identificationType" class="col-sm-6 control-label">身份证件类型：</label>
+                            <div class="col-sm-6">
+                                <p name="identificationType" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="identificationNo" class="col-sm-6 control-label">身份证件号码：</label>
+                            <div class="col-sm-6">
+                                <p name="identificationNo" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthday" class="col-sm-6 control-label">出生日期：</label>
+                            <div class="col-sm-6">
+                                <p name="birthday" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="startWorkTime" class="col-sm-6 control-label">参加工作时间：</label>
+                            <div class="col-sm-6">
+                                <p name="startWorkTime" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="joinPartyTime" class="col-sm-6 control-label">参加党派时间：</label>
+                            <div class="col-sm-6">
+                                <p name="joinPartyTime" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cellphone" class="col-sm-6 control-label">手机号码：</label>
+                            <div class="col-sm-6">
+                                <p name="cellphone" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="officePhone" class="col-sm-6 control-label">办公室电话：</label>
+                            <div class="col-sm-6">
+                                <p name="officePhone" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" style="height:245px;padding-top:40px">
+                            <img class="profile-user-img img-responsive img-circle" id="profileImg" style="cursor: pointer;" onclick="changeProfile()" src="" alt="头像">
+                            <h3 name="name" class="profile-username text-center"></h3>
+                            <p class="text-muted text-center">
+                                <span name="sex" style="border-right:2px solid #f4f4f4;padding-right:20px;margin-left:20px;">无</span>
+                                <span name="nationality" style="border-right:2px solid #f4f4f4;padding-right:20px;margin-left:20px;">无</span>
+                                <span name="nation" style="margin-left:20px;">无</span>
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label for="politicalAffiliation" class="col-sm-6 control-label">政治面貌：</label>
+                            <div class="col-sm-6">
+                                <p name="politicalAffiliation" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="interest" class="col-sm-6 control-label">兴趣爱好：</label>
+                            <div class="col-sm-6">
+                                <p name="interest" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nativePlace" class="col-sm-6 control-label">籍贯：</label>
+                            <div class="col-sm-6">
+                                <p name="nativePlace" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- 编辑 -->
+            <div id="base_edit" class="box-body" style="display: none">
+                <form id="base_form" action="/hrms/org/personal/save/base" method="post" class="form-horizontal edit-body">
+                    <div id="addBasePart">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-3 control-label">姓名：</label>
+                            <div class="col-sm-3">
+                                <input name="name" placeholder="请输入姓名" type="text" class="form-control" maxlength="20" required="required" />
+                            </div>
+                            <label for="sex" class="col-sm-3 control-label">性别：</label>
+                            <div class="col-sm-3">
+                                <select name="sex" class="form-control tonto-select-constant" enumcode="sex" required="required">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="identificationType" class="col-sm-3 control-label">身份证类型：</label>
+                            <div class="col-sm-3">
+                                <select name="identificationType" class="form-control tonto-select-constant" enumcode="identification-type" required="required">
+                                </select>
+                            </div>
+                            <label for="identificationNo" class="col-sm-3 control-label">身份证号码：</label>
+                            <div class="col-sm-3">
+                                <input name="identificationNo" placeholder="请输入身份证号码" type="text" class="form-control" required="required" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nationality" class="col-sm-3 control-label">国籍：</label>
+                        <div class="col-sm-3">
+                            <select name="nationality" class="form-control tonto-select-constant" enumcode="nationality">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <label for="nation" class="col-sm-3 control-label">民族：</label>
+                        <div class="col-sm-3">
+                            <select name="nation" class="form-control tonto-select-constant" enumcode="nation">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="usedName" class="col-sm-3 control-label">曾用名：</label>
+                        <div class="col-sm-3">
+                            <input name="usedName" placeholder="请输入曾用名" type="text" class="form-control" maxlength="20" />
+                        </div>
+                        <label for="birthday" class="col-sm-3 control-label">出生日期：</label>
+                        <div class="col-sm-3">
+                            <input name="birthday" type="text" placeholder="请输入出生日期" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cellphone" class="col-sm-3 control-label">手机号码：</label>
+                        <div class="col-sm-3">
+                            <input name="cellphone" placeholder="请输入手机号码" type="text" class="form-control" data-type="cellphone" />
+                        </div>
+                        <label for="officePhone" class="col-sm-3 control-label">办公室电话：</label>
+                        <div class="col-sm-3">
+                            <input name="officePhone" placeholder="请输入办公室电话" type="text" class="form-control" data-type="phone" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="joinPartyTime" class="col-sm-3 control-label">参加党派时间：</label>
+                        <div class="col-sm-3">
+                            <input name="joinPartyTime" placeholder="请输入党派时间" type="text" class="form-control tonto-datepicker-date" />
+                        </div>
+                        <label for="politicalAffiliation" class="col-sm-3 control-label">政治面貌：</label>
+                        <div class="col-sm-3">
+                            <select name="politicalAffiliation" class="form-control tonto-select-constant" enumcode="political-affiliation">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="startWorkTime" class="col-sm-3 control-label">参加工作时间：</label>
+                        <div class="col-sm-3">
+                            <input name="startWorkTime" type="text" placeholder="请输入参加工作时间" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="interest" class="col-sm-3 control-label">兴趣爱好：</label>
+                        <div class="col-sm-6">
+                            <input name="interest" type="text" placeholder="请输入兴趣爱好" class="form-control" maxlength="50" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nativePlace" class="col-sm-3 control-label">籍贯：</label>
+                        <div class="col-sm-6">
+                            <input name="nativePlace" type="text" placeholder="请输入籍贯" class="form-control" maxlength="50" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2 col-sm-offset-3">
+                            <button type="submit" id="base_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                        </div>
+                        <div class="col-sm-2 col-sm-offset-1">
+                            <button type="button" id="base_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--工作信息-->
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-hospital-o"></i>
+                <h3 class="box-title">工作信息</h3>
+                <div class="box-tools pull-right">
+                    <a class="btn" id="job_edit_btn" href="javascript:void(0)"><i
+                        class="fa fa-edit"></i>编辑</a>
+                </div>
+            </div>
+            <!-- 显示 -->
+            <div id="job_view" class="box-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="employeeNo" class="col-sm-3 control-label">工号：</label>
+                        <div class="col-sm-3">
+                            <p name="employeeNo" class="form-control-static description"></p>
+                        </div>
+                        <label for="dept" class="col-sm-3 control-label">所在科室：</label>
+                        <div class="col-sm-3">
+                            <p name="dept" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="deptName" class="col-sm-3 control-label">科室具体名称：</label>
+                        <div class="col-sm-3">
+                            <p name="deptName" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="major" class="col-sm-3 control-label">从事专业类别：</label>
+                        <div class="col-sm-3">
+                            <p name="major" class="form-control-static description"></p>
+                        </div>
+                        <label for="duty" class="col-sm-3 control-label">行政／业务管理职务：</label>
+                        <div class="col-sm-3">
+                            <p name="duty" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="technicalQualification" class="col-sm-3 control-label">专业技术资格（评或考试）：</label>
+                        <div class="col-sm-3">
+                            <p name="technicalQualification" class="form-control-static description"></p>
+                        </div>
+                        <label for="gainDate" class="col-sm-3 control-label">专业技术资格取得时间：</label>
+                        <div class="col-sm-3">
+                            <p name="gainDate" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="techPost" class="col-sm-3 control-label">专业技术职务（聘）：</label>
+                        <div class="col-sm-3">
+                            <p name="techPost" class="form-control-static description"></p>
+                        </div>
+                        <label for="employDate" class="col-sm-3 control-label">专业技术聘用时间：</label>
+                        <div class="col-sm-3">
+                            <p name="employDate" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="employPost" class="col-sm-3 control-label">专业技术职务聘用岗位：</label>
+                        <div class="col-sm-3">
+                            <p name="employPost" class="form-control-static description"></p>
+                        </div>
+                        <label for="formation" class="col-sm-3 control-label">编制情况：</label>
+                        <div class="col-sm-3">
+                            <p name="formation" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inorout" class="col-sm-3 control-label">年内人员流动情况：</label>
+                        <div class="col-sm-3">
+                            <p name="inorout" class="form-control-static description"></p>
+                        </div>
+                        <label for="inoroutDate" class="col-sm-3 control-label">流入/流出时间：</label>
+                        <div class="col-sm-3">
+                            <p name="inoroutDate" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isStatistical" class="col-sm-3 control-label">是否从事统计信息化业务工作：</label>
+                        <div class="col-sm-3">
+                            <p name="isStatistical" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="workContent" class="col-sm-3 control-label">从事统计信息化业务工作内容：</label>
+                        <div class="col-sm-3">
+                            <p name="workContent" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div name="attachments">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- 编辑 -->
+            <div id="job_edit" class="box-body" style="display: none">
+                <form id="job_form" action="/hrms/org/personal/save/job" method="post" class="form-horizontal edit-body">
+                    <div class="form-group">
+                        <label for="employeeNo" class="col-sm-3 control-label">工号：</label>
+                        <div class="col-sm-3">
+                            <input name="employeeNo" type="text" placeholder="工号" class="form-control" maxlength="32" />
+                        </div>
+                        <label for="dept" class="col-sm-3 control-label">所在科室：</label>
+                        <div class="col-sm-3">
+                            <input id="dept_select" name="dept" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="deptName" class="col-sm-3 control-label">科室具体名称：</label>
+                        <div class="col-sm-3">
+                            <input name="deptName" placeholder="请输入科室具体名称" type="text" class="form-control" maxlength="20" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="major" class="col-sm-3 control-label">从事专业类别：</label>
+                        <div class="col-sm-3">
+                            <select name="major" class="form-control tonto-select-constant" enumcode="major">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <label for="duty" class="col-sm-3 control-label">行政／业务管理职务：</label>
+                        <div class="col-sm-3">
+                            <select name="duty" class="form-control tonto-select-constant" enumcode="duty">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group room">
+                        <label for="technicalQualification" class="col-sm-3 control-label">专业技术资格（评或考试）：</label>
+                        <div class="col-sm-3">
+                            <input id="technical_select" name="technicalQualification" type="text" class="form-control" />
+                        </div>
+                        <label for="gainDate" class="col-sm-3 control-label">专业技术资格取得时间：</label>
+                        <div class="col-sm-3">
+                            <input name="gainDate" type="text" placeholder="业技术资格取得时间" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="techPost" class="col-sm-3 control-label">专业技术职务（聘）：</label>
+                        <div class="col-sm-3">
+                            <select name="techPost" class="form-control tonto-select-constant" enumcode="tech-post">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <label for="employDate" class="col-sm-3 control-label">专业技术聘用时间：</label>
+                        <div class="col-sm-3">
+                            <input name="employDate" type="text" placeholder="请输入专业技术聘用时间" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="employPost" class="col-sm-3 control-label">专业技术职务聘用岗位：</label>
+                        <div class="col-sm-3">
+                            <select name="employPost" class="form-control tonto-select-constant" enumcode="employ-post">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <label for="formation" class="col-sm-3 control-label">编制情况：</label>
+                        <div class="col-sm-3">
+                            <select name="formation" class="form-control tonto-select-constant" enumcode="formation">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inorout" class="col-sm-3 control-label">年内人员流动情况：</label>
+                        <div class="col-sm-3">
+                            <select name="inorout" class="form-control tonto-select-constant" enumcode="inorout">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <label for="inoroutDate" class="col-sm-3 control-label">流入/流出时间：</label>
+                        <div class="col-sm-3">
+                            <input name="inoroutDate" type="text" placeholder="请输入流入/流出时间" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isStatistical" class="col-sm-3 control-label">是否从事统计信息化业务工作：</label>
+                        <div class="col-sm-3">
+                            <select name="isStatistical" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="workContent" class="col-sm-3 control-label">从事统计信息化业务工作内容：</label>
+                        <div class="col-sm-3">
+                            <select name="workContent" class="form-control tonto-select-constant" enumcode="work-content">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nativePlace" class="col-sm-3 control-label">聘书上传：</label>
+                        <div class="col-sm-9">
+                            <input type="file" name="attachmentFiles" multiple>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2 col-sm-offset-3">
+                            <button type="submit" id="job_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                        </div>
+                        <div class="col-sm-2 col-sm-offset-1">
+                            <button type="button" id="job_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--执业信息-->
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-hospital-o"></i>
+                <h3 class="box-title">执业信息</h3>
+                <div class="box-tools pull-right">
+                    <a class="btn" id="practice_edit_btn" href="javascript:void(0)"><i
+                        class="fa fa-edit"></i>编辑</a>
+                </div>
+            </div>
+            <!-- 显示 -->
+            <div id="practice_view" class="box-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="personnelType" class="col-sm-3 control-label">人员类型：</label>
+                        <div class="col-sm-3">
+                            <p name="personnelType" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="docQualificationCode" class="col-sm-3 control-label">医师资格证书编号：</label>
+                        <div class="col-sm-3">
+                            <p name="docQualificationCode" class="form-control-static description"></p>
+                        </div>
+                        <label for="type" class="col-sm-3 control-label">医师执业证书编号：</label>
+                        <div class="col-sm-3">
+                            <p name="type" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isCountryCert" class="col-sm-3 control-label">是否获得国家住院医师规范化培训合格证书：</label>
+                        <div class="col-sm-6">
+                            <p name="isCountryCert" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inpatientCertCode" class="col-sm-3 control-label">住院医师规范化培训合格证书编号：</label>
+                        <div class="col-sm-3">
+                            <p name="inpatientCertCode" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isGeneralPractitioner" class="col-sm-3 control-label">是否注册为全科医学专业：</label>
+                        <div class="col-sm-3">
+                            <p name="isGeneralPractitioner" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="practiceAddress" class="col-sm-3 control-label">执业地点：</label>
+                        <div class="col-sm-3">
+                            <p name="practiceAddress" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registrationDate" class="col-sm-3 control-label">执业注册时间(首次注册时间)：</label>
+                        <div class="col-sm-3">
+                            <p name="registrationDate" class="form-control-static description"></p>
+                        </div>
+                        <label for="practiceCategory" class="col-sm-3 control-label">医师执业类别：</label>
+                        <div class="col-sm-3">
+                            <p name="practiceCategory" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="practiceScope" class="col-sm-3 control-label">医师执业范围：</label>
+                        <div class="col-sm-3">
+                            <p name="practiceScope" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isDispatched" class="col-sm-3 control-label">是否由乡镇卫生院或社区卫生服务机构派驻村卫生室工作：</label>
+                        <div class="col-sm-3">
+                            <p name="isDispatched" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isMultisite" class="col-sm-3 control-label">是否多地点执业：</label>
+                        <div class="col-sm-3">
+                            <p name="isMultisite" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="secondCategory" class="col-sm-3 control-label">第2执业单位类别：</label>
+                        <div class="col-sm-3">
+                            <p name="secondCategory" class="form-control-static description"></p>
+                        </div>
+                        <label for="thirdCategory" class="col-sm-3 control-label">第3执业单位类别：</label>
+                        <div class="col-sm-3">
+                            <p name="thirdCategory" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="expertise" class="col-sm-3 control-label">专科特长</label>
+                        <div class="col-sm-3">
+                            <p name="expertise" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="docTrainCert" class="col-sm-3 control-label">全科医生取得培训合格证书情况：</label>
+                        <div class="col-sm-3">
+                            <p name="docTrainCert" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <!-- 护师类 -->
+                    <div class="form-group">
+                        <label for="nurseCertCode" class="col-sm-3 control-label">护士执业证书编号：</label>
+                        <div class="col-sm-3">
+                            <p name="nurseCertCode" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nurseInstitution" class="col-sm-3 control-label">护士执业单位：</label>
+                        <div class="col-sm-3">
+                            <p name="nurseInstitution" class="form-control-static description"></p>
+                        </div>
+                        <label for="lastRegistrationDate" class="col-sm-3 control-label">最后注册日期：</label>
+                        <div class="col-sm-3">
+                            <p name="lastRegistrationDate" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isExam" class="col-sm-3 control-label">是否免考：</label>
+                        <div class="col-sm-3">
+                            <p name="isExam" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nurseExamTime" class="col-sm-3 control-label">护考时间：</label>
+                        <div class="col-sm-3">
+                            <p name="nurseExamTime" type="text" class="form-control-static description" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="startWorkDate" class="col-sm-3 control-label">从事护士工作开始时间：</label>
+                        <div class="col-sm-3">
+                            <p name="startWorkDate" class="form-control-static description"></p>
+                        </div>
+                        <label for="nurseCategory" class="col-sm-3 control-label">护士工作类别：</label>
+                        <div class="col-sm-3">
+                            <p name="nurseCategory" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <!-- 其他   -->
+                    <div class="form-group">
+                        <label for="certName" class="col-sm-3 control-label">特殊岗位证书名称：</label>
+                        <div class="col-sm-3">
+                            <p name="certName" class="form-control-static description"></p>
+                        </div>
+                        <label for="issueUnit" class="col-sm-3 control-label">特殊岗位证书发证单位：</label>
+                        <div class="col-sm-3">
+                            <p name="issueUnit" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="issueDate" class="col-sm-3 control-label">特殊岗位证书发证获得时间：</label>
+                        <div class="col-sm-3">
+                            <p name="issueDate" class="form-control-static description"></p>
+                        </div>
+                        <label for="startDate" class="col-sm-3 control-label">特殊岗位证书有效期开始时间：</label>
+                        <div class="col-sm-3">
+                            <p name="startDate" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate" class="col-sm-3 control-label">特殊岗位证书有效期结束时间：</label>
+                        <div class="col-sm-3">
+                            <p name="endDate" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <!-- 乡村医生 -->
+                    <div class="form-group">
+                        <label for="isInVillageClinic" class="col-sm-3 control-label">是否在村卫生室工作：</label>
+                        <div class="col-sm-3">
+                            <p name="isInVillageClinic" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="vdocCertCode" class="col-sm-3 control-label">乡村医生执业证书编号：</label>
+                        <div class="col-sm-3">
+                            <p name="vdocCertCode" class="form-control-static description"></p>
+                        </div>
+                        <label for="registVillageAgency" class="col-sm-3 control-label">注册村级卫生机构名称：</label>
+                        <div class="col-sm-3">
+                            <p name="registVillageAgency" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registDate" class="col-sm-3 control-label">注册时间(首次注册时间)：</label>
+                        <div class="col-sm-3">
+                            <p name="registDate" class="form-control-static description"></p>
+                        </div>
+                        <label for="totalIncome" class="col-sm-3 control-label">上年总收入：</label>
+                        <div class="col-sm-3">
+                            <p name="totalIncome" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isMedicalInsurance" class="col-sm-3 control-label">是否有医疗责任保险：</label>
+                        <div class="col-sm-3">
+                            <p name="isMedicalInsurance" class="form-control-static description"></p>
+                        </div>
+                        <label for="isInjuryInsurance" class="col-sm-3 control-label">是否有工伤保险：</label>
+                        <div class="col-sm-3">
+                            <p name="isInjuryInsurance" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isEndowmentInsurance" class="col-sm-3 control-label">是否有养老保险：</label>
+                        <div class="col-sm-3">
+                            <p name="isEndowmentInsurance" class="form-control-static description"></p>
+                        </div>
+                        <label for="workYears" class="col-sm-3 control-label">从事乡村医生工作年限(年)：</label>
+                        <div class="col-sm-3">
+                            <p name="workYears" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isOnjobTrain" class="col-sm-3 control-label">高中及以下学历乡村医生是否为在职培训合格者：</label>
+                        <div class="col-sm-3">
+                            <p name="isOnjobTrain" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- 编辑 -->
+            <div id="practice_edit" class="box-body" style="display: none">
+                <form id="practice_form" action="/hrms/org/personal/save/practice" method="post" class="form-horizontal edit-body">
+                    <div class="form-group">
+                        <label for="personnelType" class="col-sm-3 control-label">人员类型：</label>
+                        <div class="col-sm-3">
+                            <select name="personnelType" class="form-control tonto-select-constant" enumcode="personnel-type">
+                            </select>
+                        </div>
+                    </div>
+                    <!-- 医师类 -->
+                    <div class="form-group">
+                        <label for="docQualificationCode" class="col-sm-3 control-label">医师资格证书编号：</label>
+                        <div class="col-sm-3">
+                            <input name="docQualificationCode" type="text" placeholder="医师资格证书编号" class="form-control" maxlength="32" />
+                        </div>
+                        <label for="docCertCode" class="col-sm-3 control-label">医师执业证书编号：</label>
+                        <div class="col-sm-3">
+                            <input name="docCertCode" type="text" placeholder="医师执业证书编号" class="form-control" maxlength="32" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isCountryCert" class="col-sm-3 control-label">是否获得国家住院医师规范化培训合格证书：</label>
+                        <div class="col-sm-3">
+                            <select name="isCountryCert" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inpatientCertCode" class="col-sm-3 control-label">住院医师规范化培训合格证书编号：</label>
+                        <div class="col-sm-3">
+                            <input name="inpatientCertCode" type="text" placeholder="住院医师规范化培训合格证书编号" class="form-control" maxlength="32" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isGeneralPractitioner" class="col-sm-3 control-label">是否注册为全科医学专业：</label>
+                        <div class="col-sm-3">
+                            <select name="isGeneralPractitioner" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="practiceAddress" class="col-sm-3 control-label">执业地点：</label>
+                        <div class="col-sm-3">
+                            <input name="practiceAddress" type="text" placeholder="执业地点" class="form-control" maxlength="32" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registrationDate" class="col-sm-3 control-label">执业注册时间(首次注册时间)：</label>
+                        <div class="col-sm-3">
+                            <input name="registrationDate" type="text" placeholder="请输入执业注册时间" class="form-control tonto-datepicker-date" />
+                        </div>
+                        <label for="practiceCategory" class="col-sm-3 control-label">医师执业类别：</label>
+                        <div class="col-sm-3">
+                            <input name="practiceCategory" type="text" placeholder="医师执业类别" class="form-control" maxlength="32" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="practiceScope" class="col-sm-3 control-label">医师执业范围：</label>
+                        <div class="col-sm-3">
+                            <input name="practiceScope" type="text" placeholder="请输入医师执业范围" class="form-control" maxlength="32" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isDispatched" class="col-sm-3 control-label">是否由乡镇卫生院或社区卫生服务机构派驻村卫生室工作：</label>
+                        <div class="col-sm-3">
+                            <select name="isDispatched" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isMultisite" class="col-sm-3 control-label">是否多地点执业：</label>
+                        <div class="col-sm-3">
+                            <select name="isMultisite" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="secondCategory" class="col-sm-3 control-label">第2执业单位类别：</label>
+                        <div class="col-sm-3">
+                            <select name="secondCategory" class="form-control tonto-select-constant" enumcode="practice-category">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <label for="thirdCategory" class="col-sm-3 control-label">第3执业单位类别：</label>
+                        <div class="col-sm-3">
+                            <select name="thirdCategory" class="form-control tonto-select-constant" enumcode="practice-category">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="expertise" class="col-sm-3 control-label">专科特长</label>
+                        <div class="col-sm-3">
+                            <input name="expertise" type="text" placeholder="请输入专科特长" class="form-control" maxlength="100" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="docTrainCert" class="col-sm-3 control-label">全科医生取得培训合格证书情况：</label>
+                        <div class="col-sm-3">
+                            <input name="docTrainCert" type="text" placeholder="请输入全科医生取得培训合格证书情况" class="form-control" maxlength="32" />
+                        </div>
+                    </div>
+                    <!-- 护师类 -->
+                    <div class="form-group">
+                        <label for="nurseCertCode" class="col-sm-3 control-label">护士执业证书编号：</label>
+                        <div class="col-sm-3">
+                            <input name="nurseCertCode" type="text" placeholder="护士执业证书编号" class="form-control" maxlength="32" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nurseInstitution" class="col-sm-3 control-label">护士执业单位：</label>
+                        <div class="col-sm-3">
+                            <input name="nurseInstitution" type="text" placeholder="护士执业单位" class="form-control" maxlength="32" />
+                        </div>
+                        <label for="lastRegistrationDate" class="col-sm-3 control-label">最后注册日期：</label>
+                        <div class="col-sm-3">
+                            <input name="lastRegistrationDate" type="text" placeholder="最后注册日期" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isExam" class="col-sm-3 control-label">护考免考：</label>
+                        <div class="col-sm-3">
+                            <select name="isExam" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nurseExamTime" class="col-sm-3 control-label">护考时间：</label>
+                        <div class="col-sm-3">
+                            <input name="nurseExamTime" type="text" placeholder="请输入护考时间" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="startWorkDate" class="col-sm-3 control-label">从事护士工作开始时间：</label>
+                        <div class="col-sm-3">
+                            <input name="startWorkDate" type="text" placeholder="从事护士工作开始时间" class="form-control tonto-datepicker-date" />
+                        </div>
+                        <label for="nurseCategory" class="col-sm-3 control-label">护士工作类别：</label>
+                        <div class="col-sm-3">
+                            <input name="nurseCategory" type="text" placeholder="护士工作类别" class="form-control" maxlength="32" />
+                        </div>
+                    </div>
+                    <!-- 其他   -->
+                    <div class="form-group">
+                        <label for="certName" class="col-sm-3 control-label">特殊岗位证书名称：</label>
+                        <div class="col-sm-3">
+                            <input name="certName" type="text" placeholder="特殊岗位证书名称" class="form-control" maxlength="32" />
+                        </div>
+                        <label for="issueUnit" class="col-sm-3 control-label">特殊岗位证书发证单位：</label>
+                        <div class="col-sm-3">
+                            <input name="issueUnit" type="text" placeholder="特殊岗位证书发证单位" class="form-control" maxlength="32" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="issueDate" class="col-sm-3 control-label">特殊岗位证书发证获得时间：</label>
+                        <div class="col-sm-3">
+                            <input name="issueDate" type="text" placeholder="特殊岗位证书发证获得时间" class="form-control tonto-datepicker-date" />
+                        </div>
+                        <label for="startDate" class="col-sm-3 control-label">特殊岗位证书有效期开始时间：</label>
+                        <div class="col-sm-3">
+                            <input name="startDate" type="text" placeholder="特殊岗位证书有效期开始时间" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate" class="col-sm-3 control-label">特殊岗位证书有效期结束时间：</label>
+                        <div class="col-sm-3">
+                            <input name="endDate" type="text" placeholder="特殊岗位证书有效期结束时间" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <!-- 乡村医生 -->
+                    <div class="form-group">
+                        <label for="isInVillageClinic" class="col-sm-3 control-label">是否在村卫生室工作：</label>
+                        <div class="col-sm-3">
+                            <select name="isInVillageClinic" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="vdocCertCode" class="col-sm-3 control-label">乡村医生执业证书编号：</label>
+                        <div class="col-sm-3">
+                            <input name="vdocCertCode" type="text" placeholder="乡村医生执业证书编号" class="form-control" maxlength="32" />
+                        </div>
+                        <label for="registVillageAgency" class="col-sm-3 control-label">注册村级卫生机构名称：</label>
+                        <div class="col-sm-3">
+                            <input name="registVillageAgency" type="text" placeholder="乡村医生执业证书编号" class="form-control" maxlength="32" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registDate" class="col-sm-3 control-label">注册时间(首次注册时间)：</label>
+                        <div class="col-sm-3">
+                            <input name="registDate" type="text" placeholder="注册时间(首次注册时间)" class="form-control tonto-datepicker-date" />
+                        </div>
+                        <label for="totalIncome" class="col-sm-3 control-label">上年总收入：</label>
+                        <div class="col-sm-3">
+                            <input name="totalIncome" type="number" placeholder="上年总收入" class="form-control" maxlength="11" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isMedicalInsurance" class="col-sm-3 control-label">是否有医疗责任保险：</label>
+                        <div class="col-sm-3">
+                            <select name="isMedicalInsurance" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <label for="isInjuryInsurance" class="col-sm-3 control-label">是否有工伤保险：</label>
+                        <div class="col-sm-3">
+                            <select name="isInjuryInsurance" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isEndowmentInsurance" class="col-sm-3 control-label">是否有养老保险：</label>
+                        <div class="col-sm-3">
+                            <select name="isEndowmentInsurance" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <label for="workYears" class="col-sm-3 control-label">从事乡村医生工作年限(年)：</label>
+                        <div class="col-sm-3">
+                            <input name="workYears" type="number" placeholder="从事乡村医生工作年限(年)" class="form-control" maxlength="4" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isOnjobTrain" class="col-sm-3 control-label">高中及以下学历乡村医生是否为在职培训合格者：</label>
+                        <div class="col-sm-3">
+                            <select name="isOnjobTrain" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2 col-sm-offset-3">
+                            <button type="submit" id="practice_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                        </div>
+                        <div class="col-sm-2 col-sm-offset-1">
+                            <button type="button" id="practice_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--背景信息-->
+        <div class="box box-solid">
+            <!-- 教育经历 -->
+            <div class="box-header with-border">
+                <h3 class="box-title">教育经历</h3>
+                <div class="box-tools pull-right">
+                    <a class="btn" id="education_add_btn" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i>添加教育经历</a>
+                </div>
+            </div>
+            <div class="box-body">
+                <ul id="education_view" class="products-list product-list-in-box">
+                </ul>
+                <!-- 编辑 -->
+                <div id="education_edit" style="display: none">
+                    <form id="education_form" action="/hrms/org/personal/save/education" enctype="multipart/form-data" method="post" class="form-horizontal edit-body">
+                        <input type="hidden" name="id" />
+                        <div class="form-group">
+                            <label for="schoolName" class="col-sm-3 control-label">学校名称：</label>
+                            <div class="col-sm-3">
+                                <input name="schoolName" placeholder="请输入学校名称" type="text" class="form-control" />
+                            </div>
+                            <label for="schoolAddress" class="col-sm-3 control-label">学校地址：</label>
+                            <div class="col-sm-3">
+                                <input name="schoolAddress" placeholder="请输入学校地址" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="education" class="col-sm-3 control-label">学历：</label>
+                            <div class="col-sm-3">
+                                <select name="education" class="form-control tonto-select-constant" enumcode="education">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <label for="diplomaNo" class="col-sm-3 control-label">毕业证书编号：</label>
+                            <div class="col-sm-3">
+                                <input name="diplomaNo" placeholder="请输入毕业证书编号" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="academicDegree" class="col-sm-3 control-label">学位：</label>
+                            <div class="col-sm-3">
+                                <select name="academicDegree" class="form-control tonto-select-constant" enumcode="academic-degree">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <label for="academicDegreeNo" class="col-sm-3 control-label">学位证书编号：</label>
+                            <div class="col-sm-3">
+                                <input name="academicDegreeNo" placeholder="请输入学位证书编号" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group"><label for="major" class="col-sm-3 control-label">所学专业：</label>
+                            <div class="col-sm-3">
+                                <select name="major" class="form-control tonto-select-constant" enumcode="major-type">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <label for="educationType" class="col-sm-3 control-label">教育类型：</label>
+                            <div class="col-sm-3">
+                                <select name="educationType" class="form-control tonto-select-constant" enumcode="education-type">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="joinSchoolTime" class="col-sm-3 control-label">入学时间：</label>
+                            <div class="col-sm-3">
+                                <input name="joinSchoolTime" placeholder="请输入入学时间" type="text" class="form-control tonto-datepicker-date" />
+                            </div>
+                            <label for="graduationTime" class="col-sm-3 control-label">毕业时间：</label>
+                            <div class="col-sm-3">
+                                <input name="graduationTime" placeholder="请输入毕业时间" type="text" class="form-control tonto-datepicker-date" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="hasRecordStatus" class="col-sm-3 control-label">取得证书情况：</label>
+                            <div class="col-sm-3">
+                                <input name="hasRecordStatus" placeholder="请输入毕业时间" type="text" class="form-control" />
+                            </div>
+                            <label for="otherInstructions" class="col-sm-3 control-label">补充说明：</label>
+                            <div class="col-sm-3">
+                                <input name="otherInstructions" placeholder="请输入毕业时间" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nativePlace" class="col-sm-3 control-label">附件上传：</label>
+                            <div class="col-sm-9">
+                                <input type="file" name="attachmentFiles" multiple>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 col-sm-offset-3">
+                                <button type="submit" id="education_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <button type="button" id="education_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- 工作经历 -->
+            <div class="box-header with-border">
+                <h3 class="box-title">工作经历</h3>
+                <div class="box-tools pull-right">
+                    <a class="btn" id="workExperience_edit_btn" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i>添加工作经历</a>
+                </div>
+            </div>
+            <div class="box-body">
+                <ul id="workExperience_view" class="products-list product-list-in-box">
+                </ul>
+                <!-- 编辑 -->
+                <div id="workExperience_edit" style="display: none">
+                    <form id="workExperience_form" action="/hrms/org/personal/save/workExperience" enctype="multipart/form-data" method="post" class="form-horizontal edit-body">
+                        <input type="hidden" name="id" />
+                        <div class="form-group">
+                            <label for="workUnit" class="col-sm-3 control-label">工作单位：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="请输入工作单位" class="form-control" name="workUnit" />
+                            </div>
+                            <label for="workPlace" class="col-sm-3 control-label">工作地点：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="请输入工作地点" class="form-control" name="workPlace" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="workStartTime" class="col-sm-3 control-label">工作开始时间：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="请选择工作开始时间" class="form-control tonto-datepicker-date" name="workStartTime" />
+                            </div>
+                            <label for="workEndTime" class="col-sm-3 control-label">工作结束时间：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="请选择工作结束时间" class="form-control tonto-datepicker-date" name="workEndTime" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="workDept" class="col-sm-3 control-label">工作科室：</label>
+                            <div class="col-sm-3">
+                                <select name="workDept" placeholder="请选择工作科室" class="form-control tonto-select-constant" enumcode="dept-type">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <label for="jobSituation" class="col-sm-3 control-label">任职情况：</label>
+                            <div class="col-sm-3">
+                                <select name="jobSituation" placeholder="请选择任职情况" class="form-control tonto-select-constant" enumcode="duty">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="workPost" class="col-sm-3 control-label">工作岗位：</label>
+                            <div class="col-sm-3">
+                                <select name="workPost" placeholder="请选择工作岗位" class="form-control tonto-select-constant" enumcode="employ-post">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <label for="majorTechnologyWork" class="col-sm-3 control-label">从事专业技术工作：</label>
+                            <div class="col-sm-3">
+                                <select name="majorTechnologyWork" placeholder="请选择从事专业技术工作" class="form-control tonto-select-constant" enumcode="major">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nativePlace" class="col-sm-3 control-label">附件上传：</label>
+                            <div class="col-sm-9">
+                                <input type="file" name="attachmentFiles" multiple>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 col-sm-offset-3">
+                                <button type="submit" id="workExperience_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <button type="button" id="workExperience_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- 职称信息 -->
+            <div class="box-header with-border">
+                <h3 class="box-title">职称信息</h3>
+                <div class="box-tools pull-right">
+                    <a class="btn" id="positionalInfo_edit_btn" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i>添加职称信息</a>
+                </div>
+            </div>
+            <div class="box-body">
+                <ul id="positionalInfo_view" class="products-list product-list-in-box">
+                </ul>
+                <!-- 编辑 -->
+                <div id="positionalInfo_edit" style="display: none">
+                    <form id="positionalInfo_form" action="/hrms/org/personal/save/positionalInfo" enctype="multipart/form-data" method="post" class="form-horizontal edit-body">
+                        <input type="hidden" name="id" />
+                        <div class="form-group">
+                            <label for="positionalTitleName" class="col-sm-3 control-label">职称名称：</label>
+                            <div class="col-sm-3">
+                                <input name="positionalTitleName" type="text" placeholder="请输入职称名称" class="form-control" />
+                            </div>
+                            <label for="positionalTitleType" class="col-sm-3 control-label">职称类型：</label>
+                            <div class="col-sm-3">
+                                <select name="positionalTitleType" placeholder="请选择职称类型" class="form-control tonto-select-constant" enumcode="positional-type">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="positionalLevelLevel" class="col-sm-3 control-label">职称级别：</label>
+                            <div class="col-sm-3">
+                                <select name="positionalLevelLevel" placeholder="请选择职称级别" class="form-control tonto-select-constant" enumcode="tech-post">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <label for="positionalTitleTime" class="col-sm-3 control-label">获得时间：</label>
+                            <div class="col-sm-3">
+                                <input name="positionalTitleTime" type="text" placeholder="请选择获得时间" class="form-control tonto-datepicker-date" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nativePlace" class="col-sm-3 control-label">附件上传：</label>
+                            <div class="col-sm-9">
+                                <input type="file" name="attachmentFiles" multiple>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 col-sm-offset-3">
+                                <button type="submit" id="positionalInfo_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <button type="button" id="positionalInfo_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- 科教信息 -->
+            <div class="box-header with-border">
+                <h3 class="box-title">科教信息</h3>
+                <div class="box-tools pull-right">
+                    <a class="btn" id="scienceEducation_edit_btn" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i>添加科教信息</a>
+                </div>
+            </div>
+            <div class="box-body">
+                <ul id="scienceEducation_view" class="products-list product-list-in-box">
+                </ul>
+                <!-- 编辑 -->
+                <div id="scienceEducation_edit" style="display: none">
+                    <form id="scienceEducation_form" action="/hrms/org/personal/save/scienceEducation" enctype="multipart/form-data" method="post" class="form-horizontal edit-body">
+                        <input type="hidden" name="id" />
+                        <div class="form-group">
+                            <label for="scienceEducationType" class="col-sm-3 control-label">种类：</label>
+                            <div class="col-sm-3">
+                                <select name="scienceEducationType" placeholder="请选择种类" class="form-control tonto-select-constant" enumcode="science-education-type">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-3 control-label">名称：</label>
+                            <div class="col-sm-9">
+                                <input name="name" type="text" placeholder="请输入名称" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="element" class="col-sm-3 control-label">要素：</label>
+                            <div class="col-sm-9">
+                                <input name="element" type="text" placeholder="请输入要素" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="topicNumber" class="col-sm-3 control-label">课题编号：</label>
+                            <div class="col-sm-3">
+                                <input name="topicNumber" type="text" placeholder="请输入课题编号" class="form-control" />
+                            </div>
+                            <label for="topicSource" class="col-sm-3 control-label">课题项目来源：</label>
+                            <div class="col-sm-3">
+                                <input name="topicSource" type="text" placeholder="请输入课题项目来源" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="year" class="col-sm-3 control-label">年度：</label>
+                            <div class="col-sm-3">
+                                <input name="year" type="text" placeholder="请输入年度" class="form-control" />
+                            </div>
+                            <label for="money" class="col-sm-3 control-label">金额：</label>
+                            <div class="col-sm-3">
+                                <input name="money" type="text" placeholder="请输入金额" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="prizeIssuingOrgan" class="col-sm-3 control-label">奖项发证机关：</label>
+                            <div class="col-sm-3">
+                                <input name="prizeIssuingOrgan" type="text" placeholder="请输入奖项发证机关" class="form-control" />
+                            </div>
+                            <label for="prizeGrade" class="col-sm-3 control-label">奖项等级：</label>
+                            <div class="col-sm-3">
+                                <input name="prizeGrade" type="text" placeholder="请输入奖项等级" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awardProject" class="col-sm-3 control-label">授奖项目：</label>
+                            <div class="col-sm-3">
+                                <input name="awardProject" type="text" placeholder="请输入授奖项目" class="form-control" />
+                            </div>
+                            <label for="awardTime" class="col-sm-3 control-label">获奖时间：</label>
+                            <div class="col-sm-3">
+                                <input name="awardTime" type="text" placeholder="请输入获奖时间" class="form-control tonto-datepicker-date" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awardTopic" class="col-sm-3 control-label">奖项关联课题：</label>
+                            <div class="col-sm-9">
+                                <input name="awardTopic" placeholder="请输入奖项关联课题" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="oneselfRanking" class="col-sm-3 control-label">本人排名：</label>
+                            <div class="col-sm-3">
+                                <input name="oneselfRanking" type="text" placeholder="请输入本人排名" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime" class="col-sm-3 control-label">结题时间：</label>
+                            <div class="col-sm-3">
+                                <input name="endTime" type="text" placeholder="请选择结题时间" class="form-control tonto-datepicker-date" />
+                            </div>
+                            <label for="dept" class="col-sm-3 control-label">立项部门：</label>
+                            <div class="col-sm-3">
+                                <input name="dept" type="text" placeholder="请输入立项部门" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="paperMagazine" class="col-sm-3 control-label">刊登论文杂志：</label>
+                            <div class="col-sm-3">
+                                <input name="paperMagazine" type="text" placeholder="请输入刊登论文杂志" class="form-control" />
+                            </div>
+                            <label for="sciInfluenceFactor" class="col-sm-3 control-label">SCI影响因子：</label>
+                            <div class="col-sm-3">
+                                <input name="sciInfluenceFactor" type="text" placeholder="请输入SCI影响因子" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="paperFirstAuthor" class="col-sm-3 control-label">论文第一作者：</label>
+                            <div class="col-sm-3">
+                                <input name="paperFirstAuthor" type="text" placeholder="请输入论文第一作者" class="form-control" />
+                            </div>
+                            <label for="paperCommunicationAuthor" class="col-sm-3 control-label">论文通讯作者：</label>
+                            <div class="col-sm-3">
+                                <input name="paperCommunicationAuthor" type="text" placeholder="请输入论文通讯作者" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="paperReleaseTime" class="col-sm-3 control-label">论文发布时间：</label>
+                            <div class="col-sm-3">
+                                <input name="paperReleaseTime" type="text" placeholder="请选择论文发布时间" class="form-control tonto-datepicker-date" />
+                            </div>
+                            <label for="paperType" class="col-sm-3 control-label">论文种类：</label>
+                            <div class="col-sm-3">
+                                <select name="paperType" placeholder="请选择种类" class="form-control tonto-select-constant" enumcode="paper-type">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="paperRelationTopic" class="col-sm-3 control-label">论文关联课题：</label>
+                            <div class="col-sm-3">
+                                <select name="paperRelationTopic" placeholder="请选择论文关联课题" class="form-control tonto-select-constant" enumcode="paper-type">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nativePlace" class="col-sm-3 control-label">附件上传：</label>
+                            <div class="col-sm-9">
+                                <input type="file" name="attachmentFiles" multiple>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 col-sm-offset-3">
+                                <button type="submit" id="scienceEducation_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <button type="button" id="scienceEducation_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- 奖励信息 -->
+            <div class="box-header with-border">
+                <h3 class="box-title">奖励信息</h3>
+                <div class="box-tools pull-right">
+                    <a class="btn" id="rewardInfo_edit_btn" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i>添加奖励信息</a>
+                </div>
+            </div>
+            <div class="box-body">
+                <ul id="rewardInfo_view" class="products-list product-list-in-box">
+                </ul>
+                <!-- 编辑 -->
+                <div id="rewardInfo_edit" style="display: none">
+                    <form id="rewardInfo_form" action="/hrms/org/personal/save/rewardInfo" enctype="multipart/form-data" method="post" class="form-horizontal edit-body">
+                        <input type="hidden" name="id" />
+                        <div class="form-group">
+                            <label for="rewardProject" class="col-sm-3 control-label">奖励项目：</label>
+                            <div class="col-sm-3">
+                                <input name="rewardProject" type="text" placeholder="请输入奖励项目" class="form-control" />
+                            </div>
+                            <label for="rewardLevel" class="col-sm-3 control-label">奖励级别：</label>
+                            <div class="col-sm-3">
+                                <input name="rewardLevel" type="text" placeholder="至少为区--县级以上行政部门--颁发" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="rewardType" class="col-sm-3 control-label">获奖类别：</label>
+                            <div class="col-sm-3">
+                                <select name="rewardType" placeholder="请选择获奖类别" class="form-control tonto-select-constant" enumcode="reward_type">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <label for="rewardTime" class="col-sm-3 control-label">奖励时间：</label>
+                            <div class="col-sm-3">
+                                <input name="rewardTime" type="text" placeholder="请选择奖励时间" class="form-control tonto-datepicker-date" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awardPrizeDept" class="col-sm-3 control-label">授奖部门：</label>
+                            <div class="col-sm-3">
+                                <input name="awardPrizeDept" type="text" placeholder="请输入授奖部门" class="form-control" />
+                            </div>
+                            <label for="isRevoke" class="col-sm-3 control-label">是否撤销：</label>
+                            <div class="col-sm-3">
+                                <select name="isRevoke" placeholder="请选择是否撤销" class="form-control tonto-select-constant" enumcode="boolean">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="rewardMoney" class="col-sm-3 control-label">获奖金额：</label>
+                            <div class="col-sm-3">
+                                <input name="rewardMoney" type="text" placeholder="请输入获奖金额" class="form-control" />
+                            </div>
+                            <label for="rewardReason" class="col-sm-3 control-label">获奖原因：</label>
+                            <div class="col-sm-3">
+                                <input name="rewardReason" type="text" placeholder="请输入获奖原因" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="rewardIllustrate" class="col-sm-3 control-label">奖励说明：</label>
+                            <div class="col-sm-9">
+                                <input name="rewardIllustrate" type="text" placeholder="请输入奖励说明" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nativePlace" class="col-sm-3 control-label">附件上传：</label>
+                            <div class="col-sm-9">
+                                <input type="file" name="attachmentFiles" multiple>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 col-sm-offset-3">
+                                <button type="submit" id="rewardInfo_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <button type="button" id="rewardInfo_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- 培训经历 -->
+            <div class="box-header with-border">
+                <h3 class="box-title">培训经历</h3>
+                <div class="box-tools pull-right">
+                    <a class="btn" id="cultivate_edit_btn" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i>添加培训经历</a>
+                </div>
+            </div>
+            <div class="box-body">
+                <ul id="cultivate_view" class="products-list product-list-in-box">
+                </ul>
+                <!-- 编辑 -->
+                <div id="cultivate_edit" style="display: none">
+                    <form id="cultivate_form" action="/hrms/org/personal/save/cultivate" enctype="multipart/form-data" method="post" class="form-horizontal edit-body">
+                        <input type="hidden" name="id" />
+                        <div class="form-group">
+                            <label for="cultivateType" class="col-sm-3 control-label">培训类型：</label>
+                            <div class="col-sm-3">
+                                <select name="cultivateType" placeholder="请选择培训类型" class="form-control tonto-select-constant" enumcode="cultivate-type">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cultivateUnit" class="col-sm-3 control-label">培训单位：</label>
+                            <div class="col-sm-3">
+                                <input name="cultivateUnit" type="text" placeholder="请输入培训单位" class="form-control" />
+                            </div>
+                            <label for="cultivatePlace" class="col-sm-3 control-label">培训地点：</label>
+                            <div class="col-sm-3">
+                                <input name="cultivatePlace" type="text" placeholder="请输入培训地点" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cultivateStartTime" class="col-sm-3 control-label">开始时间：</label>
+                            <div class="col-sm-3">
+                                <input name="cultivateStartTime" type="text" placeholder="请选择开始时间" class="form-control tonto-datepicker-date" />
+                            </div>
+                            <label for="cultivateEndTime" class="col-sm-3 control-label">结束时间：</label>
+                            <div class="col-sm-3">
+                                <input name="cultivateEndTime" type="text" placeholder="请选择结束时间" class="form-control tonto-datepicker-date" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="endSituation" class="col-sm-3 control-label">结束情况：</label>
+                            <div class="col-sm-3">
+                                <select name="endSituation" placeholder="请选择结束情况" class="form-control tonto-select-constant" enumcode="cultivete-end-situation">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nativePlace" class="col-sm-3 control-label">附件上传：</label>
+                            <div class="col-sm-9">
+                                <input type="file" name="attachmentFiles" multiple>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 col-sm-offset-3">
+                                <button type="submit" id="cultivate_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <button type="button" id="cultivate_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- 执业注册 -->
+            <div class="box-header with-border">
+                <h3 class="box-title">执业注册</h3>
+                <div class="box-tools pull-right">
+                    <!-- <a class="btn" id="registrations_edit_btn" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i>添加执业注册</a> -->
+                </div>
+            </div>
+            <div class="box-body">
+                <ul id="registrations_view" class="products-list product-list-in-box">
+                </ul>
+                <!-- 编辑 -->
+                <div id="registrations_edit" style="display: none">
+                    <form id="registrations_form" action="" method="post" class="form-horizontal edit-body">
+                    </form>
+                </div>
+            </div>
+            <!-- 年度考核 -->
+            <div class="box-header with-border">
+                <h3 class="box-title">年度考核</h3>
+                <div class="box-tools pull-right">
+                    <a class="btn" id="yearassess_edit_btn" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i>添加年度考核</a>
+                </div>
+            </div>
+            <div class="box-body">
+                <ul id="yearassess_view" class="products-list product-list-in-box">
+                </ul>
+                <!-- 编辑 -->
+                <div id="yearassess_edit" style="display: none">
+                    <form id="yearassess_form" action="/hrms/org/personal/save/yearassess" method="post" class="form-horizontal edit-body">
+                        <input type="hidden" name="id" />
+                        <div class="form-group">
+                            <label for="year" class="col-sm-3 control-label">年度：</label>
+                            <div class="col-sm-3">
+                                <input name="year" type="text" placeholder="请选择年度" class="form-control tonto-datepicker-year" />
+                            </div>
+                            <label for="wages" class="col-sm-3 control-label">当年工资(元)：</label>
+                            <div class="col-sm-3">
+                                <input name="wages" type="text" placeholder="请输入当年工资(元)" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bonus" class="col-sm-3 control-label">当年奖金(元)</label>
+                            <div class="col-sm-3">
+                                <input name="bonus" type="text" placeholder="请输入当年奖金(元)" class="form-control" />
+                            </div>
+                            <label for="otherIncome" class="col-sm-3 control-label">当年其他收入(元)：</label>
+                            <div class="col-sm-3">
+                                <input name="otherIncome" type="text" placeholder="请输入当年其他收入(元)" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="assessResult" class="col-sm-3 control-label">考核结果：</label>
+                            <div class="col-sm-3">
+                                <select name="assessResult" placeholder="请选择考核结果" class="form-control tonto-select-constant" enumcode="assess-result">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <label for="technicalPost" class="col-sm-3 control-label">受聘专业技术职务(岗位)：</label>
+                            <div class="col-sm-3">
+                                <input name="technicalPost" type="text" placeholder="请输入受聘专业技术职务(岗位)" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="assessIllustrate" class="col-sm-3 control-label">考核说明：</label>
+                            <div class="col-sm-9">
+                                <textarea name="assessIllustrate" class="form-control" rows="4" style="resize: none;"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 col-sm-offset-3">
+                                <button type="submit" id="yearassess_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <button type="button" id="yearassess_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div th:include="hrms/footer" />
+        <script type="text/javascript" src="/static/assets/cropper/cropper.js"></script>
+        <script type="text/javascript" src="/static/js/hrms/org/personal_edit.js"></script>
+        <script type="text/javascript">
+        var profile;
+
+        function changeProfile() {
+            var content =
+                '<div class="content">' +
+                '<div class="row" style="margin-bottom:10px">' +
+                '   <div class="col-sm-3">' +
+                '       <button onclick="$(\'#profileInput\').click()" class="btn btn-block btn-sm btn-primary"><i class="icon fa fa-check"></i>&nbsp;选择图片</button>' +
+                '       <input type="file" id="profileInput" style="display: none !important" onchange="preImg(this.id);" />' +
+                '   </div>' +
+                '   <div class="col-sm-3 col-sm-offset-6">' +
+                '       <button onclick="profileUpload()" class="btn btn-block btn-success btn-sm"><i class="icon fa fa-folder-open"></i>&nbsp;确定</button>' +
+                '   </div>' +
+                '</div>' +
+                '<div class="row" style="min-height:550px">' +
+                //'   <div class="col-sm-12" style="min-height:700px">' +
+                '       <img id="photo" src="" alt="Picture" style="width:100%;height:100%;display: none !important">' +
+                //'   </div>' +
+                '</div>' +
+                '<div class="row">' +
+                '<div style="text-align:center">' +
+                '    <div class="btn-group">' +
+                '        <button type="button" onclick="profile.cropper(\'zoom\', 0.1)" class="btn btn-info"><i class="fa fa-search-plus"></i></button>' +
+                '        <button type="button" onclick="profile.cropper(\'zoom\', -0.1)" class="btn btn-info"><i class="fa fa-search-minus"></i></button>' +
+                '    </div>' +
+                '    <div class="btn-group">' +
+                '        <button type="button" onclick="profile.cropper(\'move\', -10, 0)" class="btn btn-info"><i class="fa fa-arrow-left"></i></button>' +
+                '        <button type="button" onclick="profile.cropper(\'move\', 10, 0)" class="btn btn-info"><i class="fa fa-arrow-right"></i></button>' +
+                '        <button type="button" onclick="profile.cropper(\'move\', 0, -10)" class="btn btn-info"><i class="fa fa-arrow-up"></i></button>' +
+                '        <button type="button" onclick="profile.cropper(\'move\', 0, 10)" class="btn btn-info"><i class="fa fa-arrow-down"></i></button>' +
+                '    </div>' +
+                '    <div class="btn-group">' +
+                '        <button type="button" onclick="profile.cropper(\'rotate\', -45)" class="btn btn-info"><i class="fa fa-rotate-left"></i></button>' +
+                '        <button type="button" onclick="profile.cropper(\'rotate\', 45)" class="btn btn-info"><i class="fa fa-rotate-right"></i></button>' +
+                '    </div>' +
+                '    <div class="btn-group">' +
+                '        <button type="button" onclick="profile.cropper(\'reset\')" class="btn btn-info"><i class="fa fa-refresh"></i></button>' +
+                '    </div>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+
+            $.openPageLayer(content, {
+                title: "头像上传",
+                width: 800,
+                height: 700,
+                offset: '100px',
+                success: function() {
+                    profile = $('#photo');
+                }
+            });
+        }
+
+        function profileUpload() {
+            profile.cropper('getCroppedCanvas').toBlob(function(blob) {
+                if (!personnelId) {
+                    $.errorMessage("请先新增人员后再导入头像");
+                    return;
+                }
+                var formData = new FormData();
+                formData.append('profileFile', blob);
+                formData.append('personnelId', personnelId);
+                $.sendAjax({
+                    url: '/hrms/org/personal/upload/profile',
+                    type: 'POST',
+                    cache: false,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function() {
+                        $.successAlert("更新成功", function() {
+                            layer.closeAll();
+                            $.getAjax("/hrms/org/personal/get/base?id=" + personnelId, function(data) {
+                                baseModel.setData(data);
+                            });
+                        }, '200px');
+                    }
+                })
+            }, "image/jpeg", 0.95);
+        }
+
+        function preImg(sourceId) {
+            var url = getFileUrl(sourceId),
+                filename = document.getElementById(sourceId).files[0].name,
+                suffix = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
+
+            var header = "";
+            if (suffix == "jpeg" || suffix == "jpg" || suffix == "png" || suffix == "gif") {
+                profile.cropper("destroy");
+                profile[0].src = url;
+                profile.cropper({
+                    aspectRatio: 1 / 1,
+                });
+            } else {
+                $.errorMessage("请选择图片");
+            }
+        }
+
+        function getFileUrl(sourceId) {
+            var url;
+            if (navigator.userAgent.indexOf("MSIE") >= 1) { // IE
+                url = document.getElementById(sourceId).value;
+            } else if (navigator.userAgent.indexOf("Firefox") > 0) { // Firefox
+                url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+            } else if (navigator.userAgent.indexOf("Chrome") > 0) { // Chrome
+                url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+            }
+            return url;
+        }
+        </script>
+</body>
+
+</html>

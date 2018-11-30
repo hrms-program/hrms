@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.document.DocumentLearningExperienceMapper">
+  <resultMap id="BaseResultMap" type="com.paladin.hrms.model.document.DocumentLearningExperience">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="busi_id" jdbcType="VARCHAR" property="busiId" />
+    <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="date_begin" jdbcType="DATE" property="dateBegin" />
+    <result column="date_end" jdbcType="DATE" property="dateEnd" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="education_level" jdbcType="VARCHAR" property="educationLevel" />
+    <result column="education_degree" jdbcType="VARCHAR" property="educationDegree" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="is_full_time" jdbcType="VARCHAR" property="isFullTime" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="update_id" jdbcType="VARCHAR" property="updateId" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <resultMap id="BaseResultMapVO" type="com.paladin.hrms.controller.document.pojo.DocumentLearningExperienceVO">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="busi_id" jdbcType="VARCHAR" property="busiId" />
+    <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="date_begin" jdbcType="DATE" property="dateBegin" />
+    <result column="date_end" jdbcType="DATE" property="dateEnd" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="education_level" jdbcType="VARCHAR" property="educationLevel" />
+    <result column="education_degree" jdbcType="VARCHAR" property="educationDegree" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="is_full_time" jdbcType="VARCHAR" property="isFullTime" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="update_id" jdbcType="VARCHAR" property="updateId" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, busi_id, relation_id, date_begin, date_end, school, education_level, education_degree, 
+    major, is_full_time, create_at, create_id, update_at, update_id, state, remark
+  </sql>
+ <!--  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from document_learning_experience
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.paladin.hrms.model.document.LearningExperience">
+    insert into document_learning_experience (id, busi_id, relation_id, date_begin, 
+      date_end, school, education_level, 
+      education_degree, major, is_full_time, 
+      create_at, create_id, update_at, 
+      update_id, state, remark
+      )
+    values (#{id,jdbcType=VARCHAR}, #{busiId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{dateBegin,jdbcType=DATE}, 
+      #{dateEnd,jdbcType=DATE}, #{school,jdbcType=VARCHAR}, #{educationLevel,jdbcType=VARCHAR}, 
+      #{educationDegree,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, #{isFullTime,jdbcType=VARCHAR}, 
+      #{createAt,jdbcType=TIMESTAMP}, #{createId,jdbcType=VARCHAR}, #{updateAt,jdbcType=TIMESTAMP}, 
+      #{updateId,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.paladin.hrms.model.document.LearningExperience">
+    insert into document_learning_experience
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="busiId != null">
+        busi_id,
+      </if>
+      <if test="relationId != null">
+        relation_id,
+      </if>
+      <if test="dateBegin != null">
+        date_begin,
+      </if>
+      <if test="dateEnd != null">
+        date_end,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="educationLevel != null">
+        education_level,
+      </if>
+      <if test="educationDegree != null">
+        education_degree,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="isFullTime != null">
+        is_full_time,
+      </if>
+      <if test="createAt != null">
+        create_at,
+      </if>
+      <if test="createId != null">
+        create_id,
+      </if>
+      <if test="updateAt != null">
+        update_at,
+      </if>
+      <if test="updateId != null">
+        update_id,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null">
+        #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="dateBegin != null">
+        #{dateBegin,jdbcType=DATE},
+      </if>
+      <if test="dateEnd != null">
+        #{dateEnd,jdbcType=DATE},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="educationLevel != null">
+        #{educationLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="educationDegree != null">
+        #{educationDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="isFullTime != null">
+        #{isFullTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null">
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.paladin.hrms.model.document.LearningExperience">
+    update document_learning_experience
+    <set>
+      <if test="busiId != null">
+        busi_id = #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        relation_id = #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="dateBegin != null">
+        date_begin = #{dateBegin,jdbcType=DATE},
+      </if>
+      <if test="dateEnd != null">
+        date_end = #{dateEnd,jdbcType=DATE},
+      </if>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="educationLevel != null">
+        education_level = #{educationLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="educationDegree != null">
+        education_degree = #{educationDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="isFullTime != null">
+        is_full_time = #{isFullTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        update_at = #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.paladin.hrms.model.document.LearningExperience">
+    update document_learning_experience
+    set busi_id = #{busiId,jdbcType=VARCHAR},
+      relation_id = #{relationId,jdbcType=VARCHAR},
+      date_begin = #{dateBegin,jdbcType=DATE},
+      date_end = #{dateEnd,jdbcType=DATE},
+      school = #{school,jdbcType=VARCHAR},
+      education_level = #{educationLevel,jdbcType=VARCHAR},
+      education_degree = #{educationDegree,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      is_full_time = #{isFullTime,jdbcType=VARCHAR},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      create_id = #{createId,jdbcType=VARCHAR},
+      update_at = #{updateAt,jdbcType=TIMESTAMP},
+      update_id = #{updateId,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update> -->
+  
+  
+  <!-- 以下代码非自动生成 -->
+  <select id="list" parameterType="map" resultMap="BaseResultMapVO">
+  	select <include refid="Base_Column_List" />
+  	from document_learning_experience
+  	<where>
+		state = '1'
+	  <if test="relationId != null">
+        and relation_id = #{relationId,jdbcType=VARCHAR}
+      </if>
+      <if test="dateBegin != null">
+        and date_begin = #{dateBegin,jdbcType=DATE},
+      </if>
+      <if test="dateEnd != null">
+        and date_end = #{dateEnd,jdbcType=DATE}
+      </if>
+      <if test="school != null">
+        and school = #{school,jdbcType=VARCHAR}
+      </if>
+      <if test="educationLevel != null">
+        and education_level = #{educationLevel,jdbcType=VARCHAR}
+      </if>
+      <if test="educationDegree != null">
+        and education_degree = #{educationDegree,jdbcType=VARCHAR}
+      </if>
+      <if test="major != null">
+        and major = #{major,jdbcType=VARCHAR}
+      </if>
+      <if test="isFullTime != null">
+        and is_full_time = #{isFullTime,jdbcType=VARCHAR}
+      </if>
+      <if test="createAt != null">
+        and create_at = #{createAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createId != null">
+        and create_id = #{createId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateAt != null">
+        and update_at = #{updateAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateId != null">
+        and update_id = #{updateId,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+	</where>
+	<choose>
+		<when test="sort != null and sort.trim() != ''">
+			order by ${sort} ${order}
+		</when>
+		<otherwise>
+			order by id desc
+		</otherwise>
+	</choose>
+	<if test="offset != null and limit != null">
+		limit #{offset}, #{limit}
+	</if>
+  </select>
+  
+  <select id="queryLearningExperienceByBusiId" parameterType="String" resultMap="BaseResultMap">
+        select
+		<include refid="Base_Column_List" />
+		from document_learning_experience
+		where busi_id = #{busiId,jdbcType=VARCHAR}
+		and state = '1'
+  </select>
+  
+  <update id="deleteLearningExperience" parameterType="String">
+        update document_learning_experience
+        set state = '99'
+        where busi_id = #{busiId}
+        and state = '1'
+  </update>
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.assess.AssessPhysicianRecordMapper">
+<select id="findAssessPhysicianRecord" resultType="com.paladin.hrms.model.assess.AssessPhysicianRecord">
+		SELECT 
+			r.`id`,
+			r.`name`,
+			r.`agency_name` AS agencyName,
+			r.`assess_result` AS assessResult,
+			r.`assess_cycle` AS assessCycle,
+			r.`advance_assess_time` AS advanceAssessTime
+		FROM assess_physician_record AS r 
+		LEFT JOIN org_personnel AS a 
+		ON r.identification_no = a.identification_no 
+		WHERE  a.is_delete=0
+		 <if test="permission.cityCode!=null">
+            AND a.city_code =#{permission.cityCode}
+        </if>
+        <if test="permission.cityCodes!=null">
+            AND a.city_code IN
+            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.townCode!=null">
+            AND a.town_code =#{permission.townCode}
+        </if>
+        <if test="permission.townCodes!=null">
+            AND a.town_code IN
+            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.districtCode!=null">
+            AND a.district_code =#{permission.districtCode}
+        </if>
+        <if test="permission.districtCodes!=null">
+            AND a.district_code IN
+            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.agencyId!=null">
+            AND a.agency_id =#{permission.agencyId}
+        </if>
+        <if test="permission.agencyIds!=null">
+            AND a.agency_id IN
+            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="query.name!=null and query.name !=''">
+            AND r.name LIKE CONCAT('%',#{query.name},'%')
+        </if>
+         <if test="query.agencyName!=null and query.agencyName !=''">
+            AND r.agency_name LIKE CONCAT('%',#{query.agencyName},'%')
+        </if>
+        <if test="query.identificationNo!=null and query.identificationNo !=''">
+            AND r.identification_no LIKE CONCAT('%',#{query.identificationNo},'%')
+        </if>
+        ORDER BY r.`update_time` DESC
+</select>
+</mapper>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.analysis.AnalysisPersonnelClassificationMapper">
+	<select id="countClassificationGroupByAgency" resultType="com.paladin.hrms.service.analysis.dto.PersonnelClassificationVO">
+		SELECT a.agency_id AS agencyId,
+		       a.agency_name AS agencyName,
+		       COUNT(1) AS total,
+		       COUNT(c.personnel_type = 1
+		             OR NULL) AS ys,
+		       COUNT((c.personnel_type = 1
+		              AND (b.major =1
+		                   OR b.major = 2))
+		             OR NULL) AS zyys,
+		       COUNT(c.general_practitioner = 1
+		             OR NULL) AS qkys,
+		       COUNT(c.personnel_type = 2) AS hs,
+		       COUNT(c.personnel_type = 3) AS xcys,
+		       COUNT(c.personnel_type = 5) AS yaos,
+		       COUNT(c.personnel_type = 4) AS js,
+		       COUNT((c.personnel_type = 4
+		              AND b.major = 11)
+		             OR NULL) AS jys,
+		       COUNT(c.personnel_type = 6) AS gl,
+		       COUNT(c.personnel_type = 7) AS gq,
+		       COUNT(c.personnel_type = 8) AS qt,
+		       COUNT((c.personnel_type = 8
+		              AND b.major = 3)
+		             OR NULL) AS jxys
+		FROM org_personnel a
+		LEFT JOIN org_personnel_job b ON a.id = b.id
+		LEFT JOIN org_personnel_practice c ON a.id = c.id
+		WHERE a.is_delete = 0
+		<if test="permission.cityCode!=null">
+			AND a.city_code =#{permission.cityCode}
+		</if>
+		<if test="permission.cityCodes!=null">
+			AND a.city_code IN
+			<foreach collection="permission.cityCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="permission.townCode!=null">
+			AND a.town_code =#{permission.townCode}
+		</if>
+		<if test="permission.townCodes!=null">
+			AND a.town_code IN
+			<foreach collection="permission.townCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="permission.districtCode!=null">
+			AND a.district_code =#{permission.districtCode}
+		</if>
+		<if test="permission.districtCodes!=null">
+			AND a.district_code IN
+			<foreach collection="permission.districtCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="permission.agencyId!=null">
+			AND a.agency_id =#{permission.agencyId}
+		</if>
+		<if test="permission.agencyIds!=null">
+			AND a.agency_id IN
+			<foreach collection="permission.agencyIds" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		GROUP BY a.agency_id
+	</select>
+	
+	<select id="countClassification" resultType="com.paladin.hrms.service.analysis.dto.PersonnelClassificationVO">
+			SELECT 
+			       COUNT(1) AS total,
+			       COUNT(c.personnel_type = 1
+			             OR NULL) AS ys,
+			       COUNT((c.personnel_type = 1
+			              AND (b.major =1
+			                   OR b.major = 2))
+			             OR NULL) AS zyys,
+			       COUNT(c.general_practitioner = 1
+			             OR NULL) AS qkys,
+			       COUNT(c.personnel_type = 2) AS hs,
+			       COUNT(c.personnel_type = 3) AS xcys,
+			       COUNT(c.personnel_type = 5) AS yaos,
+			       COUNT(c.personnel_type = 4) AS js,
+			       COUNT((c.personnel_type = 4
+			              AND b.major = 11)
+			             OR NULL) AS jys,
+			       COUNT(c.personnel_type = 6) AS gl,
+			       COUNT(c.personnel_type = 7) AS gq,
+			       COUNT(c.personnel_type = 8) AS qt,
+			       COUNT((c.personnel_type = 8
+			              AND b.major = 3)
+			             OR NULL) AS jxys
+			FROM org_personnel a
+			LEFT JOIN org_personnel_job b ON a.id = b.id
+			LEFT JOIN org_personnel_practice c ON a.id = c.id
+			WHERE a.is_delete = 0
+			<if test="permission.cityCode!=null">
+				AND a.city_code =#{permission.cityCode}
+			</if>
+			<if test="permission.cityCodes!=null">
+				AND a.city_code IN
+				<foreach collection="permission.cityCodes" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			
+			<if test="permission.townCode!=null">
+				AND a.town_code =#{permission.townCode}
+			</if>
+			<if test="permission.townCodes!=null">
+				AND a.town_code IN
+				<foreach collection="permission.townCodes" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			
+			<if test="permission.districtCode!=null">
+				AND a.district_code =#{permission.districtCode}
+			</if>
+			<if test="permission.districtCodes!=null">
+				AND a.district_code IN
+				<foreach collection="permission.districtCodes" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			
+			<if test="permission.agencyId!=null">
+				AND a.agency_id =#{permission.agencyId}
+			</if>
+			<if test="permission.agencyIds!=null">
+				AND a.agency_id IN
+				<foreach collection="permission.agencyIds" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+	</select>
+</mapper>

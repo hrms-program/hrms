@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.document.DocumentFamilyMemberMapper">
+  <resultMap id="BaseResultMap" type="com.paladin.hrms.model.document.DocumentFamilyMember">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="busi_id" jdbcType="VARCHAR" property="busiId" />
+    <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="politics" jdbcType="VARCHAR" property="politics" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="idnumber" jdbcType="VARCHAR" property="idnumber" />
+    <result column="is_overseas" jdbcType="CHAR" property="isOverseas" />
+    <result column="overseas_desc" jdbcType="VARCHAR" property="overseasDesc" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="update_id" jdbcType="VARCHAR" property="updateId" />
+    <result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,busi_id, relation_id, title, name, politics, unit, position, idnumber, is_overseas, overseas_desc, 
+    remark, create_id, create_at, update_id, update_at, state
+  </sql>
+  <!-- <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from document_family_member
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.paladin.hrms.model.document.FamilyMember">
+    insert into document_family_member (id,busi_id, relation_id, title, 
+      name, politics, unit, 
+      position, idnumber, is_overseas, 
+      overseas_desc, remark, create_id, 
+      create_at, update_id, update_at, 
+      state)
+    values (#{id,jdbcType=VARCHAR}, #{busiId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{politics,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{idnumber,jdbcType=VARCHAR}, #{isOverseas,jdbcType=CHAR}, 
+      #{overseasDesc,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createId,jdbcType=VARCHAR}, 
+      #{createAt,jdbcType=TIMESTAMP}, #{updateId,jdbcType=VARCHAR}, #{updateAt,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.paladin.hrms.model.document.FamilyMember">
+    insert into document_family_member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="busiId != null">
+        busi_id,
+      </if>
+      <if test="relationId != null">
+        relation_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="politics != null">
+        politics,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="idnumber != null">
+        idnumber,
+      </if>
+      <if test="isOverseas != null">
+        is_overseas,
+      </if>
+      <if test="overseasDesc != null">
+        overseas_desc,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createId != null">
+        create_id,
+      </if>
+      <if test="createAt != null">
+        create_at,
+      </if>
+      <if test="updateId != null">
+        update_id,
+      </if>
+      <if test="updateAt != null">
+        update_at,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null">
+        #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="politics != null">
+        #{politics,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="idnumber != null">
+        #{idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isOverseas != null">
+        #{isOverseas,jdbcType=CHAR},
+      </if>
+      <if test="overseasDesc != null">
+        #{overseasDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.paladin.hrms.model.document.FamilyMember">
+    update document_family_member
+    <set>
+    <if test="busiId != null">
+        busi_id = #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        relation_id = #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="politics != null">
+        politics = #{politics,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="idnumber != null">
+        idnumber = #{idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isOverseas != null">
+        is_overseas = #{isOverseas,jdbcType=CHAR},
+      </if>
+      <if test="overseasDesc != null">
+        overseas_desc = #{overseasDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        update_at = #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.paladin.hrms.model.document.FamilyMember">
+    update document_family_member
+    set 
+    busi_id = #{busiId,jdbcType=VARCHAR},
+    relation_id = #{relationId,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      politics = #{politics,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      idnumber = #{idnumber,jdbcType=VARCHAR},
+      is_overseas = #{isOverseas,jdbcType=CHAR},
+      overseas_desc = #{overseasDesc,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_id = #{createId,jdbcType=VARCHAR},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      update_id = #{updateId,jdbcType=VARCHAR},
+      update_at = #{updateAt,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update> -->
+  
+  <!-- 以下代码非自动生成 -->
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+  	from document_family_member
+  	<where>
+		state = '1'
+		<if test="busiId != null">
+        and busi_id = #{busiId,jdbcType=VARCHAR}
+      </if>
+	  <if test="relationId != null">
+        and relation_id = #{relationId,jdbcType=VARCHAR}
+      </if>
+      <if test="title != null">
+        and title = #{title,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="politics != null">
+        and politics = #{politics,jdbcType=VARCHAR}
+      </if>
+      <if test="unit != null">
+        and unit = #{unit,jdbcType=VARCHAR}
+      </if>
+      <if test="position != null">
+        and position = #{position,jdbcType=VARCHAR}
+      </if>
+      <if test="idnumber != null">
+        and idnumber = #{idnumber,jdbcType=VARCHAR}
+      </if>
+      <if test="isOverseas != null">
+        and is_overseas = #{isOverseas,jdbcType=CHAR}
+      </if>
+      <if test="overseasDesc != null">
+        and overseas_desc = #{overseasDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="createId != null">
+        and create_id = #{createId,jdbcType=VARCHAR}
+      </if>
+      <if test="createAt != null">
+        and create_at = #{createAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateId != null">
+        and update_id = #{updateId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateAt != null">
+        and update_at = #{updateAt,jdbcType=TIMESTAMP}
+      </if>
+	</where>
+	<choose>
+		<when test="sort != null and sort.trim() != ''">
+			order by ${sort} ${order}
+		</when>
+		<otherwise>
+			order by id desc
+		</otherwise>
+	</choose>
+	<if test="offset != null and limit != null">
+		limit #{offset}, #{limit}
+	</if>
+  </select>
+  
+  <select id="queryFamilyMemberByBusiId" parameterType="String" resultMap="BaseResultMap">
+        select
+		<include refid="Base_Column_List" />
+		from document_family_member
+		where busi_id = #{busiId,jdbcType=VARCHAR}
+		and state = '1'
+  </select>
+  
+  <update id="deleteFamilyMember" parameterType="String">
+        update document_family_member
+        set state = '99'
+        where busi_id = #{busiId}
+        and state = '1'
+  </update>
+</mapper>

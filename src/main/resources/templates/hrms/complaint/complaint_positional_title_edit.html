@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="hrms/header" />
+
+<body>
+    <tt:constant enumcode="sex,positional-type,complaint-update-type,positional-level-level,boolean" />
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">表单</h3>
+                <div class="pull-right box-tools">
+                    <a class="btn btn-default btn-sm" href="/hrms/complaint/positional/index">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body">
+                <input type="hidden" id="id" th:value="${id}" />
+                <div id="view_view">
+                    <form class="form-horizontal box-header with-border" style="margin-bottom: 20px;">
+                        <div class="form-group">
+                            <label for="" class="col-sm-3 control-label">姓名：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" name="name" />
+                            </div>
+                            <label for="" class="col-sm-2 control-label">性别：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static tonto-select-constant" name="sex" enumcode="sex" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="identificationNo" class="col-sm-3 control-label">身份证号码：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" name="identificationNo" />
+                            </div>
+                            <label for="agencyName" class="col-sm-2 control-label">所在机构：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" name="agencyName" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="positionalTitleName" class="col-sm-3 control-label">职称名称：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" name="positionalTitleName" />
+                            </div>
+                            <label for="positionalTitleType" class="col-sm-2 control-label">职称类型：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static tonto-select-constant" name="positionalTitleType" enumcode="positional-type" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="positionalLevelLevel" class="col-sm-3 control-label">职称级别：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static tonto-select-constant" name="positionalLevelLevel" enumcode="positional-level-level" />
+                            </div>
+                            <label for="positionalTitleTime" class="col-sm-2 control-label">获得时间：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" name="positionalTitleTime" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="edit_edit" class="box-header">
+                    <form id="edit_form" class="form-horizontal" action="/hrms/complaint/positional/save" enctype="multipart/form-data" method="post">
+                        <div class="form-group">
+                            <label for="modifyType" class="col-sm-3 control-label">修改类型：</label>
+                            <div class="col-sm-3">
+                                <div name="modifyType" class="tonto-radio-constant" enumcode="complaint-update-type">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPositionalTitleName" class="col-sm-3 control-label">修正职称名称：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="请输入职称名称" class="form-control" name="newPositionalTitleName" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPositionalLevelLevel" class="col-sm-3 control-label">修正职称级别：</label>
+                            <div class="col-sm-3">
+                                <select class="form-control tonto-select-constant" name="newPositionalLevelLevel" enumcode="positional-level-level">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPositionalTitleTime" class="col-sm-3 control-label">修正获得时间：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="请输入职称名称" class="form-control tonto-datepicker-date" name="newPositionalTitleTime" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="attachmentFiles" class="col-sm-3 control-label">附件上传：</label>
+                            <div class="col-sm-8">
+                                <input type="file" name="attachmentFiles" multiple>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 col-sm-offset-3">
+                                <button type="submit" id="edit_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var viewColumns = [
+        { name: "name", inputType: "TEXT", title: "姓名" },
+        { name: "sex", inputType: "SELECT", title: "性别", enum: "sex" },
+        { name: "identificationNo", inputType: "TEXT", title: "身份证号码" },
+        { name: "agencyName", inputType: "TEXT", title: "所在机构" },
+        { name: "positionalTitleName", inputType: "TEXT", title: "职称名称" },
+        { name: "positionalTitleType", inputType: "SELECT", title: "职称类型", enum: "positional-type" },
+        { name: "positionalLevelLevel", inputType: "SELECT", title: "职称级别", enum: "positional-level-level" },
+        { name: "positionalTitleTime", inputType: "DATE", title: "获得时间" }
+    ]
+
+    var editColumns = [
+        { name: "modifyType", inputType: "RADIO", title: "修改类型", enum: "complaint-update-type" },
+        { name: "newPositionalTitleName", inputType: "TEXT", title: "修正职称名称", dependency: ["modifyType", "1"] },
+        { name: "newPositionalLevelLevel", inputType: "SELECT", title: "修正职称级别：", enum: "positional-level-level", dependency: ["modifyType", "1"] },
+        { name: "newPositionalTitleTime", inputType: "DATE", title: "修正获得时间", dependency: ["modifyType", "1"] },
+        { name: "attachmentId", inputType: "ATTACHMENT", fileName: "attachmentFiles", dependency: ["modifyType", "1"] }
+    ]
+
+    var id;
+    var viewModel;
+    var editModel;
+    $(function() {
+        id = $("#id").val();
+        if (id) {
+            $.getAjax("/hrms/complaint/positional/detail?id=" + id, init);
+        }
+    });
+
+    function init(data) {
+        data.modifyType = 1;
+        data.newPositionalTitleName = data.newPositionalTitleName || data.positionalTitleName;
+        data.newPositionalLevelLevel = data.newPositionalLevelLevel || data.positionalLevelLevel;
+        data.newPositionalTitleTime = data.newPositionalTitleTime || data.positionalTitleTime;
+
+        viewModel = new tonto.Model("view", viewColumns);
+        viewModel.setData(data);
+
+        editModel = new tonto.Model("edit", editColumns, {
+            successCallback: function(data) {
+                $.successAlert("保存成功", function() {
+                    window.location = '/hrms/complaint/positional/index';
+                });
+            },
+            extraParam: function() {
+                return {
+                    id: id
+                }
+            }
+        });
+        editModel.setData(data);
+        editModel.toEdit();
+    }
+
+
+    /*]]>*/
+    </script>
+</body>
+
+</html>

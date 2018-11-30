@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.complaint.ComplaintPositionalTitleMapper">
+
+	<select id="complaintPositionalTitleAll" resultType="com.paladin.hrms.service.complaint.dto.ComplaintPositionalTitleVO">
+		SELECT 
+			j.`id` AS id,
+			p.`name` AS NAME,
+			p.`sex` AS sex,
+			p.`agency_name` AS agencyName,
+			j.`positional_title_name` AS positionalTitleName,
+			J.`positional_title_type` AS positionalTitleType,
+			c.`status` AS STATUS
+		FROM org_personnel_positional_info AS j
+		LEFT JOIN org_personnel AS p
+		ON p.id=j.`personnel_id`
+		LEFT JOIN complaint_positional_title AS c
+		ON j.id=c.id
+		WHERE p.is_delete = 0
+		<if test="permission.cityCode!=null">
+	            AND P.city_code =#{permission.cityCode}
+	        </if>
+	        <if test="permission.cityCodes!=null">
+	            AND P.city_code IN
+	            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+	                #{item}
+	            </foreach>
+	        </if>
+	        <if test="permission.townCode!=null">
+	            AND P.town_code =#{permission.townCode}
+	        </if>
+	        <if test="permission.townCodes!=null">
+	            AND P.town_code IN
+	            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+	                #{item}
+	            </foreach>
+	        </if>
+	        <if test="permission.districtCode!=null">
+	            AND P.district_code =#{permission.districtCode}
+	        </if>
+	        <if test="permission.districtCodes!=null">
+	            AND P.district_code IN
+	            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+	                #{item}
+	            </foreach>
+	        </if>
+	        <if test="permission.agencyId!=null">
+	            AND P.agency_id =#{permission.agencyId}
+	        </if>
+	        <if test="permission.agencyIds!=null">
+	            AND P.agency_id IN
+	            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+	                #{item}
+	            </foreach>
+	        </if>
+	        <if test="query.name!=null and query.name !=''">
+	            AND P.name LIKE CONCAT('%',#{query.name},'%')
+	        </if>
+	         <if test="query.agencyName!=null and query.agencyName !=''">
+	            AND P.agency_name LIKE CONCAT('%',#{query.agencyName},'%')
+	        </if>
+	</select>
+		
+	<!-- 职称变更申请查询 -->
+	<select id="complaintPositionalTitleDetail" resultType="com.paladin.hrms.service.complaint.dto.ComplaintPositionalTitleVO">
+		SELECT 
+			j.`id` AS id,
+			p.`id` AS personnelId,
+			p.`name` AS name,
+			p.`sex` AS sex,
+			p.`agency_name` AS agencyName,
+			p.`identification_no` AS identificationNo,
+			j.`positional_title_name` AS positionalTitleName,
+			j.`positional_title_type` AS positionalTitleType,
+			j.`positional_level_level`AS positionalLevelLevel,
+			J.`positional_title_time` AS positionalTitleTime,
+			c.`modify_type` AS `modifyType`,
+			c.`new_positional_title_name` AS newPositionalTitleName,
+			c.`new_positional_level_level` AS newPositionalLevelLevel,
+			c.`new_positional_title_time` AS newPositionalTitleTime,
+			C.`attachment_id` AS attachmentId,
+			c.`status` AS STATUS
+		FROM org_personnel_positional_info AS j
+		LEFT JOIN org_personnel AS p
+		ON p.id=j.`personnel_id`
+		LEFT JOIN complaint_positional_title AS c
+		ON j.id=c.id
+		WHERE p.is_delete = 0 AND j.id=#{id}
+	</select>	
+	
+	<!-- 职称变更确认首页查询 -->
+	<select id="complaintPositionalTitleFind" resultType="com.paladin.hrms.service.complaint.dto.ComplaintPositionalTitleVO">
+	SELECT 
+			j.`id` AS id,
+			p.`name` AS NAME,
+			p.`sex` AS sex,
+			p.`agency_name` AS agencyName,
+			j.`positional_title_name` AS positionalTitleName,
+			j.`positional_level_level`AS positionalLevelLevel,
+			J.`positional_title_time` AS positionalTitleTime,
+			c.`new_positional_title_name` AS newPositionalTitleName,
+			c.`new_positional_level_level` AS newPositionalLevelLevel,
+			c.`new_positional_title_time` AS newPositionalTitleTime,
+			c.`status` AS status
+		FROM org_personnel_positional_info AS j
+		LEFT JOIN org_personnel AS p
+		ON p.id=j.`personnel_id`
+		LEFT JOIN complaint_positional_title AS c
+		ON j.id=c.id
+		WHERE p.is_delete = 0 AND c.status =0
+		<if test="permission.cityCode!=null">
+	            AND P.city_code =#{permission.cityCode}
+	        </if>
+	        <if test="permission.cityCodes!=null">
+	            AND P.city_code IN
+	            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+	                #{item}
+	            </foreach>
+	        </if>
+	        <if test="permission.townCode!=null">
+	            AND P.town_code =#{permission.townCode}
+	        </if>
+	        <if test="permission.townCodes!=null">
+	            AND P.town_code IN
+	            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+	                #{item}
+	            </foreach>
+	        </if>
+	        <if test="permission.districtCode!=null">
+	            AND P.district_code =#{permission.districtCode}
+	        </if>
+	        <if test="permission.districtCodes!=null">
+	            AND P.district_code IN
+	            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+	                #{item}
+	            </foreach>
+	        </if>
+	        <if test="permission.agencyId!=null">
+	            AND P.agency_id =#{permission.agencyId}
+	        </if>
+	        <if test="permission.agencyIds!=null">
+	            AND P.agency_id IN
+	            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+	                #{item}
+	            </foreach>
+	        </if>
+	        <if test="query.name!=null and query.name !=''">
+	            AND P.name LIKE CONCAT('%',#{query.name},'%')
+	        </if>
+	         <if test="query.agencyName!=null and query.agencyName !=''">
+	            AND P.agency_name LIKE CONCAT('%',#{query.agencyName},'%')
+	        </if>
+	</select>
+	
+	<select id="complaintPositionalTitleRecordDetail" resultType="com.paladin.hrms.model.complaint.ComplaintPositionalTitleRecord">
+			SELECT 
+			j.`id` AS id,
+			p.`id` AS personnelId,
+			j.`positional_title_name` AS oldPositionalTitleName,
+			j.`positional_level_level`AS oldPositionalLevelLevel,
+			J.`positional_title_time` AS oldPositionalTitleTime,
+			j.`attachments` AS oldAttachmentId,
+			c.`new_positional_title_name` AS newPositionalTitleName,
+			c.`new_positional_level_level` AS newPositionalLevelLevel,
+			c.`new_positional_title_time` AS newPositionalTitleTime,
+			c.`attachment_id` AS newAttachmentId
+		FROM org_personnel_positional_info AS j
+		LEFT JOIN org_personnel AS p
+		ON p.id=j.`personnel_id`
+		LEFT JOIN complaint_positional_title AS c
+		ON j.id=c.id
+		WHERE p.is_delete = 0 and c.id=#{id} 
+	</select>
+
+</mapper>

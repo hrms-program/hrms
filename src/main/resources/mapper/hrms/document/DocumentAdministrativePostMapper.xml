@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.document.DocumentAdministrativePostMapper">
+  <resultMap id="BaseResultMap" type="com.paladin.hrms.model.document.DocumentAdministrativePost">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="busi_id" jdbcType="VARCHAR" property="busiId" />
+    <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="position_level" jdbcType="VARCHAR" property="positionLevel" />
+    <result column="manage_level" jdbcType="VARCHAR" property="manageLevel" />
+    <result column="date_begin" jdbcType="DATE" property="dateBegin" />
+    <result column="date_end" jdbcType="DATE" property="dateEnd" />
+    <result column="is_leader" jdbcType="VARCHAR" property="isLeader" />
+    <result column="is_member" jdbcType="VARCHAR" property="isMember" />
+    <result column="is_reserve_cadres" jdbcType="VARCHAR" property="isReserveCadres" />
+    <result column="have_file" jdbcType="VARCHAR" property="haveFile" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="update_id" jdbcType="VARCHAR" property="updateId" />
+    <result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  
+   <resultMap id="BaseResultMapVO" type="com.paladin.hrms.controller.document.pojo.DocumentAdministrativePostVO">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="busi_id" jdbcType="VARCHAR" property="busiId" />
+    <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="position_level" jdbcType="VARCHAR" property="positionLevel" />
+    <result column="manage_level" jdbcType="VARCHAR" property="manageLevel" />
+    <result column="date_begin" jdbcType="DATE" property="dateBegin" />
+    <result column="date_end" jdbcType="DATE" property="dateEnd" />
+    <result column="is_leader" jdbcType="VARCHAR" property="isLeader" />
+    <result column="is_member" jdbcType="VARCHAR" property="isMember" />
+    <result column="is_reserve_cadres" jdbcType="VARCHAR" property="isReserveCadres" />
+    <result column="have_file" jdbcType="VARCHAR" property="haveFile" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="update_id" jdbcType="VARCHAR" property="updateId" />
+    <result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,busi_id, relation_id, name, unit_name, department, position_level, manage_level, date_begin, 
+    date_end, is_leader, is_member, is_reserve_cadres, have_file, remark, create_id, 
+    create_at, update_id, update_at, state
+  </sql>
+  <!-- <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from document_administrative_post
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="saveCurrentAdministrativePost" parameterType="com.paladin.hrms.model.document.AdministrativePost">
+    insert into document_administrative_post (id,busi_id, relation_id, name, 
+      unit_name, department, position_level, 
+      manage_level, date_begin, date_end, 
+      is_leader, is_member, is_reserve_cadres, 
+      have_file, remark, create_id, 
+      create_at, update_id, update_at, 
+      state)
+    values (#{id,jdbcType=VARCHAR},#{busiId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{unitName,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{positionLevel,jdbcType=VARCHAR}, 
+      #{manageLevel,jdbcType=VARCHAR}, #{dateBegin,jdbcType=DATE}, #{dateEnd,jdbcType=DATE}, 
+      #{isLeader,jdbcType=VARCHAR}, #{isMember,jdbcType=VARCHAR}, #{isReserveCadres,jdbcType=VARCHAR}, 
+      #{haveFile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createId,jdbcType=VARCHAR}, 
+      #{createAt,jdbcType=TIMESTAMP}, #{updateId,jdbcType=VARCHAR}, #{updateAt,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.paladin.hrms.model.document.AdministrativePost">
+    insert into document_administrative_post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="busiId != null">
+        busi_id,
+      </if>
+      <if test="relationId != null">
+        relation_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="unitName != null">
+        unit_name,
+      </if>
+      <if test="department != null">
+        department,
+      </if>
+      <if test="positionLevel != null">
+        position_level,
+      </if>
+      <if test="manageLevel != null">
+        manage_level,
+      </if>
+      <if test="dateBegin != null">
+        date_begin,
+      </if>
+      <if test="dateEnd != null">
+        date_end,
+      </if>
+      <if test="isLeader != null">
+        is_leader,
+      </if>
+      <if test="isMember != null">
+        is_member,
+      </if>
+      <if test="isReserveCadres != null">
+        is_reserve_cadres,
+      </if>
+      <if test="haveFile != null">
+        have_file,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createId != null">
+        create_id,
+      </if>
+      <if test="createAt != null">
+        create_at,
+      </if>
+      <if test="updateId != null">
+        update_id,
+      </if>
+      <if test="updateAt != null">
+        update_at,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null">
+        #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="positionLevel != null">
+        #{positionLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="manageLevel != null">
+        #{manageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="dateBegin != null">
+        #{dateBegin,jdbcType=DATE},
+      </if>
+      <if test="dateEnd != null">
+        #{dateEnd,jdbcType=DATE},
+      </if>
+      <if test="isLeader != null">
+        #{isLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="isMember != null">
+        #{isMember,jdbcType=VARCHAR},
+      </if>
+      <if test="isReserveCadres != null">
+        #{isReserveCadres,jdbcType=VARCHAR},
+      </if>
+      <if test="haveFile != null">
+        #{haveFile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.paladin.hrms.model.document.AdministrativePost">
+    update document_administrative_post
+    <set>
+    <if test="busiId != null">
+        busi_id = #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        relation_id = #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null">
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="positionLevel != null">
+        position_level = #{positionLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="manageLevel != null">
+        manage_level = #{manageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="dateBegin != null">
+        date_begin = #{dateBegin,jdbcType=DATE},
+      </if>
+      <if test="dateEnd != null">
+        date_end = #{dateEnd,jdbcType=DATE},
+      </if>
+      <if test="isLeader != null">
+        is_leader = #{isLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="isMember != null">
+        is_member = #{isMember,jdbcType=VARCHAR},
+      </if>
+      <if test="isReserveCadres != null">
+        is_reserve_cadres = #{isReserveCadres,jdbcType=VARCHAR},
+      </if>
+      <if test="haveFile != null">
+        have_file = #{haveFile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        update_at = #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+    and state = '1'
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.paladin.hrms.model.document.AdministrativePost">
+    update document_administrative_post
+    set 
+    busi_id = #{busiId,jdbcType=VARCHAR},
+    relation_id = #{relationId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      position_level = #{positionLevel,jdbcType=VARCHAR},
+      manage_level = #{manageLevel,jdbcType=VARCHAR},
+      date_begin = #{dateBegin,jdbcType=DATE},
+      date_end = #{dateEnd,jdbcType=DATE},
+      is_leader = #{isLeader,jdbcType=VARCHAR},
+      is_member = #{isMember,jdbcType=VARCHAR},
+      is_reserve_cadres = #{isReserveCadres,jdbcType=VARCHAR},
+      have_file = #{haveFile,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_id = #{createId,jdbcType=VARCHAR},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      update_id = #{updateId,jdbcType=VARCHAR},
+      update_at = #{updateAt,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update> -->
+  
+  <insert id="saveCurrentAdministrativePost" parameterType="com.paladin.hrms.model.document.DocumentAdministrativePost">
+    insert into document_administrative_post (id,busi_id, relation_id, name, 
+      unit_name, department, position_level, 
+      manage_level, date_begin, date_end, 
+      is_leader, is_member, is_reserve_cadres, 
+      have_file, remark, create_id, 
+      create_at, update_id, update_at, 
+      state)
+    values (#{id,jdbcType=VARCHAR},#{busiId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{unitName,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{positionLevel,jdbcType=VARCHAR}, 
+      #{manageLevel,jdbcType=VARCHAR}, #{dateBegin,jdbcType=DATE}, #{dateEnd,jdbcType=DATE}, 
+      #{isLeader,jdbcType=VARCHAR}, #{isMember,jdbcType=VARCHAR}, #{isReserveCadres,jdbcType=VARCHAR}, 
+      #{haveFile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createId,jdbcType=VARCHAR}, 
+      #{createAt,jdbcType=TIMESTAMP}, #{updateId,jdbcType=VARCHAR}, #{updateAt,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=VARCHAR})
+  </insert>
+  
+  
+  <!-- 以下代码非自动生成 -->
+  <select id="list" parameterType="map" resultMap="BaseResultMapVO">
+  	select <include refid="Base_Column_List" />
+  	from document_administrative_post
+  	<where>
+		state = '1'
+	  <if test="busiId != null">
+        and busi_id = #{busiId,jdbcType=VARCHAR}
+      </if>
+	  <if test="relationId != null">
+        and relation_id = #{relationId,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="unitName != null">
+        and unit_name = #{unitName,jdbcType=VARCHAR}
+      </if>
+      <if test="department != null">
+        and department = #{department,jdbcType=VARCHAR}
+      </if>
+      <if test="positionLevel != null">
+        and position_level = #{positionLevel,jdbcType=VARCHAR}
+      </if>
+      <if test="manageLevel != null">
+        and manage_level = #{manageLevel,jdbcType=VARCHAR}
+      </if>
+      <if test="dateBegin != null">
+        and date_begin = #{dateBegin,jdbcType=DATE}
+      </if>
+      <if test="dateEnd != null">
+        and date_end = #{dateEnd,jdbcType=DATE}
+      </if>
+      <if test="isLeader != null">
+        and is_leader = #{isLeader,jdbcType=VARCHAR}
+      </if>
+      <if test="isMember != null">
+        and is_member = #{isMember,jdbcType=VARCHAR}
+      </if>
+      <if test="isReserveCadres != null">
+        and is_reserve_cadres = #{isReserveCadres,jdbcType=VARCHAR}
+      </if>
+      <if test="haveFile != null">
+        and have_file = #{haveFile,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="createId != null">
+        and create_id = #{createId,jdbcType=VARCHAR}
+      </if>
+      <if test="createAt != null">
+        and create_at = #{createAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateId != null">
+        and update_id = #{updateId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateAt != null">
+        and update_at = #{updateAt,jdbcType=TIMESTAMP}
+      </if>
+	</where>
+	order by date_begin desc
+	<if test="offset != null and limit != null">
+		limit #{offset}, #{limit}
+	</if>
+  </select>
+  
+
+  
+  <select id="queryByBusiId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+		<include refid="Base_Column_List" />
+		from document_administrative_post
+		where busi_id = #{busiId,jdbcType=VARCHAR}
+		and state = '1'
+  </select>
+
+  <select id="getCurrentAdministrativePost" parameterType="String" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" />
+		from document_administrative_post
+		where state='1'
+		and relation_id=#{id}
+		order by date_begin desc 
+		limit 0,1
+  </select>  
+  
+<select id="queryAdministrativePostByBusiId" parameterType="String" resultMap="BaseResultMap">
+        select
+		<include refid="Base_Column_List" />
+		from document_administrative_post
+		where busi_id = #{busiId,jdbcType=VARCHAR}
+		and state = '1'
+  </select>
+  
+  <update id="deleteAdministrativePost" parameterType="String">
+        update document_administrative_post
+        set state = '99'
+        where busi_id = #{busiId}
+        and state = '1'
+  </update>
+</mapper>

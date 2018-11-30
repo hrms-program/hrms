@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.org.OrgPersonnelYearAssessMapper">
+<select id="checkRepeat" parameterType="map" resultType="com.paladin.hrms.model.org.OrgPersonnelYearAssess">
+	SELECT * FROM org_personnel_year_assess WHERE personnel_id=#{personnelId} AND year=#{year}
+</select>
+</mapper>

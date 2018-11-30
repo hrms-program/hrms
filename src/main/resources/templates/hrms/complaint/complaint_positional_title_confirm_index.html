@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header" />
+
+<body>
+<section class="content-header">
+        <h1>职称变更确认</h1>
+    </section>
+<tt:constant enumcode="sex,positional-level-level,positional-status,boolean"/>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-search"></i>
+                <h3 class="box-title">查询</h3>
+            </div>
+            <div class="box-body">
+                <form id="searchbar" class="form-horizontal">
+                    <div class="form-group">
+                            <label for="name" style="width:130px" class="col-md-1 control-label">姓名</label>
+                            <div class="col-md-2">
+                                <input type="text" name="name" class="form-control"  placeholder="请输入姓名"  th:value="${query?.name}" />
+                            </div>
+                        <label for="name" style="width:130px" class="col-md-1 control-label">请输入机构名称</label>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <input type="text" name="agencyName" class="form-control tonto-agency" placeholder="请输入机构名称" th:value="${query?.agencyName}">
+                            <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
+                            <div class="input-group-btn">
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                            </div>
+                        </div>
+                    </div>                     
+                    </div>
+                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                    <input type="text" style="display:none">
+                </form>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default"  onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
+                    </div>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+        </div>
+        <div class="box box-solid" style="margin-top:20px">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+            </div>
+            <div id="result" class="box-body">
+                <table id="dataGrid"></table>
+                <div id="toolbar">
+                    <!-- <div class="btn-group">
+                        <a onclick="apply()" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>申请</a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function() {
+        initDataGrid();
+    });
+
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [
+					{ title: "姓名", field: "name" },
+					{ title: "姓别", field: "sex",enumcode: "sex" },
+					{ title: "所在机构", field: "agencyName"},
+					{ title: "原职称名称", field: "positionalTitleName"},
+					{ title: "原职称级别", field: "positionalLevelLevel" ,enumcode: "positional-level-level"},
+					{ title: "原获得时间", field: "positionalTitleTime" , formatter: "date"},
+					{ title: "新职称名称", field: "newPositionalTitleName"},
+					{ title: "新职称级别", field: "newPositionalLevelLevel",enumcode: "positional-level-level" },
+					{ title: "新获得时间", field: "newPositionalTitleTime" , formatter: "date"},
+					{ title: "操作", 
+					  align: "center",
+					  formatter: function transferFormatter(value, row, index) {
+                          return "<a class='agree' href='javascript:void(0);'><i class='glyphicon glyphicon-ok-sign'></i>通过</a>"+
+                          "<a class='disagree' href='javascript:void(0);'><i class='glyphicon glyphicon-remove-sign'></i>不通过</a>";
+                      },
+                      events: {
+                          'click .agree': function(e, value, row, index) {
+                          	isAgree(2,row.id);
+                          },
+                          'click .disagree': function(e, value, row, index) {
+                          	isAgree(3,row.id);
+                          }
+                      },
+					}
+				]
+            ],
+            url: '/hrms/complaint/positional/find/',
+            searchbar: '#searchbar',
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            clickToSelect: true,
+            toolbar: "#toolbar",
+            showRefresh: true
+        });
+    }
+
+    
+/* 	function isAgree(id) {
+		 window.location="/hrms/complaint/positional/confirm/view?id="+id;
+	} */
+
+	function isAgree(status,id) {
+		 window.location="/hrms/complaint/positional/confirm/edit?id="+id+"&status="+status;
+	}
+
+    function getSelectRow(notShowError) {
+        var rows = table.getSelections();
+        var row = rows.length > 0 ? rows[0] : null;
+        if (!notShowError && !row) {
+            $.errorMessage("请选中一条业务数据");
+        }
+        return row;
+    }
+    /*]]>*/
+    </script>
+</body>
+
+</html>

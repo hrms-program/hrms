@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.report.ReportPersonnelInforMapper">
+            <select id="searchTableList" parameterType="com.paladin.hrms.controller.report.pojo.ReportPersonnelInforQuery" 
+                resultType="com.paladin.hrms.controller.report.pojo.ReportPersonnelInforDTO">
+                select identification_no as identificationNo,name,
+                	report_time as reportTime,report_user as reportUser,
+                	case basic_infor_status when 1 then '规范' else '不规范' end as basicInforStatus,
+                	case working_infor_status when 1 then '规范' else '不规范' end as workingInforStatus,
+                	case license_infor_status when 1 then '规范' else '不规范' end as licenseInforStatus,
+                	case education_infor_status when 1 then '规范' else '不规范' end as educationInforStatus
+                	from v_report_personnel_infor per
+                	<where>
+                		<if test="name != null and name != ''">
+							and per.name=#{name}
+						</if>
+						<if test="agencyId != null and agencyId != ''">
+							and per.agency_id=#{agencyId}
+						</if>
+                	</where> 
+               <!--  SELECT per.identification_no as identificationNo,per.name,
+                	i.report_time as reportTime,i.report_user as reportUser,
+                	基本信息:开始工作时间
+                	case when per.start_work_time is not null
+                		then '规范' else '不规范' end as basicInforStatus,
+                	工作经历：单位，地点，开始时间必填  
+                	 and 工作信息：工号，所在科室，专业技术职务，专业技术聘用时间，专业技术职务聘用岗位
+                	case when count(case when length(workExp.work_unit)>0 then 1 else null end)
+							+count(case when length(workExp.work_place)>0 then 1 else null end)
+							+count(case when length(workExp.work_start_time)>0 then 1 else null end) = count(workExp.id)*3 
+						and count(workExp.id)>0
+						and count(case when length(job.employee_no)>0 then 1 else null end)
+							+count(case when length(job.dept)>0 then 1 else null end)
+							+count(case when length(job.tech_post)>0 then 1 else null end)
+							+count(case when length(job.employ_date)>0 then 1 else null end)
+							+count(case when length(job.employ_post)>0 then 1 else null end)=count(job.id)*5
+						and count(job.id)>0
+					then '规范' else '不规范' end as workingInforStatus,
+					如果是医师类：医师资格证书编号，医师执业证书编号，执业地点， 执业注册时间，医师执业类别，医生执业范围必填
+						乡村医生类：乡村医生执业证书必填，其它类型无限制
+					case when LENGTH(pp.personnel_type)=0 
+							or LENGTH(pp.personnel_type) is null
+							then '不规范'
+						 when pp.personnel_type=1 
+							and LENGTH(pp.doc_cert_code)>0
+							and LENGTH(pp.doc_qualification_code)>0
+							and LENGTH(pp.practice_address)>0
+							and LENGTH(pp.registration_date) >0
+							and length(pp.practice_category)>0
+							and length(pp.practice_scope)>0
+							then '规范'
+						when pp.personnel_type=2
+							and LENGTH(vdoc_cert_code)>0
+						then '规范' else '规范' end as licenseInforStatus,
+                	教育经历：学历，学位，所学专业必填（3项）
+                	case when count(case when length(edu.education)>0 then 1 else null end)
+    						+count(case when length(edu.academic_degree)>0 then 1 else null end)
+      						+count(case when length(edu.major)>0 then 1 else null end)= count(edu.id)*3 
+      					and count(edu.id)>0
+      				then '规范' else '不规范' end as educationInforStatus
+				from org_personnel per
+				left join report_personnel_infor i on per.id=i.personnel_id and i.report_state='1' and i.is_delete=0
+				left join org_personnel_work_experience workExp on per.id=workExp.personnel_id
+				left join org_personnel_job job on per.id=job.id
+				left join org_personnel_practice pp on per.id=pp.id 
+				left join org_personnel_education edu on per.id=edu.personnel_id
+				where per.is_delete=0
+				<if test="name != null and name != ''">
+					and per.name=#{name}
+				</if>
+				<if test="agencyId != null and agencyId != ''">
+					and per.agency_id=#{agencyId}
+				</if>
+				GROUP BY per.id  -->
+            </select>
+            
+            
+</mapper>

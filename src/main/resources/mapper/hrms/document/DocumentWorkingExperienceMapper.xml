@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.document.DocumentWorkingExperienceMapper">
+  <resultMap id="BaseResultMap" type="com.paladin.hrms.model.document.DocumentWorkingExperience">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="busi_id" jdbcType="VARCHAR" property="busiId" />
+    <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="date_begin" jdbcType="DATE" property="dateBegin" />
+    <result column="date_end" jdbcType="DATE" property="dateEnd" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="is_leader" jdbcType="VARCHAR" property="isLeader" />
+    <result column="is_member" jdbcType="VARCHAR" property="isMember" />
+    <result column="is_reserve_cadres" jdbcType="VARCHAR" property="isReserveCadres" />
+    <result column="have_file" jdbcType="VARCHAR" property="haveFile" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="update_id" jdbcType="VARCHAR" property="updateId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+   <resultMap id="BaseResultMapVO" type="com.paladin.hrms.controller.document.pojo.DocumentWorkingExperienceVO">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="busi_id" jdbcType="VARCHAR" property="busiId" />
+    <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="date_begin" jdbcType="DATE" property="dateBegin" />
+    <result column="date_end" jdbcType="DATE" property="dateEnd" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="is_leader" jdbcType="VARCHAR" property="isLeader" />
+    <result column="is_member" jdbcType="VARCHAR" property="isMember" />
+    <result column="is_reserve_cadres" jdbcType="VARCHAR" property="isReserveCadres" />
+    <result column="have_file" jdbcType="VARCHAR" property="haveFile" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="update_id" jdbcType="VARCHAR" property="updateId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, busi_id, relation_id, date_begin, date_end, unit, position, is_leader, is_member, is_reserve_cadres, have_file,
+    create_at,create_id, update_at,update_id, remark, state
+  </sql>
+ <!--  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from document_working_experience
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.paladin.hrms.model.document.WorkingExperience">
+    insert into document_working_experience (id, busi_id, relation_id, date_begin, 
+      date_end, unit, position, 
+      is_leader, is_member, is_reserve_cadres, have_file,
+      create_at,create_id, update_at,update_id, remark, 
+      state)
+    values (#{id,jdbcType=VARCHAR}, #{busiId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{dateBegin,jdbcType=DATE}, 
+      #{dateEnd,jdbcType=DATE}, #{unit,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, 
+      #{isLeader,jdbcType=VARCHAR}, #{isMember,jdbcType=VARCHAR}, #{isReserveCadres,jdbcType=VARCHAR}, #{haveFile,jdbcType=VARCHAR}, 
+      #{createAt,jdbcType=TIMESTAMP}, #{createId,jdbcType=VARCHAR}, #{updateAt,jdbcType=TIMESTAMP},#{updateId,jdbcType=VARCHAR},  #{remark,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.paladin.hrms.model.document.WorkingExperience">
+    insert into document_working_experience
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="busiId != null">
+        busi_id,
+      </if>
+      <if test="relationId != null">
+        relation_id,
+      </if>
+      <if test="dateBegin != null">
+        date_begin,
+      </if>
+      <if test="dateEnd != null">
+        date_end,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="isLeader != null">
+        is_leader,
+      </if>
+      <if test="isMember != null">
+        is_member,
+      </if>
+      <if test="isReserveCadres != null">
+        is_reserve_cadres,
+      </if>
+      <if test="haveFile != null">
+        have_file,
+      </if>
+      <if test="createAt != null">
+        create_at,
+      </if>
+      <if test="createId != null">
+        create_id,
+      </if>
+      <if test="updateAt != null">
+        update_at,
+      </if>
+      <if test="updateId != null">
+        update_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null">
+        #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="dateBegin != null">
+        #{dateBegin,jdbcType=DATE},
+      </if>
+      <if test="dateEnd != null">
+        #{dateEnd,jdbcType=DATE},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeader != null">
+        #{isLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="isMember != null">
+        #{isMember,jdbcType=VARCHAR},
+      </if>
+      <if test="isReserveCadres != null">
+        #{isReserveCadres,jdbcType=VARCHAR},
+      </if>
+       <if test="haveFile != null">
+        #{haveFile,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null">
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+       <if test="updateId != null">
+        #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.paladin.hrms.model.document.WorkingExperience">
+    update document_working_experience
+    <set>
+      <if test="busiId != null">
+        busi_id = #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        relation_id = #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="dateBegin != null">
+        date_begin = #{dateBegin,jdbcType=DATE},
+      </if>
+      <if test="dateEnd != null">
+        date_end = #{dateEnd,jdbcType=DATE},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeader != null">
+        is_leader = #{isLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="isMember != null">
+        is_member = #{isMember,jdbcType=VARCHAR},
+      </if>
+      <if test="isReserveCadres != null">
+        is_reserve_cadres = #{isReserveCadres,jdbcType=VARCHAR},
+      </if>
+      <if test="haveFile != null">
+        have_file = #{haveFile,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        update_at = #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.paladin.hrms.model.document.WorkingExperience">
+    update document_working_experience
+    set  busi_id = #{busiId,jdbcType=VARCHAR},
+      relation_id = #{relationId,jdbcType=VARCHAR},
+      date_begin = #{dateBegin,jdbcType=DATE},
+      date_end = #{dateEnd,jdbcType=DATE},
+      unit = #{unit,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      is_leader = #{isLeader,jdbcType=VARCHAR},
+      is_member = #{isMember,jdbcType=VARCHAR},
+      is_reserve_cadres = #{isReserveCadres,jdbcType=VARCHAR},
+      have_file = #{haveFile,jdbcType=VARCHAR},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      create_id = #{createId,jdbcType=VARCHAR},
+      update_at = #{updateAt,jdbcType=TIMESTAMP},
+      update_id = #{updateId,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update> -->
+  
+  <!-- 以下代码非自动生成 -->
+  <select id="list" parameterType="map" resultMap="BaseResultMapVO">
+  	select <include refid="Base_Column_List" />
+  	from document_working_experience
+  	<where>
+		state = '1'
+	  <if test="busiId != null">
+        and busi_id = #{busiId,jdbcType=VARCHAR}
+      </if>
+	  <if test="relationId != null">
+        and relation_id = #{relationId,jdbcType=VARCHAR}
+      </if>
+      <if test="dateBegin != null">
+        and date_begin = #{dateBegin,jdbcType=DATE}
+      </if>
+      <if test="dateEnd != null">
+        and date_end = #{dateEnd,jdbcType=DATE}
+      </if>
+      <if test="unit != null">
+        and unit = #{unit,jdbcType=VARCHAR}
+      </if>
+      <if test="position != null">
+        and position = #{position,jdbcType=VARCHAR}
+      </if>
+      <if test="isLeader != null">
+        and is_leader = #{isLeader,jdbcType=VARCHAR}
+      </if>
+      <if test="isMember != null">
+        and is_member = #{isMember,jdbcType=VARCHAR}
+      </if>
+      <if test="isReserveCadres != null">
+        and is_reserve_cadres = #{isReserveCadres,jdbcType=VARCHAR}
+      </if>
+      <if test="haveFile != null">
+        and have_file = #{haveFile,jdbcType=VARCHAR}
+      </if>
+      <if test="createAt != null">
+        and create_at = #{createAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createId != null">
+        and create_id = #{createId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateAt != null">
+        and update_at = #{updateAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateId != null">
+        and update_id = #{updateId,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+	</where>
+	<choose>
+		<when test="sort != null and sort.trim() != ''">
+			order by ${sort} ${order}
+		</when>
+		<otherwise>
+			order by id desc
+		</otherwise>
+	</choose>
+	<if test="offset != null and limit != null">
+		limit #{offset}, #{limit}
+	</if>
+  </select>
+  
+  <select id="queryWorkingExperienceByBusiId" parameterType="String" resultMap="BaseResultMap">
+        select
+		<include refid="Base_Column_List" />
+		from document_working_experience
+		where busi_id = #{busiId,jdbcType=VARCHAR}
+		and state = '1'
+  </select>
+  
+  <update id="deleteWorkingExperience" parameterType="String">
+        update document_working_experience
+        set state = '99'
+        where busi_id = #{busiId}
+        and state = '1'
+  </update>
+</mapper>

@@ -1,0 +1,91 @@
+@media(min-width:992px) and (max-width:1199px) {
+	#home_form_add label.col-md-2 {
+	    width: 25%;
+	}
+	
+	#residing-overseas {
+	    width: 30.8%;
+	}
+	
+	.file-header {
+	    width: 950px;
+	}
+}
+
+
+@media(max-width:991px){
+	#home_form_add label.col-md-2 {
+	    width: 32%;
+	}
+	.residing-col label {
+	    width: 68%;
+	}
+	.file-header {
+	    width: auto;
+        height: auto;
+    	overflow: hidden;
+    }
+    .page-title .name{
+    	position: relative;
+    	left: 0;
+    	top: 10px;
+    	z-index: 1;
+    }
+    #anchor-point{
+	    position: relative;
+        right: 0;
+	}
+	#anchor-point .top-fifty {
+	    top: 48px;
+	}
+	#anchor-point ul li {
+    	width: 90px;
+    }
+    #anchor-point ul li:nth-child(1) {
+	    left: 280px;
+	}
+	#anchor-point ul li:nth-child(2) {
+	    left: 380px;
+	}
+	#anchor-point ul li:nth-child(3) {
+	    left: 480px;
+	}
+	#anchor-point ul li:nth-child(4) {
+	    left: 580px;
+	}
+	#anchor-point ul li:nth-child(6) {
+	    left: 100px;
+	}
+	#anchor-point ul li:nth-child(7) {
+	    left: 200px;
+	}
+	#anchor-point ul li:nth-child(8) {
+	    left: 300px;	
+	}
+	#anchor-point ul li:nth-child(9) {
+	    left: 400px;
+	}
+	#anchor-point ul li:nth-child(10) {
+	    left: 500px;
+	}
+	#anchor-point ul li:nth-child(11) {
+    	left: 600px;
+    }
+    
+    .icon-wrap,.wicon-wrap,.aicon-wrap {
+	    padding-top: 1rem;
+        padding-bottom: 2rem;
+	}
+	
+	.infos .col-md-8, #workinfo-content .col-md-9 {
+	    border-left: none;
+	}
+	
+	.td-upload {
+	    padding-left: 1rem !important;
+	}
+		
+	.form_add {
+	    padding: 5rem 0 4rem 0;
+	}
+}

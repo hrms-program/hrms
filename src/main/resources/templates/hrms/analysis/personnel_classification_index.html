@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="hrms/header" />
+
+<body>
+    <section class="content-header">
+        <h1>人员分类实时统计</h1>
+    </section>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-search"></i>
+                <h3 class="box-title">查询</h3>
+            </div>
+            <div class="box-body">
+                <form id="searchbar" class="form-horizontal">
+                    <label for="agencyName" class="col-md-1 control-label">机构名称</label>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <input type="text" name="agencyName" class="form-control tonto-agency" th:value="${query?.agencyName}">
+                            <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
+                            <div class="input-group-btn">
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                    <input type="text" style="display:none">
+                </form>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
+                    </div>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+        </div>
+        <div class="box box-solid" style="margin-top:20px">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+            <div id="result" class="box-body">
+                <div id="table1">
+                    <table id="dataGrid"></table>
+                    <div id="toolbar">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript" src="/static/assets/echarts/echarts.common.min.js"></script>
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    var districtData;
+    $(function() {
+        $.getAjax("/hrms/analysis/personnel/classification/find/district", initDataGrid);
+    });
+
+
+    function initDataGrid(data) {
+        districtData = data;
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [{
+                        title: "机构名称",
+                        align: "center",
+                        valign: 'middle',
+                        rowspan: 2,
+                        formatter: function(index, row) {
+                            return '<a class="chart" href="javascript:void(0);">' + row.agencyName + '</a>';
+                        },
+                        footerFormatter: function() { return '<a href="javascript:showTotalChart();">全区总计</a>'; }
+                    },
+                    { title: "合计", align: "center", field: "total", rowspan: 2, rowspan: 2, footerFormatter: function() { return data.total + "" } },
+                    { title: "医师", align: "center", colspan: 3 },
+                    { title: "护师", align: "center", field: "hs", rowspan: 2, footerFormatter: function() { return data.hs + "" } },
+                    { title: "乡村医生", align: "center", field: "xcys", rowspan: 2, footerFormatter: function() { return data.xcys + "" } },
+                    { title: "药师", align: "center", field: "yaos", rowspan: 2, footerFormatter: function() { return data.yaos + "" } },
+                    { title: "技师", align: "center", colspan: 2 },
+                    { title: "管理", align: "center", field: "gl", rowspan: 2, footerFormatter: function() { return data.gl + "" } },
+                    { title: "工勤", align: "center", field: "gq", rowspan: 2, footerFormatter: function() { return data.gq + "" } },
+                    { title: "其他", align: "center", colspan: 2 }
+
+                ],
+                [
+                    { title: "小计", align: "center", field: "ys", footerFormatter: function() { return data.ys + "" } },
+                    { title: "执业医师（助理）", align: "center", field: "zyys", footerFormatter: function() { return data.zyys + "" } },
+                    { title: "全科医生", align: "center", field: "qkys", footerFormatter: function() { return data.qkys + "" } },
+                    { title: "小计", align: "center", field: "js", footerFormatter: function() { return data.js + "" } },
+                    { title: "检验师", align: "center", field: "jys", footerFormatter: function() { return data.jys + "" } },
+                    { title: "小计", align: "center", field: "qt", footerFormatter: function() { return data.qt + "" } },
+                    { title: "见习医师", align: "center", field: "jxys", footerFormatter: function() { return data.jxys + "" } },
+                ]
+            ],
+            onClickRow: showChart,
+            url: '/hrms/analysis/personnel/classification/find/agency',
+            searchbar: '#searchbar',
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            toolbar: "#toolbar",
+            showFooter: true,
+            showRefresh: true
+        });
+    }
+
+    function showTotalChart() {
+        showChart(districtData);
+    }
+
+    function showChart(row) {
+        var data1 = [
+            { value: row.ys, name: "医师" },
+            { value: row.hs, name: "护师" },
+            { value: row.xcys, name: "乡村医生" },
+            { value: row.ys, name: "药师" },
+            { value: row.js, name: "技师" },
+            { value: row.gl, name: "管理" },
+            { value: row.gq, name: "工勤" },
+            { value: row.qt, name: "其他人员" }
+        ];
+
+        var data2 = [
+            { value: row.zyys, name: "执业医师（助理）" },
+            { value: row.qkys, name: "全科医生" },
+            { value: row.ys - row.zyys - row.qkys, name: "其他医师" },
+            { value: row.hs, name: "护师" },
+            { value: row.xcys, name: "乡村医生" },
+            { value: row.ys, name: "药师" },
+            { value: row.jys, name: "检验师" },
+            { value: row.js - row.jys, name: "其他技师" },
+            { value: row.gl, name: "管理" },
+            { value: row.gq, name: "工勤" },
+            { value: row.jxys, name: "见习医师" },
+            { value: row.qt - row.jxys, name: "其他" }
+        ];
+
+        layer.open({
+            type: 1,
+            title: '',
+            maxmin: true, //开启最大化最小化按钮
+            area: $.getOpenLayerSize(900, 750),
+            content: '<div style="padding:10px;"><div id="chartDiv" style="width: 880px;height: 730px;"></div></div>',
+            success: function() {
+                var myChart = echarts.init(document.getElementById('chartDiv'));
+                option.series[0].data = data1;
+                option.series[1].data = data2;
+                myChart.setOption(option);
+            }
+        });
+    }
+
+    var option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            // orient: 'vertical',
+            // x: 'left',
+            bottom: 10,
+            left: 'center',
+            data: ["医师", "执业医师（助理）", "全科医生", "其他医师", "护师", "乡村医生", "药师", "技师", "检验师", "其他技师", "管理", "工勤", "其他人员", "见习医师", "其他"]
+        },
+        series: [{
+                name: '人员分布',
+                type: 'pie',
+                selectedMode: 'single',
+                radius: [0, '30%'],
+
+                label: {
+                    normal: {
+                        position: 'inner'
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data: null
+            },
+            {
+                name: '人员分布',
+                type: 'pie',
+                radius: ['40%', '55%'],
+                label: {
+                    normal: {
+                        formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                        backgroundColor: '#eee',
+                        borderColor: '#aaa',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        // shadowBlur:3,
+                        // shadowOffsetX: 2,
+                        // shadowOffsetY: 2,
+                        // shadowColor: '#999',
+                        // padding: [0, 7],
+                        rich: {
+                            a: {
+                                color: '#999',
+                                lineHeight: 22,
+                                align: 'center'
+                            },
+                            // abg: {
+                            //     backgroundColor: '#333',
+                            //     width: '100%',
+                            //     align: 'right',
+                            //     height: 22,
+                            //     borderRadius: [4, 4, 0, 0]
+                            // },
+                            hr: {
+                                borderColor: '#aaa',
+                                width: '100%',
+                                borderWidth: 0.5,
+                                height: 0
+                            },
+                            b: {
+                                fontSize: 16,
+                                lineHeight: 33
+                            },
+                            per: {
+                                color: '#eee',
+                                backgroundColor: '#334455',
+                                padding: [2, 4],
+                                borderRadius: 2
+                            }
+                        }
+                    }
+                },
+                data: null
+            }
+        ]
+    };
+
+
+    /*]]>*/
+    </script>
+</body>
+
+</html>

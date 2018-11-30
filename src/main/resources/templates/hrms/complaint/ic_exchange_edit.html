@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header" />
+
+<body>
+<tt:constant enumcode="sex,personnel-status,boolean"/>
+	<section class="content">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<i class="fa fa-list-alt"></i> 
+				<span>
+					<h3 class="box-title">
+						身份证置换 
+					</h3>
+					(处理两类问题：1.两个人身份证错误需互相交换！2.系统内一个人有多个身份证，只有一个基本信息是正确的！)
+				</span>
+				<div class="pull-right box-tools">
+					<a class="btn btn-default btn-sm" href="/hrms/complaint/ic/exchange/index">
+						<i class="fa fa-times"></i>
+					</a>
+				</div>
+			</div>
+			<div class="box-body">
+				<form id="myForm"  class="form-horizontal" action="/hrms/complaint/ic/exchange/save"  onsubmit="return check();" method="post">
+					<input type="hidden" name="operate" th:value="${bOperate}"/> 
+					<div class="form-group">
+					       <label for="initiateIc" style="width:174px;" class="col-sm-4 control-label">请输入发起人身份证号</label>
+                            <div class="col-sm-2">
+                                <input type="text" id="iInitiateIc" name="initiateIc" class="form-control"  required="required" placeholder="需为管理范围内人员"  onblur="search(this,'old');"/>
+                            </div>
+					</div>
+					<br>
+					<table id="table1"></table>
+                    <br>
+					<div class="form-group">
+						 <label for="forExchangeIc" style="width:174px" class="col-sm-4 control-label">请输入待置换身份证号</label>
+	                     <div class="col-sm-2">
+	                          <input type="text"  id="iForExchangeIc" name="forExchangeIc" class="form-control" required="required" placeholder="请输入待置换身份证号"  onblur="search(this,'now');"/>
+	                     </div>
+					</div>
+					<br>
+					<table id="table2"></table>
+					<br>
+                    <div class="form-group">
+                        <div class="col-sm-offset-5 col-sm-10">
+                            <button  type="submit"  class="btn btn-primary" title="提交">提交</button>
+                            <a  href="javascript:window.history.go(-1)"  class="btn btn-primary" title="返回">返回</a>
+                        </div>
+                    </div>
+					
+			     </form>
+			</div>
+		</div>
+	</section>
+	<div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+
+    var table1;
+    var table2;
+    $(document).ready(function(){
+    	table1 = $.createTable("#table1", {
+            idField: "id",
+            columns: [
+                [
+                    { title: "姓名", field: "name" },
+                    { title: "性别", field: "sex", sortable: true, enumcode:"sex" },
+                    { title: "身份证号", field: "identificationNo" },
+                    { title: "所属机构", field: "agencyName" },
+                    { title: "人员状态", field: "status",sortable: true, enumcode:"personnel-status"}
+                ]
+            ],
+            url: '/hrms/complaint/ic/exchange/validate',
+            queryParams:function(){
+                return {
+                    idcard:$("#iInitiateIc").val()
+                }
+            },
+            pagination: false,
+        });
+    });
+    
+    $(document).ready(function(){
+        table2 = $.createTable("#table2", {
+            idField: "id",
+            columns: [
+                [
+                    { title: "姓名", field: "name" },
+                    { title: "性别", field: "sex", sortable: true, enumcode:"sex" },
+                    { title: "身份证号", field: "identificationNo" },
+                    { title: "所属机构", field: "agencyName" },
+                    { title: "人员状态", field: "status",sortable: true, enumcode:"personnel-status" }
+                ]
+            ],
+            url: '/hrms/complaint/ic/exchange/validate',
+            queryParams:function(){
+                return {
+                    idcard:$("#iForExchangeIc").val()
+                }
+            },
+            pagination: false,
+        });
+    });
+    
+    //第一次从input获取到的身份证号
+    var  first_initiateIc;
+    var  first_forExchangeIc;
+    function search(ah,flag){
+    	if(flag == 'old' ){
+    		if(first_initiateIc !=$("#iInitiateIc").val()){
+    			table1.refresh();
+    			first_initiateIc=$("#iInitiateIc").val();
+    		}
+    	}else if(flag == 'now'){
+    		if(first_forExchangeIc !=$('#iForExchangeIc').val()){
+    			table2.refresh();
+    			first_forExchangeIc = $('#iForExchangeIc').val();
+    		}
+    	}
+    }
+
+	function check(){
+		if($("#iInitiateIc").val() == $("#iForExchangeIc").val()){
+			layer.msg('两身份证号不能相同！');
+			return false;
+		}else if(table1.data == null || table1.data == ''){
+	         layer.msg('发起人身份证号不在系统范围内！');
+	            return false;
+		}else if(table2.data == null || table2.data == ''){
+            layer.msg('待置换身份证号不在系统范围内！');
+            return false;
+        }else{
+			return true;
+		}
+	}
+    </script>
+</body>
+
+</html>

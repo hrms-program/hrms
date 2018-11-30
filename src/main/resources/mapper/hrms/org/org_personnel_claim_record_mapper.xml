@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.org.OrgPersonnelClaimRecordMapper">
+    <select id="findAllPeople" resultType="com.paladin.hrms.model.org.OrgPersonnelClaimDetail">
+        SELECT
+        personnel.id AS id,
+        personnel.identification_no AS identificationNo,
+        personnel.`name` AS `name`,
+        personnel.sex AS sex,
+        personnel.agency_id AS agencyId,
+        personnel.agency_name AS agencyName,
+        job.major AS major
+        FROM
+          org_personnel AS personnel
+          LEFT JOIN org_personnel_job AS job
+            ON personnel.`id` = job.`id`
+        WHERE 1=1
+          <if test="query.agencyName != null and query.agencyName != ''">
+              AND personnel.`name` LIKE CONCAT('%',#{query.name},'%')
+          </if>
+          <if test="query.identificationNo != null and query.identificationNo != ''">
+              AND personnel.`identification_no` LIKE CONCAT('%',#{query.identificationNo},'%')
+          </if>
+          <if test="query.agencyName != null and query.agencyName != ''">
+              AND personnel.`agency_name` LIKE CONCAT('%',#{query.agencyName},'%')
+          </if>
+        <if test="query.name != null and query.name != ''">
+            AND personnel.`name` LIKE CONCAT('%',#{query.name},'%')
+        </if>
+          <if test="query.major != null">
+              AND job.`major` =#{query.major}
+          </if>
+          <if test="query.majors != null">
+              AND job.`major` IN
+                <foreach collection="query.majors" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+          </if>
+          <if test="query.sex != null">
+              AND personnel.`sex` =#{query.sex}
+          </if>
+          <if test="status != null and status.size!=0">
+              AND personnel.`status` IN
+                <foreach collection="status" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+          </if>
+          
+          <if test="permission.cityCode!=null">
+              AND personnel.city_code =#{permission.cityCode}
+          </if>
+          <if test="permission.cityCodes!=null">
+              AND personnel.city_code IN
+              <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+          </if>
+          <if test="permission.townCode!=null">
+              AND personnel.town_code =#{permission.townCode}
+          </if>
+          <if test="permission.townCodes!=null">
+              AND personnel.town_code IN
+              <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+          </if>
+          <if test="permission.districtCode!=null">
+              AND personnel.district_code =#{permission.districtCode}
+          </if>
+          <if test="permission.districtCodes!=null">
+              AND personnel.district_code IN
+              <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+          </if>
+          <if test="permission.agencyId!=null">
+              AND personnel.agency_id =#{permission.agencyId}
+          </if>
+          <if test="permission.agencyIds!=null">
+              AND personnel.agency_id IN
+              <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+          </if>
+    </select>
+</mapper>

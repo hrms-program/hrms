@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="hrms/header" />
+
+<body>
+    <section class="content-header">
+        <h1>人员信息完整度评分</h1>
+    </section>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-search"></i>
+                <h3 class="box-title">查询</h3>
+            </div>
+            <div class="box-body">
+                <form id="searchbar" class="form-horizontal">
+                    <div id="agencySearchbar" class="form-group">
+                        <label for="agencyName" class="col-md-1 control-label">机构名称</label>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <input type="text" name="agencyName" class="form-control tonto-agency" th:value="${query?.agencyName}">
+                                <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
+                                <div class="input-group-btn">
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="personnelSearchbar" style="display: none" class="form-group">
+                        <label for="personnelName" class="col-md-1 control-label">姓名</label>
+                        <div class="col-md-2">
+                            <input type="text" id="personnelName" name="personnelName" class="form-control">
+                        </div>
+                    </div>
+                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                    <input type="text" style="display:none">
+                </form>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="reset()"><i class="fa fa-repeat"></i>重置</button>
+                    </div>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+        </div>
+        <div class="box box-solid" style="margin-top:20px">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+                <div class="box-tools pull-right">
+                    <a class="btn" id="back_btn" href="javascript:showAgency()" style="display: none"><i class="fa fa-reply"></i>返回</a>
+                </div>
+            </div>
+            <div id="result" class="box-body">
+                <div id="table1">
+                    <table id="dataGrid"></table>
+                    <div id="toolbar">
+                    </div>
+                </div>
+                <div id="table2">
+                    <table id="dataGrid2"></table>
+                    <div id="toolbar2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    var table2;
+    var selectedAgencyId;
+    var isAgency = true;
+
+    $(function() {
+        initDataGrid1();
+    });
+
+    function initDataGrid1() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [{
+                        title: "机构名称",
+                        align: "center",
+                        formatter: function(value, row, index) {
+                            return '<a href="javascript:showPersonnel(\'' + row.agencyId + '\')">' + row.agencyName + '</a>';
+                        }
+                    },
+                    { title: "基本信息", align: "center", field: "baseScore" },
+                    { title: "工作信息", align: "center", field: "jobScore" },
+                    { title: "执业信息", align: "center", field: "practiceScore" },
+                    { title: "教育背景", align: "center", field: "educationScore" },
+                    { title: "工作背景", align: "center", field: "workExperienceScore" },
+                    { title: "职称背景", align: "center", field: "positionalInfoScore" },
+                    { title: "科教背景", align: "center", field: "scienceEducationScore" },
+                    { title: "奖励背景", align: "center", field: "rewardInfoScore" },
+                    { title: "培训背景", align: "center", field: "cultivateScore" },
+                    { title: "年度考核", align: "center", field: "yearAssessScore" },
+                    {
+                        title: "汇总",
+                        align: "center",
+                        field: "sumScore",
+                        formatter: function(value, row, index) {
+                            if (value) {
+                                if (value > 90) {
+                                    return '<span class="label label-success">' + value + '</span>';
+                                } else if (value > 60) {
+                                    return '<span class="label label-info">' + value + '</span>';
+                                } else if (value > 30) {
+                                    return '<span class="label label-warning">' + value + '</span>';
+                                }
+                            }
+                            return '<span class="label label-danger">' + value + '</span>';
+                        }
+                    }
+                ]
+            ],
+            onDblClickRow: function(row) {
+                showPersonnel(row.agencyId);
+            },
+            url: '/hrms/analysis/agency/data/score/find',
+            searchbar: '#searchbar',
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            toolbar: "#toolbar",
+            showRefresh: true
+        });
+    }
+
+    function showAgency() {
+        $("#table2").hide();
+        $("#table1").show();
+        $("#personnelSearchbar").hide();
+        $("#agencySearchbar").show();
+        $("#personnelName").val("");
+        $("#back_btn").hide();
+        isAgency = true;
+    }
+
+    function showPersonnel(agencyId) {
+        $("#table1").hide();
+        $("#table2").show();
+        $("#agencySearchbar").hide();
+        $("#personnelSearchbar").show();
+        $("#back_btn").show();
+        selectedAgencyId = agencyId;
+        isAgency = false;
+        initDataGrid2();
+    }
+
+    function refresh() {
+        if (isAgency) {
+            table.refresh();
+        } else {
+            table2.refresh();
+        }
+    }
+
+    function reset() {
+        if (isAgency) {
+            $('form')[0].reset();
+        } else {
+            $('form')[0].reset();
+        }
+    }
+
+    function initDataGrid2() {
+        if (table2) {
+            table2.refresh();
+        } else {
+            table2 = $.createTable("#dataGrid2", {
+                idField: "id",
+                columns: [
+                    [
+                        { title: "人员姓名", align: "center", field: "personnelName" },
+                        { title: "机构名称", align: "center", field: "agencyName" },
+                        { title: "基本信息", align: "center", field: "baseScore" },
+                        { title: "工作信息", align: "center", field: "jobScore" },
+                        { title: "执业信息", align: "center", field: "practiceScore" },
+                        { title: "教育背景", align: "center", field: "educationScore" },
+                        { title: "工作背景", align: "center", field: "workExperienceScore" },
+                        { title: "职称背景", align: "center", field: "positionalInfoScore" },
+                        { title: "科教背景", align: "center", field: "scienceEducationScore" },
+                        { title: "奖励背景", align: "center", field: "rewardInfoScore" },
+                        { title: "培训背景", align: "center", field: "cultivateScore" },
+                        { title: "年度考核", align: "center", field: "yearAssessScore" },
+                        {
+                            title: "汇总",
+                            align: "center",
+                            field: "sumScore",
+                            formatter: function(value, row, index) {
+                                if (value) {
+                                    if (value > 90) {
+                                        return '<span class="label label-success">' + value + '</span>';
+                                    } else if (value > 60) {
+                                        return '<span class="label label-info">' + value + '</span>';
+                                    } else if (value > 30) {
+                                        return '<span class="label label-warning">' + value + '</span>';
+                                    }
+                                }
+                                return '<span class="label label-danger">' + value + '</span>';
+                            }
+                        }
+                    ]
+                ],
+                url: '/hrms/analysis/personnel/data/score/find',
+                queryParams: function(params) {
+                    params = params || {};
+                    params.agencyId = selectedAgencyId;
+                    params.personnelName = $("#personnelName").val();
+                    return params;
+                },
+                showColumns: true,
+                pagination: true,
+                toolbar: "#toolbar2",
+                showRefresh: true
+            });
+        }
+    }
+
+    /*]]>*/
+    </script>
+</body>
+
+</html>

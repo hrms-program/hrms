@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header"/>
+
+<body>
+<section class="content-header">
+        <h1>证件绑定管理</h1>
+    </section>
+<tt:constant enumcode="sex,identification-type"/>
+<section class="content">
+    <div class="box box-solid" id="searchDiv">
+            <div class="box-header with-border">
+                    <i class="fa fa-search"></i>
+                    <h3 class="box-title">查询</h3>
+            </div>
+            <div class="box-body">
+                <form id="searchbar" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <input type="text" name="name" class="form-control" th:value="${query?.name}" placeholder="用户名称" />
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input type="text" name="agencyName" class="form-control tonto-agency" placeholder="机构名称" th:value="${query?.agencyName}">
+                                <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
+                                <div class="input-group-btn">
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                    <input type="text" style="display:none" >
+                </form>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
+                    </div>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+    </div>
+    <div class="box box-solid" style="margin-top:20px">
+        <div class="box-header with-border">
+            <i class="fa fa-list-alt"></i>
+            <h3 class="box-title">机构人员</h3>
+        </div>
+        <div id="result" class="box-body">
+            <table id="dataGrid"></table>
+            <div id="toolbar">
+                <div class="btn-group">
+                    <a onclick="showAll()" class="btn btn-success"><i class="glyphicon glyphicon-search"></i>查看绑定记录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:include="hrms/footer"/>
+<script type="text/javascript">
+    /*<![CDATA[*/
+         var table;
+        $(function () {
+            initDataGrid();
+        });
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [
+                    { title: "姓名", field: "name",align:"center" },
+                    { title: "性别", field: "sex",align:"center" ,enumcode:"sex"},
+                    { title: "所属机构", field: "agencyName",align:"center",formatter:function (value, row, index) {
+                            if (!value)
+                                return '无';
+                            else
+                                return value
+                        } },
+                    { title: "证件类型", field: "identificationType",align:"center" ,enumcode:"identification-type"},
+                    { title: "证件号码", field: "identificationNo",align:"center"},
+                    {
+                        title: "操作",
+                        align: 'center',
+                        width: '10%',
+                        events: operateEvents,
+                        formatter: operateFormatter
+                    }
+                ]
+            ],
+            url: '/hrms/complaint/zjbind/findAgencyPeople',
+            showColumns: true,
+            toolbar: "#toolbar",
+            searchbar: '#searchbar',
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            showRefresh: true
+        });
+    }
+
+    window.operateEvents = {
+        'click .check' : function (e, value, row, index) {
+            check(row.id,row.personnelId,row.agencyId)
+        }, 'click .add' : function (e, value, row, index) {
+            add(row.personnelId)
+        }
+    };
+
+    function operateFormatter(value,row,index) {
+        if (row.result === 0) {
+                return [
+                    '<a class="check" href="javascript:void(0);" >',
+                    '<i class="glyphicon glyphicon-edit"></i>审核',
+                    '</a>  ',
+                ].join('')
+        }else {
+            return [
+                '<a class="add" href="javascript:void(0);" >',
+                '<i class="glyphicon glyphicon-plus"></i>新增',
+                '</a>  ',
+            ].join('')
+        }
+    }
+
+    function check(cId,pId,aId) {
+        window.location = '/hrms/complaint/zjbind/check?cId=' + cId + '&pId=' + pId + '&aId=' + aId;
+    }
+    function showAll() {
+        window.location = '/hrms/complaint/zjbind/record/index';
+    }
+
+    function add(id) {
+        window.location = '/hrms/complaint/zjbind/add?pId='+ id;
+    }
+
+    /*]]>*/
+</script>
+</body>
+</html>

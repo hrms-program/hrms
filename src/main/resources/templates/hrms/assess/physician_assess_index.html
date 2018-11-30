@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header"/>
+
+<body>
+<section class="content-header">
+        <h1>医师定期考核管理</h1>
+    </section>
+<tt:constant enumcode="sex,physician-assess-result"/>
+<section class="content">
+    <div class="box box-solid">
+        <div class="box-header with-border">
+                    <i class="fa fa-search"></i>
+                    <h3 class="box-title">查询</h3>
+        </div>
+            <div class="box-body">
+                <form id="searchbar" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="name" style="width:130px" class="col-md-1 control-label">用户名称</label>
+                        <div class="col-md-2">
+                            <input type="text" name="name" class="form-control" th:value="${query?.name}" placeholder="用户名称"/>
+                        </div>
+                         <label for="identificationNo" style="width:130px" class="col-md-1 control-label">身份证号码</label>
+                         <div class="col-md-2">
+                             <input type="text" name="identificationNo" class="form-control" th:value="${query?.identificationNo}" placeholder="身份证号码"/>
+                         </div>
+                            <label for="agencyName" style="width:130px" class="col-md-1 control-label">机构名称</label>
+                            <div class="col-md-3">
+                        <div class="input-group">
+                            <input type="text" name="agencyName" class="form-control tonto-agency" placeholder="请输入机构名称" th:value="${query?.agencyName}">
+                             <input type="hidden" name="agencyId" th:value="${query?.agencyId}" /> 
+                            <div class="input-group-btn">
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                    <input type="text" style="display:none" >
+                </form>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
+                    </div>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+        </div>
+    </div>
+    <div class="box box-solid" style="margin-top:20px">
+        <div class="box-header with-border">
+            <i class="fa fa-list-alt"></i>
+            <h3 class="box-title">考核人员</h3>
+        </div>
+        <div id="result" class="box-body">
+            <table id="dataGrid"></table>
+            <div id="toolbar">
+                <div class="btn-group">
+                    <a onclick="add()" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i>新增</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:include="hrms/footer"/>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function () {
+        initDataGrid()
+    })
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [
+                    { title: "姓名", field: "name",align:"center" },
+                    { title: "机构名称", field: "agencyName",align:"center"},
+                    { title: "考核结果", field: "assessResult",align:"center",enumcode:"physician-assess-result"},
+                    { title: "考核周期", field: "assessCycle",align:"center"},
+                    { title: "提前考核时间", field: "advanceAssessTime",align:"center" ,formatter:"date"},
+                    {
+                        title: "操作",
+                            width: "15%",
+                            align: 'center',
+                            events: operateEvents,
+                            formatter: operateFormatter
+                        }
+                ]
+            ],
+            url: '/hrms/yskh/find',
+            showColumns: true,
+            toolbar: "#toolbar",
+            searchbar: '#searchbar',
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            showRefresh: true
+        });
+    }
+    window.operateEvents = {
+        'click .view': function(e, value, row, index) {
+            view(row.id);
+        }, 'click .edit': function(e, value, row, index) {
+            edit(row.id);
+        },'click .remove': function(e, value, row, index) {
+            remove(row.id);
+        }
+    };
+
+    function operateFormatter(value,row,index) {
+        return [
+            '<a class="view" href="javascript:void(0);" >',
+            '<i class="glyphicon glyphicon-eye-open"></i>查看',
+            '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+            '<a class="edit" href="javascript:void(0);" >',
+            '<i class="glyphicon glyphicon-edit"></i>修改',
+            '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+            '<a class="remove" href="javascript:void(0);" >',
+            '<i class="glyphicon glyphicon-edit"></i>删除',
+            '</a>  ',
+        ].join('')
+    }
+
+
+
+    function add() {
+        window.location = '/hrms/yskh/add'
+    }
+    function edit(id) {
+         window.location = '/hrms/yskh/edit?id='+ id;
+    }
+
+    function view(id) {
+      window.location="/hrms/yskh/view?id=" + id
+    }
+    function remove(id) {
+        layer.confirm('是否删除该条考核记录', {icon: 3, title:''}, function(index){
+            $.getAjax("/hrms/yskh/remove?id="+id,function () {
+                $.successMessage("删除成功！")
+                table.refresh()
+            })
+        });
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

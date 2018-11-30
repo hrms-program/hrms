@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>昆山市卫生计生人力资源系统</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/static/assets/bootstrap3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/ionicons.min.css">
+    <link rel="stylesheet" href="/static/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/static/css/skins/skin-green-light.min.css">
+    <link rel="stylesheet" href="/static/assets/jquery-asidenav/css/asidenav.css">
+    <link rel="stylesheet" href="/static/css/common.css">
+</head>
+
+<body class="hold-transition skin-green-light sidebar-mini fixed">
+    <div class="wrapper">
+        <header class="main-header">
+            <a href="index2.html" class="logo" style="width: 330px;">
+                <span class="logo-mini"><b>HRMS</b></span>
+                <span class="logo-lg">昆山市<b>卫生计生人力资源管理</b>系统</span>
+            </a>
+            <nav class="navbar navbar-static-top" style="position: initial;">
+                <!-- <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a> -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img th:src="${user.profileUrl}" class="user-image" alt="User Image"/>
+                                <span class="hidden-xs" th:text="${user.userName}"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- The user image in the menu -->
+                                <li class="user-header">
+                                    <img th:src="${user.profileUrl}" class="img-circle" alt="User Image" />
+                                    <p th:text="${user.userName}"></p>
+                                </li>
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">修改密码</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="#" class="btn btn-default btn-flat">登出</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/hrms/logout" alt="登出"><i class="fa fa-sign-out"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <script type="text/javascript">
+        // document.domain = "caibaojian.com";
+        function setIframeHeight(iframe) {
+            if (iframe) {
+                var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+                if (iframeWin.document.body) {
+                    var h = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+                    if (h < window.document.body.clientHeight - 50) {
+                        h = window.document.body.clientHeight - 50;
+                    }
+                    iframe.height = h;
+                }
+            }
+        };
+        </script>
+        <div class="content-iframe" style="background-color: #ecf0f5;margin-top: 50px;">
+        </div>
+        <svg width="0" height="0">
+            <defs>
+                <filter id="goo">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
+                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"></feColorMatrix>
+                    <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
+                </filter>
+            </defs>
+        </svg>
+        <div class="aside-nav bounceInUp animated" id="aside-nav" style="right:15px">
+            <label for="" class="aside-menu" title="按住拖动">菜单</label>
+            <a href="javascript:goto('/hrms/complaint/zjbind/self/index')" title="证件绑定" class="menu-item menu-first">证件绑定</a>
+            <a href="javascript:void(0)" title="修改密码" class="menu-item menu-second">修改密码</a>
+            <a href="javascript:goto('/hrms/complaint/personnel/self/index')" title="个人申述" class="menu-item menu-third">个人申述</a>
+            <a href="javascript:void(0)" title="常见问题" class="menu-item menu-fourth">常见问题</a>
+        </div>
+        <div class="toolbar" style="right:22px">
+            <a href="javascript:goHome()" class="btn toolbar-item"><i class="glyphicon glyphicon-home"></i></a>
+        </div>
+    </div>
+    <!-- ./wrapper -->
+    <!-- REQUIRED JS SCRIPTS -->
+    <script src="/static/assets/jquery/jquery-2.2.4.min.js"></script>
+    <script src="/static/assets/jquery-asidenav/js/asidenav.js"></script>
+    <script src="/static/assets/bootstrap3/js/bootstrap.min.js"></script>
+    <script src="/static/assets/adminLTE/components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/static/assets/adminLTE/components/fastclick/lib/fastclick.js"></script>
+    <script type="text/javascript">
+    function goto(url) {
+        $(".content-iframe").html(getIframeHtml(url));
+    }
+    function getIframeHtml(url) {
+        return '<iframe src="' + url + '" id="contentFrame" width="100%" onload="setIframeHeight(this)" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes"></iframe>';
+    }
+    function goHome(){
+        goto("/hrms/org/personal/self");
+    }
+    goHome();
+    </script>
+</body>
+
+</html>

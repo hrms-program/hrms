@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header"/>
+
+<body>
+    <section class="content-header">
+        <h1>个人账户管理</h1>
+    </section>
+<tt:constant enumcode="sex,account-status,major"/>
+<section class="content">
+    <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-search"></i>
+                <h3 class="box-title">查询</h3>
+            </div>
+            <div class="box-body">
+                <form id="searchbar" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label for="name" style="width:130px" class="col-md-2 control-label">姓名</label>
+                            <div class="col-md-7">
+                                <input type="text" name="name" class="form-control" th:value="${query?.name}" placeholder="姓名"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="identificationNo" style="width:130px" class="col-md-2 control-label">身份证</label>
+                            <div class="col-md-7">
+                                <input type="text" name="identificationNo" class="form-control" th:value="${query?.identificationNo}" placeholder="身份证"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="agencyName" style="width:130px" class="col-md-2 control-label">机构名称</label>
+                            <div class="col-md-7">
+                                <div class="input-group">
+                                    <input type="text" name="agencyName" class="form-control tonto-agency" placeholder="机构名称" th:value="${query?.agencyName}">
+                                    <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
+                                    <div class="input-group-btn">
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label for="account" style="width:130px" class="col-md-2 control-label">登入名</label>
+                            <div class="col-md-7">
+                                <input type="text" name="account" class="form-control" th:value="${query?.account}" placeholder="登入名"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="sex" style="width:130px" class="col-md-2 control-label">性别</label>
+                            <div class="col-md-7">
+                                <select class="form-control tonto-select-constant" name="sex"  enumcode="sex" >
+                                    <option value="">--请选择性别--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="state" style="width:130px" class="col-md-2 control-label">账号状态</label>
+                            <div class="col-md-7">
+                                <select class="form-control tonto-select-constant" name="state"  enumcode="account-status" >
+                                    <option value="">--请选择账号状态--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                    <input type="text" style="display:none" >
+                </form>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
+                    </div>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+    </div>
+    <div class="box box-solid" style="margin-top:20px">
+        <div class="box-header with-border">
+            <i class="fa fa-list-alt"></i>
+            <h3 class="box-title">人员账号列表</h3>
+        </div>
+        <div id="result" class="box-body">
+            <table id="dataGrid"></table>
+            <div id="toolbar">
+                <div class="btn-group">
+                    <a onclick="addAccounts()" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i>批量生成账号</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:include="hrms/footer"/>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function () {
+        initDataGrid()
+    })
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [
+                    { title: "姓名", field: "name",align:"center" },
+                    { title: "性别", field: "sex",align:"center",enumcode:"sex"},
+                    { title: "所在机构", field: "agencyName",align:"center",formatter:function (value, row, index) {
+                            if (value)
+                                return value;
+                            else
+                                return '无'
+                        }},
+                    { title: "证件号码", field: "identificationNo",align:"center" ,formatter:function (value, row, index) {
+                        if (value)
+                            return value;
+                        else
+                            return '无'
+                    }},
+                    { title: "登入名", field: "account",align:"center" ,formatter:function (value, row, index) {
+                            if (value)
+                                return value;
+                            else
+                                return '无'
+                        }},
+                    { title: "账号状态", field: "state",align:"center",enumcode:"account-status"},
+                    {
+                        title: "操作",
+                        width: "20%",
+                        align: 'center',
+                        events: operateEvents,
+                        formatter: operateFormatter
+                    }
+                ]
+            ],
+            url: '/hrms/account/personal/find',
+            showColumns: true,
+            searchbar: '#searchbar',
+            toolbar: "#toolbar",
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            showRefresh: true
+        });
+    }
+
+    function operateFormatter(value,row,index) {
+        if(row.account == null || row.account === ""){
+            return [
+                '<a  class="add" href="javascript:void(0);">',
+                '<i class="glyphicon glyphicon-plus"></i>添加账户',
+                '</a>'
+            ].join('');
+        }
+        if (row.state === 5) {
+            return [
+                '<a class="reset" href="javascript:void(0);" >',
+                '<i class="glyphicon glyphicon-repeat"></i>重置密码',
+                '</a>&nbsp;&nbsp;&nbsp;&nbsp;',
+                '<a class="cancel" href="javascript:void(0);" >',
+                '<i class="glyphicon glyphicon-remove-circle"></i>注销账号',
+                '</a>&nbsp;&nbsp;&nbsp;&nbsp;',
+               /* '<a class="synchronized" href="javascript:void(0);" >',
+                '<i class="glyphicon glyphicon-refresh"></i>同步',
+                '</a> &nbsp;&nbsp;&nbsp;&nbsp;',*/
+                '<a class="unlock" href="javascript:void(0);" >',
+                '<i class="fa fa-unlock"></i>解锁',
+                '</a> ',
+            ].join('');
+        }
+            return [
+                /*'<a class="view" href="javascript:void(0);" >',
+                '<i class="glyphicon glyphicon-eye-open"></i>查看',
+                '</a>&nbsp;&nbsp;&nbsp;&nbsp;',
+                '<a class="edit" href="javascript:void(0);" >',
+                '<i class="glyphicon glyphicon-edit"></i>编辑',
+                '</a>&nbsp;&nbsp;&nbsp;&nbsp;',*/
+                '<a class="reset" href="javascript:void(0);" >',
+                '<i class="glyphicon glyphicon-repeat"></i>重置密码',
+                '</a>&nbsp;&nbsp;&nbsp;&nbsp;',
+                '<a class="cancel" href="javascript:void(0);" >',
+                '<i class="glyphicon glyphicon-remove-circle"></i>注销账号',
+                '</a>&nbsp;&nbsp;&nbsp;&nbsp;',
+                /*'<a class="synchronized" href="javascript:void(0);" >',
+                '<i class="glyphicon glyphicon-refresh"></i>同步',
+                '</a>  ',*/
+            ].join('');
+    }
+
+    window.operateEvents = {
+        'click .reset' : function (e, value, row, index) {
+            reset(row.account);
+        },'click .cancel' : function (e, value, row, index) {
+            cancel(row.id,row.account);
+        },'click .add' : function (e, value, row, index) {
+            add(row.id,row.identificationNo,row.name);
+        },'click .unlock' : function (e, value, row, index) {
+            unlock(row.account,row.name);
+        }
+    };
+
+/*    function view(personnelId, name) {
+        layer.open({
+            type : 2,
+            shadeClose: true,
+            title : name,
+            maxmin : true, //开启最大化最小化按钮
+            area: $.getOpenLayerSize(770, 350),
+            content : '/hrms/account/personal/view?id=' + personnelId
+        });
+    }*/
+/*
+    function edit(personnelId, name, state) {
+        if (state === 2) {
+            layer.msg("首次登入，请及时修改账户初始密码",{time:2000,anim:6},function () {
+                layer.open({
+                    type : 2,
+                    shadeClose: true,
+                    title : name,
+                    maxmin : true, //开启最大化最小化按钮
+                    area: $.getOpenLayerSize(770, 350),
+                    content : '/hrms/account/personal/edit?id=' + personnelId,
+                    success : function(layero, index){
+                        $.setLayerSubmitHandler(layero,index, function(){
+                            layer.close(index);
+                            table.refresh();
+                        },"编辑成功");
+                    }
+                });
+            })
+        }else {
+            layer.open({
+                type : 2,
+                shadeClose: true,
+                title : name,
+                maxmin : true, //开启最大化最小化按钮
+                area: $.getOpenLayerSize(770, 350),
+                content : '/hrms/account/personal/edit?id=' + personnelId,
+                success : function(layero, index){
+                    $.setLayerSubmitHandler(layero,index, function(){
+                        layer.close(index);
+                        table.refresh();
+                    },"编辑成功");
+                }
+            });
+        }
+     }
+*/
+    function reset(account) {
+        layer.confirm('确定要重置密码', {icon: 3, title:'重置密码确认'}, function(index){
+            $.postAjax('/hrms/account/personal/reset',{account:account}, function () {
+                $.successMessage("重置密码成功!(初始密码为1)");
+                table.refresh()
+            });
+            layer.close(index);
+        });
+    }
+    function cancel(id,account) {
+        layer.confirm('确定要注销该账号吗？（注销后将无法恢复该账号）', {icon: 3, title:'注销账号确认'}, function(index){
+            $.postAjax('/hrms/account/personal/cancel', {id:id,account:account}, function () {
+                $.successMessage("注销账号成功!");
+                table.refresh()
+            });
+            layer.close(index);
+        });
+    }
+   /* function synchronized(id,account) {
+        layer.confirm('确定要同步'+account+'该账号吗？(本次同步将会同步个人身份证号码，并且以最新的身份证号作为最新登录名)', {icon: 3, title:'账号同步确认'}, function(index){
+            $.postAjax('/hrms/account/personal/synchronized',{id:id,account:account},function () {
+                $.successMessage("账号同步成功!(登录名已修改为最新身份证号码)");
+                table.refresh()
+            })
+            layer.close(index);
+        });
+    }*/
+
+    function add(id,account,name) {
+        layer.confirm('确定要为'+name+'添加账号吗？', {icon: 3, title:'账号添加确认'}, function(index){
+            $.postAjax('/hrms/account/personal/add',{id:id,account:account},function () {
+                $.successMessage("账号添加成功!(默认账号为身份证号！\n 初始密码为1)");
+                table.refresh()
+            })
+            layer.close(index);
+        });
+    }
+    function unlock(account,name) {
+        layer.confirm('确定要为'+name+'解锁账号吗？', {icon: 3, title:'解锁账号确认'}, function(index){
+            $.postAjax('/hrms/account/personal/unlock',{account:account},function () {
+                $.successMessage("账号解锁成功!");
+                table.refresh()
+            });
+            layer.close(index);
+        });
+    }
+    function addAccounts() {
+        $.getAjax('/hrms/account/personal/count',function (data) {
+            var num = data;
+            layer.confirm('待生成个人账号数为：'+ num +'人，确定生成?', {icon: 3, title:'批量生成账号确认'}, function(index){
+                $.ajax({
+                    url:'/hrms/account/personal/addAccounts',
+                    traditional :true,  //注意这个参数是必须的
+                    type: "POST",
+                    success:function(data){
+                        var result = data.result;
+                        var errnum = result.totalNum-result.successNum;
+                        var errMsg =" \n 生成失败的身份证号为(失败原因可能为该账号已存在,请注销错误账号后重新创建): " + result.eAccounts.join(",");
+                        if (errnum > 0) {
+                            layer.alert("待生成" + result.totalNum + "个账号,成功生成" + result.successNum +"个账号，失败" + errnum +"个!" + errMsg,{
+                                icon:5,
+                            } );
+                            table.refresh()
+                        }else {
+                            layer.alert("待生成" + result.totalNum + "个账号,成功生成" + result.successNum +"个账号，失败" + errnum +"个!",{
+                                icon:6,
+                            } );
+                            table.refresh()
+                        }
+
+                    }
+                });
+                layer.close(index);
+            });
+        })
+    }
+
+    /*]]>*/
+</script>
+</body>
+</html>

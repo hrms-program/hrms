@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header" />
+<script type="text/javascript" src="/static/assets/ckeditor/ckeditor.js"></script>
+<body>
+    <tt:constant enumcode="notice-type" />
+     <input type="hidden" id="id" th:value="${id}"/>
+	<section class="content">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<i class="fa fa-bullhorn"></i>
+				<h3 class="box-title">公告通知</h3>
+				<div class="box-tools pull-right">
+					<a class="btn" id="announcement_edit_btn" href="javascript:void(0)"><i
+						class="fa fa-edit"></i>编辑</a>
+				</div>
+			</div>
+			<div id="announcement_view" class="box-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+                        <label for="title" class="col-sm-2 control-label">标题：</label>
+                        <div class="col-sm-8">
+                           <p name="title" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                      <div class="form-group">
+                        <label for="notice" class="col-sm-2 control-label">通知类型：</label>
+                        <div class="col-sm-8">
+                           <div name="type" class="form-control-static description"></div>
+                        </div>
+                    </div>
+				    <div class="form-group">
+                        <label for="notice" class="col-sm-2 control-label">内容：</label>
+                        <div class="col-sm-8">
+                           <div id="notice" class="form-control-static description"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="publishedTime" class="col-sm-2 control-label">发布时间：</label>
+                        <div class="col-sm-8">
+                           <div name="publishedTime" class="form-control-static description"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachments" class="col-sm-2 control-label">附件：</label>
+                        <div class="col-sm-8">
+                           <div id="attachments" class="form-control-static description"></div>
+                        </div>
+                    </div>
+				
+						
+				
+				</form>
+			</div>
+			<div id="announcement_edit" class="box-body" style="display: none">
+				<form id="announcement_form" action="/hrms/system/announcement/save" method="post" 
+				enctype="multipart/form-data" class="form-horizontal edit-body">
+					<div class="form-group">
+						<label for="title" class="col-sm-2 control-label">标题：</label>
+						<div class="col-sm-3">
+							<input name="title" required="required" placeholder="请输入标题" type="text" class="form-control" />
+						</div>
+						
+					</div>
+					<div class="form-group">
+						<label for="type" class="col-sm-2 control-label">通知类型：</label>
+						<div class="col-sm-3">
+							<select name="type" required="required" class="form-control tonto-select-constant"
+								enumcode="notice-type">
+								<option value="">请选择</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="content" class="col-sm-2 control-label">内容：</label>
+						<div class="col-sm-8">
+							<textarea  required="required" name="contentValue" class="form-control"></textarea>
+							<script type="text/javascript">
+							if (CKEDITOR.instances['contentValue']) {
+								CKEDITOR.remove(CKEDITOR.instances['contentValue']); 
+								} 
+							var editor = CKEDITOR.replace('contentValue');
+							</script>
+						</div>
+					</div>
+					 <div class="form-group">
+                            <label for="nativePlace" class="col-sm-2 control-label">附件上传：</label>
+                            <div class="col-sm-8">
+                                <input type="file" name="attachmentFiles" multiple>
+                            </div>
+                        </div>
+					<div class="form-group">
+						<div class="col-sm-1 col-sm-offset-4">
+							<button type="submit" id="announcement_form_submit_btn"
+								class="btn btn-primary btn-block">保存</button>
+						</div>
+						<div class="col-sm-1 col-sm-offset-2">
+							<button type="button" id="announcement_form_cancel_btn"
+								class="btn btn-default btn-block">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+	<div th:include="hrms/footer" />
+	
+	<script type="text/javascript">
+	
+		var announcementModelConfig = {
+			id : "announcement",
+			name : "公告通知",
+			columns : [ {
+				name : "id",
+				inputType : "ID"
+			}, {
+				name : "title",
+				inputType : "TEXT",
+				title : "标题"
+			}, {
+				name : "type",
+				inputType : "SELECT",
+				enum : "notice-type",
+				title : "通知类型"
+			}, {
+				name : "content",
+				inputType : "TEXT",
+				title : "内容"
+			}, {
+				name : "publishedTime",
+				inputType : "DATE",
+				title : "通知时间"
+			}, {
+				name : "attachments",
+				inputType : "ATTACHMENT",
+				allowedFileExtensions:["jpeg", "jpg", "png", "gif","doc","docx","zip","rar","ppt","pptx","xls","xlsx"],
+				fileName : "attachmentFiles"
+			} ]
+		};
+
+		var baseModel;
+		  var id;
+		  $(function() {
+		      id = $("#id").val();
+		      baseModel = new tonto.Model(announcementModelConfig.id, announcementModelConfig.columns, {
+		          successCallback: function(data) {
+		              $.successMessage("保存成功");
+		              window.location.href="/hrms/system/announcement/index";
+		          },
+		  
+		          extraParam: function() {
+		              return {
+		                  id: id || "",
+		                  content: CKEDITOR.instances.contentValue.getData()
+		                
+		              }
+		          }
+		      });
+		      if (id) {
+		          $.getAjax("/hrms/system/announcement/detail?id=" + id, function(data) {
+		              baseModel.setData(data);
+		              $("#notice").html(data.content);
+		              CKEDITOR.instances.contentValue.setData(data.content);
+		              var attachs =data.attachmentFiles;
+		              if (attachs){
+		            	  var attDiv=$("#attachments");
+		            	  var html = "";
+		            	  for(var i in attachs){
+		            		  html += '<label><a target="_blank" href="' + attachs[i].url + '"><i class="fa fa-download"></i>' + attachs[i].filename +'</a></label><br/>';
+		            	  }
+		                  attDiv.html(html);
+		  	     }
+		          });
+		      } else {
+		          baseModel.setData(null);
+		      }
+		  }) 
+	</script>
+</body>
+
+</html>

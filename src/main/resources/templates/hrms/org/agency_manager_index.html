@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header" />
+
+<body>
+    <section class="content-header">
+        <h1>区域机构账户管理</h1>
+    </section>
+	<tt:constant enumcode="account-status"/>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-search"></i>
+                <h3 class="box-title">查询</h3>
+            </div>
+            <div class="box-body">
+                <form id="searchbar" class="form-horizontal">
+                    <div class="form-group">
+                            <label for="name"  class="col-md-2 control-label">请输入机构名称</label>
+		                    <div class="col-md-2">
+		                        <div class="input-group">
+		                            <input type="text" name="agencyName" class="form-control tonto-agency" placeholder="请输入机构名称" th:value="${query?.agencyName}">
+		                            <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
+		                            <div class="input-group-btn">
+		                                <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+		                            </div>
+		                        </div>
+		                    </div>
+                            <label for="agencyCode" style="width:130px" class="col-md-1 control-label">机构代码</label>
+                            <div class="col-md-2">
+                                <input type="text" name="agencyCode" placeholder="请输入机构代码" class="form-control" th:value="${query?.agencyCode}" />
+                            </div>
+                            <label for="state" style="width:130px" class="col-md-1 control-label">状态</label>
+                            <div class="col-md-2">
+                            <select name="state" class="form-control tonto-select-constant"  th:attr="selectedvalue=${query?.state}" enumcode="account-status">
+                            	<option value="">请选择</option>
+                            </select>
+                            </div>
+                    </div>
+                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                    <input type="text" style="display:none">
+                </form>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
+                    </div>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+        </div>
+        <div class="box box-solid" style="margin-top:20px">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+            </div>
+            <div id="result" class="box-body">
+                <table id="dataGrid"></table>
+                <div id="toolbar">
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function() {
+        initDataGrid();
+    });
+
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [
+                    { title: "行政区划", field: "districtCode" },
+                    { title: "机构名称", field: "agencyName" },
+                    { title: "机构代码", field: "agencyCode"},
+                    { title: "账号状态", field: "state", enumcode:"account-status"},
+                    { title: "操作",field: "id", align: 'center', width:"25%",events: operateEvents, formatter: operateFormatter}
+                ]
+            ],
+            url: '/hrms/org/agency/manager/find',
+            searchbar: '#searchbar',
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            clickToSelect: true,
+            toolbar: "#toolbar",
+            showRefresh: true
+        });
+    }
+    
+    function operateFormatter(value, row, index) {
+    	if(value == null){
+   		 return [
+            '<a  class="add" href="javascript:void(0);">',
+            '<i class="glyphicon glyphicon-plus"></i>添加管理员',
+            '</a>'
+   		      ].join('');
+    	}
+    	if(row.state === 4){
+      		 return [
+               '<a  class="view" href="javascript:void(0);">',
+               '<i class="glyphicon glyphicon-search"></i>查看',
+               '</a>'
+      		      ].join('');
+       	}
+        return [
+			'<a class="view" href="javascript:void(0);" >',
+			'<i class="glyphicon glyphicon-search"></i>查看',
+			'</a>  ',
+            '<a class="edit" href="javascript:void(0);" >',
+            '<i class="glyphicon glyphicon-edit"></i>修改',
+            '</a>  ',
+            '<a  class="resetPwd" href="javascript:void(0);">',
+            '<i class="glyphicon glyphicon-edit"></i>重置密码',
+            '</a>',
+            '<a  class="cancel" href="javascript:void(0);">',
+            '<i class="glyphicon glyphicon-edit"></i>注销帐号',
+            '</a>'
+        ].join('');
+    }
+
+    window.operateEvents = {
+        'click .view' : function (e, value, row, index) {
+        	view(row.agencyName,row.id)
+        },'click .edit' : function (e, value, row, index) {
+           edit(row.agencyName,row.id);
+        },'click .add' : function (e, value, row, index) {
+           add(row.agencyName,row.agencyId,row.agencyCode);
+        },'click .resetPwd' : function (e, value, row, index) {
+        	resetPwd(row.agencyCode);
+        },'click .cancel' : function (e, value, row, index) {
+        	cancel(row.userId);
+        }    
+    };
+
+    function view(agencyName,id) {
+    	  layer.open({
+			type : 2,
+			shadeClose: true,
+			title : agencyName,
+			maxmin : true, //开启最大化最小化按钮
+            area: $.getOpenLayerSize(770, 350),
+			content : '/hrms/org/agency/manager/view?id=' + id
+		}); 
+    }
+
+    function edit(agencyName,id) {
+    	 layer.open({
+ 			type : 2,
+ 			shadeClose: true,
+ 			title : agencyName,
+ 			maxmin : true, //开启最大化最小化按钮
+             area: $.getOpenLayerSize(800, 400),
+ 			content : '/hrms/org/agency/manager/edit?id=' + id,
+ 			success: function(layero, index){
+ 	         	 $.setLayerSubmitHandler(layero,index, function(){
+ 	         		 layer.close(index);
+ 	         		table.refresh();         		
+ 	         	 },"修改成功");
+ 	            } 	
+ 		}); 
+        
+    }
+    
+    function add(agencyName,agencyId,account) {
+    	layer.confirm('确定为'+agencyName+'填加帐号吗?', function(index) {
+       		$.postAjax("/hrms/org/agency/manager/save", { account:account,agencyId:agencyId }, function() {
+       				table.refresh();
+       				layer.msg("机构账号新增成功！,帐号：为机构代码,密码：默认为1", { icon: 1 });
+               });
+       			layer.close(index);
+        	});
+    }
+    
+    function resetPwd(agencyCode){
+    	layer.confirm('确定重置密码吗?', function() {
+   		$.postAjax("/hrms/org/agency/manager/resetPwd", { account:agencyCode }, function() {
+               layer.msg("重置密码成功", { icon: 1 });
+           });
+    	});
+    }
+    
+    function cancel(id){
+    	layer.confirm('确定注销帐号吗?', function() {
+   		$.postAjax("/hrms/org/agency/manager/cancel", { id:id}, function(index) {
+   				table.refresh();
+               layer.msg("注销帐号成功", { icon: 1 });
+           });
+    	});
+    }
+
+    /*]]>*/
+    </script>
+</body>
+
+</html>

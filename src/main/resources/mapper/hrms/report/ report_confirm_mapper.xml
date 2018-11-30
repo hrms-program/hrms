@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.report.confirm.ReportConfirmMapper">
+        <select id="findOrgCount" resultType="com.paladin.hrms.controller.report.confirm.pojo.ReportConfirmVO">
+          SELECT  
+			'昆山市'as division,
+			count(ag.id) as shouldReport,
+			sum(case org.confirm_state when 1 then 1 else 0 end) as reportedOrg,
+			sum(case org.confirm_state when 1 then 0 else 1 end) as noReportedOrg
+			from org_agency ag
+			left join report_confirm_org org on ag.id=org.org_id and YEAR(org.confirm_time)=year(NOW())
+			where ag.is_delete =0
+        </select>
+        
+        <select id="findOldOrgEntity" parameterType="String" resultType="com.paladin.hrms.model.report.ReportConfirmOrg">
+            select id,org_id as orgId,name,confirm_state as confirmState from report_confirm_org
+              where org_id = #{0}
+              and state = '1'
+        </select>
+        
+        <update id="removeReportConfirmOrg" parameterType="String">
+              update report_confirm_org 
+              set state = '99'
+              where org_id = #{0}
+              and state = '1'
+         </update>
+         
+         <insert id="insertReportConfirmOrg" parameterType="com.paladin.hrms.model.report.ReportConfirmOrg">
+              insert into report_confirm_org (id,org_id,name,code,confirm_people,confirm_time,confirm_state,state,remark)
+              values(#{id,jdbcType=VARCHAR},#{orgId,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR},#{confirmPeople,jdbcType=VARCHAR},
+              #{confirmTime},#{confirmState,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR})
+         </insert>
+</mapper>

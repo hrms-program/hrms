@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="hrms/header" />
+
+<body>
+<tt:constant enumcode="sex,identification-type,complaint-status,check-status" />
+<section class="container content">
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            <i class="fa fa-question-circle"></i>
+            <h3 class="box-title">证件绑定管理</h3>
+            <div class="box-tools pull-right">
+                <a class="btn btn-box-tool" href="javascript:window.parent?window.parent.goHome():window.location='/hrms/org/personal/self'"><i class="fa fa-times"></i></a>
+            </div>
+        </div>
+        <div id="base_view" class="box-body">
+            <div id="empty_view" onclick="addNew()" class="dotted-line-btn" style="margin:10px">
+                <a href="javascript:void(0)" ><i class="glyphicon glyphicon-plus"></i>添加个人证件绑定</a>
+            </div>
+            <form id="base_view_form" class="form-horizontal" style="display: none">
+                <div id="warningDiv" style="display: none" class="alert alert-info"><i class="icon fa fa-info"></i>最近一次个人申请记录，状态为申请中...</div>
+                <div id="successDiv" style="display: none" class="alert alert-success"><i class="icon fa fa-check"></i>最近一次个人申请记录，审核通过</div>
+                <div id="dangerDiv" style="display: none" class="alert alert-danger"><i class="icon fa fa-warning"></i>最近一次个人申请记录，审核未通过</div>
+                <div class="form-group">
+                    <label for="nowIdentificationNo" class="col-sm-3 control-label">证件号码(现有)：</label>
+                    <div class="col-sm-3">
+                        <p name="nowIdentificationNo" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="usedIdentificationType" class="col-sm-3 control-label">证件类型(曾用)：</label>
+                    <div class="col-sm-3">
+                        <p name="usedIdentificationType" class="form-control-static description"></p>
+                    </div>
+                    <label for="usedIdentificationNo" class="col-sm-2 control-label">证件号码(曾用)：</label>
+                    <div class="col-sm-3">
+                        <p name="usedIdentificationNo" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="checkPeople" class="col-sm-3 control-label">审核人：</label>
+                    <div class="col-sm-5">
+                        <p name="checkPeople" class="form-control-static description" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="checkDate" class="col-sm-3 control-label">审核日期：</label>
+                    <div class="col-sm-5">
+                        <p  name="checkDate" class="form-control-static description" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="illustrate" class="col-sm-3 control-label">审核意见：</label>
+                    <div class="col-sm-5">
+                        <p name="illustrate" class="form-control-static description" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="status" class="col-sm-3 control-label">状态：</label>
+                    <div class="col-sm-5">
+                        <p id="status" name="status" class="form-control-static description" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div name="attachments">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-5">
+                        <button type="button" onclick="toEdit()" class="btn btn-primary btn-block"><i class="icon glyphicon glyphicon-edit"></i><span id="toEditbtn">申请</span></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="base_edit" class="box-body" style="display: none">
+            <form id="base_form" action="/hrms/complaint/zjbind/add/save" method="post" class="form-horizontal edit-body">
+                <div class="form-group">
+                    <label for="nowIdentificationNo" class="col-sm-3 control-label">证件号码(现有)：</label>
+                    <div class="col-sm-3">
+                        <p name="nowIdentificationNo" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="usedIdentificationType" class="col-sm-3 control-label">证件类型(曾用)：</label>
+                    <div class="col-sm-3">
+                        <select name="usedIdentificationType" class="form-control tonto-select-constant" enumcode="identification-type">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <label for="usedIdentificationNo" class="col-sm-2 control-label">证件号码(曾用)：</label>
+                    <div class="col-sm-3">
+                        <input name="usedIdentificationNo" placeholder="请输入证件号码(现有)" type="text" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="attachments" class="col-sm-3 control-label">附件上传：</label>
+                    <div class="col-sm-9">
+                        <input type="file" name="attachmentFiles" multiple>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <button type="submit" id="base_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                    </div>
+                    <div class="col-sm-2 col-sm-offset-1">
+                        <button type="button" id="base_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<div th:include="hrms/footer" />
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var columns = [
+        { name: "id", inputType: "ID" },
+        { name: "nowIdentificationNo", inputType: "TEXT", title: "证件号码(现有)" },
+        { name: "usedIdentificationType", inputType: "SELECT", title: "证件类型(曾用)",enum: "identification-type"  },
+        { name: "usedIdentificationNo", inputType: "TEXT", title: "证件号码(曾用)" },
+        { name: "checkPeople", inputType: "TEXT", title: "审核人" },
+        { name: "checkDate", inputType: "DATE", title: "审核日期" },
+        { name: "illustrate", inputType: "TEXT", title: "审核意见" },
+        { name: "status", inputType: "SELECT", title: "处理状态", enum: "complaint-status" },
+        { name: "attachments", inputType: "ATTACHMENT", fileName: "attachmentFiles",title:"附件上传" }
+    ];
+
+    var status;
+    $(function() {
+        baseModel = new tonto.Model("base", columns, {
+            successCallback: function(data) {
+                $.successMessage("保存成功");
+                setData(data);
+                baseModel.toView();
+            }, extraParam: function() {
+                return {
+                    personnelId: personnelId
+                }
+            }
+
+        });
+
+        $.getAjax("/hrms/complaint/zjbind/self/get/detail", setData);
+
+    });
+
+    function addNew() {
+        baseModel.toEdit();
+    }
+
+    function toEdit() {
+        if (status == 0) {
+            layer.confirm('申诉正在进行中，是否要修改?', function(index) {
+                baseModel.toEdit();
+                layer.close(index);
+            });
+        } else {
+            baseModel.toEdit();
+        }
+    }
+
+    function setData(data) {
+        if (data.status === null || data.status === undefined) {
+            $("#base_view_form").hide();
+            $("#empty_view").show();
+        } else {
+            if (data.status === 0) {
+                $("#warningDiv").show();
+                $("#successDiv").hide();
+                $("#dangerDiv").hide();
+                $("#toEditbtn").text("修改申请");
+            } else if (data.status === 1) {
+                $("#warningDiv").hide();
+                $("#successDiv").show();
+                $("#dangerDiv").hide();
+                $("#toEditbtn").text("再次申请");
+            } else if (data.status === 2) {
+                $("#warningDiv").hide();
+                $("#successDiv").hide();
+                $("#dangerDiv").show();
+                $("#toEditbtn").text("再次申请");
+            }
+            status = data.status;
+            $("#base_view_form").show();
+            $("#empty_view").hide();
+        }
+
+        personnelId = data.personnelId;
+        baseModel.setData(data);
+    }
+
+    /*]]>*/
+</script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header" />
+
+<body>
+<tt:constant enumcode="ic-deal-status,ic-operate,boolean"/>
+    <section class="content">
+    <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-search"></i>
+                <h3 class="box-title">个案信息上报统计</h3>
+            </div>
+            <div class="box-body">
+                <form id="searchbar" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label for="name" class="col-md-5 control-label">姓名</label>
+                            <div class="col-md-7">
+                                <input type="text" name="name" class="form-control" th:value="${query?.name}" />
+                            </div>
+                        </div> 
+                    </div>
+                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+	                <input type="hidden" id="agencyId" name="agencyId" th:value="${agencyId}" />
+                    <input type="text" style="display:none">
+                </form>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()">查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()">重置</button>
+                    </div>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+        </div>
+        <div class="box box-solid" style="margin-top:20px">
+            <div id="result" class="box-body">
+                <table id="dataGrid"></table>
+            </div>
+        </div>
+    </section>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function() {
+        initDataGrid();
+    });
+
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                    { title: "姓名", field: "name"},
+                    { title: "身份证号", field: "identificationNo",visible:false },
+                    { title: "上报时间", field: "reportTime" },
+                    { title: "上报确认人", field: "reportUser" },
+                    { title: "基本信息", field: "basicInforStatus"},
+                    { title: "工作信息", field: "workingInforStatus" },
+                    { title: "执业信息", field: "licenseInforStatus"},
+                    { title: "教育经历", field: "educationInforStatus"}
+            ],
+            url: '/hrms/report/personnel/infor/find',
+            searchbar: '#searchbar',
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            clickToSelect: true,
+            toolbar: "#toolbar",
+            showRefresh: true
+        });
+    }
+    /*]]>*/
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.org.OrgAgencyMapper">
+	<select id="findAll" resultType="com.paladin.hrms.model.org.OrgAgency">
+		SELECT 
+			agency.`id`,
+			agency.`name`,
+			agency.`code`,
+			agency.`sname`,
+			agency.`town_code` AS townCode,
+			agency.`address`
+		 FROM org_agency AS agency 
+		 where 1=1 
+		<if test="permission.cityCode!=null">
+            AND agency.city_code =#{permission.cityCode}
+        </if>
+        <if test="permission.cityCodes!=null">
+            AND agency.city_code IN
+            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.townCode!=null">
+            AND agency.town_code =#{permission.townCode}
+        </if>
+        <if test="permission.townCodes!=null">
+            AND agency.town_code IN
+            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.districtCode!=null">
+            AND agency.district_code =#{permission.districtCode}
+        </if>
+        <if test="permission.districtCodes!=null">
+            AND agency.district_code IN
+            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.agencyId!=null">
+            AND agency.id =#{permission.agencyId}
+        </if>
+        <if test="permission.agencyIds!=null">
+            AND agency.agency_id IN
+            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>	 
+	<if test="query.agencyName !=null and query.agencyName !='' ">
+	AND agency.name LIKE CONCAT('%',#{query.agencyName},'%')
+	</if>
+	
+	<if test="query.address !=null and query.address !='' ">
+	AND agency.address LIKE CONCAT('%',#{query.address},'%')
+	</if>		
+			
+	</select>
+    <select id="findAccount" resultType="com.paladin.hrms.service.org.dto.OrgAgencyAccountVO">
+      SELECT
+        a.id AS id,
+        a.`code` AS `code`,
+        a.`name` AS `name`,
+        c.account AS account,
+        c.state AS state,
+        c.times AS times
+        FROM
+        org_agency AS a
+        LEFT JOIN org_agency_manager AS b ON a.id = b.agency_id
+        LEFT JOIN sys_user AS c ON b.id = c.user_id
+        where 1=1
+        <if test="permission.cityCode!=null">
+            AND agency.city_code =#{permission.cityCode}
+        </if>
+        <if test="permission.cityCodes!=null">
+            AND agency.city_code IN
+            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.townCode!=null">
+            AND agency.town_code =#{permission.townCode}
+        </if>
+        <if test="permission.townCodes!=null">
+            AND agency.town_code IN
+            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.districtCode!=null">
+            AND agency.district_code =#{permission.districtCode}
+        </if>
+        <if test="permission.districtCodes!=null">
+            AND agency.district_code IN
+            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.agencyId!=null">
+            AND agency.id =#{permission.agencyId}
+        </if>
+        <if test="permission.agencyIds!=null">
+            AND agency.agency_id IN
+            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+</mapper>

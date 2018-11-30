@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header"/>
+
+<body>
+<tt:constant enumcode="sex,identification-type,check-status"/>
+<input id="id" type="hidden" th:value="${id}" />
+<section class="content-header">
+    <h1>申诉管理</h1>
+    <ol class="breadcrumb">
+        <li><a href="/hrms/complaint/zjbind/index"><i class="fa fa-list-alt"></i>待绑定列表</a></li>
+        <li><a href="/hrms/complaint/zjbind/record/index"><i class="fa fa-list-alt"></i>历史绑定列表</a></li>
+        <li class="active">历史绑定查看</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            <i class="fa fa-list-alt"></i>
+            <h3 class="box-title">证件绑定管理</h3>
+        </div>
+        <div id="base_view" class="box-body">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="nowIdentificationNo" class="col-sm-3 control-label">证件号码(现有)：</label>
+                    <div class="col-sm-3">
+                        <p name="nowIdentificationNo" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="usedIdentificationType" class="col-sm-3 control-label">证件类型(曾用)：</label>
+                    <div class="col-sm-3">
+                        <p name="usedIdentificationType" class="form-control-static description"></p>
+                    </div>
+                    <label for="usedIdentificationNo" class="col-sm-2 control-label">证件号码(曾用)：</label>
+                    <div class="col-sm-3">
+                        <p name="usedIdentificationNo" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="checkPeople" class="col-sm-3 control-label">审核人：</label>
+                    <div class="col-sm-5">
+                        <p name="checkPeople" class="form-control-static description" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="checkDate" class="col-sm-3 control-label">审核日期：</label>
+                    <div class="col-sm-5">
+                        <p  name="checkDate" class="form-control-static description" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="illustrate" class="col-sm-3 control-label">审核意见：</label>
+                    <div class="col-sm-5">
+                        <p name="illustrate" class="form-control-static description" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="result" class="col-sm-3 control-label">审核结果：</label>
+                    <div class="col-sm-5">
+                        <p id="result" name="result" class="form-control-static description" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div name="attachments">
+                    </div>
+                </div>
+                <div class="form-group" style="padding-top:20px">
+                    <div class="col-sm-2 col-sm-offset-5">
+                        <a href="/hrms/complaint/zjbind/record/index" class="btn btn-info btn-block"><i class="fa fa-reply"></i>&nbsp;&nbsp;返回</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<div th:include="hrms/footer"/>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var complaintModelConfig = {
+        id: "base",
+        name: "证件绑定信息",
+        columns: [
+            { name: "id", inputType: "ID" },
+            { name: "nowIdentificationNo", inputType: "TEXT", title: "证件号码(现有)" },
+            { name: "usedIdentificationType", inputType: "SELECT", title: "证件类型(曾用)",enum: "identification-type"  },
+            { name: "usedIdentificationNo", inputType: "TEXT", title: "证件号码(曾用)" },
+            { name: "checkPeople", inputType: "TEXT", title: "审核人" },
+            { name: "checkDate", inputType: "DATE", title: "审核日期" },
+            { name: "illustrate", inputType: "TEXT", title: "审核意见" },
+            { name: "attachments", inputType: "ATTACHMENT", fileName: "attachmentFiles",title:"附件上传" }
+        ]
+    };
+    var id;
+    var baseModel;
+
+    $(function () {
+        id = $("#id").val();
+        baseModel = new tonto.Model(complaintModelConfig.id, complaintModelConfig.columns);
+        if (id) {
+            $.getAjax("/hrms/complaint/zjbind/record/get?id=" + id, function(data) {
+                baseModel.setData(data);
+                console.log(data)
+                var result = data.result;
+                if (result === 1) {
+                    $("#result").html('<span style="font-size:100%" class="label label-success">通过</span>');
+                } else {
+                    $("#result").html('<span style="font-size:100%" class="label label-danger">未通过</span>');
+                }
+            });
+        } else {
+            baseModel.setData(null);
+        }
+
+
+    });
+
+
+    /*]]>*/
+</script>
+</body>
+</html>

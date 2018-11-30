@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="hrms/header" />
+
+<body>
+    <tt:constant enumcode="sex,identification-type,complaint-status,complaint-problem-type,check-status" />
+    <input type="hidden" id="personnelId" th:value="${personnelId}" />
+    <div class="container">
+        <section class="content-header">
+            <h1>申诉管理</h1>
+            <ol class="breadcrumb">
+                <li><a href="/hrms/complaint/personnel/index"><i class="fa fa-list-alt"></i>申诉列表</a></li>
+                <li class="active">申诉审核</li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <h3 class="box-title">问题申诉详细信息</h3>
+                    <div class="box-tools pull-right">
+                        <a class="btn" href="/hrms/complaint/personnel/index"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div id="base_view" class="box-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="type" class="col-sm-3 control-label">申诉问题：</label>
+                            <div class="col-sm-3">
+                                <p name="type" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="oldIdentificationType" class="col-sm-3 control-label">原证件类型：</label>
+                            <div class="col-sm-3">
+                                <p name="oldIdentificationType" class="form-control-static description"></p>
+                            </div>
+                            <label for="nowIdentificationType" class="col-sm-2 control-label">修改证件类型：</label>
+                            <div class="col-sm-3">
+                                <p name="nowIdentificationType" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="oldIdentificationNo" class="col-sm-3 control-label">原身份证：</label>
+                            <div class="col-sm-3">
+                                <p name="oldIdentificationNo" class="form-control-static description"></p>
+                            </div>
+                            <label for="nowIdentificationNo" class="col-sm-2 control-label">修改身份证：</label>
+                            <div class="col-sm-3">
+                                <p name="nowIdentificationNo" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="oldName" class="col-sm-3 control-label">原姓名：</label>
+                            <div class="col-sm-3">
+                                <p name="oldName" class="form-control-static description"></p>
+                            </div>
+                            <label for="nowName" class="col-sm-2 control-label">修改姓名：</label>
+                            <div class="col-sm-3">
+                                <p name="nowName" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="oldSex" class="col-sm-3 control-label">原性别：</label>
+                            <div class="col-sm-3">
+                                <p name="oldSex" class="form-control-static description"></p>
+                            </div>
+                            <label for="nowSex" class="col-sm-2 control-label">修改性别：</label>
+                            <div class="col-sm-3">
+                                <p name="nowSex" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cellphone" class="col-sm-3 control-label">电话：</label>
+                            <div class="col-sm-3">
+                                <p name="cellphone" class="form-control-static description"></p>
+                            </div>
+                            <label for="qq" class="col-sm-2 control-label">QQ：</label>
+                            <div class="col-sm-3">
+                                <p name="qq" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-3 control-label">邮箱：</label>
+                            <div class="col-sm-3">
+                                <p name="email" class="form-control-static description"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div name="attachments">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="illustrate" class="col-sm-3 control-label">审核意见：</label>
+                            <div class="col-sm-5">
+                                <input name="illustrate" placeholder="请输入处理信息" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group" style="padding-top:20px">
+                            <div class="col-sm-2 col-sm-offset-3">
+                                <button type="button" id="passBtn" onclick="checkSuccess()" class="btn btn-success btn-block"><i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;审核通过</button>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <button type="button" id="unpassBtn" onclick="checkFail()" class="btn btn-danger btn-block"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;审核不通过</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var complaintModelConfig = {
+        id: "base",
+        name: "问题申诉详细信息",
+        columns: [
+            { name: "id", inputType: "ID" },
+            { name: "type", inputType: "SELECT", title: "申诉问题", enum: "complaint-problem-type" },
+            { name: "oldIdentificationType", inputType: "SELECT", title: "原证件类型", enum: "identification-type", dependency: ["type", "1", "5"] },
+            { name: "nowIdentificationType", inputType: "SELECT", title: "修改证件类型", enum: "identification-type", dependency: ["type", "1", "5"] },
+            { name: "oldIdentificationNo", inputType: "TEXT", title: "原身份证", dependency: ["type", "2", "5"] },
+            { name: "nowIdentificationNo", inputType: "TEXT", title: "修改身份证", dependency: ["type", "2", "5"] },
+            { name: "oldSex", inputType: "SELECT", title: "原性别", enum: "sex", dependency: ["type", "4", "5"] },
+            { name: "nowSex", inputType: "SELECT", title: "修改性别", enum: "sex", dependency: ["type", "4", "5"] },
+            { name: "oldName", inputType: "TEXT", title: "原姓名", dependency: ["type", "3", "5"] },
+            { name: "nowName", inputType: "TEXT", title: "修改姓名", dependency: ["type", "3", "5"] },
+            { name: "cellphone", inputType: "TEXT", title: "电话" },
+            { name: "qq", inputType: "TEXT", title: "QQ" },
+            { name: "email", inputType: "TEXT", title: "邮箱" },
+            { name: "illustrate", inputType: "TEXT", title: "审核意见" },
+            { name: "status", inputType: "SELECT", title: "处理状态", enum: "check-status" },
+            { name: "attachments", inputType: "ATTACHMENT", fileName: "attachmentFiles", title: "附件上传" }
+        ]
+    };
+    var baseModel;
+    var personnelId;
+    $(function() {
+        personnelId = $("#personnelId").val();
+        baseModel = new tonto.Model(complaintModelConfig.id, complaintModelConfig.columns, {
+            successCallback: function(data) {
+                $.successMessage("操作成功");
+                baseModel.setData(data)
+                baseModel.toView();
+            },
+            extraParam: function() {
+                return {
+                    personnelId: personnelId
+                }
+            }
+        });
+
+        if (personnelId) {
+            $.getAjax("/hrms/complaint/personnel/get/detail?id=" + personnelId, function(data) {
+                data.nowIdentificationType = data.nowIdentificationType || data.oldIdentificationType;
+                data.nowIdentificationNo = data.nowIdentificationNo || data.oldIdentificationNo;
+                data.nowName = data.nowName || data.oldName;
+                data.nowSex = data.nowSex || data.oldSex;
+                baseModel.setData(data);
+            });
+        } else {
+            baseModel.setData(null);
+        }
+    });
+
+    function checkSuccess() {
+        $.postAjax("/hrms/complaint/personnel/check/success", {
+            id: personnelId,
+            illustrate: $("input[name='illustrate']").val()
+        }, function(data) {
+            $.successAlert("操作成功", function() {
+                window.location = '/hrms/complaint/personnel/index';
+            });
+        });
+    }
+
+    function checkFail() {
+        var ill = $("input[name='illustrate']").val();
+        if (!ill) {
+            $.errorMessage("请填写审核意见");
+            return;
+        }
+        $.postAjax("/hrms/complaint/personnel/check/fail", {
+            id: personnelId,
+            illustrate: ill
+        }, function(data) {
+            $.successAlert("操作成功", function() {
+                window.location = '/hrms/complaint/personnel/index';
+            });
+        });
+    }
+
+
+    /*]]>*/
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="hrms/header" />
+
+<body>
+    <section class="content-header">
+      	<h1>人员信息上传</h1>
+  	</section>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="glyphicon glyphicon-save"></i>
+                <h3 class="box-title">人员信息模板下载</h3>
+            </div>
+            <div class="box-body form-horizontal">
+                <div class="col-md-2 col-md-offset-2">
+                    <a href="/static/excel/人员信息上传模板.xlsx" target="_blank"><i class="glyphicon glyphicon-download-alt"></i>人员基本信息模板</a>
+                </div>
+                <div class="col-md-2">
+                    <a href="/static/excel/个人执业信息上传模板.xlsx" target="_blank"><i class="glyphicon glyphicon-download-alt"></i>个人执业信息模板</a>
+                </div>
+                <div class="col-md-2">
+                    <a href="/static/excel/年度考核信息上传模板.xlsx" target="_blank"><i class="glyphicon glyphicon-download-alt"></i>年度考核信息模板</a>
+                </div>
+                <div class="col-md-2">
+                    <a href="/static/excel/医师定期考核上传模板.xlsx" target="_blank"><i class="glyphicon glyphicon-download-alt"></i>医师定期考核信息模板</a>
+                </div>
+            </div>
+        </div>
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="glyphicon glyphicon-open"></i>
+                <h3 class="box-title">人员信息上传</h3>
+            </div>
+            <div class="box-body">
+                <form id="uploadForm" enctype="multipart/form-data" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-2">
+                            <input id="file" name="file" type="file">
+                            <div id="errorBlock" class="help-block"></div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary btn-block"><i class="glyphicon glyphicon-open"></i>&nbsp;上传</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+        <div th:include="hrms/footer" />
+        <script type="text/javascript">
+        $(function() {
+            $("#file").fileinput({
+                language: 'zh',
+                uploadUrl: '/common/upload/files',
+                layoutTemplates: {
+                    main1: '{preview}\n' +
+                        '<div class="kv-upload-progress kv-hidden"></div><div class="clearfix"></div>\n' +
+                        '<div class="input-group {class}">\n' +
+                        '  <div class="input-group-btn">\n' +
+                        ' 	<button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><span id="checkBtn" style="margin-right:5px">人员基本信息上传</span><span class="caret"></span></button>\n' +
+                        '	<ul class="dropdown-menu pull-right">\n' +
+                        '		<li><a href="javascript:checkType(1)">人员基本信息</a></li>\n' +
+                        '		<li><a href="javascript:checkType(2)">个人执业信息</a></li>\n' +
+                        '		<li><a href="javascript:checkType(3)">年度考核信息</a></li>\n' +
+                        '		<li><a href="javascript:checkType(4)">医师定期考核信息</a></li>\n' +
+                        '	</ul>\n' +
+                        '  </div>\n' +
+                        '  {caption}\n' +
+                        '  <div class="input-group-btn">\n' +
+                        '    {remove}\n' +
+                        '    {browse}\n' +
+                        '  </div>\n' +
+                        '</div>'
+                },
+                showPreview: false,
+                msgPlaceholder: "选择上传的Excel文件",
+                removeClass: "btn btn-danger",
+                allowedFileExtensions: ["xlsx"]
+            });
+
+            $("#uploadForm").createForm(showImportResult);
+
+            checkType(1);
+        });
+
+        var type;
+        var map = {
+            1: ["人员基本信息上传", '/hrms/org/personal/upload/base'],
+            2: ["个人执业信息上传", '/hrms/org/personal/upload/practice'],
+            3: ["年度考核信息上传", '/hrms/org/personal/upload/yearAssess'],
+            4: ["医师定期考核信息上传", '/hrms/org/personal/upload/assess']
+        }
+
+        function checkType(a) {
+            type = a;
+            $("#checkBtn").text(map[a][0]);
+            $("#uploadForm").attr("action", map[a][1]);
+        }
+
+        function showImportResult(result) {
+            if (result) {
+                if (result.errorCount == 0) {
+                    $.successAlert("导入成功");
+                } else {
+                    var html = "<p>成功导入" + result.successCount + "条记录</p>";
+                    result.errors.forEach(function(a) {
+                        html += "<p>导入第<b>" + a.index + "</b>条记录失败：" + a.message + "</p>";
+                    });
+
+                    layer.alert(html, { icon: 6, area: ['600px', '200px'] });
+                }
+            } else {
+                $.successAlert("没有可导入的人员，是否正确使用模板");
+            }
+        }
+        </script>
+</body>
+
+</html>

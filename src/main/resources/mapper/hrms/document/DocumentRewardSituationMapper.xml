@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.document.DocumentRewardSituationMapper">
+  <resultMap id="BaseResultMap" type="com.paladin.hrms.model.document.DocumentRewardSituation">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="busi_id" jdbcType="VARCHAR" property="busiId" />
+    <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="project" jdbcType="VARCHAR" property="project" />
+    <result column="reward_level" jdbcType="VARCHAR" property="rewardLevel" />
+    <result column="reward_type" jdbcType="VARCHAR" property="rewardType" />
+    <result column="reward_date" jdbcType="DATE" property="rewardDate" />
+    <result column="award_department" jdbcType="VARCHAR" property="awardDepartment" />
+    <result column="is_cancel" jdbcType="VARCHAR" property="isCancel" />
+    <result column="money" jdbcType="VARCHAR" property="money" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="check_state" jdbcType="VARCHAR" property="checkState" />
+    <result column="have_file" jdbcType="VARCHAR" property="haveFile" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="update_id" jdbcType="VARCHAR" property="updateId" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <resultMap id="BaseResultMapVO" type="com.paladin.hrms.controller.document.pojo.DocumentRewardSituationVO">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="busi_id" jdbcType="VARCHAR" property="busiId" />
+    <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="project" jdbcType="VARCHAR" property="project" />
+    <result column="reward_level" jdbcType="VARCHAR" property="rewardLevel" />
+    <result column="reward_type" jdbcType="VARCHAR" property="rewardType" />
+    <result column="reward_date" jdbcType="DATE" property="rewardDate" />
+    <result column="award_department" jdbcType="VARCHAR" property="awardDepartment" />
+    <result column="is_cancel" jdbcType="VARCHAR" property="isCancel" />
+    <result column="money" jdbcType="VARCHAR" property="money" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="check_state" jdbcType="VARCHAR" property="checkState" />
+    <result column="have_file" jdbcType="VARCHAR" property="haveFile" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="update_id" jdbcType="VARCHAR" property="updateId" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, busi_id, relation_id, project, reward_level, reward_type, reward_date, award_department, 
+    is_cancel, money, reason, remark, check_state, have_file, create_at, create_id, update_at, 
+    update_id, state
+  </sql>
+  <!-- <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from document_reward_situation
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.paladin.hrms.model.document.RewardSituation">
+    insert into document_reward_situation (id, busi_id, relation_id, project, 
+      reward_level, reward_type, reward_date, 
+      award_department, is_cancel, money, 
+      reason, remark, check_state, 
+      have_file, create_at, create_id, 
+      update_at, update_id, state
+      )
+    values (#{id,jdbcType=VARCHAR}, #{busiId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{project,jdbcType=VARCHAR}, 
+      #{rewardLevel,jdbcType=VARCHAR}, #{rewardType,jdbcType=VARCHAR}, #{rewardDate,jdbcType=DATE}, 
+      #{awardDepartment,jdbcType=VARCHAR}, #{isCancel,jdbcType=VARCHAR}, #{money,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{checkState,jdbcType=VARCHAR}, 
+      #{haveFile,jdbcType=VARCHAR}, #{createAt,jdbcType=TIMESTAMP}, #{createId,jdbcType=VARCHAR}, 
+      #{updateAt,jdbcType=TIMESTAMP}, #{updateId,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.paladin.hrms.model.document.RewardSituation">
+    insert into document_reward_situation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="busiId != null">
+        busi_id,
+      </if>
+      <if test="relationId != null">
+        relation_id,
+      </if>
+      <if test="project != null">
+        project,
+      </if>
+      <if test="rewardLevel != null">
+        reward_level,
+      </if>
+      <if test="rewardType != null">
+        reward_type,
+      </if>
+      <if test="rewardDate != null">
+        reward_date,
+      </if>
+      <if test="awardDepartment != null">
+        award_department,
+      </if>
+      <if test="isCancel != null">
+        is_cancel,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="checkState != null">
+        check_state,
+      </if>
+      <if test="haveFile != null">
+        have_file,
+      </if>
+      <if test="createAt != null">
+        create_at,
+      </if>
+      <if test="createId != null">
+        create_id,
+      </if>
+      <if test="updateAt != null">
+        update_at,
+      </if>
+      <if test="updateId != null">
+        update_id,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null">
+        #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="project != null">
+        #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardLevel != null">
+        #{rewardLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardType != null">
+        #{rewardType,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardDate != null">
+        #{rewardDate,jdbcType=DATE},
+      </if>
+      <if test="awardDepartment != null">
+        #{awardDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="isCancel != null">
+        #{isCancel,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="checkState != null">
+        #{checkState,jdbcType=VARCHAR},
+      </if>
+      <if test="haveFile != null">
+        #{haveFile,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null">
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.paladin.hrms.model.document.RewardSituation">
+    update document_reward_situation
+    <set>
+      <if test="busiId != null">
+        busi_id = #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        relation_id = #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="project != null">
+        project = #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardLevel != null">
+        reward_level = #{rewardLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardType != null">
+        reward_type = #{rewardType,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardDate != null">
+        reward_date = #{rewardDate,jdbcType=DATE},
+      </if>
+      <if test="awardDepartment != null">
+        award_department = #{awardDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="isCancel != null">
+        is_cancel = #{isCancel,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="checkState != null">
+        check_state = #{checkState,jdbcType=VARCHAR},
+      </if>
+      <if test="haveFile != null">
+        have_file = #{haveFile,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        update_at = #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.paladin.hrms.model.document.RewardSituation">
+    update document_reward_situation
+    set busi_id = #{busiId,jdbcType=VARCHAR},
+      relation_id = #{relationId,jdbcType=VARCHAR},
+      project = #{project,jdbcType=VARCHAR},
+      reward_level = #{rewardLevel,jdbcType=VARCHAR},
+      reward_type = #{rewardType,jdbcType=VARCHAR},
+      reward_date = #{rewardDate,jdbcType=DATE},
+      award_department = #{awardDepartment,jdbcType=VARCHAR},
+      is_cancel = #{isCancel,jdbcType=VARCHAR},
+      money = #{money,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      check_state = #{checkState,jdbcType=VARCHAR},
+      have_file = #{haveFile,jdbcType=VARCHAR},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      create_id = #{createId,jdbcType=VARCHAR},
+      update_at = #{updateAt,jdbcType=TIMESTAMP},
+      update_id = #{updateId,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update> -->
+  
+  <!-- 以下代码非自动生成 -->
+  <select id="list" parameterType="map" resultMap="BaseResultMapVO">
+  	select <include refid="Base_Column_List" />
+  	from document_reward_situation
+  	<where>
+		state = '1'
+	  <if test="relationId != null">
+        and relation_id = #{relationId,jdbcType=VARCHAR}
+      </if>
+      <if test="project != null">
+        and project = #{project,jdbcType=VARCHAR}
+      </if>
+      <if test="rewardLevel != null">
+        and reward_level = #{rewardLevel,jdbcType=VARCHAR}
+      </if>
+      <if test="rewardType != null">
+        and reward_type = #{rewardType,jdbcType=VARCHAR}
+      </if>
+      <if test="rewardDate != null">
+        and reward_date = #{rewardDate,jdbcType=DATE}
+      </if>
+      <if test="awardDepartment != null">
+        and award_department = #{awardDepartment,jdbcType=VARCHAR}
+      </if>
+      <if test="isCancel != null">
+        and is_cancel = #{isCancel,jdbcType=VARCHAR}
+      </if>
+      <if test="money != null">
+        and money = #{money,jdbcType=VARCHAR}
+      </if>
+      <if test="reason != null">
+        and reason = #{reason,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="checkState != null">
+        and check_state = #{checkState,jdbcType=VARCHAR}
+      </if>
+      <if test="haveFile != null">
+        and have_file = #{haveFile,jdbcType=VARCHAR}
+      </if>
+      <if test="createAt != null">
+        and create_at = #{createAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createId != null">
+        and create_id = #{createId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateAt != null">
+        and update_at = #{updateAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateId != null">
+        and update_id = #{updateId,jdbcType=VARCHAR}
+      </if>
+	</where>
+	<choose>
+		<when test="sort != null and sort.trim() != ''">
+			order by ${sort} ${order}
+		</when>
+		<otherwise>
+			order by id desc
+		</otherwise>
+	</choose>
+	<if test="offset != null and limit != null">
+		limit #{offset}, #{limit}
+	</if>
+  </select>
+  
+  <select id="queryRewardSituationByBusiId" parameterType="String" resultMap="BaseResultMap">
+        select
+		<include refid="Base_Column_List" />
+		from document_reward_situation
+		where busi_id = #{busiId,jdbcType=VARCHAR}
+		and state = '1'
+  </select>
+  
+  <update id="deleteRewardSituation" parameterType="String">
+        update document_reward_situation
+        set state = '99'
+        where busi_id = #{busiId}
+        and state = '1'
+  </update>
+</mapper>

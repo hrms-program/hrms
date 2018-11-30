@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.org.OrgAgencyDetailMapper">
+
+<!-- <select id="getAgencyDetail" resultType="com.paladin.hrms.model.org.OrgAgencyDetailDTO">
+SELECT 
+  agency.`id` AS id,
+  detail.`agency_id` AS agencyId,
+  agency.`code` AS CODE,
+  agency.`name` AS NAME,
+  agency.`town_street` AS townStreet,
+  agency.`sname` AS sname,
+  agency.`is_state_run` AS isStateRun,
+  agency.`org_type` AS orgType,
+  agency.`org_level` AS orgLevel,
+  agency.`address` AS address,
+  agency.`city_code` AS cityCode,
+  agency.`town_code` AS townCode,
+  agency.`district_code` AS districtCode,
+  detail.`agency_classify` AS agencyClassify,
+  detail.`agency_belong` AS agencyBelong,
+  detail.`host_unit` AS hostUnit,
+  detail.`economic_type` AS economicType,
+  detail.`agency_category` agencyCategory,
+  detail.`hospital_grade` AS hospitalGrade,
+  detail.`agency_change` AS agencyChange,
+  detail.`agency_founding_time` AS agencyFoundingTime,
+  detail.`license_start_time` AS licenseStartTime,
+  detail.`license_end_time` AS licenseEndTime,
+  detail.`juridical_person_name` AS juridicalPersonName,
+  detail.`phone` AS phone,
+  detail.`approval_agency` AS approvalAgency,
+  detail.`approval_number` AS approvalNumber,
+  detail.`registered_capital` AS registeredCapital,
+  detail.`certificate_time` AS certificateTime,
+  detail.`open_bed_number` AS openBedNumber,
+  detail.`is_out_hospital_patient` AS isOutHospitalPatient,
+  detail.`is_enabled` AS isEnabled,
+  detail.`is_substrate_unit` AS isSubstrateUnit,
+  detail.`is_branch_agency` AS isBranchAgency,
+  detail.`postal_code` AS postalCode,
+  detail.`unit_email` AS unitEmail,
+  detail.`unit_website` AS unitWebsite,
+  detail.`transact_people` AS transactPeople,
+  detail.`input_people` AS inputPeople,
+  detail.`is_reporting_clinic` AS isReportingClinic,
+  detail.`clinic_reporting_agency` AS clinicReportingAgency,
+  detail.`is_village_clinic` AS isVillageClinic,
+  detail.`village_clinic_agency` AS villageClinicAgency,
+  detail.`agency_create_time` AS agencyCreateTime,
+  detail.`date_obsolete` AS dateObsolete,
+  detail.`agencys_create_time` AS agencysCreateTime,
+  detail.`agency_update_time` AS agencyUpdateTime
+FROM
+ org_agency AS agency
+  LEFT JOIN org_agency_detail AS detail
+    ON agency.id = detail.`agency_id`
+WHERE agency.`id` = #{id} 
+</select> -->
+</mapper>

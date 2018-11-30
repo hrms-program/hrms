@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.document.DocumentAttachmentMapper">
+  <resultMap id="BaseResultMap" type="com.paladin.hrms.model.document.DocumentAttachment">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="attach_name" jdbcType="VARCHAR" property="attachName" />
+    <result column="original_name" jdbcType="VARCHAR" property="originalName" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="suffix" jdbcType="VARCHAR" property="suffix" />
+    <result column="created_id" jdbcType="VARCHAR" property="createdId" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_id" jdbcType="VARCHAR" property="updatedId" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, attach_name, original_name, url, type, suffix, created_id, created_at, updated_id, 
+    updated_at, remarks, state
+  </sql>
+  <!-- <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from document_attachment
+    where id = #{id,jdbcType=VARCHAR}
+  </select> 
+  <insert id="insert" parameterType="com.paladin.hrms.model.document.Attachment">
+    insert into document_attachment (id, attach_name, original_name, 
+      url, type, suffix, 
+      created_id, created_at, updated_id, 
+      updated_at, remarks, state
+      )
+    values (#{id,jdbcType=VARCHAR}, #{attachName,jdbcType=VARCHAR}, #{originalName,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, 
+      #{createdId,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedId,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.paladin.hrms.model.document.Attachment">
+    insert into document_attachment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="attachName != null">
+        attach_name,
+      </if>
+      <if test="originalName != null">
+        original_name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="suffix != null">
+        suffix,
+      </if>
+      <if test="createdId != null">
+        created_id,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedId != null">
+        updated_id,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="attachName != null">
+        #{attachName,jdbcType=VARCHAR},
+      </if>
+      <if test="originalName != null">
+        #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="suffix != null">
+        #{suffix,jdbcType=VARCHAR},
+      </if>
+      <if test="createdId != null">
+        #{createdId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedId != null">
+        #{updatedId,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.paladin.hrms.model.document.Attachment">
+    update document_attachment
+    <set>
+      <if test="attachName != null">
+        attach_name = #{attachName,jdbcType=VARCHAR},
+      </if>
+      <if test="originalName != null">
+        original_name = #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="suffix != null">
+        suffix = #{suffix,jdbcType=VARCHAR},
+      </if>
+      <if test="createdId != null">
+        created_id = #{createdId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedId != null">
+        updated_id = #{updatedId,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.paladin.hrms.model.document.Attachment">
+    update document_attachment
+    set attach_name = #{attachName,jdbcType=VARCHAR},
+      original_name = #{originalName,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      suffix = #{suffix,jdbcType=VARCHAR},
+      created_id = #{createdId,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_id = #{updatedId,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update> -->
+  
+  <select id="selectAttachListByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> 
+  	from document_attachment
+  	where id in
+		<foreach collection="list" item="item" separator="," open="(" close=")" index="">
+			#{item}
+		</foreach>
+    and state = '1'
+  </select>
+  
+  <update id="updateRemarksByIds" parameterType="map">
+  	update document_attachment
+  	set remarks=#{remarks}
+  	where id in
+		<foreach collection="ids" item="item" separator="," open="(" close=")" index="">
+			#{item}
+		</foreach>
+    and state = '1'
+  </update>
+  
+  <select id="selectAttachListByRemarks" parameterType="string" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> 
+  	from document_attachment
+  	where remarks=#{0}
+  	and state='1'
+  </select>
+  
+  
+</mapper>

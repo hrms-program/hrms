@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.syst.SysUserMapper">
+    <update id="updateStateByAccount" >
+        UPDATE
+            sys_user
+        <set>
+            <if test="state != null">
+                sys_user.state = #{state}
+            </if>
+        </set>
+        WHERE sys_user.state = 5
+        <if test="account != null and account != ''">
+            AND sys_user.account = #{account}
+        </if>
+    </update>
+</mapper>

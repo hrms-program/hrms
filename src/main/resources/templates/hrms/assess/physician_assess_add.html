@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header"/>
+
+<body>
+<tt:constant enumcode="sex,physician-assess-result,assess-result-type"/>
+<section class="content">
+    <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">医师定期考核管理</h3>
+                <div class="pull-right box-tools">               
+                    <a class="btn btn-default btn-sm" href="/hrms/yskh/index">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body">
+                <form class="form-horizontal tonto-form-validate" action="/hrms/yskh/add/save"  callback-url="/hrms/yskh/index" method="post" th:object="${object}" id="addForm">
+                    <input type="hidden" th:value="${id}" name="id">
+                    <div class="form-group">
+                        <label for="identificationNo" class="col-sm-3 control-label">身份证号：</label>
+                        <div class="col-sm-2" >
+                            <input type="text" class="form-control" onblur="getIdcard(this)" name="identificationNo" th:value="${identificationNo}"  placeholder="请输入身份号码" required>
+                        </div>
+                        <label for="name" class="col-sm-2 control-label">姓名：</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="name" name="name" th:value="${name}"  placeholder="请输入姓名" required readonly="readonly"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sex" class="col-sm-3 control-label">性别：</label>
+                        <div class="col-sm-2" >
+                            <select  class="form-control tonto-select-constant" id="sex" name="sex" enumcode="sex" th:value="${sex}" disabled >
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                        <label for="agencyName" class="col-sm-2 control-label">所在机构：</label>
+                        <div class="col-sm-2" >
+                            <input type="text" class="form-control" id="agencyName" name="agencyName" th:value="${agencyName}"   placeholder="请输入机构名称" required  readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="assessCycle" class="col-sm-3 control-label">考核周期： </label>
+                        <div class="col-sm-2" >
+                            <input type="text" class="form-control tonto-datepicker-year" id="startTime" name="startTime" th:value="${startTime}"  placeholder="请选择考核开始时间" required>
+                        </div>
+                        <label class="col-sm-1 control-label"  style="width: 50px">至</label>
+                        <div class="col-sm-2"  >
+                            <input type="text" class="form-control tonto-datepicker-year" id="endTime" name="endTime" th:value="${endTime}"   placeholder="请选择考核结束时间" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="advanceAssessTime" class="col-sm-3 control-label">提前考核时间：</label>
+                        <div class="col-sm-2"   >
+                            <input type="text" class="form-control tonto-datepicker-date" id="advanceAssessTime" placeholder="请选择提前考核时间" name="advanceAssessTime" th:value="${advanceAssessTime}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="businessLevelEvaluation" class="col-sm-3 control-label">业务水平测评：</label>
+                        <div class="col-sm-2" >
+                            <select  class="form-control tonto-select-constant" enumcode="physician-assess-result" name="businessLevelEvaluation" th:value="${businessLevelEvaluation}"  required >
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                        <label for="jobPerformance" class="col-sm-2 control-label">工作成绩：</label>
+                        <div class="col-sm-2" >
+                            <select  class="form-control tonto-select-constant" enumcode="physician-assess-result" name="jobPerformance" th:value="${jobPerformance}"   required >
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="practiceMoralEvaluation" class="col-sm-3 control-label">执业道德评定：</label>
+                        <div class="col-sm-2" >
+                            <select  class="form-control tonto-select-constant" enumcode="physician-assess-result" name="practiceMoralEvaluation" th:value="${practiceMoralEvaluation}"  required  >
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                        <label for="assessResult" class="col-sm-2 control-label">考核结果：</label>
+                        <div class="col-sm-2" >
+                            <select  class="form-control tonto-select-constant" enumcode="physician-assess-result" name="assessResult" th:value="${assessResult}"  required >
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-3 control-label">说明：</label>
+                        <div class="col-sm-6" >
+                        <textarea name="description" id="description" class="form-control" rows="5" style="resize: none;" th:value="${description}"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-1 col-sm-offset-4">
+                            <button type="button" class="btn btn-primary btn-block" onclick="query()" >保存</button>
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-primary btn-block" onclick="location.href='/hrms/yskh/index'">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    </div>
+</section>
+<div th:include="hrms/footer"/>
+<script type="text/javascript">
+    /*<![CDATA[*/
+               
+    function getIdcard(id){
+    	var identificationNo =id.value.toUpperCase();
+    	$.post("/hrms/yskh/idCard",{identificationNo:identificationNo},function(res){
+    		if(res.result == null){
+    			$.errorMessage("该人员不存在,请重新输入！")
+    		}else{
+    			$("#name").val(res.result.name);
+    			$("#sex").val(res.result.sex);
+    			$("#agencyName").val(res.result.agencyName);
+    		}
+    	})
+    }
+               
+    function query() {
+        var stime = $("#startTime").val();
+        var etime = $("#endTime").val();
+        var atime = $("#advanceAssessTime").val();
+
+        $('#sex').removeAttr("disabled");
+        
+        if (stime >= etime) {
+            $.errorMessage("考核结束时间必须大于考核开始时间！")
+        } else if (atime) {
+            var ayear = parseInt(atime.substring(0,4));
+            if (ayear <etime){
+                $.errorMessage("提前考核时间必须大于等于考核结束时间！")
+            } else {
+                $("#addForm").submit()
+            }
+        } else {
+            $("#addForm").submit()
+        }
+    }
+    
+  
+    /*]]>*/
+
+</script>
+</body>
+</html>

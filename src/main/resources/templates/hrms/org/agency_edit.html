@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="hrms/header" />
+
+<body>
+    <tt:constant enumcode="boolean,org-level,org-type" />
+    <tt:agency />
+    <section class="container content" id="page">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-hospital-o"></i>
+                <h3 class="box-title">基本信息</h3>
+                <div class="box-tools pull-right">
+                    <a class="btn" id="base_edit_btn" href="javascript:void(0)"><i class="fa fa-edit"></i>编辑</a>
+                </div>
+            </div>
+            <input type="hidden" id="agencyId" th:value="${agencyId}" />
+            <div id="base_view" class="box-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">机构名称：</label>
+                        <div class="col-sm-3">
+                            <p name="name" class="form-control-static description"></p>
+                        </div>
+                        <label for="code" class="col-sm-2 control-label">机构代码：</label>
+                        <div class="col-sm-3">
+                            <p name="code" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="districtCode" class="col-sm-3 control-label">直属区域：</label>
+                        <div class="col-sm-8">
+                            <p name="districtCode" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sname" class="col-sm-3 control-label">机构简称：</label>
+                        <div class="col-sm-3">
+                            <p name="sname" class="form-control-static description"></p>
+                        </div>
+                        <label for="isStateRun" class="col-sm-2 control-label">是否公立机构或医院：</label>
+                        <div class="col-sm-3">
+                            <p name="isStateRun" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="orgType" class="col-sm-3 control-label">机构类别：</label>
+                        <div class="col-sm-3">
+                            <p name="orgType" class="form-control-static description"></p>
+                        </div>
+                        <label for="orgLevel" class="col-sm-2 control-label">机构级别：</label>
+                        <div class="col-sm-3">
+                            <p name="orgLevel" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="townStreet" class="col-sm-3 control-label">所在乡镇街道：</label>
+                        <div class="col-sm-3">
+                            <p name="townStreet" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="col-sm-3 control-label">机构地址：</label>
+                        <div class="col-sm-8">
+                            <p name="address" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="base_edit" class="box-body" style="display: none">
+                <form id="base_form" action="/hrms/org/agency/save/base" method="post" class="form-horizontal edit-body">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">机构名称：</label>
+                        <div class="col-sm-3">
+                            <input name="name" placeholder="请输入机构名称" type="text" class="form-control" />
+                        </div>
+                        <label for="code" class="col-sm-2 control-label">机构代码：</label>
+                        <div class="col-sm-3">
+                            <input name="code" placeholder="请输入机构代码" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="districtCode" class="col-sm-3 control-label">直属区域：</label>
+                        <div class="col-sm-3">
+                            <input name="districtCode" placeholder="请选择直属区域" type="text" class="form-control tonto-district-owned" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sname" class="col-sm-3 control-label">机构简称：</label>
+                        <div class="col-sm-3">
+                            <input name="sname" placeholder="请输入机构简称" type="text" class="form-control" />
+                        </div>
+                        <label for="isStateRun" class="col-sm-2 control-label">是否公立机构或医院：</label>
+                        <div class="col-sm-3">
+                            <select name="isStateRun" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="orgType" class="col-sm-3 control-label">机构类别：</label>
+                        <div class="col-sm-3">
+                            <select name="orgType" class="form-control tonto-select-constant" enumcode="org-type">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <label for="orgLevel" class="col-sm-2 control-label">机构级别：</label>
+                        <div class="col-sm-3">
+                            <select name="orgLevel" class="form-control tonto-select-constant" enumcode="org-level">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="townStreet" class="col-sm-3 control-label">所在乡镇街道：</label>
+                        <div class="col-sm-3">
+                            <input name="townStreet" placeholder="请输入所在乡镇街道" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="col-sm-3 control-label">机构地址：</label>
+                        <div class="col-sm-8">
+                            <input name="address" placeholder="请输入机构地址" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2 col-sm-offset-3">
+                            <button type="submit" id="base_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                        </div>
+                        <div class="col-sm-2 col-sm-offset-1">
+                            <button type="button" id="base_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-hospital-o"></i>
+                <h3 class="box-title">详细信息</h3>
+                <div class="box-tools pull-right">
+                    <a class="btn" id="detail_edit_btn" href="javascript:void(0)"><i class="fa fa-edit"></i>编辑</a>
+                </div>
+            </div>
+            <div id="detail_view" class="box-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="agencyClassify" class="col-sm-3 control-label">机构分类管理：</label>
+                        <div class="col-sm-3">
+                            <p name="agencyClassify" class="form-control-static description"></p>
+                        </div>
+                        <label for="agencyBelong" class="col-sm-2 control-label">机构隶属：</label>
+                        <div class="col-sm-3">
+                            <p name="agencyBelong" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="hostUnit" class="col-sm-3 control-label">主办单位：</label>
+                        <div class="col-sm-3">
+                            <p name="hostUnit" class="form-control-static description"></p>
+                        </div>
+                        <label for="economicType" class="col-sm-2 control-label">经济类型：</label>
+                        <div class="col-sm-3">
+                            <p name="economicType" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="agencyCategory" class="col-sm-3 control-label">机构类别：</label>
+                        <div class="col-sm-3">
+                            <p name="agencyCategory" class="form-control-static description"></p>
+                        </div>
+                        <label for="hospitalGrade" class="col-sm-2 control-label">医院等级：</label>
+                        <div class="col-sm-3">
+                            <p name="hospitalGrade" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="agencyChange" class="col-sm-3 control-label">机构变动情况：</label>
+                        <div class="col-sm-3">
+                            <p name="agencyChange" class="form-control-static description"></p>
+                        </div>
+                        <label for="agencyFoundingTime" class="col-sm-2 control-label">单位成立时间：</label>
+                        <div class="col-sm-3">
+                            <p name="agencyFoundingTime" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="licenseStartTime" class="col-sm-3 control-label">许可证有效期(开始)：</label>
+                        <div class="col-sm-3">
+                            <p name="licenseStartTime" class="form-control-static description"></p>
+                        </div>
+                        <label for="licenseEndTime" class="col-sm-2 control-label">许可证有效期(结束)：</label>
+                        <div class="col-sm-3">
+                            <p name="licenseEndTime" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="juridicalPersonName" class="col-sm-3 control-label">法人代表姓名：</label>
+                        <div class="col-sm-3">
+                            <p name="juridicalPersonName" class="form-control-static description"></p>
+                        </div>
+                        <label for="phone" class="col-sm-2 control-label">联系电话：</label>
+                        <div class="col-sm-3">
+                            <p name="phone" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="approvalNumber" class="col-sm-3 control-label">登记批准文号：</label>
+                        <div class="col-sm-3">
+                            <p name="approvalNumber" class="form-control-static description"></p>
+                        </div>
+                        <label for="approvalAgency" class="col-sm-2 control-label">登记批准机构：</label>
+                        <div class="col-sm-3">
+                            <p name="approvalAgency" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registeredCapital" class="col-sm-3 control-label">注册资金(万)：</label>
+                        <div class="col-sm-3">
+                            <p name="registeredCapital" class="form-control-static description"></p>
+                        </div>
+                        <label for="certificateTime" class="col-sm-2 control-label">办证日期：</label>
+                        <div class="col-sm-3">
+                            <p name="certificateTime" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="openBedNumber" class="col-sm-3 control-label">开放床位数：</label>
+                        <div class="col-sm-3">
+                            <p name="openBedNumber" class="form-control-static description"></p>
+                        </div>
+                        <label for="isOutHospitalPatient" class="col-sm-2 control-label">是否填报出院病人表：</label>
+                        <div class="col-sm-3">
+                            <p name="isOutHospitalPatient" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isEnabled" class="col-sm-3 control-label">是否启用：</label>
+                        <div class="col-sm-3">
+                            <p name="isEnabled" class="form-control-static description"></p>
+                        </div>
+                        <label for="isSubstrateUnit" class="col-sm-2 control-label">是否为基层单位：</label>
+                        <div class="col-sm-3">
+                            <p name="isSubstrateUnit" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isBranchAgency" class="col-sm-3 control-label">是否为分支机构：</label>
+                        <div class="col-sm-3">
+                            <p name="isBranchAgency" class="form-control-static description"></p>
+                        </div>
+                        <label for="postalCode" class="col-sm-2 control-label">邮政编码：</label>
+                        <div class="col-sm-3">
+                            <p name="postalCode" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="unitWebsite" class="col-sm-3 control-label">单位网站：</label>
+                        <div class="col-sm-3">
+                            <p name="unitWebsite" class="form-control-static description"></p>
+                        </div>
+                        <label for="unitEmail" class="col-sm-2 control-label">单位邮箱：</label>
+                        <div class="col-sm-3">
+                            <p name="unitEmail" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="transactPeople" class="col-sm-3 control-label">经办人：</label>
+                        <div class="col-sm-3">
+                            <p name="transactPeople" class="form-control-static description"></p>
+                        </div>
+                        <label for="inputPeople" class="col-sm-2 control-label">录入人：</label>
+                        <div class="col-sm-3">
+                            <p name="inputPeople" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isReportingClinic" class="col-sm-3 control-label">是否为代报诊所：</label>
+                        <div class="col-sm-3">
+                            <p name="isReportingClinic" class="form-control-static description"></p>
+                        </div>
+                        <label for="clinicReportingAgency" class="col-sm-2 control-label">最后修改时间：</label>
+                        <div class="col-sm-3">
+                            <p name="clinicReportingAgency" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isVillageClinic" class="col-sm-3 control-label">是否为代报村卫生室：</label>
+                        <div class="col-sm-3">
+                            <p name="isVillageClinic" class="form-control-static description"></p>
+                        </div>
+                        <label for="villageClinicAgency" class="col-sm-2 control-label">最后修改时间：</label>
+                        <div class="col-sm-3">
+                            <p name="villageClinicAgency" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="agencyCreateTime" class="col-sm-3 control-label">新增机构创建时间：</label>
+                        <div class="col-sm-3">
+                            <p name="agencyCreateTime" class="form-control-static description"></p>
+                        </div>
+                        <label for="dateObsolete" class="col-sm-2 control-label">作废日期：</label>
+                        <div class="col-sm-3">
+                            <p name="dateObsolete" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="createTime" class="col-sm-3 control-label">创建时间：</label>
+                        <div class="col-sm-3">
+                            <p name="createTime" class="form-control-static description"></p>
+                        </div>
+                        <label for="updateTime" class="col-sm-2 control-label">最后修改时间：</label>
+                        <div class="col-sm-3">
+                            <p name="updateTime" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="detail_edit" class="box-body" style="display: none">
+                <form id="detail_form" action="/hrms/org/agency/save/detail" method="post" class="form-horizontal edit-body">
+                    <div class="form-group">
+                        <label for="agencyClassify" class="col-sm-3 control-label">机构分类管理：</label>
+                        <div class="col-sm-3">
+                            <input name="agencyClassify" placeholder="请输入机构分类管理" type="text" class="form-control" />
+                        </div>
+                        <label for="agencyBelong" class="col-sm-2 control-label">机构隶属：</label>
+                        <div class="col-sm-3">
+                            <input name="agencyBelong" placeholder="请输入机构隶属" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="hostUnit" class="col-sm-3 control-label">主办单位：</label>
+                        <div class="col-sm-3">
+                            <input name="hostUnit" placeholder="请输入主办单位" type="text" class="form-control" />
+                        </div>
+                        <label for="economicType" class="col-sm-2 control-label">经济类型：</label>
+                        <div class="col-sm-3">
+                            <input name="economicType" placeholder="请输入经济类型" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="agencyCategory" class="col-sm-3 control-label">机构类别：</label>
+                        <div class="col-sm-3">
+                            <input name="agencyCategory" placeholder="请输入机构类别" type="text" class="form-control" />
+                        </div>
+                        <label for="hospitalGrade" class="col-sm-2 control-label">医院等级：</label>
+                        <div class="col-sm-3">
+                            <input name="hospitalGrade" placeholder="请输入医院等级" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="agencyChange" class="col-sm-3 control-label">机构变动情况：</label>
+                        <div class="col-sm-3">
+                            <input name="agencyChange" placeholder="请输入机构变动情况" type="text" class="form-control" />
+                        </div>
+                        <label for="agencyFoundingTime" class="col-sm-2 control-label">单位成立时间：</label>
+                        <div class="col-sm-3">
+                            <input name="agencyFoundingTime" placeholder="请输入单位成立时间" type="text" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="licenseStartTime" class="col-sm-3 control-label">许可证有效期(开始)：</label>
+                        <div class="col-sm-3">
+                            <input name="licenseStartTime" placeholder="请输入许可证有效期(开始)" type="text" class="form-control tonto-datepicker-date" />
+                        </div>
+                        <label for="licenseEndTime" class="col-sm-2 control-label">许可证有效期(结束)：</label>
+                        <div class="col-sm-3">
+                            <input name="licenseEndTime" placeholder="请输入许可证有效期(结束)" type="text" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="juridicalPersonName" class="col-sm-3 control-label">法人代表姓名：</label>
+                        <div class="col-sm-3">
+                            <input name="juridicalPersonName" placeholder="请输入法人代表姓名" type="text" class="form-control" />
+                        </div>
+                        <label for="phone" class="col-sm-2 control-label">联系电话：</label>
+                        <div class="col-sm-3">
+                            <input name="phone" placeholder="请输入联系电话" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="approvalNumber" class="col-sm-3 control-label">登记批准文号：</label>
+                        <div class="col-sm-3">
+                            <input name="approvalNumber" placeholder="请输入登记批准文号" type="text" class="form-control" />
+                        </div>
+                        <label for="approvalAgency" class="col-sm-2 control-label">登记批准机构：</label>
+                        <div class="col-sm-3">
+                            <input name="approvalAgency" placeholder="请输入登记批准机构" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registeredCapital" class="col-sm-3 control-label">注册资金(万)：</label>
+                        <div class="col-sm-3">
+                            <input name="registeredCapital" placeholder="请输入注册资金(万)" type="text" class="form-control" />
+                        </div>
+                        <label for="certificateTime" class="col-sm-2 control-label">办证日期：</label>
+                        <div class="col-sm-3">
+                            <input name="certificateTime" placeholder="请输入办证日期" type="text" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="openBedNumber" class="col-sm-3 control-label">开放床位数：</label>
+                        <div class="col-sm-3">
+                            <input name="openBedNumber" placeholder="请输入开放床位数" type="text" class="form-control" />
+                        </div>
+                        <label for="isOutHospitalPatient" class="col-sm-2 control-label">是否填报出院病人表：</label>
+                        <div class="col-sm-3">
+                            <select name="isOutHospitalPatient" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isEnabled" class="col-sm-3 control-label">是否启用：</label>
+                        <div class="col-sm-3">
+                            <select name="isEnabled" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <label for="isSubstrateUnit" class="col-sm-2 control-label">是否为基层单位：</label>
+                        <div class="col-sm-3">
+                            <select name="isSubstrateUnit" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isBranchAgency" class="col-sm-3 control-label">是否为分支机构：</label>
+                        <div class="col-sm-3">
+                            <select name="isBranchAgency" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <label for="postalCode" class="col-sm-2 control-label">邮政编码：</label>
+                        <div class="col-sm-3">
+                            <input name="postalCode" placeholder="请输入邮政编码" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="unitWebsite" class="col-sm-3 control-label">单位网站：</label>
+                        <div class="col-sm-3">
+                            <input name="unitWebsite" placeholder="请输入单位网站" type="text" class="form-control" />
+                        </div>
+                        <label for="unitEmail" class="col-sm-2 control-label">单位邮箱：</label>
+                        <div class="col-sm-3">
+                            <input name="unitEmail" placeholder="请输入单位邮箱" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="transactPeople" class="col-sm-3 control-label">经办人：</label>
+                        <div class="col-sm-3">
+                            <input name="transactPeople" placeholder="请输入经办人" type="text" class="form-control" />
+                        </div>
+                        <label for="inputPeople" class="col-sm-2 control-label">录入人：</label>
+                        <div class="col-sm-3">
+                            <input name="inputPeople" placeholder="请输入录入人" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isReportingClinic" class="col-sm-3 control-label">是否为代报诊所：</label>
+                        <div class="col-sm-3">
+                            <select name="isReportingClinic" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <label for="clinicReportingAgency" class="col-sm-2 control-label">最后修改时间：</label>
+                        <div class="col-sm-3">
+                            <input name="clinicReportingAgency" placeholder="请输入最后修改时间" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isVillageClinic" class="col-sm-3 control-label">是否为代报村卫生室：</label>
+                        <div class="col-sm-3">
+                            <select name="isVillageClinic" class="form-control tonto-select-constant" enumcode="boolean">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <label for="villageClinicAgency" class="col-sm-2 control-label">最后修改时间：</label>
+                        <div class="col-sm-3">
+                            <input name="villageClinicAgency" placeholder="请输入最后修改时间" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="agencyCreateTime" class="col-sm-3 control-label">新增机构创建时间：</label>
+                        <div class="col-sm-3">
+                            <input name="agencyCreateTime" placeholder="请输入新增机构创建时间" type="text" class="form-control tonto-datepicker-date" />
+                        </div>
+                        <label for="dateObsolete" class="col-sm-2 control-label">作废日期：</label>
+                        <div class="col-sm-3">
+                            <input name="dateObsolete" placeholder="请输入作废日期" type="text" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="createTime" class="col-sm-3 control-label">创建时间：</label>
+                        <div class="col-sm-3">
+                            <input name="createTime" placeholder="请输入创建时间" type="text" class="form-control tonto-datepicker-date" />
+                        </div>
+                        <label for="updateTime" class="col-sm-2 control-label">最后修改时间：</label>
+                        <div class="col-sm-3">
+                            <input name="updateTime" placeholder="请输入最后修改时间" type="text" class="form-control tonto-datepicker-date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2 col-sm-offset-3">
+                            <button type="submit" id="detail_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                        </div>
+                        <div class="col-sm-2 col-sm-offset-1">
+                            <button type="button" id="detail_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <div class="toolbar">
+        <a href="javascript:scroll(0,0)" class="btn toolbar-item"><i class="glyphicon glyphicon-arrow-up"></i></a>
+        <a href="/hrms/org/agency/index" class="btn toolbar-item"><i class="glyphicon glyphicon-menu-left"></i></a>
+    </div>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    var detailModelConfig = {
+        id: "detail",
+        name: "详细信息",
+        columns: [
+            { inputType: "TEXT", title: "机构分类管理", name: "agencyClassify" },
+            { inputType: "TEXT", title: "机构隶属", name: "agencyBelong" },
+            { inputType: "TEXT", title: "主办单位", name: "hostUnit" },
+            { inputType: "TEXT", title: "经济类型", name: "economicType" },
+            { inputType: "TEXT", title: "机构类别", name: "agencyCategory" },
+            { inputType: "TEXT", title: "医院等级", name: "hospitalGrade" },
+            { inputType: "TEXT", title: "机构变动情况", name: "agencyChange" },
+            { inputType: "DATE", title: "单位成立时间", name: "agencyFoundingTime" },
+            { inputType: "DATE", title: "许可证有效期(开始)", name: "licenseStartTime" },
+            { inputType: "DATE", title: "许可证有效期(结束)", name: "licenseEndTime" },
+            { inputType: "TEXT", title: "法人代表姓名", name: "juridicalPersonName" },
+            { inputType: "TEXT", title: "联系电话", name: "phone" },
+            { inputType: "TEXT", title: "登记批准文号", name: "approvalNumber" },
+            { inputType: "TEXT", title: "登记批准机构", name: "approvalAgency" },
+            { inputType: "TEXT", title: "注册资金(万)", name: "registeredCapital" },
+            { inputType: "DATE", title: "办证日期", name: "certificateTime" },
+            { inputType: "TEXT", title: "开放床位数", name: "openBedNumber" },
+            { inputType: "SELECT", title: "是否填报出院病人表", name: "isOutHospitalPatient", enum: "boolean" },
+            { inputType: "SELECT", title: "是否启用", name: "isEnabled", enum: "boolean" },
+            { inputType: "SELECT", title: "是否为基层单位", name: "isSubstrateUnit", enum: "boolean" },
+            { inputType: "SELECT", title: "是否为分支机构", name: "isBranchAgency", enum: "boolean" },
+            { inputType: "TEXT", title: "邮政编码", name: "postalCode" },
+            { inputType: "TEXT", title: "单位网站", name: "unitWebsite" },
+            { inputType: "TEXT", title: "单位邮箱", name: "unitEmail" },
+            { inputType: "TEXT", title: "经办人", name: "transactPeople" },
+            { inputType: "TEXT", title: "录入人", name: "inputPeople" },
+            { inputType: "SELECT", title: "是否为代报诊所", name: "isReportingClinic", enum: "boolean" },
+            { inputType: "TEXT", title: "最后修改时间", name: "clinicReportingAgency" },
+            { inputType: "SELECT", title: "是否为代报村卫生室", name: "isVillageClinic", enum: "boolean" },
+            { inputType: "TEXT", title: "最后修改时间", name: "villageClinicAgency" },
+            { inputType: "DATE", title: "新增机构创建时间", name: "agencyCreateTime" },
+            { inputType: "DATE", title: "作废日期", name: "dateObsolete" },
+            { inputType: "DATE", title: "创建时间", name: "createTime" },
+            { inputType: "DATE", title: "最后修改时间", name: "updateTime" }
+        ]
+    };
+
+    var baseModelConfig = {
+        id: "base",
+        name: "基本信息",
+        columns: [
+            { name: "id", inputType: "ID" },
+            { name: "name", inputType: "TEXT", title: "机构名称" },
+            { name: "code", inputType: "TEXT", title: "机构代码" },
+            { name: "districtCode", inputType: "DISTRICT", title: "直属区域" },
+            { name: "sname", inputType: "TEXT", title: "机构简称" },
+            { name: "isStateRun", inputType: "SELECT", enum: "boolean", title: "是否公立机构或医院" },
+            { name: "orgType", inputType: "SELECT", enum: "org-type", title: "机构类别" },
+            { name: "orgLevel", inputType: "SELECT", enum: "org-level", title: "机构级别" },
+            { name: "townStreet", inputType: "TEXT", title: "所在乡镇街道" },
+            { name: "address", inputType: "TEXT", title: "机构地址", colspan: 2 }
+        ]
+    };
+
+    var baseModel;
+    var detailModel;
+    var agencyId;
+    $(function() {
+        agencyId = $("#agencyId").val();
+        baseModel = new tonto.Model(baseModelConfig.id, baseModelConfig.columns, {
+            successCallback: function(data) {
+                $.successMessage("保存成功");
+                baseModel.setData(data)
+                baseModel.toView();
+                agencyId = data.id;
+            },
+            extraParam: function() {
+                return {
+                    id: agencyId || ""
+                }
+            }
+        });
+
+        detailModel = new tonto.Model(detailModelConfig.id, detailModelConfig.columns, {
+            extraParam: function() {
+                return {
+                    agencyId: agencyId || ""
+                }
+            },
+            beforeSubmit: function(formData) {
+                if (!agencyId) {
+                    $.errorMessage("请先新增一个机构基础信息！");
+                    return false;
+                }
+            },
+        });
+
+        if (agencyId) {
+            $.getAjax("/hrms/org/agency/get/detail?id=" + agencyId, function(data) {
+                baseModel.setData(data.base);
+                detailModel.setData(data.detail);
+            });
+        } else {
+            baseModel.setData(null);
+            detailModel.setData(null);
+        }
+    });
+    </script>
+</body>
+
+</html>

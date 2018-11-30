@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header"/>
+
+<body>
+<tt:constant enumcode="sex,identification-type,complaint-status"/>
+<input type="hidden" id="personnelId" th:value="${personnelId}" />
+<section class="content-header">
+    <h1>申诉管理</h1>
+</section>
+<section class="container content">
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            <i class="glyphicon glyphicon-user"></i>
+            <h3 class="box-title">证件绑定信息</h3>
+            <div class="box-tools pull-right">
+                <a class="btn" href="/hrms/complaint/zjbind/index"><i class="fa fa-times"></i></a>
+            </div>
+        </div>
+        <div id="base_view" class="box-body">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="nowIdentificationNo" class="col-sm-3 control-label">证件号码(现有)：</label>
+                    <div class="col-sm-3">
+                        <p name="nowIdentificationNo" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="usedIdentificationType" class="col-sm-3 control-label">证件类型(曾用)：</label>
+                    <div class="col-sm-3">
+                        <p name="usedIdentificationType" class="form-control-static description"></p>
+                    </div>
+                    <label for="usedIdentificationNo" class="col-sm-2 control-label">证件号码(曾用)：</label>
+                    <div class="col-sm-3">
+                        <p name="usedIdentificationNo" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="illustrate" class="col-sm-3 control-label">审核意见：</label>
+                    <div class="col-sm-5">
+                        <input name="illustrate" placeholder="请输入处理信息" type="text" class="form-control" />
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div name="attachments">
+                    </div>
+                </div>
+                <div class="form-group" style="padding-top:20px">
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <button type="button" id="passBtn" onclick="checkSuccess()" class="btn btn-success btn-block"><i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;审核通过</button>
+                    </div>
+                    <div class="col-sm-2 col-sm-offset-1">
+                        <button type="button" id="unpassBtn" onclick="checkFail()" class="btn btn-danger btn-block"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;审核不通过</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</section>
+<div th:include="hrms/footer"/>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var complaintModelConfig = {
+        id: "base",
+        name: "证件绑定信息",
+        columns: [
+            { name: "id", inputType: "ID" },
+            { name: "nowIdentificationNo", inputType: "TEXT", title: "证件号码(现有)" },
+            { name: "usedIdentificationType", inputType: "SELECT", title: "证件类型(曾用)",enum: "identification-type"  },
+            { name: "usedIdentificationNo", inputType: "TEXT", title: "证件号码(曾用)" },
+            { name: "illustrate", inputType: "TEXT", title: "审核意见" },
+            { name: "attachments", inputType: "ATTACHMENT", fileName: "attachmentFiles",title:"附件上传" }
+        ]
+    };
+
+    var baseModel;
+    var personnelId;
+    $(function () {
+        personnelId = $("#personnelId").val();
+        baseModel = new tonto.Model(complaintModelConfig.id, complaintModelConfig.columns, {
+            successCallback: function(data) {
+                $.successMessage("审核成功");
+                baseModel.setData(data);
+                baseModel.toView();
+            },
+            extraParam: function() {
+                return {
+
+                    personalId:personnelId || ""
+
+                }
+            }
+        });
+        //console.log(generateHtml(complaintModelConfig))
+        if (personnelId) {
+            $.getAjax("/hrms/complaint/zjbind/get/detail?id=" + personnelId, function(data) {
+                baseModel.setData(data);
+            });
+        } else {
+            baseModel.setData(null);
+        }
+    })
+    function checkSuccess() {
+        $.postAjax("/hrms/complaint/zjbind/check/success", {
+            id: personnelId,
+            illustrate: $("input[name='illustrate']").val()
+        }, function(data) {
+            $.successAlert("操作成功", function() {
+                window.location = '/hrms/complaint/zjbind/index';
+            });
+        });
+    }
+
+    function checkFail() {
+        var ill = $("input[name='illustrate']").val();
+        if (!ill) {
+            $.errorMessage("请填写审核意见");
+            return;
+        }
+        $.postAjax("/hrms/complaint/zjbind/check/fail", {
+            id: personnelId,
+            illustrate: ill
+        }, function(data) {
+            $.successAlert("操作成功", function() {
+                window.location = '/hrms/complaint/zjbind/index';
+            });
+        });
+    }
+
+
+    /*]]>*/
+</script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header"/>
+
+<body>
+<tt:constant enumcode="sex,identification-type,complaint-status,complaint-problem-type,check-status"/>
+<input type="hidden" id="personnelId" th:value="${personnelId}" />
+<input type="hidden" id="complaintId" th:value="${complaintId}" />
+<input type="hidden" id="havedComplaintProblemType" th:value="${typesString}">
+<section class="container content" >
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            <i class="glyphicon glyphicon-user"></i>
+            <h3 class="box-title">问题申诉详细信息</h3>
+            <div class="box-tools pull-right">
+                <a class="btn" id="base_edit_btn" href="javascript:void(0)"><i class="fa fa-edit"></i>编辑</a>
+            </div>
+        </div>
+        <div id="base_view" class="box-body">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="type" class="col-sm-3 control-label">申诉问题：</label>
+                    <div class="col-sm-3">
+                        <p name="type" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="oldIdentificationType" class="col-sm-3 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>原证件类型：</label>
+                    <div class="col-sm-3">
+                        <p name="oldIdentificationType" class="form-control-static description"></p>
+                    </div>
+                    <label for="nowIdentificationType" class="col-sm-2 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>修改证件类型：</label>
+                    <div class="col-sm-3">
+                        <p name="nowIdentificationType" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="oldIdentificationNo" class="col-sm-3 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>原身份证：</label>
+                    <div class="col-sm-3">
+                        <p name="oldIdentificationNo" class="form-control-static description"></p>
+                    </div>
+                    <label for="nowIdentificationNo" class="col-sm-2 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>修改身份证：</label>
+                    <div class="col-sm-3">
+                        <p name="nowIdentificationNo" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="oldName" class="col-sm-3 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>原姓名：</label>
+                    <div class="col-sm-3">
+                        <p name="oldName" class="form-control-static description"></p>
+                    </div>
+                    <label for="nowName" class="col-sm-2 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>修改姓名：</label>
+                    <div class="col-sm-3">
+                        <p name="nowName" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="oldSex" class="col-sm-3 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>原性别：</label>
+                    <div class="col-sm-3">
+                        <p name="oldSex" class="form-control-static description"></p>
+                    </div>
+                    <label for="nowSex" class="col-sm-2 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>修改性别：</label>
+                    <div class="col-sm-3">
+                        <p name="nowSex" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cellphone" class="col-sm-3 control-label">电话：</label>
+                    <div class="col-sm-3">
+                        <p name="cellphone" class="form-control-static description"></p>
+                    </div>
+                    <label for="qq" class="col-sm-2 control-label">QQ：</label>
+                    <div class="col-sm-3">
+                        <p name="qq" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="col-sm-3 control-label">邮箱：</label>
+                    <div class="col-sm-3">
+                        <p name="email" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="illustrate" class="col-sm-3 control-label">处理信息：</label>
+                    <div class="col-sm-3">
+                        <p name="illustrate" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="status" class="col-sm-3 control-label">处理状态：</label>
+                    <div class="col-sm-3">
+                        <p name="status" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div name="attachments">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-5">
+                        <button type="button"  onclick="window.location ='/hrms/complaint/personnel/user/index'"  class="btn btn-primary btn-block">返回</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="base_edit" class="box-body" style="display: none">
+            <form id="base_form" action="/hrms/complaint/personnel/save/complaint" method="post" class="form-horizontal edit-body">
+                <input type="hidden" id="complaintProblemType" name="type">
+                <div class="form-group">
+                    <label for="oldIdentificationType" class="col-sm-3 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>原证件类型：</label>
+                    <div class="col-sm-3">
+                        <select name="oldIdentificationType" id="oldIdentificationType"   class="form-control tonto-select-constant" enumcode="identification-type">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <label for="nowIdentificationType" class="col-sm-2 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>修改证件类型：</label>
+                    <div class="col-sm-3">
+                        <select name="nowIdentificationType" id="nowIdentificationType" class="form-control tonto-select-constant" enumcode="identification-type">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="oldIdentificationNo" class="col-sm-3 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>原身份证：</label>
+                    <div class="col-sm-3">
+                        <input name="oldIdentificationNo" id="oldIdentificationNo" readonly placeholder="请输入原身份证" type="text" class="form-control"/>
+                    </div>
+                    <label for="nowIdentificationNo" class="col-sm-2 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>修改身份证：</label>
+                    <div class="col-sm-3">
+                        <input name="nowIdentificationNo" id="nowIdentificationNo" placeholder="请输入修改身份证" type="text" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="oldName" class="col-sm-3 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>原姓名：</label>
+                    <div class="col-sm-3">
+                        <input name="oldName" id="oldName" readonly placeholder="请输入原姓名" type="text" class="form-control"/>
+                    </div>
+                    <label for="nowName" class="col-sm-2 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>修改姓名：</label>
+                    <div class="col-sm-3">
+                        <input name="nowName" id="nowName" placeholder="请输入修改姓名" type="text" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="oldSex" class="col-sm-3 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>原性别：</label>
+                    <div class="col-sm-3">
+                        <select name="oldSex" id="oldSex" class="form-control tonto-select-constant" enumcode="sex">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <label for="nowSex" class="col-sm-2 control-label"><font class="glyphicon glyphicon-asterisk" style="color: red"></font>修改性别：</label>
+                    <div class="col-sm-3">
+                        <select name="nowSex" id="nowSex" class="form-control tonto-select-constant" enumcode="sex">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cellphone" class="col-sm-3 control-label">电话：</label>
+                    <div class="col-sm-3">
+                        <input name="cellphone" placeholder="请输入电话" type="text" class="form-control"/>
+                    </div>
+                    <label for="qq" class="col-sm-2 control-label">QQ：</label>
+                    <div class="col-sm-3">
+                        <input name="qq" placeholder="请输入QQ" type="text" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="col-sm-3 control-label">邮箱：</label>
+                    <div class="col-sm-3">
+                        <input name="email" placeholder="请输入邮箱" type="text" class="form-control"/>
+                    </div>
+                </div>
+                <!--<div class="form-group">
+                    <label for="illustrate" class="col-sm-3 control-label">处理信息：</label>
+                    <div class="col-sm-3">
+                        <input name="illustrate" placeholder="请输入处理信息" type="text" class="form-control"/>
+                    </div>
+                    <label for="status" class="col-sm-2 control-label">处理状态：</label>
+                    <div class="col-sm-3">
+                        <select name="status" class="form-control tonto-select-constant" enumcode="complaint-status">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>-->
+                <div class="form-group">
+                    <label for="attachments" class="col-sm-3 control-label">附件上传：</label>
+                    <div class="col-sm-9">
+                        <input type="file" name="attachmentFiles" multiple>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <button type="submit" id="base_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                    </div>
+                    <div class="col-sm-2 col-sm-offset-1">
+                        <button type="button" id="base_form_cancel_btn" class="btn btn-default btn-block">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<div th:include="hrms/footer"/>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var complaintModelConfig = {
+        id: "base",
+        name: "问题申诉详细信息",
+        columns: [
+            { name: "id", inputType: "ID" },
+            { name: "type", inputType: "SELECT",title:"申诉问题",enum: "complaint-problem-type" },
+            { name: "oldIdentificationType", inputType: "SELECT", title: "原证件类型" ,enum: "identification-type"},
+            { name: "nowIdentificationType", inputType: "SELECT", title: "修改证件类型",enum: "identification-type"},
+            { name: "oldIdentificationNo", inputType: "TEXT", title: "原身份证" },
+            { name: "nowIdentificationNo", inputType: "TEXT", title: "修改身份证"},
+            { name: "oldName", inputType: "TEXT", title: "原姓名"},
+            { name: "nowName", inputType: "TEXT", title: "修改姓名"},
+            { name: "oldSex", inputType: "SELECT", title: "原性别", enum: "sex"},
+            { name: "nowSex", inputType: "SELECT", title: "修改性别", enum: "sex"},
+            { name: "cellphone", inputType: "TEXT", title: "电话" },
+            { name: "qq", inputType: "TEXT", title: "QQ" },
+            { name: "email", inputType: "TEXT", title: "邮箱" },
+            { name: "illustrate", inputType: "TEXT", title: "处理信息" },
+            { name: "status", inputType: "SELECT", title: "处理状态",enum: "complaint-status"  },
+            { name: "attachments", inputType: "ATTACHMENT", fileName: "attachmentFiles",title:"附件上传" }
+        ]
+    };
+
+    var baseModel;
+    var personnelId;
+    var complaintId;
+    $(function () {
+        personnelId = $("#personnelId").val();
+        complaintId = $("#complaintId").val();
+        baseModel = new tonto.Model(complaintModelConfig.id, complaintModelConfig.columns, {
+            successCallback: function(data) {
+                $.successMessage("保存成功");
+                baseModel.setData(data)
+                baseModel.toView();
+                complaintId = data.id;
+
+            },
+            extraParam: function() {
+                return {
+                    id: complaintId || "",
+                    personnelId:personnelId || ""
+                }
+            },
+            beforeSubmit:function (formData) {
+                //var   $havedComplaintProblemType = $("#havedComplaintProblemType").val()
+                var old = {
+                    "identificationType":$("#oldIdentificationType option:selected").text(),
+                    "identificationNo":$("#oldIdentificationNo").val(),
+                    "name":$("#oldName").val(),
+                    "sex":$("#oldSex option:selected").text()
+                }
+                var now = {
+                    "identificationType":$("#nowIdentificationType option:selected").text(),
+                    "identificationNo":$.trim($("#nowIdentificationNo").val()),
+                    "name":$.trim($("#nowName").val()),
+                    "sex":$("#nowSex option:selected").text()
+                }
+                var filed = checkReturnFiled(old,now);
+                var count = checkReturnCount(old,now);
+                if (count == 1){
+                    if ("identificationType" === filed)
+                        formData[0].value = 1;
+                    if ("identificationNo" === filed)
+                        formData[0].value = 2;
+                    if ("name" === filed)
+                        formData[0].value = 3;
+                    if ("sex" === filed )
+                        formData[0].value = 4;
+                } else {
+                    formData[0].value = 5;
+                }
+                console.log(formData);
+                // var index = $havedComplaintProblemType.indexOf(complaintProblemType.toString());
+
+            }
+        });
+        if (complaintId) {
+            $.getAjax("/hrms/complaint/personnel/get/detail?id=" + complaintId, function(data) {
+                baseModel.setData(data.base);
+            });
+        } else {
+            $.getAjax("/hrms/complaint/personnel/get/base?id=" + personnelId, function(data) {
+                baseModel.setData(data.base);
+            });
+        }
+    })
+    var count;
+    var filed;
+    function checkReturnCount(o1,o2) {
+        count = 0
+        for (f in o1) {
+            if ( o1[f] != o2[f]) count++
+        }
+        return  count;
+    }
+    function checkReturnFiled(o1,o2) {
+        filed = ''
+        for (f in o1) {
+            if ( o1[f] != o2[f])  filed = f
+        }
+        return filed
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

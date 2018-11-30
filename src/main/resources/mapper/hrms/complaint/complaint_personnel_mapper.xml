@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.complaint.ComplaintPersonnelMapper">
+
+	<select id="findComplaintPersonnel" resultType="com.paladin.hrms.service.complaint.dto.ComplaintPersonnelSimpleVO">
+		SELECT
+			c.personnel_id AS personnelId,
+			a.name,
+			a.agency_name AS agencyName,
+			c.type,
+			c.status,
+			c.create_time AS createTime
+		FROM complaint_personnel c LEFT JOIN org_personnel a ON c.personnel_id = a.id
+		WHERE c.status = 0
+		<if test="permission.cityCode!=null">
+			AND a.city_code =#{permission.cityCode}
+		</if>
+		<if test="permission.cityCodes!=null">
+			AND a.city_code IN
+			<foreach collection="permission.cityCodes" index="index"
+				item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="permission.townCode!=null">
+			AND a.town_code =#{permission.townCode}
+		</if>
+		<if test="permission.townCodes!=null">
+			AND a.town_code IN
+			<foreach collection="permission.townCodes" index="index"
+				item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="permission.districtCode!=null">
+			AND a.district_code =#{permission.districtCode}
+		</if>
+		<if test="permission.districtCodes!=null">
+			AND a.district_code IN
+			<foreach collection="permission.districtCodes" index="index"
+				item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="permission.agencyId!=null">
+			AND a.agency_id =#{permission.agencyId}
+		</if>
+		<if test="permission.agencyIds!=null">
+			AND a.agency_id IN
+			<foreach collection="permission.agencyIds" index="index"
+				item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="query.name!=null and query.name !=''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+
+		<if test="query.type!=null">
+			AND c.type = #{query.type}
+		</if>
+	</select>
+	
+	<select id="getComplaintPersonnelById" parameterType="string" resultType="com.paladin.hrms.controller.complaint.pojo.ComplaintPersonnelVO">
+        SELECT a.id AS personnelId,
+		       a.identification_type AS oldIdentificationType,
+		       a.identification_no AS oldIdentificationNo,
+		       a.name AS oldName,
+		       a.sex AS oldSex,
+		       b.now_identification_type AS nowIdentificationType,
+		       b.now_identification_no AS nowIdentificationNo,
+		       b.now_name AS nowName,
+		       b.now_sex AS nowSex,
+		       b.type,
+		       CASE
+		           WHEN b.personnel_id IS NULL THEN a.cellphone
+		           ELSE b.cellphone
+		       END AS cellphone,
+		       b.email,
+		       b.qq,
+		       b.illustrate,
+		       b.status,
+		       b.attachments
+		FROM org_personnel a
+		LEFT JOIN complaint_personnel b ON a.id = b.personnel_id
+		WHERE a.is_delete = 0
+		  AND a.id =#{id}
+	</select>
+
+    <update id="checkComplaintPersonnel">
+        UPDATE  complaint_personnel SET illustrate = #{illustrate},status = #{status}           
+        WHERE  status = 0 AND personnel_id = #{id}
+    </update>
+</mapper>

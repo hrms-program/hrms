@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.org.OrgPersonnelMapper">
+	<select id="findPersonnel" resultType="com.paladin.hrms.service.org.dto.OrgPersonnelVO">
+		SELECT
+			a.id AS id,
+			a.identification_type AS identificationType,
+			a.identification_no AS identificationNo,
+			a.sex AS sex,
+			a.name AS name,
+			a.cellphone AS cellphone,
+			a.agency_id AS agencyId,
+			a.agency_name AS agencyName,
+			a.city_code AS cityCode,
+			a.town_code AS townCode,
+			a.district_code AS districtCode,
+			b.major AS major,
+			c.personnel_type AS personnelType			
+		FROM org_personnel a LEFT JOIN org_personnel_job b ON a.id = b.id LEFT JOIN org_personnel_practice c on a.id = c.id
+		WHERE a.is_delete = 0 
+		    AND a.status != 2
+		<if test="permission.cityCode!=null">
+			AND a.city_code =#{permission.cityCode}
+		</if>
+		<if test="permission.cityCodes!=null">
+			AND a.city_code IN
+			<foreach collection="permission.cityCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="permission.townCode!=null">
+			AND a.town_code =#{permission.townCode}
+		</if>
+		<if test="permission.townCodes!=null">
+			AND a.town_code IN
+			<foreach collection="permission.townCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="permission.districtCode!=null">
+			AND a.district_code =#{permission.districtCode}
+		</if>
+		<if test="permission.districtCodes!=null">
+			AND a.district_code IN
+			<foreach collection="permission.districtCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="permission.agencyId!=null">
+			AND a.agency_id =#{permission.agencyId}
+		</if>
+		<if test="permission.agencyIds!=null">
+			AND a.agency_id IN
+			<foreach collection="permission.agencyIds" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="query.name!=null and query.name !=''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		
+		<if test="query.agencyName!=null and query.agencyName !=''">
+			AND a.agency_name LIKE CONCAT('%',#{query.agencyName},'%')
+		</if>
+		
+		<if test="query.identificationNo!=null and query.identificationNo !=''">
+			AND a.identification_no LIKE CONCAT('%',#{query.identificationNo},'%')
+		</if>
+		
+		<if test="query.sex!=null">
+			AND a.sex =#{query.sex}
+		</if>
+		<if test="query.sexes!=null">
+			AND a.sex IN
+			<foreach collection="query.sexes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="query.dept!=null and query.dept !=''">
+			AND b.dept =#{query.dept}
+		</if>
+		<if test="query.depts!=null">
+			AND b.dept IN
+			<foreach collection="query.depts" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+			
+		<if test="query.technicalQualification!=null and query.technicalQualification !=''">
+			AND b.technical_qualification =#{query.technicalQualification}
+		</if>
+		<if test="query.technicalQualifications!=null">
+			AND b.technical_qualification IN
+			<foreach collection="query.technicalQualifications" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="query.major!=null">
+			AND b.major =#{query.major}
+		</if>
+		<if test="query.majors!=null">
+			AND b.major IN
+			<foreach collection="query.majors" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="query.personnelType!=null">
+			AND b.personnel_type =#{query.personnelType}
+		</if>
+		<if test="query.personnelTypes!=null">
+			AND b.personnel_type IN
+			<foreach collection="query.personnelTypes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="query.politicalAffiliation!=null">
+			AND b.political_affiliation =#{query.politicalAffiliation}
+		</if>
+		<if test="query.politicalAffiliations!=null">
+			AND b.political_affiliation IN
+			<foreach collection="query.politicalAffiliations" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="query.techPost!=null">
+			AND b.tech_post =#{query.techPost}
+		</if>
+		<if test="query.techPosts!=null">
+			AND b.tech_post IN
+			<foreach collection="query.techPosts" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="query.formation!=null">
+			AND b.formation =#{query.formation}
+		</if>
+		<if test="query.formations!=null">
+			AND b.formation IN
+			<foreach collection="query.formations" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>	
+	</select>
+	
+	<select id="findSimpleExportPersonnel" resultType="com.paladin.hrms.service.org.dto.OrgPersonnelExportSimpleVO">
+		SELECT
+			a.name AS name,
+			a.sex AS sex,
+			a.identification_no AS identificationNo,
+			a.agency_name AS agencyName,
+			b.major AS major
+		FROM org_personnel a 
+		LEFT JOIN org_personnel_job b ON a.id = b.id 
+		WHERE a.is_delete = 0
+		<if test="permission.cityCode!=null">
+			AND a.city_code =#{permission.cityCode}
+		</if>
+		<if test="permission.cityCodes!=null">
+			AND a.city_code IN
+			<foreach collection="permission.cityCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>		
+		<if test="permission.townCode!=null">
+			AND a.town_code =#{permission.townCode}
+		</if>
+		<if test="permission.townCodes!=null">
+			AND a.town_code IN
+			<foreach collection="permission.townCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>	
+		<if test="permission.districtCode!=null">
+			AND a.district_code =#{permission.districtCode}
+		</if>
+		<if test="permission.districtCodes!=null">
+			AND a.district_code IN
+			<foreach collection="permission.districtCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>	
+		<if test="permission.agencyId!=null">
+			AND a.agency_id =#{permission.agencyId}
+		</if>
+		<if test="permission.agencyIds!=null">
+			AND a.agency_id IN
+			<foreach collection="permission.agencyIds" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="query.name!=null and query.name !=''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		
+		<if test="query.identificationNo!=null and query.identificationNo !=''">
+			AND a.identification_no LIKE CONCAT('%',#{query.identificationNo},'%')
+		</if>	
+		<if test="query.sex!=null">
+			AND a.sex =#{query.sex}
+		</if>		
+		<if test="query.major!=null">
+			AND b.major =#{query.major}
+		</if>
+	</select>
+
+	<select id="findExportPersonnel" resultType="map">
+		SELECT
+			a.name AS name,
+			a.sex AS sex,
+			a.identification_type AS identificationType,
+			a.identification_no AS identificationNo,
+			a.nation AS nation,
+			a.birthday AS birthday,
+			a.start_work_time AS startWorkTime,
+			a.cellphone AS cellphone,
+			a.office_phone AS officePhone,
+			a.nationality AS nationality,
+			a.join_party_time AS joinPartyTime,
+			a.native_place AS nativePlace,
+			a.agency_name AS agencyName,
+			b.dept AS dept,
+			b.dept_name AS deptName,
+			b.major AS major,
+			b.technical_qualification AS technicalQualification,
+			b.tech_post AS techPost,
+			b.duty AS duty,
+			b.formation AS formation,
+			b.inorout AS inorout,
+			b.inorout_date AS inoroutDate,
+			b.gain_date AS gainDate,
+			c.personnel_type AS personnelType,
+			c.doc_cert_code AS docCertCode,
+			c.practice_category AS practiceCategory,
+			c.practice_scope AS practiceScope,
+			c.expertise AS expertise,
+			c.is_multisite AS isMultisite,
+			c.second_category AS secondCategory,
+			c.third_category AS thirdCategory,
+			c.doc_train_cert AS docTrainCert,
+			c.is_dispatched AS isDispatched,
+			c.vdoc_cert_code AS vdocCertCode,
+			c.nurse_cert_code AS nurseCertCode,
+			c.work_years AS workYears,
+			c.is_onjob_train AS isOnjobTrain,
+			d.education AS topEducation,
+			d.academic_degree AS topAcademicDegree,
+			d.major AS topEducationMajor
+		FROM org_personnel a 
+		LEFT JOIN org_personnel_job b ON a.id = b.id 
+		LEFT JOIN org_personnel_practice c on a.id = c.id
+		LEFT JOIN (SELECT * FROM org_personnel_education ORDER BY education ASC LIMIT 1) d on d.personnel_id = a.id
+		WHERE a.is_delete = 0
+		<if test="permission.cityCode!=null">
+			AND a.city_code =#{permission.cityCode}
+		</if>
+		<if test="permission.cityCodes!=null">
+			AND a.city_code IN
+			<foreach collection="permission.cityCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>		
+		<if test="permission.townCode!=null">
+			AND a.town_code =#{permission.townCode}
+		</if>
+		<if test="permission.townCodes!=null">
+			AND a.town_code IN
+			<foreach collection="permission.townCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>	
+		<if test="permission.districtCode!=null">
+			AND a.district_code =#{permission.districtCode}
+		</if>
+		<if test="permission.districtCodes!=null">
+			AND a.district_code IN
+			<foreach collection="permission.districtCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>	
+		<if test="permission.agencyId!=null">
+			AND a.agency_id =#{permission.agencyId}
+		</if>
+		<if test="permission.agencyIds!=null">
+			AND a.agency_id IN
+			<foreach collection="permission.agencyIds" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="query.name!=null and query.name !=''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		
+		<if test="query.identificationNo!=null and query.identificationNo !=''">
+			AND a.identification_no LIKE CONCAT('%',#{query.identificationNo},'%')
+		</if>	
+		<if test="query.sex!=null">
+			AND a.sex =#{query.sex}
+		</if>		
+		<if test="query.major!=null">
+			AND b.major =#{query.major}
+		</if>
+	</select>
+
+	<select id="findExportPersonnelWithoutEducation" resultType="map">
+		SELECT
+			a.name AS name,
+			a.sex AS sex,
+			a.identification_type AS identificationType,
+			a.identification_no AS identificationNo,
+			a.nation AS nation,
+			a.birthday AS birthday,
+			a.start_work_time AS startWorkTime,
+			a.cellphone AS cellphone,
+			a.office_phone AS officePhone,
+			a.nationality AS nationality,
+			a.join_party_time AS joinPartyTime,
+			a.native_place AS nativePlace,
+			a.agency_name AS agencyName,
+			b.dept AS dept,
+			b.dept_name AS deptName,
+			b.major AS major,
+			b.technical_qualification AS technicalQualification,
+			b.tech_post AS techPost,
+			b.duty AS duty,
+			b.formation AS formation,
+			b.inorout AS inorout,
+			b.inorout_date AS inoroutDate,
+			b.gain_date AS gainDate,
+			c.personnel_type AS personnelType,
+			c.doc_cert_code AS docCertCode,
+			c.practice_category AS practiceCategory,
+			c.practice_scope AS practiceScope,
+			c.expertise AS expertise,
+			c.is_multisite AS isMultisite,
+			c.second_category AS secondCategory,
+			c.third_category AS thirdCategory,
+			c.doc_train_cert AS docTrainCert,
+			c.is_dispatched AS isDispatched,
+			c.vdoc_cert_code AS vdocCertCode,
+			c.nurse_cert_code AS nurseCertCode,
+			c.work_years AS workYears,
+			c.is_onjob_train AS isOnjobTrain			
+		FROM org_personnel a 
+		LEFT JOIN org_personnel_job b ON a.id = b.id 
+		LEFT JOIN org_personnel_practice c on a.id = c.id
+		WHERE a.is_delete = 0
+		<if test="permission.cityCode!=null">
+			AND a.city_code =#{permission.cityCode}
+		</if>
+		<if test="permission.cityCodes!=null">
+			AND a.city_code IN
+			<foreach collection="permission.cityCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>		
+		<if test="permission.townCode!=null">
+			AND a.town_code =#{permission.townCode}
+		</if>
+		<if test="permission.townCodes!=null">
+			AND a.town_code IN
+			<foreach collection="permission.townCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>	
+		<if test="permission.districtCode!=null">
+			AND a.district_code =#{permission.districtCode}
+		</if>
+		<if test="permission.districtCodes!=null">
+			AND a.district_code IN
+			<foreach collection="permission.districtCodes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>	
+		<if test="permission.agencyId!=null">
+			AND a.agency_id =#{permission.agencyId}
+		</if>
+		<if test="permission.agencyIds!=null">
+			AND a.agency_id IN
+			<foreach collection="permission.agencyIds" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="query.name!=null and query.name !=''">
+			AND a.name LIKE CONCAT('%',#{query.name},'%')
+		</if>
+		
+		<if test="query.identificationNo!=null and query.identificationNo !=''">
+			AND a.identification_no LIKE CONCAT('%',#{query.identificationNo},'%')
+		</if>	
+		<if test="query.sex!=null">
+			AND a.sex =#{query.sex}
+		</if>		
+		<if test="query.major!=null">
+			AND b.major =#{query.major}
+		</if>
+	</select>
+	
+	<update id="updateAgencyAndDistrict">
+		UPDATE org_personnel SET 
+			agency_id = #{agency.id}, 
+			agency_name = #{agency.name},
+			city_code = #{agency.cityCode},
+			town_code = #{agency.townCode},
+			district_code = #{agency.districtCode}
+		WHERE id = #{id} AND is_delete = 0
+	</update>
+	
+	<select id="getByIdentificationNo" parameterType="string" resultType="com.paladin.hrms.model.org.OrgPersonnel">
+		select * FROM org_personnel WHERE identification_no=#{identificationNo}
+	</select>
+	
+	<select id="selectAccountByQuery" resultType="com.paladin.hrms.service.org.dto.OrgPersonalAccountVO">
+        SELECT
+        a.id AS id,
+        a.name AS name,
+        a.sex AS sex,
+        a.agency_name AS agencyName,
+        a.identification_no AS identificationNo,
+        b.account AS account,
+        b.state AS state
+        FROM   org_personnel a LEFT JOIN sys_user b ON a.id = b.user_id
+        WHERE  a.is_delete = 0
+        <if test="permission.cityCode!=null">
+            AND a.city_code =#{permission.cityCode}
+        </if>
+        <if test="permission.cityCodes!=null">
+            AND a.city_code IN
+            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.townCode!=null">
+            AND a.town_code =#{permission.townCode}
+        </if>
+        <if test="permission.townCodes!=null">
+            AND a.town_code IN
+            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.districtCode!=null">
+            AND a.district_code =#{permission.districtCode}
+        </if>
+        <if test="permission.districtCodes!=null">
+            AND a.district_code IN
+            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.agencyId!=null">
+            AND a.agency_id =#{permission.agencyId}
+        </if>
+        <if test="permission.agencyIds!=null">
+            AND a.agency_id IN
+            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="query.name != null">
+            AND  a.name LIKE CONCAT('%',#{query.name},'%')
+        </if>
+        <if test="query.identificationNo != null and query.identificationNo != ''">
+            AND a.identification_no LIKE CONCAT('%',#{query.identificationNo},'%')
+        </if>
+        <if test="query.agencyName != null">
+            AND a.agency_name LIKE CONCAT('%',#{query.agencyName},'%')
+        </if>
+        <if test="query.account != null">
+            AND b.account LIKE CONCAT('%',#{query.account},'%')
+        </if>
+        <if test="query.state != null">
+            AND b.state =#{query.state}
+        </if>
+        <if test="query.sex != null">
+            AND   a.sex =#{query.sex}
+        </if>
+	</select>
+    <select id="selectAccountById" resultType="com.paladin.hrms.service.org.dto.OrgPersonalAccountVO">
+        SELECT
+        a.id AS id,
+        a.name AS name,
+        a.identification_no AS identificationNo,
+        a.cellphone AS cellphone,
+        b.account AS account
+        FROM   org_personnel a LEFT JOIN sys_user b ON a.id = b.user_id
+        WHERE  a.id = #{id}
+    </select>
+    <select id="countPeopleByAgencyId" resultType="int">
+		SELECT
+		COUNT(1)
+		FROM
+		(
+		SELECT
+        a.id,
+        a.identification_no AS identificationNo,
+        a.agency_name AS agencyName,
+        a.agency_id
+        FROM
+		org_personnel a
+		WHERE
+		NOT EXISTS ( SELECT account FROM sys_user b WHERE a.id = b.user_id  AND a.is_delete = 0 )
+		) c
+		WHERE  1 = 1
+        <if test="permission.cityCode!=null">
+            AND c.city_code =#{permission.cityCode}
+        </if>
+        <if test="permission.cityCodes!=null">
+            AND c.city_code IN
+            <foreach collection="permission.cityCodes" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.townCode!=null">
+            AND c.town_code =#{permission.townCode}
+        </if>
+        <if test="permission.townCodes!=null">
+            AND c.town_code IN
+            <foreach collection="permission.townCodes" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.districtCode!=null">
+            AND c.district_code =#{permission.districtCode}
+        </if>
+        <if test="permission.districtCodes!=null">
+            AND c.district_code IN
+            <foreach collection="permission.districtCodes" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.agencyId!=null">
+            AND c.agency_id =#{permission.agencyId}
+        </if>
+        <if test="permission.agencyIds!=null">
+            AND c.agency_id IN
+            <foreach collection="permission.agencyIds" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <select id="findPeopleByAgencyId" resultType="com.paladin.hrms.service.org.dto.OrgPersonalAccountVO">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        a.id,
+        a.identification_no AS identificationNo,
+        a.agency_name AS agencyName
+        FROM
+        org_personnel a
+        WHERE
+        NOT EXISTS ( SELECT account FROM sys_user b WHERE a.id = b.user_id  AND a.is_delete = 0 )
+        ) c
+        WHERE  1 = 1
+        <if test="permission.cityCode!=null">
+            AND c.city_code =#{permission.cityCode}
+        </if>
+        <if test="permission.cityCodes!=null">
+            AND c.city_code IN
+            <foreach collection="permission.cityCodes" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.townCode!=null">
+            AND c.town_code =#{permission.townCode}
+        </if>
+        <if test="permission.townCodes!=null">
+            AND c.town_code IN
+            <foreach collection="permission.townCodes" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.districtCode!=null">
+            AND c.district_code =#{permission.districtCode}
+        </if>
+        <if test="permission.districtCodes!=null">
+            AND c.district_code IN
+            <foreach collection="permission.districtCodes" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.agencyId!=null">
+            AND c.agency_id =#{permission.agencyId}
+        </if>
+        <if test="permission.agencyIds!=null">
+            AND c.agency_id IN
+            <foreach collection="permission.agencyIds" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header"/>
+
+<body>
+<tt:constant enumcode="sex,identification-type,complaint-status"/>
+<input type="hidden" id="personnelId" th:value="${personnelId}" />
+<section class="content-header">
+    <h1>申诉管理</h1>
+</section>
+<section class="container content">
+    <div class="box box-solid">
+    <div class="box-header with-border">
+        <i class="glyphicon glyphicon-user"></i>
+        <h3 class="box-title">证件绑定信息</h3>
+        <div class="pull-right box-tools">
+            <a class="btn btn-default btn-sm" href="/hrms/complaint/zjbind/index">
+                <i class="fa fa-times"></i>
+            </a>
+        </div>
+    </div>
+    <div id="edit_edit" class="box-header" >
+        <form id="edit_form" action="/hrms/complaint/zjbind/add/save" method="post" enctype="multipart/form-data" class="form-horizontal edit-body">
+            <div class="form-group">
+                <label for="nowIdentificationNo" class="col-sm-3 control-label">证件号码(现有)：</label>
+                <div class="col-sm-3">
+                    <p name="nowIdentificationNo" class="form-control-static description"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="usedIdentificationType" class="col-sm-3 control-label">证件类型(曾用)：</label>
+                <div class="col-sm-3">
+                    <select name="usedIdentificationType" class="form-control tonto-select-constant" enumcode="identification-type">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <label for="usedIdentificationNo" class="col-sm-2 control-label">证件号码(曾用)：</label>
+                <div class="col-sm-3">
+                    <input name="usedIdentificationNo" placeholder="请输入证件号码(现有)" type="text" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="attachments" class="col-sm-3 control-label">附件上传：</label>
+                <div class="col-sm-9">
+                    <input type="file" name="attachmentFiles" multiple>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-5">
+                    <button type="submit" id="edit_form_submit_btn" class="btn btn-primary btn-block">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</section>
+<div th:include="hrms/footer"/>
+<script type="text/javascript">
+    /*<![CDATA[*/
+
+    var editColumns = [
+            { name: "nowIdentificationNo", inputType: "TEXT", title: "证件号码(现有)" },
+            { name: "usedIdentificationType", inputType: "SELECT", title: "证件类型(曾用)",enum: "identification-type"  },
+            { name: "usedIdentificationNo", inputType: "TEXT", title: "证件号码(曾用)" },
+            { name: "status", inputType: "SELECT", title: "处理状态",enum: "complaint-status"  },
+            { name: "attachments", inputType: "ATTACHMENT", fileName: "attachmentFiles",title:"附件上传" }
+    ];
+
+    var personnelId;
+    $(function () {
+        personnelId = $("#personnelId").val();
+        if (personnelId) {
+            $.getAjax("/hrms/complaint/zjbind/get/detail?id=" + personnelId, init);
+        }
+    })
+
+    function init(data) {
+        editModel = new tonto.Model("edit", editColumns, {
+            successCallback: function(data) {
+                $.successAlert("保存成功", function() {
+                    window.location = '/hrms/complaint/zjbind/index';
+                });
+            },
+            extraParam: function() {
+                return {
+                    personnelId:personnelId || ""
+                }
+            },
+        });
+        personnelId = data.personnelId;
+        editModel.setData(data)
+        editModel.toEdit();
+    }
+
+    /*]]>*/
+</script>
+</body>
+</html>

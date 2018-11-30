@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.complaint.ComplaintPersonnelArchivesCheckRecordMapper">
+	<select id="indexShowCount"  resultType="com.paladin.hrms.model.complaint.ComplaintCheckCount">
+    	<!-- SELECT pendCount,nopassCount,passCount,checkedCount FROM 
+    	(SELECT COUNT(1) pendCount FROM complaint_personnel_archives_check WHERE check_status = 0)a,
+    	(SELECT COUNT(1) nopassCount FROM complaint_personnel_archives_check_record WHERE result = 1)b,
+    	(SELECT COUNT(1) passCount FROM complaint_personnel_archives_check_record WHERE result = 2)c,
+    	(SELECT COUNT(1) checkedCount FROM complaint_personnel_archives_check_record )d -->
+    	 SELECT 
+		  COUNT(a.check_status = 0 OR NULL) AS pendCount,
+		  COUNT(a.check_status = 1 OR NULL) AS passCount,
+		  COUNT(a.check_status = 2 OR NULL) AS nopassCount,
+		  COUNT(a.check_status != 0 OR NULL) AS checkedCount
+		  FROM complaint_personnel_archives_check AS a
+		  LEFT JOIN org_personnel AS o
+		  ON a.personnel_id=o.id 
+		  WHERE 1=1 
+		  <if test="permission.cityCode!=null">
+            AND o.city_code =#{permission.cityCode}
+        </if>
+        <if test="permission.cityCodes!=null">
+            AND o.city_code IN
+            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.townCode!=null">
+            AND o.town_code =#{permission.townCode}
+        </if>
+        <if test="permission.townCodes!=null">
+            AND o.town_code IN
+            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.districtCode!=null">
+            AND o.district_code =#{permission.districtCode}
+        </if>
+        <if test="permission.districtCodes!=null">
+            AND o.district_code IN
+            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.agencyId!=null">
+            AND o.agency_id =#{permission.agencyId}
+        </if>
+        <if test="permission.agencyIds!=null">
+            AND o.agency_id IN
+            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+</mapper>

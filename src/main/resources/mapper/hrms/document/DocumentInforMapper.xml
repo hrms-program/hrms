@@ -1,0 +1,1497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.document.DocumentInforMapper">
+	<resultMap id="BaseResultMap" type="com.paladin.hrms.model.document.DocumentInfor">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="busi_id" jdbcType="VARCHAR" property="busiId" />
+		<result column="identificationNo" jdbcType="VARCHAR" property="identificationNo" />
+		<result column="document_code" jdbcType="VARCHAR" property="documentCode" />
+		<result column="dept_code" jdbcType="VARCHAR" property="deptCode" />
+		<result column="section" jdbcType="VARCHAR" property="section" />
+		<result column="age" jdbcType="VARCHAR" property="age" />
+		<result column="birth_place" jdbcType="VARCHAR" property="birthPlace" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="personnel_compilation" jdbcType="VARCHAR" property="personnelCompilation" />
+		<result column="compilation_dept" jdbcType="VARCHAR" property="compilationDept" />
+		<result column="person_type" jdbcType="VARCHAR" property="personType" />
+		<result column="is_secondment" jdbcType="CHAR" property="isSecondment" />
+		<result column="second_dept_code" jdbcType="VARCHAR" property="secondDeptCode" />
+		<result column="second_section" jdbcType="VARCHAR" property="secondSection" />
+		<result column="is_leader" jdbcType="CHAR" property="isLeader" />
+		<result column="is_member" jdbcType="CHAR" property="isMember" />
+		<result column="is_reserve_cadres" jdbcType="CHAR" property="isReserveCadres" />
+		<result column="retired_date" jdbcType="DATE" property="retiredDate" />
+		<result column="initial_education" jdbcType="VARCHAR" property="initialEducation" />
+		<result column="initial_education_desc" jdbcType="VARCHAR" property="initialEducationDesc" />
+		<result column="highest_education" jdbcType="VARCHAR" property="highestEducation" />
+		<result column="government_title" jdbcType="VARCHAR" property="governmentTitle" />
+		<result column="org_time" jdbcType="DATE" property="orgTime" />
+		<result column="job_level" jdbcType="VARCHAR" property="jobLevel" />
+		<result column="management_level" jdbcType="VARCHAR" property="managementLevel" />
+		<result column="health" jdbcType="VARCHAR" property="health" />
+		<result column="profession" jdbcType="VARCHAR" property="profession" />
+		<result column="professional_sort" jdbcType="VARCHAR" property="professionalSort" />
+		<result column="profession_level" jdbcType="VARCHAR" property="professionLevel" />
+		<result column="health_technical_title" jdbcType="VARCHAR" property="healthTechnicalTitle" />
+		<result column="nonhealth_technical_title" jdbcType="VARCHAR" property="nonhealthTechnicalTitle" />
+		<result column="technical_position" jdbcType="VARCHAR" property="technicalPosition" />
+		<result column="technical_position_desc" jdbcType="VARCHAR" property="technicalPositionDesc" />
+		<result column="technical_time" jdbcType="DATE" property="technicalTime" />
+		<result column="hireposition_time" jdbcType="DATE" property="hirepositionTime" />
+		<result column="is_general" jdbcType="CHAR" property="isGeneral" />
+		<result column="work_status" jdbcType="VARCHAR" property="workStatus" />
+		<result column="salary_level" jdbcType="VARCHAR" property="salaryLevel" />
+		<result column="salary_grade" jdbcType="VARCHAR" property="salaryGrade" />
+		<result column="work_year" jdbcType="VARCHAR" property="workYear" />
+		<result column="retirement_pay_scale" jdbcType="VARCHAR" property="retirementPayScale" />
+		<result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+		<result column="create_id" jdbcType="VARCHAR" property="createId" />
+		<result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
+		<result column="update_id" jdbcType="VARCHAR" property="updateId" />
+		<result column="state" jdbcType="VARCHAR" property="state" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,busi_id, identification_no, document_code, dept_code, section,  age,
+		 birth_place, address,
+		personnel_compilation, compilation_dept,
+		person_type, is_secondment, second_dept_code, second_section, is_leader,
+		is_member,
+		is_reserve_cadres, retired_date, initial_education,initial_education_desc, highest_education, government_title,
+		org_time, job_level, management_level,
+		health, profession,
+		professional_sort, profession_level, health_technical_title, nonhealth_technical_title,
+		technical_position,technical_position_desc, technical_time, hireposition_time, is_general,
+		work_status, salary_level,
+		salary_grade, work_year, retirement_pay_scale, create_at, create_id, update_at,
+		update_id,
+		state, remark
+	</sql>
+	<!-- <select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from document_person_infor
+		where id = #{id,jdbcType=VARCHAR}
+	</select> -->
+	<insert id="saveInfo" parameterType="com.paladin.hrms.model.document.DocumentInfor">
+		insert into document_infor (id,busi_id, identification_no,document_code, dept_code,
+		section,
+		age,
+		birth_place, 
+		address, personnel_compilation, compilation_dept,
+		person_type, is_secondment, second_dept_code,
+		second_section, is_leader, is_member,
+		is_reserve_cadres, retired_date, initial_education,initial_education_desc,
+		highest_education, government_title,org_time,
+		job_level, management_level, health,
+		profession, professional_sort, profession_level,
+		health_technical_title, nonhealth_technical_title,
+		technical_position, technical_position_desc, technical_time, hireposition_time,
+		is_general, work_status, salary_level,
+		salary_grade, work_year, retirement_pay_scale,
+		create_at, create_id, update_at,
+		update_id, state, remark
+		)
+		values (#{id,jdbcType=VARCHAR},#{busiId,jdbcType=VARCHAR}, #{identificationNo,jdbcType=VARCHAR},
+		#{documentCode,jdbcType=VARCHAR}, #{deptCode,jdbcType=VARCHAR},
+		#{section,jdbcType=VARCHAR}, 
+		#{age,jdbcType=VARCHAR},
+		#{birthPlace,jdbcType=VARCHAR},
+		#{address,jdbcType=VARCHAR}, #{personnelCompilation,jdbcType=VARCHAR},
+		#{compilationDept,jdbcType=VARCHAR},
+		#{personType,jdbcType=VARCHAR}, #{isSecondment,jdbcType=CHAR}, #{secondDeptCode,jdbcType=VARCHAR},
+		#{secondSection,jdbcType=VARCHAR}, #{isLeader,jdbcType=CHAR},
+		#{isMember,jdbcType=CHAR},
+		#{isReserveCadres,jdbcType=CHAR}, #{retiredDate,jdbcType=DATE}, #{initialEducation,jdbcType=VARCHAR},#{initialEducationDesc,jdbcType=VARCHAR},
+		#{highestEducation,jdbcType=VARCHAR},
+		#{governmentTitle,jdbcType=VARCHAR}, 
+		#{orgTime,jdbcType=DATE},
+		#{jobLevel,jdbcType=VARCHAR}, #{managementLevel,jdbcType=VARCHAR}, #{health,jdbcType=VARCHAR},
+		#{profession,jdbcType=VARCHAR}, #{professionalSort,jdbcType=VARCHAR},
+		#{professionLevel,jdbcType=VARCHAR},
+		#{healthTechnicalTitle,jdbcType=VARCHAR},
+		#{nonhealthTechnicalTitle,jdbcType=VARCHAR},
+		#{technicalPosition,jdbcType=VARCHAR},#{technicalPositionDesc,jdbcType=VARCHAR}, #{technicalTime,jdbcType=DATE},
+		#{hirepositionTime,jdbcType=DATE},
+		#{isGeneral,jdbcType=CHAR}, #{workStatus,jdbcType=VARCHAR}, #{salaryLevel,jdbcType=VARCHAR},
+		#{salaryGrade,jdbcType=VARCHAR}, #{workYear,jdbcType=VARCHAR},
+		#{retirementPayScale,jdbcType=VARCHAR},
+		#{createAt,jdbcType=TIMESTAMP}, #{createId,jdbcType=VARCHAR},
+		#{updateAt,jdbcType=TIMESTAMP},
+		#{updateId,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+	<!-- <insert id="insertSelective" parameterType="com.paladin.hrms.model.document.Document">
+		insert into document_person_infor
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="busiId != null">
+				busi_id,
+			</if>
+			<if test="identificationNo != null">
+				identification_no,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="oldName != null">
+				old_name,
+			</if>
+			<if test="documentCode != null">
+				document_code,
+			</if>
+			<if test="deptCode != null">
+				dept_code,
+			</if>
+			<if test="section != null">
+				section,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="birthday != null">
+				birthday,
+			</if>
+			<if test="age != null">
+				age,
+			</if>
+			<if test="nation != null">
+				nation,
+			</if>
+			<if test="nativePlace != null">
+				native_place,
+			</if>
+			<if test="birthPlace != null">
+				birth_place,
+			</if>
+			<if test="oph != null">
+				oph,
+			</if>
+			<if test="telph != null">
+				telph,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="personnelCompilation != null">
+				personnel_compilation,
+			</if>
+			<if test="compilationDept != null">
+				compilation_dept,
+			</if>
+			<if test="personType != null">
+				person_type,
+			</if>
+			<if test="isSecondment != null">
+				is_secondment,
+			</if>
+			<if test="secondDeptCode != null">
+				second_dept_code,
+			</if>
+			<if test="secondSection != null">
+				second_section,
+			</if>
+			<if test="isLeader != null">
+				is_leader,
+			</if>
+			<if test="isMember != null">
+				is_member,
+			</if>
+			<if test="isReserveCadres != null">
+				is_reserve_cadres,
+			</if>
+			<if test="retiredDate != null">
+				retired_date,
+			</if>
+			<if test="initialEducation != null">
+				initial_education,
+			</if>
+			<if test="highestEducation != null">
+				highest_education,
+			</if>
+			<if test="governmentTitle != null">
+				government_title,
+			</if>
+			<if test="party != null">
+				party,
+			</if>
+			<if test="partyTime != null">
+				party_time,
+			</if>
+			<if test="workTime != null">
+				work_time,
+			</if>
+			<if test="orgTime != null">
+				org_time,
+			</if>
+			<if test="jobLevel != null">
+				job_level,
+			</if>
+			<if test="managementLevel != null">
+				management_level,
+			</if>
+			<if test="health != null">
+				health,
+			</if>
+			<if test="profession != null">
+				profession,
+			</if>
+			<if test="professionalSort != null">
+				professional_sort,
+			</if>
+			<if test="professionLevel != null">
+				profession_level,
+			</if>
+			<if test="healthTechnicalTitle != null">
+				health_technical_title,
+			</if>
+			<if test="nonhealthTechnicalTitle != null">
+				nonhealth_technical_title,
+			</if>
+			<if test="technicalPosition != null">
+				technical_position,
+			</if>
+			<if test="technicalTime != null">
+				technical_time,
+			</if>
+			<if test="hirepositionTime != null">
+				hireposition_time,
+			</if>
+			<if test="isGeneral != null">
+				is_general,
+			</if>
+			<if test="workStatus != null">
+				work_status,
+			</if>
+			<if test="salaryLevel != null">
+				salary_level,
+			</if>
+			<if test="salaryGrade != null">
+				salary_grade,
+			</if>
+			<if test="workYear != null">
+				work_year,
+			</if>
+			<if test="retirementPayScale != null">
+				retirement_pay_scale,
+			</if>
+			<if test="createAt != null">
+				create_at,
+			</if>
+			<if test="createId != null">
+				create_id,
+			</if>
+			<if test="updateAt != null">
+				update_at,
+			</if>
+			<if test="updateId != null">
+				update_id,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="busiId != null">
+				#{busiId,jdbcType=VARCHAR},
+			</if>
+			<if test="identificationNo != null">
+				#{identification_no,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="oldName != null">
+				#{oldName,jdbcType=VARCHAR},
+			</if>
+			<if test="documentCode != null">
+				#{documentCode,jdbcType=VARCHAR},
+			</if>
+			<if test="deptCode != null">
+				#{deptCode,jdbcType=VARCHAR},
+			</if>
+			<if test="section != null">
+				#{section,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="birthday != null">
+				#{birthday,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				#{age,jdbcType=VARCHAR},
+			</if>
+			<if test="nation != null">
+				#{nation,jdbcType=VARCHAR},
+			</if>
+			<if test="nativePlace != null">
+				#{nativePlace,jdbcType=VARCHAR},
+			</if>
+			<if test="birthPlace != null">
+				#{birthPlace,jdbcType=VARCHAR},
+			</if>
+			<if test="oph != null">
+				#{oph,jdbcType=VARCHAR},
+			</if>
+			<if test="telph != null">
+				#{telph,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="personnelCompilation != null">
+				#{personnelCompilation,jdbcType=VARCHAR},
+			</if>
+			<if test="compilationDept != null">
+				#{compilationDept,jdbcType=VARCHAR},
+			</if>
+			<if test="personType != null">
+				#{personType,jdbcType=VARCHAR},
+			</if>
+			<if test="isSecondment != null">
+				#{isSecondment,jdbcType=CHAR},
+			</if>
+			<if test="secondDeptCode != null">
+				#{secondDeptCode,jdbcType=VARCHAR},
+			</if>
+			<if test="secondSection != null">
+				#{secondSection,jdbcType=VARCHAR},
+			</if>
+			<if test="isLeader != null">
+				#{isLeader,jdbcType=CHAR},
+			</if>
+			<if test="isMember != null">
+				#{isMember,jdbcType=CHAR},
+			</if>
+			<if test="isReserveCadres != null">
+				#{isReserveCadres,jdbcType=CHAR},
+			</if>
+			<if test="retiredDate != null">
+				#{retiredDate,jdbcType=DATE},
+			</if>
+			<if test="initialEducation != null">
+				#{initialEducation,jdbcType=VARCHAR},
+			</if>
+			<if test="highestEducation != null">
+				#{highestEducation,jdbcType=VARCHAR},
+			</if>
+			<if test="governmentTitle != null">
+				#{governmentTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="party != null">
+				#{party,jdbcType=VARCHAR},
+			</if>
+			<if test="partyTime != null">
+				#{partyTime,jdbcType=DATE},
+			</if>
+			<if test="workTime != null">
+				#{workTime,jdbcType=DATE},
+			</if>
+			<if test="orgTime != null">
+				#{orgTime,jdbcType=DATE},
+			</if>
+			<if test="jobLevel != null">
+				#{jobLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="managementLevel != null">
+				#{managementLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="health != null">
+				#{health,jdbcType=VARCHAR},
+			</if>
+			<if test="profession != null">
+				#{profession,jdbcType=VARCHAR},
+			</if>
+			<if test="professionalSort != null">
+				#{professionalSort,jdbcType=VARCHAR},
+			</if>
+			<if test="professionLevel != null">
+				#{professionLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="healthTechnicalTitle != null">
+				#{healthTechnicalTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="nonhealthTechnicalTitle != null">
+				#{nonhealthTechnicalTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="technicalPosition != null">
+				#{technicalPosition,jdbcType=VARCHAR},
+			</if>
+			<if test="technicalTime != null">
+				#{technicalTime,jdbcType=DATE},
+			</if>
+			<if test="hirepositionTime != null">
+				#{hirepositionTime,jdbcType=DATE},
+			</if>
+			<if test="isGeneral != null">
+				#{isGeneral,jdbcType=CHAR},
+			</if>
+			<if test="workStatus != null">
+				#{workStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="salaryLevel != null">
+				#{salaryLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="salaryGrade != null">
+				#{salaryGrade,jdbcType=VARCHAR},
+			</if>
+			<if test="workYear != null">
+				#{workYear,jdbcType=VARCHAR},
+			</if>
+			<if test="retirementPayScale != null">
+				#{retirementPayScale,jdbcType=VARCHAR},
+			</if>
+			<if test="createAt != null">
+				#{createAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createId != null">
+				#{createId,jdbcType=VARCHAR},
+			</if>
+			<if test="updateAt != null">
+				#{updateAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateId != null">
+				#{updateId,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.paladin.hrms.model.document.Document">
+		update document_person_infor
+		<set>
+		    <if test="busiId != null">
+				busi_id = #{busiId,jdbcType=VARCHAR},
+			</if>
+			<if test="identificationNo != null">
+				identification_no = #{identificationNo,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="oldName != null">
+				old_name = #{oldName,jdbcType=VARCHAR},
+			</if>
+			<if test="documentCode != null">
+				document_code = #{documentCode,jdbcType=VARCHAR},
+			</if>
+			<if test="deptCode != null">
+				dept_code = #{deptCode,jdbcType=VARCHAR},
+			</if>
+			<if test="section != null">
+				section = #{section,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="birthday != null">
+				birthday = #{birthday,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				age = #{age,jdbcType=VARCHAR},
+			</if>
+			<if test="nation != null">
+				nation = #{nation,jdbcType=VARCHAR},
+			</if>
+			<if test="nativePlace != null">
+				native_place = #{nativePlace,jdbcType=VARCHAR},
+			</if>
+			<if test="birthPlace != null">
+				birth_place = #{birthPlace,jdbcType=VARCHAR},
+			</if>
+			<if test="oph != null">
+				oph = #{oph,jdbcType=VARCHAR},
+			</if>
+			<if test="telph != null">
+				telph = #{telph,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="personnelCompilation != null">
+				personnel_compilation = #{personnelCompilation,jdbcType=VARCHAR},
+			</if>
+			<if test="compilationDept != null">
+				compilation_dept = #{compilationDept,jdbcType=VARCHAR},
+			</if>
+			<if test="personType != null">
+				person_type = #{personType,jdbcType=VARCHAR},
+			</if>
+			<if test="isSecondment != null">
+				is_secondment = #{isSecondment,jdbcType=CHAR},
+			</if>
+			<if test="secondDeptCode != null">
+				second_dept_code = #{secondDeptCode,jdbcType=VARCHAR},
+			</if>
+			<if test="secondSection != null">
+				second_section = #{secondSection,jdbcType=VARCHAR},
+			</if>
+			<if test="isLeader != null">
+				is_leader = #{isLeader,jdbcType=CHAR},
+			</if>
+			<if test="isMember != null">
+				is_member = #{isMember,jdbcType=CHAR},
+			</if>
+			<if test="isReserveCadres != null">
+				is_reserve_cadres = #{isReserveCadres,jdbcType=CHAR},
+			</if>
+			<if test="retiredDate != null">
+				retired_date = #{retiredDate,jdbcType=DATE},
+			</if>
+			<if test="initialEducation != null">
+				initial_education = #{initialEducation,jdbcType=VARCHAR},
+			</if>
+			<if test="highestEducation != null">
+				highest_education = #{highestEducation,jdbcType=VARCHAR},
+			</if>
+			<if test="governmentTitle != null">
+				government_title = #{governmentTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="party != null">
+				party = #{party,jdbcType=VARCHAR},
+			</if>
+			<if test="partyTime != null">
+				party_time = #{partyTime,jdbcType=DATE},
+			</if>
+			<if test="workTime != null">
+				work_time = #{workTime,jdbcType=DATE},
+			</if>
+			<if test="orgTime != null">
+				org_time = #{orgTime,jdbcType=DATE},
+			</if>
+			<if test="jobLevel != null">
+				job_level = #{jobLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="managementLevel != null">
+				management_level = #{managementLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="health != null">
+				health = #{health,jdbcType=VARCHAR},
+			</if>
+			<if test="profession != null">
+				profession = #{profession,jdbcType=VARCHAR},
+			</if>
+			<if test="professionalSort != null">
+				professional_sort = #{professionalSort,jdbcType=VARCHAR},
+			</if>
+			<if test="professionLevel != null">
+				profession_level = #{professionLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="healthTechnicalTitle != null">
+				health_technical_title = #{healthTechnicalTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="nonhealthTechnicalTitle != null">
+				nonhealth_technical_title = #{nonhealthTechnicalTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="technicalPosition != null">
+				technical_position = #{technicalPosition,jdbcType=VARCHAR},
+			</if>
+			<if test="technicalTime != null">
+				technical_time = #{technicalTime,jdbcType=DATE},
+			</if>
+			<if test="hirepositionTime != null">
+				hireposition_time = #{hirepositionTime,jdbcType=DATE},
+			</if>
+			<if test="isGeneral != null">
+				is_general = #{isGeneral,jdbcType=CHAR},
+			</if>
+			<if test="workStatus != null">
+				work_status = #{workStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="salaryLevel != null">
+				salary_level = #{salaryLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="salaryGrade != null">
+				salary_grade = #{salaryGrade,jdbcType=VARCHAR},
+			</if>
+			<if test="workYear != null">
+				work_year = #{workYear,jdbcType=VARCHAR},
+			</if>
+			<if test="retirementPayScale != null">
+				retirement_pay_scale = #{retirementPayScale,jdbcType=VARCHAR},
+			</if>
+			<if test="createAt != null">
+				create_at = #{createAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createId != null">
+				create_id = #{createId,jdbcType=VARCHAR},
+			</if>
+			<if test="updateAt != null">
+				update_at = #{updateAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateId != null">
+				update_id = #{updateId,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+		and state = '1'
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.paladin.hrms.model.document.Document">
+		update document_person_infor
+		set 
+		busi_id = #{busiId,jdbcType=VARCHAR},
+		identification_no = #{identificationNo,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		old_name = #{oldName,jdbcType=VARCHAR},
+		document_code = #{documentCode,jdbcType=VARCHAR},
+		dept_code = #{deptCode,jdbcType=VARCHAR},
+		section = #{section,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=VARCHAR},
+		birthday = #{birthday,jdbcType=VARCHAR},
+		age = #{age,jdbcType=VARCHAR},
+		nation = #{nation,jdbcType=VARCHAR},
+		native_place = #{nativePlace,jdbcType=VARCHAR},
+		birth_place = #{birthPlace,jdbcType=VARCHAR},
+		oph = #{oph,jdbcType=VARCHAR},
+		telph = #{telph,jdbcType=VARCHAR},
+		address = #{address,jdbcType=VARCHAR},
+		personnel_compilation = #{personnelCompilation,jdbcType=VARCHAR},
+		compilation_dept = #{compilationDept,jdbcType=VARCHAR},
+		person_type = #{personType,jdbcType=VARCHAR},
+		is_secondment = #{isSecondment,jdbcType=CHAR},
+		second_dept_code = #{secondDeptCode,jdbcType=VARCHAR},
+		second_section = #{secondSection,jdbcType=VARCHAR},
+		is_leader = #{isLeader,jdbcType=CHAR},
+		is_member = #{isMember,jdbcType=CHAR},
+		is_reserve_cadres = #{isReserveCadres,jdbcType=CHAR},
+		retired_date = #{retiredDate,jdbcType=DATE},
+		initial_education = #{initialEducation,jdbcType=VARCHAR},
+		highest_education = #{highestEducation,jdbcType=VARCHAR},
+		government_title = #{governmentTitle,jdbcType=VARCHAR},
+		party = #{party,jdbcType=VARCHAR},
+		party_time = #{partyTime,jdbcType=DATE},
+		work_time = #{workTime,jdbcType=DATE},
+		org_time = #{orgTime,jdbcType=DATE},
+		job_level = #{jobLevel,jdbcType=VARCHAR},
+		management_level = #{managementLevel,jdbcType=VARCHAR},
+		health = #{health,jdbcType=VARCHAR},
+		profession = #{profession,jdbcType=VARCHAR},
+		professional_sort = #{professionalSort,jdbcType=VARCHAR},
+		profession_level = #{professionLevel,jdbcType=VARCHAR},
+		health_technical_title = #{healthTechnicalTitle,jdbcType=VARCHAR},
+		nonhealth_technical_title = #{nonhealthTechnicalTitle,jdbcType=VARCHAR},
+		technical_position = #{technicalPosition,jdbcType=VARCHAR},
+		technical_time = #{technicalTime,jdbcType=DATE},
+		hireposition_time = #{hirepositionTime,jdbcType=DATE},
+		is_general = #{isGeneral,jdbcType=CHAR},
+		work_status = #{workStatus,jdbcType=VARCHAR},
+		salary_level = #{salaryLevel,jdbcType=VARCHAR},
+		salary_grade = #{salaryGrade,jdbcType=VARCHAR},
+		work_year = #{workYear,jdbcType=VARCHAR},
+		retirement_pay_scale = #{retirementPayScale,jdbcType=VARCHAR},
+		create_at = #{createAt,jdbcType=TIMESTAMP},
+		create_id = #{createId,jdbcType=VARCHAR},
+		update_at = #{updateAt,jdbcType=TIMESTAMP},
+		update_id = #{updateId,jdbcType=VARCHAR},
+		state = #{state,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="list" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" />
+		from document_person_infor
+		<where>
+			state = '1'
+			<if test="busiId != null and busiId !='' ">
+				and busi_id = #{busiId,jdbcType=VARCHAR}
+			</if>
+			<if test="identificationNo != null  and identificationNo !='' ">
+				and identification_no = #{identificationNo,jdbcType=VARCHAR}
+			</if>
+			<if test="name != null  and name !='' ">
+				and name = #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="oldName != null  and oldName !='' ">
+				and old_name = #{oldName,jdbcType=VARCHAR}
+			</if>
+			<if test="documentCode != null and documentCode !='' ">
+				and document_code = #{documentCode,jdbcType=VARCHAR}
+			</if>
+			<if test="deptCode != null  and deptCode !='' ">
+				and dept_code = #{deptCode,jdbcType=VARCHAR}
+			</if>
+			<if test="section != null and section !='' ">
+				and section = #{section,jdbcType=VARCHAR}
+			</if>
+			<if test="sex != null and sex !='' ">
+				and sex = #{sex,jdbcType=VARCHAR}
+			</if>
+			<if test="birthday != null and birthday !='' ">
+				and birthday = #{birthday,jdbcType=VARCHAR}
+			</if>
+			<if test="age != null and age !='' ">
+				and age = #{age,jdbcType=VARCHAR}
+			</if>
+			<if test="nation != null and nation !='' ">
+				and nation = #{nation,jdbcType=VARCHAR}
+			</if>
+			<if test="nativePlace != null and nativePlace !='' ">
+				and native_place = #{nativePlace,jdbcType=VARCHAR}
+			</if>
+			<if test="birthPlace != null and birthPlace !='' ">
+				and birth_place = #{birthPlace,jdbcType=VARCHAR}
+			</if>
+			<if test="oph != null and oph !='' ">
+				and oph = #{oph,jdbcType=VARCHAR}
+			</if>
+			<if test="telph != null and telph !='' ">
+				and telph = #{telph,jdbcType=VARCHAR}
+			</if>
+			<if test="address != null and address !='' ">
+				and address = #{address,jdbcType=VARCHAR}
+			</if>
+			<if test="personnelCompilation != null and personnelCompilation !='' ">
+				and personnel_compilation = #{personnelCompilation,jdbcType=VARCHAR}
+			</if>
+			<if test="compilationDept != null and compilationDept !='' ">
+				and compilation_dept = #{compilationDept,jdbcType=VARCHAR}
+			</if>
+			<if test="personType != null and personType !='' ">
+				and person_type = #{personType,jdbcType=VARCHAR}
+			</if>
+			<if test="isSecondment != null and isSecondment !='' ">
+				and is_secondment = #{isSecondment,jdbcType=CHAR}
+			</if>
+			<if test="secondDeptCode != null and secondDeptCode !='' ">
+				and second_dept_code = #{secondDeptCode,jdbcType=VARCHAR}
+			</if>
+			<if test="secondSection != null and secondSection !='' ">
+				and second_section = #{secondSection,jdbcType=VARCHAR}
+			</if>
+			<if test="isLeader != null and isLeader !='' ">
+				and is_leader = #{isLeader,jdbcType=CHAR}
+			</if>
+			<if test="isMember != null and isMember !='' ">
+				and is_member = #{isMember,jdbcType=CHAR}
+			</if>
+			<if test="isReserveCadres != null and isReserveCadres !='' ">
+				and is_reserve_cadres = #{isReserveCadres,jdbcType=CHAR}
+			</if>
+			<if test="retiredDate != null and retiredDate !='' ">
+				and retired_date = #{retiredDate,jdbcType=DATE}
+			</if>
+			<if test="initialEducation != null and initialEducation !='' ">
+				and initial_education = #{initialEducation,jdbcType=VARCHAR}
+			</if>
+			<if test="highestEducation != null and highestEducation !='' ">
+				and highest_education = #{highestEducation,jdbcType=VARCHAR}
+			</if>
+			<if test="governmentTitle != null and governmentTitle !='' ">
+				and government_title = #{governmentTitle,jdbcType=VARCHAR}
+			</if>
+			<if test="party != null and party !='' ">
+				and party = #{party,jdbcType=VARCHAR}
+			</if>
+			<if test="partyTime != null and partyTime !='' ">
+				and party_time = #{partyTime,jdbcType=DATE}
+			</if>
+			<if test="workTime != null and workTime !='' ">
+				and work_time = #{workTime,jdbcType=DATE}
+			</if>
+			<if test="orgTime != null and orgTime !='' ">
+				and org_time = #{orgTime,jdbcType=DATE},
+			</if>
+			<if test="jobLevel != null and jobLevel !='' ">
+				and job_level = #{jobLevel,jdbcType=VARCHAR}
+			</if>
+			<if test="managementLevel != null and managementLevel !='' ">
+				and management_level = #{managementLevel,jdbcType=VARCHAR}
+			</if>
+			<if test="health != null and health !='' ">
+				and health = #{health,jdbcType=VARCHAR}
+			</if>
+			<if test="profession != null and profession !='' ">
+				and profession = #{profession,jdbcType=VARCHAR}
+			</if>
+			<if test="professionalSort != null and professionalSort !='' ">
+				and professional_sort = #{professionalSort,jdbcType=VARCHAR}
+			</if>
+			<if test="professionLevel != null and professionLevel !='' ">
+				and profession_level = #{professionLevel,jdbcType=VARCHAR}
+			</if>
+			<if test="healthTechnicalTitle != null and healthTechnicalTitle !='' ">
+				and health_technical_title = #{healthTechnicalTitle,jdbcType=VARCHAR}
+			</if>
+			<if test="nonhealthTechnicalTitle != null and nonhealthTechnicalTitle !='' ">
+				and nonhealth_technical_title = #{nonhealthTechnicalTitle,jdbcType=VARCHAR}
+			</if>
+			<if test="technicalPosition != null and technicalPosition !='' ">
+				and technical_position = #{technicalPosition,jdbcType=VARCHAR}
+			</if>
+			<if test="technicalTime != null and technicalTime !='' ">
+				and technical_time = #{technicalTime,jdbcType=DATE}
+			</if>
+			<if test="hirepositionTime != null and hirepositionTime !='' ">
+				and hireposition_time = #{hirepositionTime,jdbcType=DATE}
+			</if>
+			<if test="isGeneral != null and isGeneral !='' ">
+				and is_general = #{isGeneral,jdbcType=CHAR},
+			</if>
+			<if test="workStatus != null and workStatus !='' ">
+				and work_status = #{workStatus,jdbcType=VARCHAR}
+			</if>
+			<if test="salaryLevel != null and salaryLevel !='' ">
+				and salary_level = #{salaryLevel,jdbcType=VARCHAR}
+			</if>
+			<if test="salaryGrade != null and salaryGrade !='' ">
+				and salary_grade = #{salaryGrade,jdbcType=VARCHAR}
+			</if>
+			<if test="workYear != null and workYear !='' ">
+				and work_year = #{workYear,jdbcType=VARCHAR}
+			</if>
+			<if test="retirementPayScale != null and retirementPayScale !='' ">
+				and retirement_pay_scale = #{retirementPayScale,jdbcType=VARCHAR}
+			</if>
+			<if test="createAt != null and createAt !='' ">
+				and create_at = #{createAt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createId != null and createId !='' ">
+				and create_id = #{createId,jdbcType=VARCHAR}
+			</if>
+			<if test="updateAt != null and updateAt !='' ">
+				and update_at = #{updateAt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateId != null and updateId !='' ">
+				and update_id = #{updateId,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null and remark !='' ">
+				and remark = #{remark,jdbcType=VARCHAR}
+			</if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by create_at desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(1) from document_person_infor
+		<where>
+			state = '1'
+			<if test="busiId != null and busiId !='' ">
+				and busi_id = #{busiId,jdbcType=VARCHAR}
+			</if>
+			<if test="identificationNo != null  and identificationNo !='' ">
+				and identification_no = #{identificationNo,jdbcType=VARCHAR}
+			</if>
+			<if test="name != null  and name !='' ">
+				and name = #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="oldName != null  and oldName !='' ">
+				and old_name = #{oldName,jdbcType=VARCHAR}
+			</if>
+			<if test="documentCode != null and documentCode !='' ">
+				and document_code = #{documentCode,jdbcType=VARCHAR}
+			</if>
+			<if test="deptCode != null  and deptCode !='' ">
+				and dept_code = #{deptCode,jdbcType=VARCHAR}
+			</if>
+			<if test="section != null and section !='' ">
+				and section = #{section,jdbcType=VARCHAR}
+			</if>
+			<if test="sex != null and sex !='' ">
+				and sex = #{sex,jdbcType=VARCHAR}
+			</if>
+			<if test="birthday != null and birthday !='' ">
+				and birthday = #{birthday,jdbcType=VARCHAR}
+			</if>
+			<if test="age != null and age !='' ">
+				and age = #{age,jdbcType=VARCHAR}
+			</if>
+			<if test="nation != null and nation !='' ">
+				and nation = #{nation,jdbcType=VARCHAR}
+			</if>
+			<if test="nativePlace != null and nativePlace !='' ">
+				and native_place = #{nativePlace,jdbcType=VARCHAR}
+			</if>
+			<if test="birthPlace != null and birthPlace !='' ">
+				and birth_place = #{birthPlace,jdbcType=VARCHAR}
+			</if>
+			<if test="oph != null and oph !='' ">
+				and oph = #{oph,jdbcType=VARCHAR}
+			</if>
+			<if test="telph != null and telph !='' ">
+				and telph = #{telph,jdbcType=VARCHAR}
+			</if>
+			<if test="address != null and address !='' ">
+				and address = #{address,jdbcType=VARCHAR}
+			</if>
+			<if test="personnelCompilation != null and personnelCompilation !='' ">
+				and personnel_compilation = #{personnelCompilation,jdbcType=VARCHAR}
+			</if>
+			<if test="compilationDept != null and compilationDept !='' ">
+				and compilation_dept = #{compilationDept,jdbcType=VARCHAR}
+			</if>
+			<if test="personType != null and personType !='' ">
+				and person_type = #{personType,jdbcType=VARCHAR}
+			</if>
+			<if test="isSecondment != null and isSecondment !='' ">
+				and is_secondment = #{isSecondment,jdbcType=CHAR}
+			</if>
+			<if test="secondDeptCode != null and secondDeptCode !='' ">
+				and second_dept_code = #{secondDeptCode,jdbcType=VARCHAR}
+			</if>
+			<if test="secondSection != null and secondSection !='' ">
+				and second_section = #{secondSection,jdbcType=VARCHAR}
+			</if>
+			<if test="isLeader != null and isLeader !='' ">
+				and is_leader = #{isLeader,jdbcType=CHAR}
+			</if>
+			<if test="isMember != null and isMember !='' ">
+				and is_member = #{isMember,jdbcType=CHAR}
+			</if>
+			<if test="isReserveCadres != null and isReserveCadres !='' ">
+				and is_reserve_cadres = #{isReserveCadres,jdbcType=CHAR}
+			</if>
+			<if test="retiredDate != null and retiredDate !='' ">
+				and retired_date = #{retiredDate,jdbcType=DATE}
+			</if>
+			<if test="initialEducation != null and initialEducation !='' ">
+				and initial_education = #{initialEducation,jdbcType=VARCHAR}
+			</if>
+			<if test="highestEducation != null and highestEducation !='' ">
+				and highest_education = #{highestEducation,jdbcType=VARCHAR}
+			</if>
+			<if test="governmentTitle != null and governmentTitle !='' ">
+				and government_title = #{governmentTitle,jdbcType=VARCHAR}
+			</if>
+			<if test="party != null and party !='' ">
+				and party = #{party,jdbcType=VARCHAR}
+			</if>
+			<if test="partyTime != null and partyTime !='' ">
+				and party_time = #{partyTime,jdbcType=DATE}
+			</if>
+			<if test="workTime != null and workTime !='' ">
+				and work_time = #{workTime,jdbcType=DATE}
+			</if>
+			<if test="orgTime != null and orgTime !='' ">
+				and org_time = #{orgTime,jdbcType=DATE},
+			</if>
+			<if test="jobLevel != null and jobLevel !='' ">
+				and job_level = #{jobLevel,jdbcType=VARCHAR}
+			</if>
+			<if test="managementLevel != null and managementLevel !='' ">
+				and management_level = #{managementLevel,jdbcType=VARCHAR}
+			</if>
+			<if test="health != null and health !='' ">
+				and health = #{health,jdbcType=VARCHAR}
+			</if>
+			<if test="profession != null and profession !='' ">
+				and profession = #{profession,jdbcType=VARCHAR}
+			</if>
+			<if test="professionalSort != null and professionalSort !='' ">
+				and professional_sort = #{professionalSort,jdbcType=VARCHAR}
+			</if>
+			<if test="professionLevel != null and professionLevel !='' ">
+				and profession_level = #{professionLevel,jdbcType=VARCHAR}
+			</if>
+			<if test="healthTechnicalTitle != null and healthTechnicalTitle !='' ">
+				and health_technical_title = #{healthTechnicalTitle,jdbcType=VARCHAR}
+			</if>
+			<if test="nonhealthTechnicalTitle != null and nonhealthTechnicalTitle !='' ">
+				and nonhealth_technical_title = #{nonhealthTechnicalTitle,jdbcType=VARCHAR}
+			</if>
+			<if test="technicalPosition != null and technicalPosition !='' ">
+				and technical_position = #{technicalPosition,jdbcType=VARCHAR}
+			</if>
+			<if test="technicalTime != null and technicalTime !='' ">
+				and technical_time = #{technicalTime,jdbcType=DATE}
+			</if>
+			<if test="hirepositionTime != null and hirepositionTime !='' ">
+				and hireposition_time = #{hirepositionTime,jdbcType=DATE}
+			</if>
+			<if test="isGeneral != null and isGeneral !='' ">
+				and is_general = #{isGeneral,jdbcType=CHAR},
+			</if>
+			<if test="workStatus != null and workStatus !='' ">
+				and work_status = #{workStatus,jdbcType=VARCHAR}
+			</if>
+			<if test="salaryLevel != null and salaryLevel !='' ">
+				and salary_level = #{salaryLevel,jdbcType=VARCHAR}
+			</if>
+			<if test="salaryGrade != null and salaryGrade !='' ">
+				and salary_grade = #{salaryGrade,jdbcType=VARCHAR}
+			</if>
+			<if test="workYear != null and workYear !='' ">
+				and work_year = #{workYear,jdbcType=VARCHAR}
+			</if>
+			<if test="retirementPayScale != null and retirementPayScale !='' ">
+				and retirement_pay_scale = #{retirementPayScale,jdbcType=VARCHAR}
+			</if>
+			<if test="createAt != null and createAt !='' ">
+				and create_at = #{createAt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createId != null and createId !='' ">
+				and create_id = #{createId,jdbcType=VARCHAR}
+			</if>
+			<if test="updateAt != null and updateAt !='' ">
+				and update_at = #{updateAt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateId != null and updateId !='' ">
+				and update_id = #{updateId,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null and remark !='' ">
+				and remark = #{remark,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select> -->
+
+	<update id="update" parameterType="com.paladin.hrms.model.document.DocumentInfor">
+		update document_infor
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="value != null">`value` = #{value}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="description != null">`description` = #{description}, </if>
+			<if test="sort != null">`sort` = #{sort}, </if>
+			<if test="parentId != null">`parent_id` = #{parentId}, </if>
+			<if test="createBy != null">`create_by` = #{createBy}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="updateBy != null">`update_by` = #{updateBy}, </if>
+			<if test="updateDate != null">`update_date` = #{updateDate}, </if>
+			<if test="remarks != null">`remarks` = #{remarks}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<update id="remove" parameterType="String">
+		update document_infor set
+		state = '99'
+		where id = #{0}
+	</update>
+
+	<delete id="batchRemove">
+		update document_infor set
+		state = '99'
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+
+    <select id="queryDocumentByBusiId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from document_infor
+		where busi_id = #{busiId,jdbcType=VARCHAR}
+		and state = '1'
+	</select>
+	
+	
+
+	<resultMap id="RelatedResultMap" type="com.paladin.hrms.controller.document.pojo.DocumentInforVO">
+		<result column="busi_id" jdbcType="VARCHAR" property="busiId" />
+		<result column="identification_no" jdbcType="VARCHAR" property="identificationNo" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="used_name" jdbcType="VARCHAR" property="usedName" />
+		<result column="agency_id" jdbcType="VARCHAR" property="agencyId" />
+		<result column="agency_name" jdbcType="VARCHAR" property="agencyName" />
+		<result column="city_code" jdbcType="VARCHAR" property="cityCode" />
+		<result column="town_code" jdbcType="VARCHAR" property="townCode" />
+		<result column="district_code" jdbcType="VARCHAR" property="districtCode" />
+		<result column="nationality" jdbcType="VARCHAR" property="nationality" />
+		<result column="document_code" jdbcType="VARCHAR" property="documentCode" />
+		<result column="dept_code" jdbcType="VARCHAR" property="deptCode" />
+		<result column="section" jdbcType="VARCHAR" property="section" />
+		<result column="sex" jdbcType="VARCHAR" property="sex" />
+		<result column="birthday" jdbcType="VARCHAR" property="birthday" />
+		<result column="age" jdbcType="VARCHAR" property="age" />
+		<result column="nation" jdbcType="VARCHAR" property="nation" />
+		<result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+		<result column="birth_place" jdbcType="VARCHAR" property="birthPlace" />
+		<result column="cellphone" jdbcType="VARCHAR" property="cellphone" />
+		<result column="office_phone" jdbcType="VARCHAR" property="officePhone" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="personnel_compilation" jdbcType="VARCHAR" property="personnelCompilation" />
+		<result column="compilation_dept" jdbcType="VARCHAR" property="compilationDept" />
+		<result column="person_type" jdbcType="VARCHAR" property="personType" />
+		<result column="is_secondment" jdbcType="CHAR" property="isSecondment" />
+		<result column="second_dept_code" jdbcType="VARCHAR" property="secondDeptCode" />
+		<result column="second_section" jdbcType="VARCHAR" property="secondSection" />
+		<result column="is_leader" jdbcType="CHAR" property="isLeader" />
+		<result column="is_member" jdbcType="CHAR" property="isMember" />
+		<result column="is_reserve_cadres" jdbcType="CHAR" property="isReserveCadres" />
+		<result column="retired_date" jdbcType="DATE" property="retiredDate" />
+		<result column="initial_education" jdbcType="VARCHAR" property="initialEducation" />
+		<result column="initial_education_desc" jdbcType="VARCHAR" property="initialEducationDesc" />
+		<result column="highest_education" jdbcType="VARCHAR" property="highestEducation" />
+		<result column="government_title" jdbcType="VARCHAR" property="governmentTitle" />
+		<result column="political_affiliation" jdbcType="VARCHAR" property="politicalAffiliation" />
+		<result column="join_party_time" jdbcType="DATE" property="joinPartyTime" />
+		<result column="start_work_time" jdbcType="DATE" property="startWorkTime" />
+		<result column="org_time" jdbcType="DATE" property="orgTime" />
+		<result column="job_level" jdbcType="VARCHAR" property="jobLevel" />
+		<result column="management_level" jdbcType="VARCHAR" property="managementLevel" />
+		<result column="health" jdbcType="VARCHAR" property="health" />
+		<result column="profession" jdbcType="VARCHAR" property="profession" />
+		<result column="professional_sort" jdbcType="VARCHAR" property="professionalSort" />
+		<result column="profession_level" jdbcType="VARCHAR" property="professionLevel" />
+		<result column="health_technical_title" jdbcType="VARCHAR" property="healthTechnicalTitle" />
+		<result column="nonhealth_technical_title" jdbcType="VARCHAR" property="nonhealthTechnicalTitle" />
+		<result column="technical_position" jdbcType="VARCHAR" property="technicalPosition" />
+		<result column="technical_position_desc" jdbcType="VARCHAR" property="technicalPositionDesc" />
+		<result column="technical_time" jdbcType="DATE" property="technicalTime" />
+		<result column="hireposition_time" jdbcType="DATE" property="hirepositionTime" />
+		<result column="is_general" jdbcType="CHAR" property="isGeneral" />
+		<result column="work_status" jdbcType="VARCHAR" property="workStatus" />
+		<result column="salary_level" jdbcType="VARCHAR" property="salaryLevel" />
+		<result column="salary_grade" jdbcType="VARCHAR" property="salaryGrade" />
+		<result column="work_year" jdbcType="VARCHAR" property="workYear" />
+		<result column="retirement_pay_scale" jdbcType="VARCHAR" property="retirementPayScale" />
+		<result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+		<result column="create_id" jdbcType="VARCHAR" property="createId" />
+		<result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
+		<result column="update_id" jdbcType="VARCHAR" property="updateId" />
+		<result column="state" jdbcType="VARCHAR" property="state" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<association property="currentAdministrativePost" javaType="com.paladin.hrms.controller.document.pojo.DocumentAdministrativePostVO">
+            <id column="b_id" jdbcType="VARCHAR" property="id" />
+		    <result column="b_busi_id" jdbcType="VARCHAR" property="busiId" />
+		    <result column="b_relation_id" jdbcType="VARCHAR" property="relationId" />
+		    <result column="b_name" jdbcType="VARCHAR" property="name" />
+		    <result column="b_unit_name" jdbcType="VARCHAR" property="unitName" />
+		    <result column="b_department" jdbcType="VARCHAR" property="department" />
+		    <result column="b_position_level" jdbcType="VARCHAR" property="positionLevel" />
+		    <result column="b_manage_level" jdbcType="VARCHAR" property="manageLevel" />
+		    <result column="b_date_begin" jdbcType="DATE" property="dateBegin" />
+		    <result column="b_date_end" jdbcType="DATE" property="dateEnd" />
+		    <result column="b_is_leader" jdbcType="VARCHAR" property="isLeader" />
+		    <result column="b_is_member" jdbcType="VARCHAR" property="isMember" />
+		    <result column="b_is_reserve_cadres" jdbcType="VARCHAR" property="isReserveCadres" />
+		    <result column="b_have_file" jdbcType="VARCHAR" property="haveFile" />
+		    <result column="b_remark" jdbcType="VARCHAR" property="remark" />
+		    <result column="b_create_id" jdbcType="VARCHAR" property="createId" />
+		    <result column="b_create_at" jdbcType="TIMESTAMP" property="createAt" />
+		    <result column="b_update_id" jdbcType="VARCHAR" property="updateId" />
+		    <result column="b_update_at" jdbcType="TIMESTAMP" property="updateAt" />
+		    <result column="b_state" jdbcType="VARCHAR" property="state" />
+  		</association>
+		
+		<association property="currentInnerpartyPost" javaType="com.paladin.hrms.controller.document.pojo.DocumentInnerpartyPostVO">
+			<id column="c_id" jdbcType="VARCHAR" property="id" />
+		    <result column="c_busi_id" jdbcType="VARCHAR" property="busiId" />
+		    <result column="c_relation_id" jdbcType="VARCHAR" property="relationId" />
+		    <result column="c_name" jdbcType="VARCHAR" property="name" />
+		    <result column="c_unit_name" jdbcType="VARCHAR" property="unitName" />
+		    <result column="c_department" jdbcType="VARCHAR" property="department" />
+		    <result column="c_position_level" jdbcType="VARCHAR" property="positionLevel" />
+		    <result column="c_manage_level" jdbcType="VARCHAR" property="manageLevel" />
+		    <result column="c_date_begin" jdbcType="DATE" property="dateBegin" />
+		    <result column="c_date_end" jdbcType="DATE" property="dateEnd" />
+		    <result column="c_is_leader" jdbcType="VARCHAR" property="isLeader" />
+		    <result column="c_is_member" jdbcType="VARCHAR" property="isMember" />
+		    <result column="c_is_reserve_cadres" jdbcType="VARCHAR" property="isReserveCadres" />
+		    <result column="c_have_file" jdbcType="VARCHAR" property="haveFile" />
+		    <result column="c_remark" jdbcType="VARCHAR" property="remark" />
+		    <result column="c_create_id" jdbcType="VARCHAR" property="createId" />
+		    <result column="c_create_at" jdbcType="TIMESTAMP" property="createAt" />
+		    <result column="c_update_id" jdbcType="VARCHAR" property="updateId" />
+		    <result column="c_update_at" jdbcType="TIMESTAMP" property="updateAt" />
+		    <result column="c_state" jdbcType="VARCHAR" property="state" />
+		</association> 
+	</resultMap>
+
+	<select id="listForExport" resultMap="RelatedResultMap">
+		select 
+			p.identification_no,p.name,p.sex,p.used_name,p.cellphone,p.office_phone,
+			p.agency_id,p.agency_name,p.city_code,p.town_code,p.district_code,p.nationality,
+			p.nation,p.birthday,p.start_work_time,p.join_party_time,p.political_affiliation,
+			p.native_place,p.status,
+			a.document_code,a.dept_code,a.section,a.birth_place,a.address,a.personnel_compilation,
+			a.compilation_dept,a.person_type,a.is_secondment,a.second_dept_code,a.second_section,
+			a.retired_date,a.initial_education,a.initial_education_desc,a.highest_education,a.org_time,
+			a.management_level,a.health,a.profession,a.professional_sort,
+			a.profession_level,a.health_technical_title,a.nonhealth_technical_title,
+			a.technical_position,a.technical_position_desc,a.technical_time,a.hireposition_time,a.is_general,
+			a.work_status,a.salary_level,a.salary_grade,a.work_year,a.retirement_pay_scale,
+			b.*,c.*
+		from org_personnel p
+		left join document_infor a
+		on p.identification_no=a.identification_no and p.is_delete=0 and a.state='1'
+		left join ( 
+			SELECT relation_id as b_relation_id, name as b_name,unit_name as b_unit_name ,department as b_department, 
+				position_level as b_position_level,date_begin as b_date_begin,is_leader as b_is_leader,state as b_state
+			FROM document_administrative_post t
+			WHERE ( date_begin = (SELECT MAX(date_begin)
+					FROM document_administrative_post p
+					WHERE relation_id = t.relation_id and p.state='1' and t.state='1'
+				)
+			)
+		)b on a.identification_no=b.b_relation_id and b.b_state='1' and a.state='1'
+		left join (
+			 SELECT relation_id as c_relation_id, name as c_name,unit_name as c_unit_name ,department as c_department, 
+				position_level as c_position_level,date_begin as c_date_begin,is_leader as c_is_leader,state as c_state
+			 FROM document_innerparty_post t
+			 WHERE ( date_begin = (SELECT MAX(date_begin)
+						FROM document_innerparty_post p
+						WHERE relation_id = t.relation_id and p.state='1' and t.state='1'
+					)
+				)
+		) c on a.identification_no=c.c_relation_id and c.c_state='1' and a.state='1'
+		<where>
+			state = '1'
+			<include refid="conditionForExport"></include>
+		</where>
+		group by a.identification_no
+		<!-- <if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if> -->
+	</select>
+	
+	<select id="countForExport" resultType="int">
+		select count(1)
+		from document_infor
+		<where>
+			state = '1'
+			<include refid="conditionForExport"></include>
+		</where>
+	</select>
+
+
+	<sql id="conditionForExport">
+		<if test="busiId != null and busiId !='' ">
+			and busi_id = #{busiId,jdbcType=VARCHAR}
+		</if>
+		<if test="identificationNo != null  and identificationNo !='' ">
+			and p.identification_no = #{identificationNo,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null  and name !='' ">
+			and p.name like concat(concat('%',#{name}),'%')
+		</if>
+		<if test="usedName != null  and usedName !='' ">
+			and p.used_name = #{usedName,jdbcType=VARCHAR}
+		</if>
+		<if test="agencyId != null and agencyId !='' ">
+			and p.agency_id = #{agencyId,jdbcType=VARCHAR}
+		</if>
+		<if test="agencyName != null  and agencyName !='' ">
+			and p.agency_name = #{agencyName,jdbcType=VARCHAR}
+		</if>
+		<if test="documentCode != null and documentCode !='' ">
+			and a.document_code = #{documentCode,jdbcType=VARCHAR}
+		</if>
+		<if test="deptCode != null  and deptCode !='' ">
+			and a.dept_code = #{deptCode,jdbcType=VARCHAR}
+		</if>
+		<if test="section != null and section !='' ">
+			and a.section = #{section,jdbcType=VARCHAR}
+		</if>
+		<if test="sex != null and sex !='' ">
+			and p.sex = #{sex,jdbcType=VARCHAR}
+		</if>
+		<if test="birthday != null and birthday !='' ">
+			and p.birthday = #{birthday,jdbcType=VARCHAR}
+		</if>
+		<if test="age != null and age !='' ">
+			and a.age = #{age,jdbcType=VARCHAR}
+		</if>
+		<if test="nation != null and nation !='' ">
+			and p.nation = #{nation,jdbcType=VARCHAR}
+		</if>
+		<if test="nativePlace != null and nativePlace !='' ">
+			and p.native_place = #{nativePlace,jdbcType=VARCHAR}
+		</if>
+		<if test="birthPlace != null and birthPlace !='' ">
+			and a.birth_place = #{birthPlace,jdbcType=VARCHAR}
+		</if>
+		<if test="cellphone != null and cellphone !='' ">
+			and p.cellphone = #{cellphone,jdbcType=VARCHAR}
+		</if>
+		<if test="officePhone != null and officePhone !='' ">
+			and p.office_phone = #{officePhone,jdbcType=VARCHAR}
+		</if>
+		<if test="address != null and address !='' ">
+			and a.address = #{address,jdbcType=VARCHAR}
+		</if>
+		<if test="personnelCompilation != null and personnelCompilation !='' ">
+			and a.personnel_compilation = #{personnelCompilation,jdbcType=VARCHAR}
+		</if>
+		<if test="compilationDept != null and compilationDept !='' ">
+			and a.compilation_dept = #{compilationDept,jdbcType=VARCHAR}
+		</if>
+		<if test="personType != null and personType !='' ">
+			and a.person_type = #{personType,jdbcType=VARCHAR}
+		</if>
+		<if test="isSecondment != null and isSecondment !='' ">
+			and a.is_secondment = #{isSecondment,jdbcType=CHAR}
+		</if>
+		<if test="secondDeptCode != null and secondDeptCode !='' ">
+			and a.second_dept_code = #{secondDeptCode,jdbcType=VARCHAR}
+		</if>
+		<if test="secondSection != null and secondSection !='' ">
+			and a.second_section = #{secondSection,jdbcType=VARCHAR}
+		</if>
+		<if test="isLeader != null and isLeader !='' ">
+			and a.is_leader = #{isLeader,jdbcType=CHAR}
+		</if>
+		<if test="isMember != null and isMember !='' ">
+			and a.is_member = #{isMember,jdbcType=CHAR}
+		</if>
+		<if test="isReserveCadres != null and isReserveCadres !='' ">
+			and a.is_reserve_cadres = #{isReserveCadres,jdbcType=CHAR}
+		</if>
+		<if test="retiredDate != null and retiredDate !='' ">
+			and a.retired_date = #{retiredDate,jdbcType=DATE}
+		</if>
+		<if test="initialEducation != null and initialEducation !='' ">
+			and a.initial_education = #{initialEducation,jdbcType=VARCHAR}
+		</if>
+		<if test="initialEducationDesc != null and initialEducationDesc !='' ">
+			and a.initial_education_desc = #{initialEducationDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="highestEducation != null and highestEducation !='' ">
+			and a.highest_education = #{highestEducation,jdbcType=VARCHAR}
+		</if>
+		<if test="governmentTitle != null and governmentTitle !='' ">
+			and a.government_title = #{governmentTitle,jdbcType=VARCHAR}
+		</if>
+		<if test="politicalAffiliation != null and politicalAffiliation !='' ">
+			and p.political_affiliation = #{politicalAffiliation,jdbcType=VARCHAR}
+		</if>
+		<if test="joinPartyTime != null and joinPartyTime !='' ">
+			and p.join_party_time = #{joinPartyTime,jdbcType=DATE}
+		</if>
+		<if test="startWorkTime != null and startWorkTime !='' ">
+			and p.start_work_time = #{startWorkTime,jdbcType=DATE}
+		</if>
+		<if test="orgTime != null and orgTime !='' ">
+			and a.org_time = #{orgTime,jdbcType=DATE},
+		</if>
+		<if test="jobLevel != null and jobLevel !='' ">
+			and a.job_level = #{jobLevel,jdbcType=VARCHAR}
+		</if>
+		<if test="managementLevel != null and managementLevel !='' ">
+			and a.management_level = #{managementLevel,jdbcType=VARCHAR}
+		</if>
+		<if test="health != null and health !='' ">
+			and a.health = #{health,jdbcType=VARCHAR}
+		</if>
+		<if test="profession != null and profession !='' ">
+			and a.profession like concat(concat('%',#{profession}),'%')
+		</if>
+		<if test="professionalSort != null and professionalSort !='' ">
+			and a.professional_sort = #{professionalSort,jdbcType=VARCHAR}
+		</if>
+		<if test="professionLevel != null and professionLevel !='' ">
+			and a.profession_level = #{professionLevel,jdbcType=VARCHAR}
+		</if>
+		<if test="healthTechnicalTitle != null and healthTechnicalTitle !='' ">
+			and a.health_technical_title = #{healthTechnicalTitle,jdbcType=VARCHAR}
+		</if>
+		<if test="nonhealthTechnicalTitle != null and nonhealthTechnicalTitle !='' ">
+			and a.nonhealth_technical_title = #{nonhealthTechnicalTitle,jdbcType=VARCHAR}
+		</if>
+		<if test="technicalPosition != null and technicalPosition !='' ">
+			and a.technical_position = #{technicalPosition,jdbcType=VARCHAR}
+		</if>
+		<if test="technicalPositionDesc != null and technicalPositionDesc !='' ">
+			and a.technical_position_desc = #{technicalPositionDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="technicalTime != null and technicalTime !='' ">
+			and a.technical_time = #{technicalTime,jdbcType=DATE}
+		</if>
+		<if test="hirepositionTime != null and hirepositionTime !='' ">
+			and a.hireposition_time = #{hirepositionTime,jdbcType=DATE}
+		</if>
+		<if test="isGeneral != null and isGeneral !='' ">
+			and a.is_general = #{isGeneral,jdbcType=CHAR},
+		</if>
+		<if test="workStatus != null and workStatus !='' ">
+			and a.work_status = #{workStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="salaryLevel != null and salaryLevel !='' ">
+			and a.salary_level = #{salaryLevel,jdbcType=VARCHAR}
+		</if>
+		<if test="salaryGrade != null and salaryGrade !='' ">
+			and a.salary_grade = #{salaryGrade,jdbcType=VARCHAR}
+		</if>
+		<if test="workYear != null and workYear !='' ">
+			and a.work_year = #{workYear,jdbcType=VARCHAR}
+		</if>
+		<if test="retirementPayScale != null and retirementPayScale !='' ">
+			and a.retirement_pay_scale = #{retirementPayScale,jdbcType=VARCHAR}
+		</if>
+		<if test="createAt != null and createAt !='' ">
+			and a.create_at = #{createAt,jdbcType=TIMESTAMP}
+		</if>
+		<if test="createId != null and createId !='' ">
+			and a.create_id = #{createId,jdbcType=VARCHAR}
+		</if>
+		<if test="updateAt != null and updateAt !='' ">
+			and a.update_at = #{updateAt,jdbcType=TIMESTAMP}
+		</if>
+		<if test="updateId != null and updateId !='' ">
+			and a.update_id = #{updateId,jdbcType=VARCHAR}
+		</if>
+		<if test="remark != null and remark !='' ">
+			and a.remark = #{remark,jdbcType=VARCHAR}
+		</if>
+	</sql>
+
+	<insert id="batchInsert">
+		insert into document_infor(
+			id,dept_code,section,idnumber,name,sex,birthday,
+			personnel_compilation,person_type,
+			work_status,work_time,org_time,
+			is_secondment,second_dept_code,
+			second_section,profession,state
+		)
+		<foreach collection="list" item="item" index="index"
+			separator=" union all ">
+			( select      
+			#{item.id},
+			#{item.deptCode},
+			#{item.section},
+			#{item.idnumber},
+			#{item.name},
+			#{item.sex},
+			#{item.birthday},
+			#{item.personnelCompilation},
+			#{item.personType},
+			#{item.workStatus},
+			#{item.workTime},
+			#{item.orgTime},
+			#{item.isSecondment},
+			#{item.secondDeptCode},
+			#{item.secondSection},
+			#{item.profession},
+			'1'
+			from dual
+			)
+		</foreach>
+	</insert>
+
+
+</mapper>

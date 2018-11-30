@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="hrms/header" />
+
+<body>
+    <tt:constant enumcode="major,sex" />
+    <div class="container">
+        <section class="content-header">
+            <h1>人员信息导出</h1>
+        </section>
+        <section class="content">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <i class="fa fa-search"></i>
+                    <h3 class="box-title">查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <form id="searchbar" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-1 control-label">姓名</label>
+                            <div class="col-sm-3">
+                                <input type="text" name="name" class="form-control" th:value="${query?.name}" />
+                            </div>
+                            <label for="identificationNo" class="col-sm-1 control-label">身份证</label>
+                            <div class="col-sm-3">
+                                <input type="text" name="identificationNo" class="form-control" th:value="${query?.identificationNo}" />
+                            </div>
+                            <label for="sex" class="col-sm-1 control-label">性别</label>
+                            <div class="col-sm-3">
+                                <select name="sex" class="form-control tonto-select-constant" enumcode="sex">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="agencyName" class="col-sm-1 control-label">机构名称</label>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input type="text" name="agencyName" class="form-control tonto-agency" th:value="${query?.agencyName}">
+                                    <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
+                                    <div class="input-group-btn">
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="major" class="col-sm-1 control-label">从事专业</label>
+                            <div class="col-sm-3">
+                                <select name="major" class="form-control tonto-select-constant" enumcode="major">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                        <input type="text" style="display:none">
+                    </form>
+                    <div class="col-sm-12">
+                        <div class="pull-right">
+                            <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                            <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
+                        </div>
+                    </div>
+                    <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                    <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+                </div>
+            </div>
+            <div class="box box-solid" style="margin-top:20px">
+                <div class="box-header with-border">
+                    <i class="fa fa-download"></i>
+                    <h3 class="box-title">导出数据项</h3>
+                    <div class="box-tools pull-right">
+                        <input type="checkbox" id="checkAll" />&nbsp;&nbsp;全选
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="box box-default box-solid">
+                        <div class="box-header with-border" style="background-color:#f5f5f5;">
+                            <h4 class="box-title">基础信息</h4>
+                            <div class="box-tools pull-right">
+                                <input type="checkbox" name="checkAll" />
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body" style="display: block;">
+                            <label><input type="checkbox" name="column" checked="checked" value="name">&nbsp;&nbsp;姓名&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" checked="checked" value="sex">&nbsp;&nbsp;性别&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" checked="checked" value="identificationType">&nbsp;&nbsp;证件类型&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" checked="checked" value="identificationNo">&nbsp;&nbsp;证件号码&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="nation">&nbsp;&nbsp;民族&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="birthday">&nbsp;&nbsp;出生日期&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="startWorkTime">&nbsp;&nbsp;参加工作日期&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="cellphone">&nbsp;&nbsp;手机号&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="officePhone">&nbsp;&nbsp;办公室电话&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="nationality">&nbsp;&nbsp;国籍&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="joinPartyTime">&nbsp;&nbsp;入党/团时间&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="nativePlace">&nbsp;&nbsp;籍贯&nbsp;&nbsp;</label>
+                        </div>
+                    </div>
+                    <div class="box box-default box-solid">
+                        <div class="box-header with-border" style="background-color:#f5f5f5;">
+                            <h4 class="box-title">工作信息</h4>
+                            <div class="box-tools pull-right">
+                                <input type="checkbox" name="checkAll" />
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body" style="display: block;">
+                            <label><input type="checkbox" name="column" checked="checked" value="agencyName">&nbsp;&nbsp;所属机构&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="dept">&nbsp;&nbsp;所在科室代码&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" checked="checked" value="dept">&nbsp;&nbsp;所在科室名称&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="deptName">&nbsp;&nbsp;实际科室名称&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" checked="checked" value="major">&nbsp;&nbsp;从事专业&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="technicalQualification">&nbsp;&nbsp;专业技术资格(评)&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="techPost">&nbsp;&nbsp;专业技术职务(聘)&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="gainDate">&nbsp;&nbsp;专业技术资格取得时间&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="duty">&nbsp;&nbsp;行政/业务管理职务&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="formation">&nbsp;&nbsp;编制情况&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="inorout">&nbsp;&nbsp;年内人员流动情况&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="inoroutDate">&nbsp;&nbsp;调入/调出时间&nbsp;&nbsp;</label>
+                        </div>
+                    </div>
+                    <div class="box box-default box-solid">
+                        <div class="box-header with-border" style="background-color:#f5f5f5;">
+                            <h4 class="box-title">执业信息</h4>
+                            <div class="box-tools pull-right">
+                                <input type="checkbox" name="checkAll" />
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body" style="display: block;">
+                            <label><input type="checkbox" name="column" value="personnelType">&nbsp;&nbsp;人员类型&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="docCertCode">&nbsp;&nbsp;医师/卫生监督员执业证书编码&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="practiceCategory">&nbsp;&nbsp;医师执业类别&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="practiceScope">&nbsp;&nbsp;医师执业范围&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="expertise">&nbsp;&nbsp;专科特长&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="isMultisite">&nbsp;&nbsp;是否多地点执业医师&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="secondCategory">&nbsp;&nbsp;第2执业单位的机构类别&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="thirdCategory">&nbsp;&nbsp;第3执业单位的机构类别&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="docTrainCert">&nbsp;&nbsp;全科医生取得培训合格证书情况&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="isDispatched">&nbsp;&nbsp;是否由乡镇卫生院或社区卫生服务机构派驻村卫生室工作&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="vdocCertCode">&nbsp;&nbsp;乡村医生执业证书编号&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="nurseCertCode">&nbsp;&nbsp;护士执业证书编号&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="workYears">&nbsp;&nbsp;从事乡村医生工作年限&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="isOnjobTrain">&nbsp;&nbsp;高中及以下学历乡村医生是否为在职培训合格者&nbsp;&nbsp;</label>
+                        </div>
+                    </div>
+                    <div class="box box-default box-solid">
+                        <div class="box-header with-border" style="background-color:#f5f5f5;">
+                            <h4 class="box-title">背景信息</h4>
+                            <div class="box-tools pull-right">
+                                <input type="checkbox" name="checkAll" />
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body" style="display: block;">
+                            <label><input type="checkbox" name="column" value="topEducation">&nbsp;&nbsp;最高学历&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="topAcademicDegree">&nbsp;&nbsp;学位&nbsp;&nbsp;</label>
+                            <label><input type="checkbox" name="column" value="topEducationMajor">&nbsp;&nbsp;所学专业&nbsp;&nbsp;</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer clearfix no-border">
+                    <button type="button" class="btn btn-success pull-right" onclick="exportPersonnel()"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;导出&nbsp;&nbsp;</button>
+                </div>
+            </div>
+            <div class="box box-solid" style="margin-top:20px">
+                <div class="box-header with-border">
+                    <i class="fa fa-list-alt"></i>
+                    <h3 class="box-title">结果</h3>
+                </div>
+                <div class="box-body">
+                    <table id="dataGrid"></table>
+                    <div id="toolbar">
+                        <div class="btn-group">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function() {
+        $("#checkAll").on("ifChecked", function() {
+            $("input[name='column']").iCheck('check');
+            $("input[name='checkAll']").iCheck('check');
+        });
+
+        $("#checkAll").on("ifUnchecked", function() {
+            $("input[name='column']").iCheck('uncheck');
+            $("input[name='checkAll']").iCheck('uncheck');
+        });
+
+        $("[name='checkAll']").each(function() {
+            initCheckbox($(this));
+        });
+
+        initDataGrid();
+    });
+
+    function initCheckbox(cb) {
+        var div = cb.parent().parent().parent().parent();
+        cb.on("ifChecked", function() {
+            div.find("input[name='column']").iCheck('check');
+        });
+
+        cb.on("ifUnchecked", function() {
+            div.find("input[name='column']").iCheck('uncheck');
+        });
+    }
+
+    function exportPersonnel() {
+        var checkedColumns = [];
+        $("input[name='column']:checked").each(function() {
+            checkedColumns.push($(this).val());
+        });
+
+        if (checkedColumns.length == 0) {
+            $.errorMessage("请至少选择一个导出数据项");
+            return;
+        }
+
+        var params = $("#searchbar").serializeObject({
+            column: checkedColumns
+        });
+
+        window.open($.wrapGetUrl("/hrms/org/personal/export/do", params));
+    }
+
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [
+                    { title: "姓名", field: "name" },
+                    { title: "性别", field: "sex", enumcode: "sex" },
+                    { title: "证件号码", field: "identificationNo" },
+                    { title: "所属机构", field: "agencyName" },
+                    { title: "从事专业", field: "major", enumcode: "major" }
+                ]
+            ],
+            url: '/hrms/org/personal/export/find',
+            searchbar: '#searchbar',
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            clickToSelect: true,
+            toolbar: "#toolbar",
+            showRefresh: true
+        });
+    }
+    /*]]>*/
+    </script>
+</body>
+
+</html>

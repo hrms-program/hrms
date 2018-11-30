@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="hrms/header" />
+
+<body>
+    <section class="content-header">
+        <h1>机构变更确认</h1>
+    </section>
+    <tt:constant enumcode="sex,agency-confirm-status" />
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-search"></i>
+                <h3 class="box-title">查询</h3>
+            </div>
+            <div class="box-body">
+                <form id="searchbar" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="name" style="width:130px" class="col-md-1 control-label">姓名</label>
+                        <div class="col-md-2">
+                            <input type="text" name="name" placeholder="请输入姓名" class="form-control" th:value="${query?.name}" />
+                        </div>
+                        <label for="name" style="width:130px" class="col-md-1 control-label">原在机构名称</label>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <input type="text" name="agencyName" placeholder="请输入原在机构名称" class="form-control tonto-agency" th:value="${query?.agencyName}" />
+                                <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
+                                <div class="input-group-btn">
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="name" style="width:130px" class="col-md-4 control-label">目的机构名称</label>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <input type="text" name="targetAgencyName" placeholder="请输入目的机构名称" class="form-control tonto-agency" th:value="${query?.targetAgencyName}" />
+                                <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
+                                <div class="input-group-btn">
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" style="width:130px" class="col-md-1 control-label">身份证号码</label>
+                        <div class="col-md-2">
+                            <input type="text" name="identificationNo" placeholder="请输入身份证号码" class="form-control" th:value="${query?.identificationNo}" />
+                        </div>
+                    </div>
+                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                    <input type="text" style="display:none">
+                </form>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
+                    </div>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+        </div>
+        <div class="box box-solid" style="margin-top:20px">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+            </div>
+            <div class="box-body">
+                <table id="dataGrid"></table>
+                <div id="toolbar">
+                    <div class="btn-group">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function() {
+        initDataGrid();
+    });
+
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [
+                    { title: "姓名", align: "center", field: "name" },
+                    {
+                        title: "身份证号码",
+                        align: "center",
+                        field: "identificationNo",
+                        formatter: function(value, row, index) {
+                            return $.formatSensitive(value,3,3,"*********");
+                        }
+                    },
+                    { title: "转移路线", align: "center", formatter: transferFormatter },
+                    {
+                        title: "操作",
+                        align: "center",
+                        formatter: function(value, row, index) {
+                            return '<button type="button" class="agree btn btn-xs btn-success" style="margin-right:20px"><i class="glyphicon glyphicon-ok-sign"></i>通过</button>' + 
+                             '<button type="button" class="disagree btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove-sign"></i>不通过</button>';
+                        },
+                        events: {
+                            'click .agree': function(e, value, row, index) {
+                                isAgree(1, row);
+                            },
+                            'click .disagree': function(e, value, row, index) {
+                                isAgree(2, row);
+                            }
+                        },
+                    },
+                ]
+            ],
+            url: '/hrms/complaint/agency/confirm/find',
+            searchbar: '#searchbar',
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            clickToSelect: true,
+            toolbar: "#toolbar",
+            showRefresh: true
+        });
+    }
+
+    function transferFormatter(value, row, index) {
+        var targetAgencyName;
+        if (row.targetAgencyName == null) {
+            targetAgencyName = "无";
+        } else {
+            targetAgencyName = row.targetAgencyName;
+        }
+        return row.agencyName + '<span style="margin-left:20px;margin-right:20px" class="label bg-aqua">转移到</span>' + targetAgencyName;
+    }
+
+    var index;
+
+    function isAgree(result, row) {
+        var title = row.name + '-机构变更操作';
+        index = layer.open({
+            type: 1,
+            shadeClose: false,
+            title: title,
+            maxmin: true, //开启最大化最小化按钮
+            area: $.getOpenLayerSize(850, 380),
+            content: html(row, result)
+        });
+        //$.openPageLayer(html(row),title);
+    }
+
+
+    function html(row, result) {
+
+        var html = '<div class="form-horizontal">' +
+            '<input type="hidden" id="result" value=' + result + '>' +
+            '<div>' +
+            '<label class="col-sm-2 control-label">姓名：</label>' +
+            '<div class="col-sm-10">' +
+            '<p class="form-control-static description">' + row.name + '</p>' +
+            '</div>' +
+            '</div>' +
+            '<div>' +
+            '<label class="col-sm-2 control-label">性别：</label>' +
+            '<div class="col-sm-4">' +
+            '<p class="form-control-static">' + sex(row.sex) + '</p>' +
+            '</div>' +
+            '<label class="col-sm-2 control-label">身份证号码：</label>' +
+            '<div class="col-sm-4">' +
+            '<p name="usedName" class="form-control-static description">' + row.identificationNo + '</p>' +
+            '</div>' +
+            '</div>' +
+            '<div>' +
+            '<label class="col-sm-2 control-label">现所在机构：</label>' +
+            '<div class="col-sm-4">' +
+            '<p class="form-control-static description">' + row.agencyName + '</p>' +
+            '</div>' +
+            '<label class="col-sm-2 control-label"> 目的机构：</label>' +
+            '<div class="col-sm-3">' +
+            '<p class="form-control-static description">' + row.targetAgencyName + '</p>' +
+            '</div>' +
+            '</div>' +
+            '<div>' +
+            '<label class="col-sm-2 control-label">处理说明：</label>' +
+            '<div class="col-sm-9">' +
+            '<textarea name="illustrate" id="illustrate" class="form-control" rows="5" style="resize: none;"></textarea>' +
+            '</div>' +
+            '</div>' +
+            '<div>' +
+            '<div class="col-sm-offset-5 col-sm-2" style="margin-top: 15px;">' +
+            '<button type="submit" id="result" onclick="save(' + row.id + ')" class="btn btn-primary btn-block">确定</button>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+        return html;
+    }
+
+    function sex(id) {
+        var value = $.parseJSON($("#tonto_constant_value").text());
+        var item = value["sex"];
+        for (var i = 0; i < item.length; i++) {
+            if (item[i].key == id) {
+                return item[i].value;
+            }
+        }
+    }
+
+    function save(id) {
+        var illustrate = $("#illustrate").val();
+        var result = $("#result").val();
+        layer.confirm('是否确定提交吗?', function() {
+            $.postAjax("/hrms/complaint/agency/confirm/save", { personnelId: id, illustrate: illustrate, result: result }, function() {
+                $.successMessage("操作成功");
+                layer.close(index);
+                query();
+            })
+        });
+    }
+
+    function query() {
+        table.refresh();
+    }
+
+    function getSelectRow(notShowError) {
+        var rows = table.getSelections();
+        var row = rows.length > 0 ? rows[0] : null;
+        if (!notShowError && !row) {
+            $.errorMessage("请选中一条业务数据");
+        }
+        return row;
+    }
+    /*]]>*/
+    </script>
+</body>
+
+</html>

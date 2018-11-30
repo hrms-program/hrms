@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="hrms/header" />
+
+<body>
+<tt:constant enumcode="sex,agency-confirm-status"/>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">表单</h3>
+                <div class="pull-right box-tools">               
+                    <a class="btn btn-default btn-sm" href="/hrms/complaint/agency/confirm/index">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="box-body">
+                <form class="form-horizontal tonto-form-validate" action="/hrms/complaint/agency/confirm/save" callback-url="/hrms/complaint/agency/confirm/index" method="post" th:object="${agency}">
+                      <input type="hidden" name="personnel_id" id="personnelId" th:field="*{personnelId}" /> 
+                    <div class="form-group">
+                        <label for="account" class="col-sm-2 control-label">姓名：</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" th:text="*{name}"/> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                       <label for="account" class="col-sm-2 control-label">性别：</label>
+                        <div class="col-sm-3">
+                             <p class="form-control-static tonto-select-constant" th:attr="enum-code-value=${agency.sex}" enumcode="sex" /> 
+                        </div>
+                        <label for="account" class="col-sm-2 control-label">身份证号码：</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" th:text="*{identificationNo}"/> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                       <label for="account" class="col-sm-2 control-label">现的在机构：</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" th:text="*{agencyName}"/> 
+                        </div>
+                        <label for="account" class="col-sm-2 control-label">目的机构：</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" th:text="*{targetAgencyName}"/> 
+                        </div>
+                    </div>
+                        <!-- <div class="form-group">
+                       <label for="account" class="col-sm-2 control-label">处理状态：</label>
+                        <div class="col-sm-3">
+                            <select class="form-control tonto-select-constant" name="status" enumcode="agency-confirm-status">
+                        		<option value="">请选择</option>
+                        	</select>
+                        </div>
+                    </div> -->
+                        <div class="form-group">
+                       <label for="account" class="col-sm-2 control-label">处理说明：</label>
+                        <div class="col-sm-6">
+                            <textarea name="remarks" class="form-control" rows="4" style="resize: none;"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-1">
+                            <button type="submit" name="result" value="1" class="btn btn-primary btn-block">通过</button>
+                        </div>
+                        <div class="col-sm-offset-0 col-sm-1">
+                        	<button type="submit" name="result" value="0" class="btn btn-default btn-block">不通过</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </section>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    
+    /*]]>*/
+    </script>
+</body>
+
+</html>

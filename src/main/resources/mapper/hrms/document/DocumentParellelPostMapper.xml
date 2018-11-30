@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bootdo.document.dao.ParellelPostMapper">
+  <resultMap id="BaseResultMap" type="com.paladin.hrms.model.document.DocumentParellelPost">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="busi_id" jdbcType="VARCHAR" property="busiId" />
+    <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="fir_name" jdbcType="VARCHAR" property="firName" />
+    <result column="fir_org" jdbcType="VARCHAR" property="firOrg" />
+    <result column="fir_dept" jdbcType="VARCHAR" property="firDept" />
+    <result column="fir_date_begin" jdbcType="VARCHAR" property="firDateBegin" />
+    <result column="fir_date_end" jdbcType="VARCHAR" property="firDateEnd" />
+    <result column="fir_issue_org" jdbcType="VARCHAR" property="firIssueOrg" />
+    <result column="fir_position_level" jdbcType="VARCHAR" property="firPositionLevel" />
+    <result column="sec_name" jdbcType="VARCHAR" property="secName" />
+    <result column="sec_org" jdbcType="VARCHAR" property="secOrg" />
+    <result column="sec_dept" jdbcType="VARCHAR" property="secDept" />
+    <result column="sec_date_begin" jdbcType="VARCHAR" property="secDateBegin" />
+    <result column="sec_date_end" jdbcType="VARCHAR" property="secDateEnd" />
+    <result column="sec_issue_org" jdbcType="VARCHAR" property="secIssueOrg" />
+    <result column="sec_position_level" jdbcType="VARCHAR" property="secPositionLevel" />
+    <result column="thi_name" jdbcType="VARCHAR" property="thiName" />
+    <result column="thi_org" jdbcType="VARCHAR" property="thiOrg" />
+    <result column="thi_dept" jdbcType="VARCHAR" property="thiDept" />
+    <result column="thi_date_begin" jdbcType="VARCHAR" property="thiDateBegin" />
+    <result column="thi_date_end" jdbcType="VARCHAR" property="thiDateEnd" />
+    <result column="thi_issue_org" jdbcType="VARCHAR" property="thiIssueOrg" />
+    <result column="thi_position_level" jdbcType="VARCHAR" property="thiPositionLevel" />
+    <result column="have_file" jdbcType="VARCHAR" property="haveFile" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="update_id" jdbcType="VARCHAR" property="updateId" />
+    <result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, busi_id, relation_id, fir_name, fir_org, fir_dept, fir_date_begin, fir_date_end, 
+    fir_issue_org, fir_position_level, sec_name, sec_org, sec_dept, sec_date_begin, sec_date_end, 
+    sec_issue_org, sec_position_level, thi_name, thi_org, thi_dept, thi_date_begin, thi_date_end, 
+    thi_issue_org, thi_position_level, have_file, remark, create_id, create_at, update_id, 
+    update_at, state
+  </sql>
+  <!-- <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from document_parellel_post
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.paladin.hrms.model.document.DocumentParellelPost">
+    insert into document_parellel_post (id, busi_id, relation_id, 
+      fir_name, fir_org, fir_dept, 
+      fir_date_begin, fir_date_end, fir_issue_org, 
+      fir_position_level, sec_name, sec_org, 
+      sec_dept, sec_date_begin, sec_date_end, 
+      sec_issue_org, sec_position_level, thi_name, 
+      thi_org, thi_dept, thi_date_begin, 
+      thi_date_end, thi_issue_org, thi_position_level, 
+      have_file, remark, create_id, 
+      create_at, update_id, update_at, 
+      state)
+    values (#{id,jdbcType=VARCHAR}, #{busiId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, 
+      #{firName,jdbcType=VARCHAR}, #{firOrg,jdbcType=VARCHAR}, #{firDept,jdbcType=VARCHAR}, 
+      #{firDateBegin,jdbcType=VARCHAR}, #{firDateEnd,jdbcType=VARCHAR}, #{firIssueOrg,jdbcType=VARCHAR}, 
+      #{firPositionLevel,jdbcType=VARCHAR}, #{secName,jdbcType=VARCHAR}, #{secOrg,jdbcType=VARCHAR}, 
+      #{secDept,jdbcType=VARCHAR}, #{secDateBegin,jdbcType=VARCHAR}, #{secDateEnd,jdbcType=VARCHAR}, 
+      #{secIssueOrg,jdbcType=VARCHAR}, #{secPositionLevel,jdbcType=VARCHAR}, #{thiName,jdbcType=VARCHAR}, 
+      #{thiOrg,jdbcType=VARCHAR}, #{thiDept,jdbcType=VARCHAR}, #{thiDateBegin,jdbcType=VARCHAR}, 
+      #{thiDateEnd,jdbcType=VARCHAR}, #{thiIssueOrg,jdbcType=VARCHAR}, #{thiPositionLevel,jdbcType=VARCHAR}, 
+      #{haveFile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createId,jdbcType=VARCHAR}, 
+      #{createAt,jdbcType=TIMESTAMP}, #{updateId,jdbcType=VARCHAR}, #{updateAt,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.paladin.hrms.model.document.DocumentParellelPost">
+    insert into document_parellel_post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="busiId != null">
+        busi_id,
+      </if>
+      <if test="relationId != null">
+        relation_id,
+      </if>
+      <if test="firName != null">
+        fir_name,
+      </if>
+      <if test="firOrg != null">
+        fir_org,
+      </if>
+      <if test="firDept != null">
+        fir_dept,
+      </if>
+      <if test="firDateBegin != null">
+        fir_date_begin,
+      </if>
+      <if test="firDateEnd != null">
+        fir_date_end,
+      </if>
+      <if test="firIssueOrg != null">
+        fir_issue_org,
+      </if>
+      <if test="firPositionLevel != null">
+        fir_position_level,
+      </if>
+      <if test="secName != null">
+        sec_name,
+      </if>
+      <if test="secOrg != null">
+        sec_org,
+      </if>
+      <if test="secDept != null">
+        sec_dept,
+      </if>
+      <if test="secDateBegin != null">
+        sec_date_begin,
+      </if>
+      <if test="secDateEnd != null">
+        sec_date_end,
+      </if>
+      <if test="secIssueOrg != null">
+        sec_issue_org,
+      </if>
+      <if test="secPositionLevel != null">
+        sec_position_level,
+      </if>
+      <if test="thiName != null">
+        thi_name,
+      </if>
+      <if test="thiOrg != null">
+        thi_org,
+      </if>
+      <if test="thiDept != null">
+        thi_dept,
+      </if>
+      <if test="thiDateBegin != null">
+        thi_date_begin,
+      </if>
+      <if test="thiDateEnd != null">
+        thi_date_end,
+      </if>
+      <if test="thiIssueOrg != null">
+        thi_issue_org,
+      </if>
+      <if test="thiPositionLevel != null">
+        thi_position_level,
+      </if>
+      <if test="haveFile != null">
+        have_file,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createId != null">
+        create_id,
+      </if>
+      <if test="createAt != null">
+        create_at,
+      </if>
+      <if test="updateId != null">
+        update_id,
+      </if>
+      <if test="updateAt != null">
+        update_at,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null">
+        #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="firName != null">
+        #{firName,jdbcType=VARCHAR},
+      </if>
+      <if test="firOrg != null">
+        #{firOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="firDept != null">
+        #{firDept,jdbcType=VARCHAR},
+      </if>
+      <if test="firDateBegin != null">
+        #{firDateBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="firDateEnd != null">
+        #{firDateEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="firIssueOrg != null">
+        #{firIssueOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="firPositionLevel != null">
+        #{firPositionLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="secName != null">
+        #{secName,jdbcType=VARCHAR},
+      </if>
+      <if test="secOrg != null">
+        #{secOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="secDept != null">
+        #{secDept,jdbcType=VARCHAR},
+      </if>
+      <if test="secDateBegin != null">
+        #{secDateBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="secDateEnd != null">
+        #{secDateEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="secIssueOrg != null">
+        #{secIssueOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="secPositionLevel != null">
+        #{secPositionLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="thiName != null">
+        #{thiName,jdbcType=VARCHAR},
+      </if>
+      <if test="thiOrg != null">
+        #{thiOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="thiDept != null">
+        #{thiDept,jdbcType=VARCHAR},
+      </if>
+      <if test="thiDateBegin != null">
+        #{thiDateBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="thiDateEnd != null">
+        #{thiDateEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="thiIssueOrg != null">
+        #{thiIssueOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="thiPositionLevel != null">
+        #{thiPositionLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="haveFile != null">
+        #{haveFile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.paladin.hrms.model.document.DocumentParellelPost">
+    update document_parellel_post
+    <set>
+      <if test="busiId != null">
+        busi_id = #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        relation_id = #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="firName != null">
+        fir_name = #{firName,jdbcType=VARCHAR},
+      </if>
+      <if test="firOrg != null">
+        fir_org = #{firOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="firDept != null">
+        fir_dept = #{firDept,jdbcType=VARCHAR},
+      </if>
+      <if test="firDateBegin != null">
+        fir_date_begin = #{firDateBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="firDateEnd != null">
+        fir_date_end = #{firDateEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="firIssueOrg != null">
+        fir_issue_org = #{firIssueOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="firPositionLevel != null">
+        fir_position_level = #{firPositionLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="secName != null">
+        sec_name = #{secName,jdbcType=VARCHAR},
+      </if>
+      <if test="secOrg != null">
+        sec_org = #{secOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="secDept != null">
+        sec_dept = #{secDept,jdbcType=VARCHAR},
+      </if>
+      <if test="secDateBegin != null">
+        sec_date_begin = #{secDateBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="secDateEnd != null">
+        sec_date_end = #{secDateEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="secIssueOrg != null">
+        sec_issue_org = #{secIssueOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="secPositionLevel != null">
+        sec_position_level = #{secPositionLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="thiName != null">
+        thi_name = #{thiName,jdbcType=VARCHAR},
+      </if>
+      <if test="thiOrg != null">
+        thi_org = #{thiOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="thiDept != null">
+        thi_dept = #{thiDept,jdbcType=VARCHAR},
+      </if>
+      <if test="thiDateBegin != null">
+        thi_date_begin = #{thiDateBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="thiDateEnd != null">
+        thi_date_end = #{thiDateEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="thiIssueOrg != null">
+        thi_issue_org = #{thiIssueOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="thiPositionLevel != null">
+        thi_position_level = #{thiPositionLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="haveFile != null">
+        have_file = #{haveFile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null">
+        update_at = #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.paladin.hrms.model.document.DocumentParellelPost">
+    update document_parellel_post
+    set busi_id = #{busiId,jdbcType=VARCHAR},
+      relation_id = #{relationId,jdbcType=VARCHAR},
+      fir_name = #{firName,jdbcType=VARCHAR},
+      fir_org = #{firOrg,jdbcType=VARCHAR},
+      fir_dept = #{firDept,jdbcType=VARCHAR},
+      fir_date_begin = #{firDateBegin,jdbcType=VARCHAR},
+      fir_date_end = #{firDateEnd,jdbcType=VARCHAR},
+      fir_issue_org = #{firIssueOrg,jdbcType=VARCHAR},
+      fir_position_level = #{firPositionLevel,jdbcType=VARCHAR},
+      sec_name = #{secName,jdbcType=VARCHAR},
+      sec_org = #{secOrg,jdbcType=VARCHAR},
+      sec_dept = #{secDept,jdbcType=VARCHAR},
+      sec_date_begin = #{secDateBegin,jdbcType=VARCHAR},
+      sec_date_end = #{secDateEnd,jdbcType=VARCHAR},
+      sec_issue_org = #{secIssueOrg,jdbcType=VARCHAR},
+      sec_position_level = #{secPositionLevel,jdbcType=VARCHAR},
+      thi_name = #{thiName,jdbcType=VARCHAR},
+      thi_org = #{thiOrg,jdbcType=VARCHAR},
+      thi_dept = #{thiDept,jdbcType=VARCHAR},
+      thi_date_begin = #{thiDateBegin,jdbcType=VARCHAR},
+      thi_date_end = #{thiDateEnd,jdbcType=VARCHAR},
+      thi_issue_org = #{thiIssueOrg,jdbcType=VARCHAR},
+      thi_position_level = #{thiPositionLevel,jdbcType=VARCHAR},
+      have_file = #{haveFile,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_id = #{createId,jdbcType=VARCHAR},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      update_id = #{updateId,jdbcType=VARCHAR},
+      update_at = #{updateAt,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update> -->
+  
+  <select id="queryParellelPostByBusiId" parameterType="String" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/> from document_parellel_post 
+      where busi_id =  #{0}
+      and state = '1'
+  </select>
+  
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+  	from document_parellel_post
+  	<where>
+		state = '1'
+	  <if test="relationId != null">
+        and relation_id = #{relationId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateId != null">
+        and update_id = #{updateId,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+	</where>
+	order by fir_date_begin desc
+	<if test="offset != null and limit != null">
+		limit #{offset}, #{limit}
+	</if>
+  </select>
+  <update id="deleteParellelPost" parameterType="String">
+       update document_parellel_post
+       set state = '99'
+       where busi_id = #{0}
+       and state = '1'
+  </update>
+</mapper>

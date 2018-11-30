@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="hrms/header" />
+
+<body>
+    <tt:constant enumcode="sex,dept-type,personnel-type,major,formation,tech-post,political-affiliation,technical-qualification-type" />
+    <section class="content-header">
+      	<h1>人力资源管理</h1>
+  	</section>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-search"></i>
+                <h3 class="box-title">查询</h3>
+            </div>
+            <div class="box-body">
+                <div class="col-md-12">
+                    <form id="searchbar" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="name" class="col-md-1 control-label">姓名</label>
+                            <div class="col-md-2">
+                                <input type="text" name="name" class="form-control" th:value="${query?.name}" />
+                            </div>
+                            <label for="identificationNo" class="col-md-1 control-label">身份证</label>
+                            <div class="col-md-2">
+                                <input type="text" name="identificationNo" class="form-control" th:value="${query?.identificationNo}" />
+                            </div>
+                            <label for="sexCodes" class="col-md-1 control-label">性别</label>
+                            <div class="col-md-2">
+                                <select name="sexCodes" class="tonto-select-constant tonto-multiple-select" multiple="multiple" number-displayed="3" placeholder="请选择" th:attr="selectedvalue=${query?.sexes}" enumcode="sex">
+                                </select>
+                            </div>
+                            <label for="personnelTypeCodes" class="col-md-1 control-label">人员类型</label>
+                            <div class="col-md-2">
+                                <select name="personnelTypeCodes" class="tonto-select-constant tonto-multiple-select" multiple="multiple" number-displayed="3" placeholder="请选择" th:attr="selectedvalue=${query?.personnelTypeCodes}" enumcode="personnel-type">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="agencyName" class="col-md-1 control-label">机构单位</label>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <input type="text" name="agencyName" class="form-control tonto-agency" th:value="${query?.agencyName}">
+                                    <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
+                                    <div class="input-group-btn">
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="dept" class="col-md-1 control-label">所在科室</label>
+                            <div class="col-md-2">
+                                <input type="text" name="dept" id="dept_select" class="form-control" th:attr="selectedvalue=${query?.dept}" />
+                            </div>
+                            <label for="politicalAffiliationCodes" class="col-md-1 control-label">政治面貌</label>
+                            <div class="col-md-2">
+                                <select name="politicalAffiliationCodes" class="tonto-select-constant tonto-multiple-select" multiple="multiple" number-displayed="3" placeholder="请选择" th:attr="selectedvalue=${query?.politicalAffiliationCodes}" enumcode="political-affiliation">
+                                </select>
+                            </div>
+                            <label for="formationCodes" class="col-md-1 control-label">编制情况</label>
+                            <div class="col-md-2">
+                                <select name="formationCodes" class="tonto-select-constant tonto-multiple-select" multiple="multiple" number-displayed="3" placeholder="请选择" th:attr="selectedvalue=${query?.formationCodes}" enumcode="formation">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="technicalQualification" class="col-md-1 control-label">专业技术（评）</label>
+                            <div class="col-md-2">
+                                <input type="text" name="technicalQualification" id="technical_select" class="form-control" th:attr="selectedvalue=${query?.technicalQualification}" />
+                            </div>
+                            <label for="techPostCodes" class="col-md-1 control-label">专业技术职务（聘）</label>
+                            <div class="col-md-2">
+                                <select name="techPostCodes" class="tonto-select-constant tonto-multiple-select" multiple="multiple" number-displayed="3" placeholder="请选择" th:attr="selectedvalue=${query?.techPostCodes}" enumcode="tech-post">
+                                </select>
+                            </div>
+                            <label for="majorCodes" class="col-md-1 control-label">从事专业</label>
+                            <div class="col-md-2">
+                                <select name="majorCodes" class="tonto-select-constant tonto-multiple-select" multiple="multiple" number-displayed="3" placeholder="请选择" th:attr="selectedvalue=${query?.majorCodes}" enumcode="major">
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="$.reset('#searchbar')"><i class="fa fa-repeat"></i>重置</button>
+                    </div>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+        </div>
+        <div class="box box-solid" style="margin-top:20px">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+            </div>
+            <div id="result" class="box-body">
+                <table id="dataGrid"></table>
+                <div id="toolbar">
+                    <div class="btn-group">
+                        <a onclick="view()" class="btn btn-default"><i class="glyphicon glyphicon-search"></i>查看</a>
+                        <a onclick="add()" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>新增</a>
+                        <a onclick="edit()" class="btn btn-default"><i class="glyphicon glyphicon-edit"></i>修改</a>              
+                        <a onclick="leave()" class="btn btn-default"><i class="glyphicon glyphicon-remove"></i>离岗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript" src="/static/js/hrms/org/personal_tree_constant.js"></script>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function() {
+        var departmentTypes = tree_constant["department-type"];
+        var technicalTypes = tree_constant["technical-qualification-type"];
+        $.createTreeSelectComponment("#dept_select").setData(departmentTypes);
+        $.createTreeSelectComponment("#technical_select").setData(technicalTypes);
+        initDataGrid();
+    });
+
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [
+                    { radio: true },
+                    { title: "姓名", field: "name" },
+                    { title: "性别", field: "sex", enumcode: "sex" },
+                    { title: "证件号", field: "identificationNo" },
+                    { title: "所属机构", field: "agencyName" },
+                    {
+                        title: "从事专业",
+                        field: "major",
+                        enumcode:"major"
+                    },
+                    {
+                        title: "人员类型",
+                        field: "personnelType",
+                        enumcode: "personnel-type"
+                    }
+                ]
+            ],
+            url: '/hrms/org/personal/find',
+            searchbar: '#searchbar',
+            joinArrayValue: true, // 开启多选值拼接
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            clickToSelect: true,
+            toolbar: "#toolbar",
+            showRefresh: true
+        });
+    }
+
+    //修改干部档案信息
+    function editDocument() {
+        var row = getSelectRow();
+        if (row) {
+            /* if(row.type==1){//判断是否是公职人员
+                
+            } */
+            //window.location = '/hrms/document/edit?id=' + row.id; 
+            layer.open({
+                type: 2,
+                title: '编辑',
+                maxmin: true,
+                shadeClose: false, // 点击遮罩关闭层
+                area: ['100%', '100%'],
+                content: '/hrms/document/edit?id=' + row.id
+            });
+
+
+        }
+    }
+
+    function view() {
+        var row = getSelectRow();
+        if (row) {
+            window.location = '/hrms/org/personal/edit?id=' + row.id;
+        }
+    }
+
+    function add() {
+        window.location = '/hrms/org/personal/add';
+    }
+
+    function edit() {
+        var row = getSelectRow();
+        if (row) {
+            window.location = '/hrms/org/personal/edit?id=' + row.id;
+        }
+    }
+
+    function leave() {
+        var row = getSelectRow();
+        if (row) {
+            layer.confirm('确定人员离岗吗?', function() {
+                $.getAjax('/hrms/org/personal/leave?id=' + row.id, function() {
+                    $.successMessage("人员离岗成功");
+                    table.refresh();
+                });
+            });
+        }
+    }
+
+    function getSelectRow(notShowError) {
+        var rows = table.getSelections();
+        var row = rows.length > 0 ? rows[0] : null;
+        if (!notShowError && !row) {
+            $.errorMessage("请选中一条业务数据");
+        }
+        return row;
+    }
+    /*]]>*/
+    </script>
+</body>
+
+</html>

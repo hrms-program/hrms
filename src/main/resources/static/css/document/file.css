@@ -1,0 +1,673 @@
+body,div,p,a,ul,li,h1,h2,h3,h4,h5,h6{
+	margin:0;
+	padding: 0;
+}
+body{
+	font-size: 62.5%;
+}
+li{
+	float: left;
+	list-style: none;
+}
+
+label{
+	font-weight:normal;
+}
+
+#file-wrap{
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    background: #e5e9ea;
+}
+
+.file-header{
+    position: relative;
+    width: 1140px;
+    height: 80px;
+    background: #e5e9ea;
+    z-index: 10;
+}
+
+.page-title .name {
+    position: absolute;
+    left: 10px;
+    top: 40px;
+    color: #000000;
+    font-size: 24px;
+    line-height: 30px;
+}
+
+.page-title .name .icon-page-title {
+    display: inline-block;
+    width: 23px;
+    height: 22px;
+    vertical-align: middle;
+    margin-top: -3px;
+    margin-right: 10px;
+    background: url(/static/img/icon-page-title.png) no-repeat;
+}
+
+#anchor-point{
+    position: absolute;
+    top: 0;
+    right: 2rem;
+    width: 738px;
+    height: 80px;
+    overflow: hidden;
+    background:#e5e9ea;
+}
+#anchor-point ul{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+#anchor-point ul li{
+    width: 100px;
+    height: 80px;
+    background: #7e6b5a;
+    text-align: center;
+    border-radius: 3px 3px 0 0;
+    overflow: hidden;
+    position: absolute;
+    float: left;
+}
+
+#anchor-point .top-twenty{
+	top:15px;
+	transition:.5s;
+}
+
+#anchor-point .top-fifty{
+	top:50px;
+	transition:.5s;
+}
+
+#anchor-point ul li.top-twenty.active{
+	top:8px;
+}
+#anchor-point ul li.top-fifty.active{
+	top:43px;
+}
+
+#anchor-point ul li:nth-child(1){
+    left: 294px;
+    background-color: rgb(26, 146, 244);
+}
+#anchor-point ul li:nth-child(2){
+    left: 400px;
+    background-color: rgb(222, 180, 6);
+}
+#anchor-point ul li:nth-child(3){
+    left: 506px;
+    background-color: rgb(1, 159, 126);
+}
+#anchor-point ul li:nth-child(4){
+    left: 612px;
+    background-color: rgb(0, 117, 169);
+}
+#anchor-point ul li:nth-child(5){
+    left: 0px;
+    background-color: rgb(1, 159, 126);
+}
+#anchor-point ul li:nth-child(6){
+    left: 106px;
+    background-color: rgb(52, 166, 199);
+}
+#anchor-point ul li:nth-child(7){
+    left: 212px;
+    background-color: rgb(0, 153, 68);
+}
+#anchor-point ul li:nth-child(8){
+    left: 318px;
+    background-color: rgb(0, 117, 169);
+}
+#anchor-point ul li:nth-child(9){
+    left: 425px;
+    background-color: rgb(2, 126, 104);
+}
+#anchor-point ul li:nth-child(10){
+    left: 531px;
+    background-color: rgb(207, 169, 114);
+}
+#anchor-point ul li:nth-child(11){
+    left: 637px;
+    background-color: rgb(8, 173, 234);
+}
+#anchor-point a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    line-height: 32px;
+    font-size: 1.4rem;
+    color: #fff;
+    opacity: 0.9;;
+    text-decoration: none;
+}
+#anchor-point a:hover{
+	opacity: 1;
+}
+
+
+
+
+
+.info-content{
+    position: relative;
+    background: #fff;
+    margin-bottom: 8px;
+    border-radius: 10px 10px 0 0;
+    border: 1px solid #d3d6d7;
+    border-bottom: none;
+}
+#workinfo-content,
+#administrative-content,
+#party-content{
+	border-radius:0;
+}
+.sub-title{
+    font-size: 16px;
+    color: #000000;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 15px;
+}
+
+.basicInfo-box{
+	padding-top: 1rem;
+}
+
+
+.basicInfo-box .input-text,
+.background-info-box .input-text,
+#workinfo-content .input-text,
+#administrative-content .input-text,
+#party-content .input-text{
+    width: 100%;
+}
+
+#home-experience input.input-text{
+    width: auto;
+}
+
+.background-info-box .action-btns{
+    top: 15px;
+    right: -50px;
+}
+
+.background-info-box .form_add {
+    padding: 5rem 0 4rem 0;
+}
+
+.info-box .line {
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0 5px;
+}
+.info-box strong {
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+}
+.table-data td,
+.background-info-box td{
+	padding: 6px 5px 10px 0;
+    vertical-align: top;
+    color: #000;
+    font-size: 14px;
+}
+
+/*图标位置*/
+.icon-wrap{
+    padding-top: 18rem;
+}
+.wicon-wrap{
+	padding-top: 14rem;
+}
+.aicon-wrap{
+	padding-top: 7rem;
+}
+
+.info-icon{
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin: auto;
+}
+.icon-text{
+    font-size: 15px;
+    color: #000000;
+    line-height: 24px;
+    text-align: center;
+    padding-top: 1rem;
+}
+
+.myInfo-icon{
+    background: url(/static/img/icon-archives.png) no-repeat center;
+}
+
+.workInfo-icon{
+    background: url(/static/img/icon-work.png) no-repeat center;
+}
+
+.aInfo-icon,.partyInfo-icon{
+	background: url(/static/img/icon-practice.png) no-repeat center;
+}
+
+.edit-line{
+	line-height: 36px;
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.action-btns{
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 30px;
+}
+.action-btns .btn{
+	padding: 3px 18px;
+	outline: none;
+}
+.cancel-btn{
+	background: #f7f7f7;
+    border: 1px solid #ccc;
+    color: #666;
+    margin-right: 1rem;
+}
+.cancel-btn:hover{
+	background: #fff;
+	color: #777;
+	border: 1px solid #ccc;
+}
+.save-btn,.editBtn
+{
+	color: #fff;
+	outline: none;
+	box-shadow: none;
+    background: #f6710c;
+    opacity: .9;
+    border-color:transparent;
+}
+
+.save-btn:hover,.editBtn:hover,
+.save-btn:focus,.editBtn:focus,
+.save-btn:active,.editBtn:active{
+    opacity: 1;
+    color: #fff;
+}
+
+.eCon{
+    position: relative;
+    overflow: hidden;
+    border-top: 1px dotted #c2c2c2;
+}
+
+.edit-btn{
+    display: inline-block;
+    position: absolute;
+    right: 30px;
+    display: none;
+}
+.info-box-content:hover .edit-btn{
+	display:block;
+}
+.edit-btn a{
+   color: #f8700d;
+   font-size: 14px;
+}
+.edit-btn a:hover{
+	color:#777;
+}
+.edit-btn .icon-edite {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    margin-top: -3px;
+    background: url(/static/img/icon-edite.png) no-repeat;
+}
+
+.info-box-content{
+	overflow: hidden;
+    background: #fbf5e8;
+}
+
+.infos{
+    overflow: hidden;
+}
+
+.infos .col-md-10,
+#workinfo-content .col-md-9{
+    border-left: 1px solid #c8c8c8;
+}
+
+.infos strong{
+	font-weight: normal;
+	font-style: normal;
+	font-size: 14px;
+}
+.table-data td.td-text,
+.background-info-box .td-text{
+    text-align: right;
+    vertical-align: middle;
+}
+.table-data .header-img-td .header-img {
+    width: 115px;
+    height: 130px;
+    position: absolute;
+    right: 7rem;
+    top: 3rem;
+}
+.table-data .header-img-td .header-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.infos .col-md-10 .table-data,
+.background-info-table{
+	width: 100%;
+}
+.infos .col-md-10 .right-table{
+	padding: 1rem 0;
+}
+
+/*下拉样式、输入框样式*/
+.select-text,
+.input-text{
+    display: inline-block;
+    background: #ffffff;
+    border: 1px solid #c9c9c9;
+    height: 25px;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+.pleft{
+	padding-left: 2rem !important;
+}
+
+.ptb{
+	padding:1rem 0;
+}
+
+.upload-btn,.upload-btn:hover,
+.upload-btn:focus,
+.upload-btn:active{
+	background: #00c484;
+    color: #fff;
+    outline: none;
+    box-shadow: none
+}
+
+
+/*背景信息*/
+.background-info-box{
+    position: relative;
+    border-top: 2px solid #4a95e6;
+    overflow: hidden;
+}
+.background-info-box .background-info-title {
+	position: absolute;
+    left: 0;
+    top: 0;
+    border: 1px solid #abc8e6;
+    border-top: none;
+    width: 35px;
+    padding: 10px 7px;
+    text-align: center;
+    font-size: 14px;
+    background: #fff;
+    color: #0066cb;
+    border-radius: 0 0 0 5px;
+}
+
+
+.icon-title{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-bottom: 4px;
+}
+.icon-title-work {
+    background: url(/static/img/icon-title-work.png) no-repeat;
+}
+.icon-title-edu {
+    background: url(/static/img/icon-title-education.png) no-repeat;
+}
+.icon-title-title{
+	background: url(/static/img/icon-title-title.png) no-repeat;
+}
+.icon-title-train{
+	background: url(/static/img/icon-title-train.png) no-repeat;
+}
+.icon-title-reward{
+	background: url(/static/img/icon-title-reward.png) no-repeat;
+}
+.icon-title-certificate{
+	background: url(/static/img/icon-title-certificate.png) no-repeat;
+}
+
+.exp_none_div{
+    text-align: center;
+    height: 14rem;
+    line-height: 10rem;
+}
+
+#home-experience .exp_none_div{
+	height: 17rem;
+}
+
+.exp_none_span {
+    color: #999999;
+    font-size: 1.6rem;
+    vertical-align: middle;
+}
+.icon-add-orange {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    background: url(/static/img/icon-add-orange.png);
+}
+
+.new-form{
+    overflow: hidden;
+}
+
+
+
+.form_add{
+    overflow: hidden;
+    padding: 3rem 0 4rem 0;
+}
+
+.td-upload{
+ 	text-align: left;
+    padding-left: 3rem !important;
+}
+.form-wrap{
+    overflow: hidden;
+    width: 100%;
+    display: none;
+    border-top: 1px dotted #c2c2c2;
+}
+.form-wrap .action-btns{
+    right: 0px;
+}
+
+#background-content{
+	border-radius: 0;
+}
+
+#home_form_add{
+	overflow: hidden;
+    margin-top: 2rem;
+}
+
+#home_form_add label{
+	 padding-right: 5px;
+    font-size: 14px;
+    color: #000;
+}
+
+#home_form_add label.col-md-2{
+	width: 20%;
+}
+
+#home_form_add input.col-md-10{
+	width: 60%;
+}
+
+.left-inputs .form-group,
+.right-inputs .form-group{
+	overflow: hidden;
+    line-height: 25px;
+}
+
+.residing-col{
+	overflow: hidden;
+}
+
+#residing-overseas,#remarks{
+    width: 96% !important;
+    margin-left: 15px;
+}
+#residing-overseas-des{
+    height: auto;
+}
+textarea{
+    font-size: 15px;
+    color: #333;
+    text-indent: 10px;
+    padding: .5rem;
+    border-radius: 5px;   
+}
+.memberCon label,
+#home-experience .input-text{
+    color:#000;
+    font-size: 14px;
+}
+
+#submit{
+	text-align: center;
+    margin-bottom: 5rem;
+}
+.submit-btn{
+    padding: 6px 25px;
+    background: #f6710c;
+    color: #eee;
+}
+
+.upload-tit{
+    padding: 0px 5px 110px 0 !important;
+}
+.table-striped{
+    margin-top: 1rem;
+}
+#attach_table2 #tbody2 tr th:nth-child(1),
+#attach_table #tbody tr th:nth-child(1){
+    color: #1a92f4;
+}
+#attach_table #tbody tr th:nth-child(2) a:first-child,
+#attach_table2 #tbody2 tr th:nth-child(2) a:first-child{
+    color: #00c484;
+}
+#attach_table #tbody tr th:nth-child(2) a:nth-child(2),
+#attach_table2 #tbody2 tr th:nth-child(2) a:nth-child(2){
+    color: #ec4758;
+}
+
+
+
+#edu-experience .upload-btn,
+#work-experience .upload-btn{
+    margin-left: 45px;
+}
+
+#edu-experience #attach_table,
+#work-experience #attach_table{
+    margin-left: 45px;
+    width: 94%;
+}
+
+#initialEducation,
+#technicalPosition,
+#jobTitle,#jobTitle1{
+    width: 50% !important;
+    float: left;
+}
+
+#nameDesc,#nameDesc1,
+#initialEducationDesc,
+#technicalPositionDesc{
+    width: 49% !important;
+    margin-left: 1%;
+}
+
+
+.home_instructions{
+    margin-bottom: 1.5rem;
+    padding-left: 45px;
+}
+
+.home_instructions h4{
+    font-size: 16px;
+    color: #f6710c;
+    padding-bottom: .5rem;
+}
+
+.home_instructions p{
+    font-size: 15px;
+    color: rgb(1, 159, 126);
+    padding: 5px 0 5px 15px;
+}
+
+
+#fix-btns #submit{
+    text-align: right;
+    margin-bottom: 0;
+    position: absolute;
+    right: 20px;
+    top: 35px;
+}
+#jobPositions-experience td{
+	padding:0px;
+	text-align:center;
+}
+#jobPositions-experience td input{
+	border:none;
+	margin:0px;
+    height: 30px;
+	text-align: center;
+}
+
+#jobPositions-experience .home_instructions{
+    padding-left: 0;
+}
+
+#jobPositions-experience thead td{
+	background: #00cea3;
+    color: #fff;
+    font-weight:600;
+}
+
+#jobPositions-experience .action-btns {
+    right: 30px;
+}
+
+#jobPositions-experience .exp_none_div{
+	height:20rem;
+    padding-top: 2rem;
+}
+   
+
+
+
+
+

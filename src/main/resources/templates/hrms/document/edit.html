@@ -1,0 +1,2774 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+<title>档案</title>
+<head th:include="hrms/header" />
+<link rel="stylesheet" type="text/css" href="/static/assets/bootstrap4/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/static/assets/bootstrap4/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/document/file.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/document/mobile.css" />
+<script type="text/javascript" src="/static/assets/laydate/laydate.js"></script>
+	<body>
+	 <tt:constant enumcode="management_level,sex,nation,political-affiliation,education,cadres_person_type,personnel_compilation" />
+		<div id="file-wrap">
+			<div class="container">
+				<div class="file-header">
+					<div class="col-md-2 col-sm-12">
+						<div class="page-title-wrap">
+							<h1 class="page-title">
+	            				<span class="name">
+	            					<i class="icon-page-title"></i>
+	            					我的档案
+	            				</span>
+	        				</h1>
+						</div>
+					</div>
+					<div class="col-md-10 col-sm-12">
+						<div id="anchor-point">
+							<ul>
+								<li class="top-twenty">
+									<a href="javascript:void(0)">基本信息</a>
+								</li>
+								<li class="top-twenty">
+									<a href="javascript:void(0)">工作信息</a>
+								</li>
+								<li class="top-twenty">
+									<a href="javascript:void(0)">现任行政职务</a>
+								</li>
+								<li class="top-twenty">
+									<a href="javascript:void(0)">现任党内职务</a>
+								</li>
+								<li class="top-fifty">
+									<a href="javascript:void(0)">行政职务经历</a>
+								</li>
+								<li class="top-fifty">
+									<a href="javascript:void(0)">党内职务经历</a>
+								</li>
+								<li class="top-fifty">
+									<a href="javascript:void(0)">职务职岗并行</a>
+								</li>
+								<li class="top-fifty">
+									<a href="javascript:void(0)">工作经历</a>
+								</li>
+								<li class="top-fifty">
+									<a href="javascript:void(0)">教育经历</a>
+								</li>
+								<li class="top-fifty">
+									<a href="javascript:void(0)">职称信息</a>
+								</li>
+								<li class="top-fifty">
+									<a href="javascript:void(0)">培训经历</a>
+								</li>
+								<li class="top-fifty">
+									<a href="javascript:void(0)">奖励情况</a>
+								</li>
+								<li class="top-fifty">
+									<a href="javascript:void(0)">处罚情况</a>
+								</li>
+								<li class="top-fifty">
+									<a href="javascript:void(0)">年度考核</a>
+								</li>
+								<li class="top-fifty">
+									<a href="javascript:void(0)">家庭成员</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div style="clear: both;"></div>
+
+				<!--基本信息-->
+				<div class="con-md-12">
+					<div id="baseinfo-content" class="info-content">
+						<form id="documentInfo" action="/hrms/document/saveOrUpdateBasicInfo">
+							<div class="edit-line">
+								<h4 class="sub-title">基本信息</h4>
+								<div class="action-btns">
+									<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+									<button type="submit" class="btn submit-btn" >保存</button>
+								</div>
+							</div>
+							<div class="info-box-content">
+								<div class="basicInfo-box info-box">
+									<table class="table-data">
+										<tbody>
+											
+										</tbody>
+									</table>
+									<div class="infos">
+										<div class="col-md-2">
+											<div class="icon-wrap">
+												<div class="myInfo-icon info-icon"></div>
+												<p class="icon-text">我的信息</p>
+											</div>
+										</div>
+										<div class="col-md-10">
+											<div class="right-table">
+												<table class="table-data">
+
+													<tbody>
+														<tr>
+															<td class="td-text">姓名：</td>
+															<td>
+																<input id="id" name="id" type="hidden" th:value="${document.id}">
+																<input id="busiId" name="busiId" type="hidden" th:value="${document.busiId}">
+															 	<input id="name" name="name" class="input-text" type="text" th:value="${orgPersonnel.name}">
+															</td>
+															<td class="header-img-td" colspan="3" rowspan="4">
+																<div class="header-img">
+																	<img id="img_photo" src="/static/img/photo.jpg" alt="">
+																</div>
+															</td>
+														</tr>
+														<tr>
+														<td class="td-text">曾用名：</td>
+															<td>
+																<input id="usedName" name="usedName" class="input-text" type="text" 
+																th:value="${orgPersonnel.usedName}" readonly="readonly">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">身份证号：</td>
+															<td>
+																<input id="identificationNo" name="identificationNo" class="input-text" type="text" readonly="readonly" 
+																	th:value="${orgPersonnel.identificationNo}">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">性别：</td>
+															<td>
+																<!-- <select id="sex" th:value="${orgPersonnel.sex}" class="input-text tonto-select-constant" enumcode="sex">
+																	<option value=""></option>
+																</select> -->
+									                           <select name="nation" class="form-control tonto-select-constant" enumcode="sex">
+									                               <option th:value="${orgPersonnel.sex}" ></option>
+									                           </select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">出生年月：</td>
+															<td>
+																<input id="birthday" name="birthday" class="input-text render-date" type="text" 
+																 th:readonly="readonly" th:value="${#dates.format(orgPersonnel.birthday, 'yyyy-MM-dd')}">
+															</td>
+															<td class="td-text">档案编码：</td>
+															<td>
+																<input id="documentCode" name="documentCode" class="input-text" type="text" th:value="${document.documentCode}">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">年龄：</td>
+															<td>
+																<input id="age" name="age" class="input-text" type="text">
+															</td>
+															<td class="td-text">干部类别：</td>
+															<td>
+																<select id="managementLevel" name="managementLevel" th:value="${document.managementLevel}" class="input-text tonto-select-constant" enumcode="management_level" >
+																	<option value="">---请选择---</option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">籍贯：</td>
+															<td>
+																<input id="nativePlace" name="nativePlace" class="input-text" type="text" 
+																th:value="${orgPersonnel.nativePlace}" placeholder="具体到县" >
+															</td>
+
+															<td class="td-text">出生地：</td>
+															<td>
+																<input id="birthPlace" name="birthPlace" class="input-text" type="text" placeholder="具体到县" 
+																	th:value="${document.birthPlace}">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">民族：</td>
+															<td>
+																<select id="nation" name="nation" class="input-text tonto-select-constant" enumcode="nation">
+																	<option value=""></option>
+																</select>
+															</td>
+															<td class="td-text">党派：</td>
+															<td>
+																<select id="party" name="party" class="input-text tonto-select-constant" enumcode="political-affiliation">
+																	<option value=""></option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">入党派时间：</td>
+															<td>
+																<input id="partyTime" name="partyTime" th:value="${#dates.format(orgPersonnel.joinPartyTime, 'yyyy-MM-dd')}" class="render-date input-text" >
+															</td>
+
+															<td class="td-text">参加工作日期：</td>
+															<td>
+																<input id="workTime" name="workTime" class="render-year-month11 input-text" type="text" th:value="${#dates.format(orgPersonnel.startWorkTime, 'yyyy-MM')}">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">初始学历：</td>
+															<td>
+																<select id="initialEducation" name="initialEducation" class="input-text tonto-select-constant" enumcode="education" 
+																	th:value="${document.initialEducation}">
+																	<option value="">---请选择---</option>
+																</select>
+																<div>
+																	<input type="text" id="initialEducationDesc" name="initialEducationDesc" class="input-text"th:value="${document.initialEducationDesc}" >
+																</div>
+															</td>
+															
+															<td class="td-text">最高学历：</td>
+															<td>
+																<select id="highestEducation" name="highestEducation" class="input-text tonto-select-constant" enumcode="education" 
+																	th:value="${document.highestEducation}">
+																	<option value="">---请选择---</option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">健康状况：</td>
+															<td>
+																<input id="health-status" name="health" class="input-text" th:value="${document.health}">
+															</td>
+
+															<td class="td-text">手机号码：</td>
+															<td>
+																<input id="telph" class="input-text" type="text" th:value="${orgPersonnel.cellphone}">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">熟悉专业，有何特色：</td>
+															<td>
+																<input id="profession" name="profession" class="input-text" type="text" th:value="${document.profession}">
+															</td>
+															<td class="td-text">人员性质：</td>
+															<td>
+																<select id="personType" name="personType" class="input-text tonto-select-constant" enumcode="cadres_person_type" th:value="${document.personType}">
+																	<option value="">---请选择---</option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text" width="195">办公室电话：</td>
+															<td width="180">
+																<input id="oph" class="input-text" type="text" th:value="${orgPersonnel.officePhone}">
+															</td>
+
+															<td class="td-text" width="250">家庭住址：</td>
+															<td width="190">
+																<input id="address" name="address" class="input-text" type="text" th:value="${document.address}">
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<!--工作信息-->
+				<div class="con-md-12">
+					<div id="workinfo-content" class="info-content">
+						<form id="documentWork" action="/hrms/document/saveOrUpdateWorkingInfo">
+							<div class="edit-line">
+								<h4 class="sub-title">工作信息</h4>
+								<div class="action-btns">
+									<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+									<button type="submit" class="btn submit-btn" >保存</button>
+								</div>
+							</div>
+							<div class="info-box-content">
+								<div class="info-box">
+									<table class="table-data">
+										<tbody>
+											
+										</tbody>
+									</table>
+									<div class="infos">
+										<div class="col-md-2">
+											<div class="wicon-wrap">
+												<div class="workInfo-icon info-icon"></div>
+												<p class="icon-text">工作信息</p>
+											</div>
+										</div>
+										<div class="col-md-10">
+											<div class="right-table ptb">
+												<table class="table-data">
+													<tbody>
+														<tr>
+															<td class="td-text">所属单位：</td>
+															<td width='200'>
+																<select id="deptCode" name="deptCode" class="input-text" th:if="${document.deptCode==null}">
+																	<option value="">---请选择---</option>
+																</select>
+																<select id="deptCode" name="deptCode" class="input-text" th:if="${document.deptCode!=null}">
+																	<option th:value="${document.deptCode}" th:text="${document.deptCodeName}"></option>
+																</select>
+															</td>
+
+															<td class="td-text">所属部门/科室：</td>
+															<td>
+															    <input id="id" name="id" type="hidden" th:value="${document.id}">
+																<input id="busiId" name="busiId" type="hidden" th:value="${document.busiId}">
+																<input id="section" name="section" class="input-text" type="text" th:value="${document.section}">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">本人编制所在单位：</td>
+															<td>
+																<input id="compilationDept" name="compilationDept" class="input-text" type="text" placeholder="按公章全称录入" th:value="${document.compilationDept}">
+															</td>
+
+															<td class="td-text">人事编制：</td>
+															<td>
+																<select id="personnelCompilation" name="personnelCompilation" class="input-text tonto-select-constant"  enumcode="personnel_compilation" th:value="${document.personnelCompilation}">
+																	<option value="">---请选择---</option>			
+																</select>
+															</td>
+														</tr>
+														<tr>
+                                                            <td class="td-text"> 是否全科医生：</td>
+															<td>
+																<select id="isGeneral" name="isGeneral" class="input-text yes_no" th:if="${document.isGeneral==null}">
+																	<option value="">---请选择---</option>
+																</select>
+															</td>
+															<td class="td-text">在岗情况：</td>
+															<td>
+																<select id="workStatus" name="workStatus" class="input-text" th:if="${document.workStatus==null}">
+																	<option value="">---请选择---</option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">借调(入)单位：</td>
+															<td>
+																<select id="secondDeptCode" name="secondDeptCode" class="input-text" th:if="${document.secondDeptCode==null}">
+																	<option value="">---请选择---</option>
+																</select>
+																<select id="secondDeptCode" name="secondDeptCode" class="input-text" th:if="${document.secondDeptCode!=null}">
+																	<option th:value="${document.deptCode}" th:text="${document.deptCodeName}"></option>
+																</select>
+															</td>
+
+															<td class="td-text">借调(入)部门/科室：</td>
+															<td>
+																<input id="secondSection" name="secondSection" class="input-text" type="text" th:value="${document.secondSection}">
+															</td>
+														</tr>
+														
+														<tr>
+															<td class="td-text">退休时工龄：</td>
+															<td>
+																<input id="workYear" name="workYear" class="input-text" type="text" th:value="${document.workYear}" th:readonly="readonly">
+															</td>
+
+															<td class="td-text">退线时间：</td>
+															<td>
+																<input id="retiredDate" name="retiredDate" class="input-text" th:value="${document.retiredDate}">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">服务本机构时间：</td>
+															<td>
+																<input id="orgTime" name="orgTime" class="render-year-month input-text" type="text" th:value="${document.orgTime}">
+															</td>
+
+															<td class="td-text">个人最高级别专业技术职务：</td>
+															<td>
+																<select id="technicalPosition" name="technicalPosition" class="input-text" >
+																	<option th:value="${document.technicalPosition}" th:text=${document.technicalPositionName}></option>
+																</select>
+																<div>
+																	<input type="text" id="technicalPositionDesc" name="technicalPositionDesc" class="input-text" th:value="${document.technicalPositionDesc}">
+																</div>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">技术职务类别：</td>
+															<td>
+																<select id="professionalSort" name="professionalSort" class="input-text" th:if="${document.professionalSort==null}">
+																	<option value="">---请选择---</option>
+																</select>
+															</td>
+															<td class="td-text">技术职务等级：</td>
+															<td>
+																<select id="professionLevel" name="professionLevel" class="input-text" th:if="${document.professionLevel==null}">
+																	<option value="">---请选择---</option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">获得最高专业技术职务时间：</td>
+															<td>
+																<input id="technicalTime" name="technicalTime" class="render-year-month input-text" type="text" th:value="${document.technicalTime}">
+															</td>
+
+															<td class="td-text pleft">聘用最高级别专业技术职务时间：</td>
+															<td>
+																<input id="hirepositionTime" name="hirepositionTime" class="render-year-month input-text" type="text" th:value="${document.hirepositionTime}">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">是否领导职务：</td>
+															<td>
+																<select id="isleader" name="isLeader" class="input-text yes_no" th:if="${document.isLeader==null}">
+																		<option value="">---请选择---</option>
+																	</select>
+															</td>
+															<td class="td-text">是否班子成员：</td>
+															<td>
+																<select id="isMember" name="isMember" class="input-text yes_no" th:if="${document.isMember==null}">
+																		<option value="">---请选择---</option>
+																	</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">是否后备干部：</td>
+															<td>
+																<select id="isReserveCadres" name="isReserveCadres" class="input-text yes_no" th:if="${document.isReserveCadres==null}">
+																		<option value="">---请选择---</option>
+																	</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">执行工资标准：</td>
+															<td>
+																<select id="salaryLevel" name="salaryLevel" class="input-text" th:if="${document.salaryLevel==null}">
+																	<option value="">---请选择---</option>
+																</select>
+																<select id="salaryLevel" name="salaryLevel" class="input-text" th:if="${document.salaryLevel!=null}">
+																	<option th:value="${document.salaryLevel}" th:text="${document.salaryLevelName}"></option>
+																</select>
+															</td>
+
+															<td class="td-text">执行工资档次：</td>
+															<td>
+																<input id="salaryGrade" name="salaryGrade" class="input-text" type="text" th:value="${document.salaryGrade}">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">退休时工资等级：</td>
+															<td>
+																<input id="retirementPayScale" name="retirementPayScale" class="input-text" type="text" th:value="${document.retirementPayScale}">
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<!--行政职务经历-->
+				<div class="con-md-12">
+					<div id="administrative-content" class="info-content">
+						<form action="/administrativePost/saveOrUpdate">
+							<div class="edit-line">
+								<h4 class="sub-title">现任行政职务</h4>
+								<div class="action-btns">
+								</div>
+							</div>
+							<div class="info-box-content">
+								<div class="info-box">
+									<table class="table-data">
+										<tbody>
+											
+										</tbody>
+									</table>
+									<div class="infos">
+										<div class="col-md-2">
+											<div class="aicon-wrap">
+												<div class="aInfo-icon info-icon"></div>
+												<p class="icon-text">行政职务</p>
+											</div>
+										</div>
+										<div class="col-md-10">
+											<div class="right-table">
+												<table class="table-data">
+													<tbody>
+														<tr>
+															<td class="td-text" width="195">单位名称：</td>
+															<td width="180">
+																<input id="id" name="id" type="hidden" th:value="${document.currentAdministrativePost.id}">
+																<input id="busiId" name="busiId" type="hidden" th:value="${document.currentAdministrativePost.busiId}">
+															<input id="relationId" name="relationId" type="hidden" th:value="${document.currentAdministrativePost.relationId}">
+																<input id="company-name" name="unitName" class="input-text" type="text" 
+																 th:value="${document.currentAdministrativePost.unitName}">
+															</td>
+															<td width="250" class="td-text">工作部门/科室：</td>
+															<td width="190">
+																<input id="adminWork-department" name="department" class="input-text" type="text"
+																 th:value="${document.currentAdministrativePost.department}">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">职务名称：</td>
+															<td>
+																<input id="position-name" name="name" class="input-text" type="text" 
+																 th:value="${document.currentAdministrativePost.department}">
+															</td>
+															<td class="td-text">管理层次：</td>
+															<td>
+																 <select id="manage-level" name="manageLevel" class="input-text" >
+																	<option th:value="${document.currentAdministrativePost.manageLevel}" th:text=${document.currentAdministrativePost.manageLevelName}></option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">职务层次：</td>
+															<td>
+																 <select id="position-level" name="positionLevel" class="input-text" >
+																	<option th:value="${document.currentAdministrativePost.positionLevel}" th:text=${document.currentAdministrativePost.positionLevelName}></option>
+																</select>
+															</td>
+															<td class="td-text">现职务层次首次任职时间：</td>
+															<td>
+																<input id="partyPosition-firstServingTime" name="firstServingTime" class="input-text" 
+																 th:value="${document.currentAdministrativePost.firstServingTime}" onclick="renderDate(this,'yyyy-MM',calcServingTime)">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">任现职时间：</td>
+															<td>
+																<input id="beginDate" name="dateBegin" class="render-date input-text" type="text"
+																 th:value="${document.currentAdministrativePost.dateBegin}">
+															</td>
+															<td class="td-text">任现同等职务年限：</td>
+															<td>
+																<input id="servingTerm" name="servingTerm" class="input-text" type="text"
+																 th:value="${document.currentAdministrativePost.servingTerm}">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">解聘时间：</td>
+															<td>
+																<input id="endDate" name="dateEnd" class="render-date input-text" type="text" 
+																 th:value="${document.currentAdministrativePost.dateEnd}">
+															</td>
+															<td class="td-text">是否领导职务：</td>
+															<td>
+																 <select id="whether-leader" name="isLeader" class="input-text yes_no" >
+																	<option th:value="${document.currentAdministrativePost.isLeader}" th:text=${document.currentAdministrativePost.isLeaderName}></option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">是否班子成员：</td>
+															<td>
+																 <select id="whether-team" name="isMember" class="input-text yes_no" >
+																	<option th:value="${document.currentAdministrativePost.isMember}" th:text=${document.currentAdministrativePost.isMemberName}></option>
+																</select>
+															</td>
+															<td class="td-text">是否后备干部：</td>
+															<td>
+																 <select id="isReserveCadres" name="isReserveCadres" class="input-text yes_no" >
+																	<option th:value="${document.currentAdministrativePost.isReserveCadres}" th:text=${document.currentAdministrativePost.isReserveCadresName}></option>
+																</select>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<!--党内职务经历-->
+				<div class="con-md-12">
+					<div id="party-content" class="info-content">
+						<form action="/innerpartyPost/saveOrUpdate">
+							<div class="info-box-content">
+								<div class="info-box">
+									<div class="infos">
+										<div class="col-md-2">
+											<div class="aicon-wrap">
+												<div class="partyInfo-icon info-icon"></div>
+												<p class="icon-text">党内职务</p>
+											</div>
+										</div>
+										<div class="col-md-10">
+											<div class="right-table">
+												<table class="table-data">
+													<tbody>
+														<tr>
+															<td width="190" class="td-text">单位名称：</td>
+															<td width="180">
+																<input id="id" name="id" type="hidden" th:value="${document.currentInnerpartyPost.id}">
+																<input id="busiId" name="busiId" type="hidden" th:value="${document.currentInnerpartyPost.busiId}">
+																<input id="relationId" name="relationId" type="hidden" th:value="${orgPersonnel.identificationNo}">
+																<input id="partyCompany-name" name="unitName" class="input-text" type="text" 
+																	th:value="${document.currentInnerpartyPost.unitName}" readonly='readonly'>
+															</td>
+															<td width="250" class="td-text">工作部门/科室：</td>
+															<td width="190">
+																<input id="partyWork-department" name="department" class="input-text" type="text"
+																 th:value="${document.currentInnerpartyPost.department}" readonly='readonly'>
+															</td>
+															
+														</tr>
+														<tr>
+															<td width="190" class="td-text">职务名称：</td>
+															<td width="120">
+																<input id="partyPosition-name" name="name" class="input-text" type="text"
+																 th:value="${document.currentInnerpartyPost.name}" readonly='readonly'>
+															</td>
+															<td class="td-text">管理层次：</td>
+															<td>
+																 <select id="partyManage-level" name="manageLevel" class="input-text" >
+																	<option th:value="${document.currentInnerpartyPost.manageLevel}" th:text=${document.currentInnerpartyPost.manageLevelName}></option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">职务层次：</td>
+															<td>
+																  <select id="partyPosition-level" name="positionLevel" class="input-text" >
+																	<option th:value="${document.currentInnerpartyPost.positionLevel}" th:text=${document.currentInnerpartyPost.positionLevelName}></option>
+																</select>
+															</td>
+															<td class="td-text">现职务层次首次任职时间：</td>
+															<td>
+																<input id="partyPosition-firstServingTime" name="firstServingTime" class="input-text render-year-month" 
+																 th:value="${document.currentInnerpartyPost.firstServingTime}" >
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">任现职时间：</td>
+															<td>
+																<input id="partyBeginDate" name="dateBegin" class="render-date input-text" type="text"
+																 th:value="${document.currentInnerpartyPost.dateBegin}">
+															</td>
+															<td class="td-text">任现同等职务年限：</td>
+															<td>
+																<input id="partyServingTerm" name="servingTerm" class="input-text" type="text"
+																 th:value="${document.currentInnerpartyPost.servingTerm}">
+															</td>
+															
+														</tr>
+														<tr>
+															<td class="td-text">解聘时间：</td>
+															<td>
+																<input id="partyEndDate" name="dateEnd" class="render-date input-text" type="text" 
+																 th:value="${document.currentInnerpartyPost.dateEnd}">
+															</td>
+															<td class="td-text">是否领导职务：</td>
+															<td>
+																  <select id="partyWhether-leader" name="isLeader" class="input-text yes_no" >
+																	<option th:value="${document.currentInnerpartyPost.isLeader}" th:text=${document.currentInnerpartyPost.isLeaderName}></option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">是否班子成员：</td>
+															<td>
+																 <select id="partyWhether-team" name="isMember" class="input-text yes_no" >
+																	<option th:value="${document.currentInnerpartyPost.isMember}" th:text=${document.currentInnerpartyPost.isMemberName}></option>
+																</select>
+															</td>
+															<td class="td-text">是否后备干部：</td>
+															<td>
+																 <select id="partyWhether-reserveCadre" name="isReserveCadres" class="input-text yes_no" >
+																	<option th:value="${document.currentInnerpartyPost.isReserveCadres}" th:text=${document.currentInnerpartyPost.isReserveCadresName}></option>
+																</select>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<!--背景信息-->
+				<div class="con-md-12">
+					<div id="background-content" class="info-content">
+						<div class="edit-line">
+							<h4 class="sub-title">背景信息</h4>
+						</div>
+						
+						<!--行政职务经历-->
+						<div id="administrative-experience" class="background-info-box">
+							<div class="background-info-title">
+								<i class="icon-title-work icon-title"></i>
+								行政职务
+							</div>
+							<div class="noCon" th:style="'display:'+ ${#lists.size(document.administrativePostList)==0 ?'block':'none'}">
+								<div class="exp_none_div" >
+									<span class="exp_none_span">暂无记录</span>
+									<span>
+										<a title="增加" class="add-administrativeCon add-con" href="javascript:void(0)">
+											<i class="icon-add-orange"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+							<!-- 行政职务经历list begin -->
+							 <div class="administrativeExperCon eCon" th:each="administrativePost :${document.administrativePostList}"
+									th:if="${not#lists.isEmpty(document.administrativePostList)}"> 
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="padministrative_form_edit" action="/hrms/administrativePost" class="form_add" >
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+												<a href="javascript:void(0)" class="btn editBtn">编辑</a>
+												<a href="javascript:void(0)" class="btn btn-danger delBtn">删除</a>
+												<a href="javascript:void(0)" class="btn btn-primary addBtn">新增</a>
+											</div>
+											
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text">单位名称：</td>
+														<td width="200">
+															<input id="id" name="id" type="hidden" th:value="${administrativePost.id}">
+															<input id="busiId" name="busiId" type="hidden" th:value="${administrativePost.busiId}">
+															<input id="relationId" name="relationId" type="hidden" th:value="${administrativePost.relationId}">
+																<input id="partyCompany-name" name="unitName" class="input-text" type="text" 
+																	th:value="${administrativePost.unitName}">
+														</td>
+														<td class="td-text">工作部门/科室：</td>
+														<td width="200">
+															<input id="partyWork-department" name="department" class="input-text" type="text"
+															 th:value="${administrativePost.department}">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">职务名称：</td>
+														<td>
+															<input id="partyPosition-name" name="name" class="input-text" type="text"
+															 th:value="${administrativePost.name}">
+														</td>
+														<td class="td-text">管理层次：</td>
+														<td>
+															 <select id="partyManage-level" name="manageLevel" class="input-text" >
+																	<option th:value="${administrativePost.manageLevel}" th:text=${administrativePost.manageLevelName}></option>
+															  </select>
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">职务层次：</td>
+														<td>
+															  <select id="position-level" name="positionLevel" class="input-text" >
+																	<option th:value="${administrativePost.positionLevel}" th:text=${administrativePost.positionLevelName}></option>
+															  </select>
+														</td>
+														<td class="td-text">现职务层次首次任职时间：</td>
+														<td>
+															<input id="position-firstServingTime" name="firstServingTime" class="input-text render-year-month" 
+															 th:value="${administrativePost.firstServingTime}" >
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">开始时间：</td>
+														<td>
+															<input id="positin-BeginDate" name="dateBegin" class="render-date input-text" type="text"
+															 th:value="${administrativePost.dateBegin}">
+														</td>
+														<td class="td-text">任现同等职务年限：</td>
+														<td>
+															<input id="position-ervingTerm" name="dateBegin" class="input-text" type="text"
+															 th:value="${administrativePost.servingTerm}">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">解聘时间：</td>
+														<td>
+															<input id="partyEndDate" name="dateEnd" class="render-date input-text" type="text" 
+															 th:value="${administrativePost.dateEnd}">
+														</td>
+														<td class="td-text">是否领导职务：</td>
+														<td>
+															<select id="partyWhether-leader" name="isLeader" class="input-text yes_no" >
+																<option th:value="${administrativePost.isLeader}" th:text=${administrativePost.isLeaderName}></option>
+															</select>
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">是否班子成员：</td>
+														<td>
+															 <select id="partyWhether-team" name="isMember" class="input-text yes_no" >
+																	<option th:value="${administrativePost.isMember}" th:text=${administrativePost.isMemberName}></option>
+																</select>
+														</td>
+														<td class="td-text">是否后备干部：</td>
+														<td>
+															 <select id="partyWhether-reserveCadre" name="isReserveCadres" class="input-text yes_no" >
+																	<option th:value="${administrativePost.isReserveCadres}" th:text=${administrativePost.isReserveCadresName}></option>
+																</select>
+														</td>
+													</tr>
+													<tr>
+															 <td class="td-text upload-tit">任职文件：</td>
+															 <td colspan="3">
+																 <!-- <button type="button" id="upload-jobFile" class="upload-btn btn">附件上传</button> -->
+																	<input type="hidden" id="have-file" name="haveFile" />
+																	<input type="button" value="附件上传" class="upload-btn btn"/>
+																	<input type="file" th:id="${administrativePost.busiId}" name="attachment" onchange="ajaxFileUpload(this,'administrativePost');" style="display:none"/>
+																	<table id="attach_table" class="table table-striped">
+																		<thead>
+																	    <tr class="info">
+																	        <th>文件名</th>
+																	        <th>操作</th>
+																	    </tr>
+																	    </thead>
+																	    <tbody id="tbody">
+																	        <tr id="firstTr" th:if="${#lists.isEmpty(administrativePost.attachmentList)}">
+																	    		<th colspan="2" id="thead_administrative_edit">暂无附件</th>
+																	    	</tr>
+																	        
+																	    	<tr th:if="${not#lists.isEmpty(administrativePost.attachmentList)}" th:each="attachment,iterStat: ${administrativePost.attachmentList}"> 
+																	    		<th th:text="${attachment.originalName}"></th>
+																	    		<th th:id="${attachment.id}">
+																	    		<a class="remove" th:href="${'/hrms/attachment/download?id='+attachment.id}">
+													            				<i class="glyphicon glyphicon-save"></i>下载</a>
+													            				<a class="remove" style="margin:0 0 0 10px" href="javascript:void(0);" onclick="delAttach(this,'administrative_edit');">
+													            				<i class="glyphicon glyphicon-remove"></i>删除</a>
+													            				</th>
+																	    	</tr>
+																	    </tbody>
+																	    
+																	</table>  
+															</td>
+														</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							
+							</div>
+							<!-- 行政职务list end -->
+							<div class="container form-wrap">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="administrative_form_add" action="/hrms/administrativePost" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text">单位名称：</td>
+														<td width="200">
+															<input id="relationId" name="relationId" type="hidden" th:value="${orgPersonnel.identificationNo}">
+																<input id="partyCompany-name" name="unitName" class="input-text" type="text" 
+																	>
+														</td>
+														<td class="td-text">工作部门/科室：</td>
+														<td width="200">
+															<input id="admin-department" name="department" class="input-text" type="text"
+															 >
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">职务名称：</td>
+														<td>
+															<input id="admin-name" name="name" class="input-text" type="text">
+														</td>
+														<td class="td-text">管理层次：</td>
+														<td>
+															 <select id="admin-level" name="manageLevel" class="input-text" >
+																	<option value="">---请选择---</option>
+															  </select>
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">职务层次：</td>
+														<td>
+															<select id="position-level" name="positionLevel" class="input-text" >
+																	<option value="">---请选择---</option>
+															  </select>
+														</td>
+														<td class="td-text">现职务层次首次任职时间：</td>
+														<td>
+															<input id="position-firstServingTime22" name="firstServingTime" class="render-year-month22 input-text"> 
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">开始时间：</td>
+														<td>
+															<input id="adminBeginDate" name="dateBegin" class="render-date input-text" type="text">
+														</td>
+														<td class="td-text">任现同等职务年限：</td>
+														<td>
+															<input id="position-servingTerm" name="servingTerm" class="input-text"> 
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">解聘时间：</td>
+														<td>
+															<input id="adminEndDate" name="dateEnd" class="render-date input-text" type="text" >
+														</td>
+														<td class="td-text">是否领导职务：</td>
+														<td>
+															  <select id="adminWhether-leader" name="isLeader" class="input-text yes_no" >
+																	<option value="">---请选择---</option>
+																</select>
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">是否班子成员：</td>
+														<td>
+															 <select id="adminWhether-team" name="isMember" class="input-text yes_no" >
+																	<option value="">---请选择---</option>
+																</select>
+														</td>
+														<td class="td-text">是否后备干部：</td>
+														<td>
+															 <select id="adminWhether-reserveCadre" name="isReserveCadres" class="input-text yes_no" >
+																	<option value="">---请选择---</option>
+																</select>
+														</td>
+													</tr>
+													<tr>
+															 <td class="td-text upload-tit">任职文件：</td>
+															 <td colspan="3">
+																	<input type="hidden" id="have-file" name="haveFile" />
+																	<input type="button" value="附件上传" class="upload-btn btn"/>
+																	<input type="file" id="administrativePost" name="attachment" onchange="ajaxFileUpload(this,'administrativePost');" style="display:none"/>
+																	<table id="attach_table" class="table table-striped">
+																		<thead>
+																	    <tr class="info">
+																	        <th>文件名</th>
+																	        <th>操作</th>
+																	    </tr>
+																	    </thead>
+																	    <tbody id="tbody">
+																	        <tr id="firstTr" >
+																	    		<th colspan="2">暂无附件</th>
+																	    	</tr>
+																	    </tbody>
+																	    
+																	</table>  
+															</td>
+														</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!--党内职务经历-->
+						<div id="party-experience" class="background-info-box">
+							<div class="background-info-title">
+								<i class="icon-title-work icon-title"></i>
+								党内职务
+							</div>
+							<div class="noCon" th:style="'display:'+ ${#lists.size(document.innerpartyPostList)==0 ?'block':'none'}">
+								<div class="exp_none_div" >
+									<span class="exp_none_span">暂无记录</span>
+									<span>
+										<a title="增加" class="add-partyCon add-con" href="javascript:void(0)">
+											<i class="icon-add-orange"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+							<!-- 党内职务经历list begin -->
+							 <div class="partyExperCon eCon" th:each="innerpartyPost :${document.innerpartyPostList}"
+									th:if="${not#lists.isEmpty(document.innerpartyPostList)}"> 
+									<div class="col-md-2"></div>
+									<div class="col-md-9">
+										<div class="new-form">
+											<form id="party_form_edit" action="/hrms/innerpartyPost" class="form_add" >
+												<div class="action-btns">
+													<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+													<button type="submit" class="btn save-btn" >保存</button>
+													<a href="javascript:void(0)" class="btn editBtn">编辑</a>
+													<a href="javascript:void(0)" class="btn btn-danger delBtn">删除</a>
+													<a href="javascript:void(0)" class="btn btn-primary addBtn">新增</a>
+												</div>
+												
+												<table class="background-info-table">
+													<tbody>
+														<tr>
+															<td class="td-text">单位名称：</td>
+															<td width="200">
+																<input id="id" name="id" type="hidden" th:value="${innerpartyPost.id}">
+																<input id="busiId" name="busiId" type="hidden" th:value="${innerpartyPost.busiId}">
+																<input id="relationId" name="relationId" type="hidden" th:value="${innerpartyPost.relationId}">
+																	<input id="partyCompany-name" name="unitName" class="input-text" type="text" 
+																		th:value="${innerpartyPost.unitName}">
+															</td>
+															<td class="td-text">工作部门/科室：</td>
+															<td width="200">
+																<input id="partyWork-department" name="department" class="input-text" type="text"
+																th:value="${innerpartyPost.department}">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">职务名称：</td>
+															<td>
+																<input id="partyPosition-name" name="name" class="input-text" type="text"
+																th:value="${innerpartyPost.name}">
+															</td>
+															<td class="td-text">管理层次：</td>
+															<td>
+																<select id="partyManage-level" name="manageLevel" class="input-text" >
+																		<option th:value="${innerpartyPost.manageLevel}" th:text=${innerpartyPost.manageLevelName}></option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">职务层次：</td>
+															<td>
+																<select id="partyPosition-level" name="positionLevel" class="input-text" >
+																	<option th:value="${innerpartyPost.positionLevel}" th:text=${innerpartyPost.positionLevelName}></option>
+																</select>
+															</td>
+															<td class="td-text">现职务层次首次任职时间：</td>
+															<td>
+																<input id="position-firstServingTime" name="firstServingTime" class="input-text render-year-month"
+																th:value=${innerpartyPost.firstServingTime}> 
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">开始时间：</td>
+															<td>
+																<input id="partyBeginDate" name="dateBegin" class="render-date input-text" type="text"
+																th:value="${innerpartyPost.dateBegin}">
+															</td>
+															<td class="td-text">任现同等职务年限：</td>
+															<td>
+																<input id="partyServingTerm" name="servingTerm" class="input-text" type="text"
+																th:value="${innerpartyPost.servingTerm}">
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">解聘时间：</td>
+															<td>
+																<input id="partyEndDate" name="dateEnd" class="render-date input-text" type="text" 
+																th:value="${innerpartyPost.dateEnd}">
+															</td>
+															<td class="td-text">是否领导职务：</td>
+															<td>
+																<select id="partyWhether-leader" name="isLeader" class="input-text yes_no" >
+																		<option th:value="${innerpartyPost.isLeader}" th:text=${innerpartyPost.isLeaderName}></option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text">是否班子成员：</td>
+															<td>
+																<select id="partyWhether-team" name="isMember" class="input-text yes_no" >
+																		<option th:value="${innerpartyPost.isMember}" th:text=${innerpartyPost.isMemberName}></option>
+																</select>
+															</td>
+															<td class="td-text">是否后备干部：</td>
+															<td>
+																<select id="partyWhether-reserveCadre" name="isReserveCadres" class="input-text yes_no" >
+																		<option th:value="${innerpartyPost.isReserveCadres}" th:text=${innerpartyPost.isReserveCadresName}></option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="td-text upload-tit">任职文件：</td>
+															<td colspan="3">
+																<!-- <button type="button" id="upload-jobFile" class="upload-btn btn">附件上传</button> -->
+																<input type="hidden" id="have-file" name="haveFile" />
+																<input type="button" value="附件上传" class="upload-btn btn"/>
+																<input type="file" th:id="${innerpartyPost.busiId}" name="attachment" onchange="ajaxFileUpload(this,'innerpartyPost');" style="display:none"/>
+																<table id="attach_table" class="table table-striped">
+																	<thead>
+																		<tr class="info">
+																			<th>文件名</th>
+																			<th>操作</th>
+																		</tr>
+																	</thead>
+																	<tbody id="tbody">
+																		<tr id="firstTr" th:if="${#lists.isEmpty(innerpartyPost.attachmentList)}">
+																			<th colspan="2" id="thead_innerpartyPost_edit">暂无附件</th>
+																		</tr>
+																		
+																		<tr th:if="${not#lists.isEmpty(innerpartyPost.attachmentList)}" th:each="attachment,iterStat: ${innerpartyPost.attachmentList}"> 
+																			<th th:text="${attachment.originalName}"></th>
+																			<th th:id="${attachment.id}">
+																			<a class="remove" th:href="${'/attachment/download?id='+attachment.id}">
+																			<i class="glyphicon glyphicon-save"></i>下载</a>
+																			<a class="remove" style="margin:0 0 0 10px" href="javascript:void(0);" onclick="delAttach(this,'innerpartyPost');">
+																			<i class="glyphicon glyphicon-remove"></i>删除</a>
+																			</th>
+																		</tr>
+																	</tbody>
+																	
+																</table>  
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</form>
+										</div>
+									</div>
+							</div>
+							<!-- 党内职务list end -->
+							<div class="container form-wrap">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="party_form_add" action="/hrms/innerpartyPost" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text">单位名称：</td>
+														<td width="200">
+															<input id="relationId" name="relationId" type="hidden" th:value="${orgPersonnel.identificationNo}">
+																<input id="partyCompany-name" name="unitName" class="input-text" type="text" >
+														</td>
+														<td class="td-text">工作部门/科室：</td>
+														<td width="200">
+															<input id="partyWork-department" name="department" class="input-text" type="text">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">职务名称：</td>
+														<td>
+															<input id="partyPosition-name" name="name" class="input-text" type="text">
+														</td>
+														<td class="td-text">管理层次：</td>
+														<td>
+															 <select id="partyManage-level" name="manageLevel" class="input-text" >
+																	<option value="">---请选择---</option>
+															 </select>
+														</td>
+													</tr>   
+													<tr>
+														<td class="td-text">职务层次：</td>
+														<td>
+															  <select id="partyPosition-level" name="positionLevel" class="input-text" >
+																	<option value="">---请选择---</option>
+																</select>
+														</td>
+														<td class="td-text">现职务层次首次任职时间：</td>
+															<td>
+																<input id="position-firstServingTime11" name="firstServingTime" class="input-text render-year-month33">
+															</td>
+													</tr>
+													<tr>
+														<td class="td-text">开始时间：</td>
+														<td>
+															<input id="partyBeginDate" name="dateBegin" class="render-date input-text" type="text">
+														</td>
+														<td class="td-text">任现同等职务年限：</td>
+														<td>
+															<input id="partyServingTime" name="servingTime" class="render-date input-text" type="text">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">解聘时间：</td>
+														<td>
+															<input id="partyEndDate" name="dateEnd" class="render-date input-text" type="text" >
+														</td>
+														<td class="td-text">是否领导职务：</td>
+														<td>
+															 <select id="partyWhether-leader" name="isLeader" class="input-text yes_no" >
+																	<option value="">---请选择---</option>
+															 </select>
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">是否班子成员：</td>
+														<td>
+															<select id="partyWhether-team" name="isMember" class="input-text yes_no" >
+																	<option value="">---请选择---</option>
+															 </select>
+														</td>
+														<td class="td-text">是否后备干部：</td>
+														<td>
+															 <select id="partyWhether-reserveCadre" name="isReserveCadres" class="input-text yes_no" >
+																	<option value="">---请选择---</option>
+															 </select>
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text upload-tit">任职文件：</td>
+														<td colspan="3">
+																 <!-- <button type="button" id="upload-jobFile" class="upload-btn btn">附件上传</button> -->
+																	<input type="hidden" id="have-file" name="haveFile" />
+																	<input type="button" value="附件上传" class="upload-btn btn"/>
+																	<input type="file" id="attachment_administrative_form_add" name="attachment" onchange="ajaxFileUpload(this,'innerpartyPost');" style="display:none"/>
+																	<table id="attach_table" class="table table-striped">
+																		<thead>
+																	    <tr class="info">
+																	        <th>文件名</th>
+																	        <th>操作</th>
+																	    </tr>
+																	    </thead>
+																	    <tbody id="tbody">
+																	        <tr id="firstTr" >
+																	    		<th colspan="2">暂无附件</th>
+																	    	</tr>
+																	    </tbody>
+																	</table>  
+															</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!--职务职岗并行经历-->
+						<div id="jobPositions-experience" class="background-info-box">							
+							<div class="background-info-title">
+								<i class="icon-title-parellelPost icon-title"></i>
+								职务职岗并行经历
+							</div>
+							<div class="noExperCon" th:style="'display:'+ ${#lists.size(document.parellelPostList)==0 ?'block':'none'}">
+								<div class="exp_none_div">
+									<span class="exp_none_span">暂无记录</span>
+									<span>
+										<a title="增加" class="add-jobPositionsCon add-con" href="javascript:void(0)">
+											<i class="icon-add-orange"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+							<!--  职务职岗并行经历 list begin -->
+							<div class="jobPositionsExperCon eCon"  th:each="parellelPost ,iterStat : ${document.parellelPostList}"
+								th:if="${not#lists.isEmpty(document.parellelPostList)}">
+								<div class="col-md-1"></div>
+								<div class="col-md-11">
+									<div class="new-form">
+										<form id="jobPositions_form_edit" action="/hrms/parellelPost" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+												<a href="javascript:void(0)" class="btn editBtn">编辑</a>
+												<a href="javascript:void(0)" class="btn btn-danger delBtn">删除</a>
+												<a href="javascript:void(0)" class="btn btn-primary addBtn">新增</a>
+											</div>
+											<div class="home_instructions">
+												<h4>填写说明：</h4>
+												<p>公务员及参公人员填写！</p>
+											</div>
+											<input id="id" name="id" type="hidden" th:value="${parellelPost.id}">
+											<input id="busiId" name="busiId" type="hidden" th:value="${parellelPost.busiId}">
+											<input id="relationId" name="relationId" type="hidden" th:value="${parellelPost.relationId}">
+											<table class="background-info-table table-bordered table-hover">
+												<thead>
+													<td height="35" width="200" class="td-text">职务名称</td>
+													<td width="150" class="td-text">任职单位</td>
+													<td width="150" class="td-text">任职部门/科室</td>
+													<td class="td-text">任职开始时间</td>
+													<td class="td-text">结束时间</td>
+													<td class="td-text" width="180">发文单位</td>
+													<td class="td-text">职务层次</td>
+												</thead>
+												<tbody>
+													<tr>
+														<td><input name="firName" type="text" class="input-text" placeholder="请输入"
+															th:value="${parellelPost.firName}"></td>
+														<td><input name="firOrg" type="remark" class="input-text"
+															th:value="${parellelPost.firOrg}"></td>
+														<td><input name="firDept" type="text" class="input-text"
+															th:value="${parellelPost.firDept}"></td>
+														<td><input name="firDateBegin" type="text" class="render-year-month input-text"
+															th:value="${parellelPost.firDateBegin}"></td>
+														<td><input name="firDateEnd" class="render-year-month input-text" type="text" 
+															th:value="${parellelPost.firDateEnd}"></td>
+														<td><input name="firIssueOrg" type="text" class="input-text"
+															th:value="${parellelPost.firIssueOrg}"></td>
+														<td><input name="forPositionLevel" class="input-text" type="text" 
+															th:value="${parellelPost.firPositionLevel}">
+														</td>
+													</tr>
+													<tr>
+														<td><input name="secName" type="text" class="input-text"
+															th:value="${parellelPost.secName}"></td>
+														<td><input name="secOrg" type="remark" class="input-text"
+															th:value="${parellelPost.secOrg}"></td>
+														<td><input name="secDept" type="text" class="input-text"
+															th:value="${parellelPost.secDept}"></td>
+														<td><input name="secDateBegin" type="text" class="render-year-month input-text"
+															th:value="${parellelPost.secDateBegin}"></td>
+														<td><input name="secDateEnd" class="render-year-month input-text" type="text" 
+															th:value="${parellelPost.secDateEnd}"></td>
+														<td><input name="secIssueOrg" type="text" class="input-text"
+															th:value="${parellelPost.secIssueOrg}"></td>
+														<td><input name="forPositionLevel" class="input-text" type="text" 
+															th:value="${parellelPost.secPositionLevel}">
+														</td>
+													</tr>
+													<tr>
+														<td><input name="thiName" type="text" class="input-text"
+															th:value="${parellelPost.thiName}"></td>
+														<td><input name="thiOrg" type="remark" class="input-text"
+															th:value="${parellelPost.thiOrg}"></td>
+														<td><input name="thiDept" type="text" class="input-text"
+															th:value="${parellelPost.thiDept}"></td>
+														<td><input name="thiDateBegin" type="text" class="render-year-month input-text"
+															th:value="${parellelPost.thiDateBegin}"></td>
+														<td><input name="thiDateEnd" class="render-year-month input-text" type="text" 
+															th:value="${parellelPost.thiDateEnd}"></td>
+														<td><input name="thiIssueOrg" type="text" class="input-text"
+															th:value="${parellelPost.thiIssueOrg}"></td>
+														<td><input name="forPositionLevel" class="input-text" type="text" 
+															th:value="${parellelPost.thiPositionLevel}">
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2" class="td-text">并行后职务等级：</td>
+														<td colspan="5"><input name="remark" type="remark" class="input-text"
+															th:value="${parellelPost.remark}"></td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+							<!--  职务职岗并行经历 list end -->
+							
+							<div class="container form-wrap">
+								<div class="col-md-1"></div>
+								<div class="col-md-11">
+									<div class="new-form">
+										<form id="jobPositions_form_add" action="/hrms/parellelPost" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+											</div>
+											<div class="home_instructions">
+												<h4>填写说明：</h4>
+												<p>公务员及参公人员填写！</p>
+											</div>
+											<input id="relationId" name="relationId" type="hidden" th:value="${orgPersonnel.identificationNo}">
+											<table class="background-info-table table-bordered table-hover">
+												<thead>
+													<td height="35" width="200" class="td-text">职务名称</td>
+													<td width="150" class="td-text">任职单位</td>
+													<td width="150" class="td-text">任职部门/科室</td>
+													<td class="td-text">任职开始时间</td>
+													<td class="td-text">结束时间</td>
+													<td class="td-text" width="180">发文单位</td>
+													<td class="td-text">职务层次</td>
+												</thead>
+												<tbody>
+													<tr>
+														<td><input id="firName" name="firName" type="text" class="input-text" placeholder="请输入"></td>
+														<td><input id="firOrg" name="firOrg" type="remark" class="input-text"></td>
+														<td><input id="firDept" name="firDept" type="text" class="input-text"></td>
+														<td><input id="firDateBegin" name="firDateBegin" type="text" class="render-year-month input-text"></td>
+														<td><input id="firDateEnd" name="firDateEnd" class="render-year-month input-text" type="text"></td>
+														<td><input id="firIssueOrg" name="firIssueOrg" type="text" class="input-text"></td>
+														<td><input id="firPositionLevel" name="firPositionLevel" class="input-text" type="text"></td>
+													</tr>
+													<tr>
+														<td><input id="secName" name="secName" type="text" class="input-text"></td>
+														<td><input id="secOrg" name="secOrg" type="remark" class="input-text"></td>
+														<td><input id="secDept" name="secDept" type="text" class="input-text"></td>
+														<td><input id="secDateBegin" name="secDateBegin" type="text" class="render-year-month input-text"></td>
+														<td><input id="secDateEnd" name="secDateEnd" class="render-year-month input-text" type="text"></td>
+														<td><input id="secIssueOrg" name="secIssueOrg" type="text" class="input-text"></td>
+														<td><input id="secPositionLevel" name="secPositionLevel" class="input-text" type="text"></td>
+													</tr>
+													<tr>
+														<td><input id="thiName" name="thiName" type="text" class="input-text"></td>
+														<td><input id="thiOrg" name="thiOrg" type="remark" class="input-text"></td>
+														<td><input id="thiDept" name="thiDept" type="text" class="input-text"></td>
+														<td><input id="thiDateBegin" name="thiDateBegin" type="text" class="render-year-month input-text"></td>
+														<td><input id="thiDateEnd" name="thiDateEnd" class="render-year-month input-text" type="text"></td>
+														<td><input id="thiIssueOrg" name="thiIssueOrg" type="text" class="input-text"></td>
+														<td><input id="thiPositionLevel" name="thiPositionLevel" class="input-text" type="text"></td>
+													</tr>
+													<tr>
+														<td colspan="2" class="td-text">并行后职务等级：</td>
+														<td colspan="5"><input id="trainingRemark" name="remark" type="remark" class="input-text"></td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!--工作经历-->
+						<div id="work-experience" class="background-info-box">
+							<div class="background-info-title">
+								<i class="icon-title-work icon-title"></i>
+								工作经历
+							</div>
+							<div class="noCon" th:style="'display:'+ ${#lists.size(document.workingExperienceList)==0 ?'block':'none'}">
+								<div class="exp_none_div" >
+									<span class="exp_none_span">暂无记录</span>
+									<span>
+										<a title="增加" class="add-workCon add-con" href="javascript:void(0)">
+											<i class="icon-add-orange"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+							<!-- 工作经历list begin -->
+							<div class="workExperCon eCon" th:each="workingExperience :${document.workingExperienceList}"
+									th:if="${not#lists.isEmpty(document.workingExperienceList)}">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="gzjl_form_edit" action="/hrms/workingExperience" class="form_add" >
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+												<a href="javascript:void(0)" class="btn editBtn">编辑</a>
+												<a href="javascript:void(0)" class="btn btn-danger delBtn">删除</a>
+												<a href="javascript:void(0)" class="btn btn-primary addBtn">新增</a>
+											</div>
+											
+											<table class="background-info-table "  >
+											<tbody>
+												<tr>
+													<td class="td-text" width="153">开始时间：</td>
+													<td width="200">
+														<input id="id" name="id" type="hidden" th:value="${workingExperience.id}">
+														<input id="busiId" name="busiId" type="hidden" th:value="${workingExperience.busiId}">
+														<input id="relationId" name="relationId" type="hidden" th:value="${workingExperience.relationId}">
+														<input id="workBeginTime" name="dateBegin" type="text" class="render-year-month input-text"
+															th:value="${workingExperience.dateBegin}">
+													</td>
+													<td width="250" class="td-text">结束时间：</td>
+													<td width="193">
+														<input id="workEndTime" name="dateEnd" type="text" class="render-year-month input-text"
+														 th:value="${workingExperience.dateEnd}">
+													</td>
+												</tr>
+												<tr>
+													<td class="td-text">单位：</td>
+													<td>
+														<input id="workIn" name="unit" type="text" class="input-text"
+														 th:value="${workingExperience.unit}">
+													</td>
+													<td class="td-text">职务：</td>
+													<td>
+														<input id="workOnPosition" name="position" type="text" class="input-text"
+														 th:value="${workingExperience.position}">
+													</td>
+												</tr>
+												<tr>
+													<td class="td-text">是否领导职务：</td>
+													<td>
+														<select id="work-whether-leader" name="isLeader" class="input-text yes_no" th:if="${workingExperience.isLeader==null}">
+																<option value="">---请选择---</option>
+														 </select>
+														<select id="work-whether-leader" name="isLeader" class="input-text yes_no" th:if="${workingExperience.isLeader!=null}">
+																<option th:value="${workingExperience.isLeader}" th:text="${workingExperience.isLeaderName}"></option>
+														 </select>
+													</td>
+													<td class="td-text">是否班子成员：</td>
+													<td>
+														<select id="work-whether-team" name="isMember" class="input-text yes_no" th:if="${workingExperience.isMember==null}">
+																<option value="">---请选择---</option>
+														 </select>
+														 <select id="work-whether-team" name="isMember" class="input-text yes_no" th:if="${workingExperience.isMember!=null}">
+																<option th:value="${workingExperience.isMember}" th:text="${workingExperience.isMemberName}"></option>
+														 </select>
+													</td>
+												</tr>
+												<tr>
+													<td class="td-text">是否后备干部：</td>
+													<td>
+														<select id="work-whether-reserveCadre" name="isReserveCadres" class="input-text yes_no" th:if="${workingExperience.isReserveCadres==null}">
+																<option value="">---请选择---</option>
+														 </select>
+														 <select id="work-whether-reserveCadre" name="isReserveCadres" class="input-text yes_no" th:if="${workingExperience.isReserveCadres!=null}">
+																<option th:value="${workingExperience.isReserveCadres}" th:text="${workingExperience.isReserveCadresName}"></option>
+														 </select>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="4">
+															<input type="hidden" id="have-file" name="haveFile" />
+															<input type="button" value="附件上传" class="upload-btn btn"/>
+															<input type="file" th:id="${workingExperience.busiId}" name="attachment" onchange="ajaxFileUpload(this,'workingExperience');" style="display:none"/>
+															<table id="attach_table" class="table table-striped">
+																<thead>
+															    <tr class="info">
+															        <th>文件名</th>
+															        <th>操作</th>
+															    </tr>
+															    </thead>
+															    <tbody id="tbody">
+															        <tr id="firstTr" th:if="${#lists.isEmpty(workingExperience.attachmentList)}">
+															    		<th colspan="2" id="thead_innerpartyPost_edit">暂无附件</th>
+															    	</tr>
+															        
+															    	<tr th:if="${not#lists.isEmpty(workingExperience.attachmentList)}" th:each="attachment,iterStat: ${workingExperience.attachmentList}"> 
+															    		<th th:text="${attachment.originalName}"></th>
+															    		<th th:id="${attachment.id}">
+															    		<a class="remove" th:href="${'/attachment/download?id='+attachment.id}">
+											            				<i class="glyphicon glyphicon-save"></i>下载</a>
+											            				<a class="remove" style="margin:0 0 0 10px" href="javascript:void(0);" onclick="delAttach(this,'workingExperience');">
+											            				<i class="glyphicon glyphicon-remove"></i>删除</a>
+											            				</th>
+															    	</tr>
+															    </tbody>
+															    
+															</table>  
+													</td>
+												</tr>
+											</tbody>
+										</table>
+										</form>
+									</div>
+								</div>
+							</div>
+							<!-- 工作经历list end -->
+							<div class="container form-wrap">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="gzjl_form_add" action="/hrms/workingExperience" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text" width="153">开始时间：</td>
+														<td width="200">
+															<input id="relationId" name="relationId" type="hidden" th:value="${orgPersonnel.identificationNo}">
+															<input id="workBeginTime" name="dateBegin" type="text" class="render-year-month input-text">
+														</td>
+														<td width="250" class="td-text">结束时间：</td>
+														<td width="193">
+															<input id="workEndTime" name="dateEnd" type="text" class="render-year-month input-text">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">单位：</td>
+														<td>
+															<input id="workIn" name="unit" type="text" class="input-text">
+														</td>
+														<td class="td-text">职务：</td>
+														<td>
+															<input id="workOnPosition" name="position" type="text" class="input-text">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">是否领导职务：</td>
+														<td>
+															<select id="work-whether-leader" name="isLeader" class="input-text yes_no" >
+																	<option value="">---请选择---</option>
+															 </select>
+														</td>
+														<td class="td-text">是否班子成员：</td>
+														<td>
+															<select id="work-whether-team" name="isMember" class="input-text yes_no" >
+																	<option value="">---请选择---</option>
+															 </select>
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">是否后备干部：</td>
+														<td>
+															<select id="work-whether-reserveCadre" name="isReserveCadres" class="input-text yes_no" >
+																	<option value="">---请选择---</option>
+															 </select>
+														</td>
+													</tr>
+													<tr>
+														<!-- <td class="td-upload" colspan="2">
+															<button type="button" id="upload-pdf" class="upload-btn btn">附件上传</button>
+															<label>（上传pdf文件）</label>
+														</td> -->
+														 <td colspan="4">
+																 <!-- <button type="button" id="upload-jobFile" class="upload-btn btn">附件上传</button> -->
+																<input type="hidden" id="have-file" name="haveFile" />
+																<input type="button" value="附件上传" class="upload-btn btn"/>
+																<input type="file" id="workingExperience" name="attachment" onchange="ajaxFileUpload(this,'workingExperience');" style="display:none"/>
+																<table id="attach_table" class="table table-striped">
+																	<thead>
+																    <tr class="info">
+																        <th>文件名</th>
+																        <th>操作</th>
+																    </tr>
+																    </thead>
+																    <tbody id="tbody">
+																        <tr id="firstTr" >
+																    		<th colspan="2">暂无附件</th>
+																    	</tr>
+																    </tbody>
+																</table>  
+															</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!--教育经历-->
+						<div id="edu-experience" class="background-info-box">
+							<div class="background-info-title">
+								<i class="icon-title-edu icon-title"></i>
+								教育经历
+							</div>
+							<div class="noCon" th:style="'display:'+ ${#lists.size(document.learningExperienceList)==0 ?'block':'none'}">
+								<div class="exp_none_div">
+									<span class="exp_none_span">暂无记录</span>
+									<span>
+										<a title="增加" class="add-eduCon add-con" href="javascript:void(0)">
+											<i class="icon-add-orange"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+							<div class="learnExperCon eCon" th:each="learningExperience ,iterStat : ${document.learningExperienceList}"
+								th:if="${not#lists.isEmpty(document.learningExperienceList)}">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="edu_form_edit" action="/hrms/learningExperience" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+												<a href="javascript:void(0)" class="btn editBtn">编辑</a>
+												<a href="javascript:void(0)" class="btn btn-danger delBtn">删除</a>
+												<a href="javascript:void(0)" class="btn btn-primary addBtn">新增</a>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text" width="153">开始时间：</td>
+														<td width="200">
+															<input id="id" name="id" type="hidden" th:value="${learningExperience.id}">
+															<input id="busiId" name="busiId" type="hidden" th:value="${learningExperience.busiId}">
+															<input id="relationId" name="relationId" type="hidden" th:value="${learningExperience.relationId}">
+															<input id="eduBeginTime" name="dateBegin" type="text" class="render-year-month input-text"
+																th:value="${learningExperience.dateBegin}">
+														</td>
+														<td width="250" class="td-text">结束时间：</td>
+														<td width="193">
+															<input id="eduEndTime" name="dateEnd" type="text" class="render-year-month input-text"
+															th:value="${learningExperience.dateEnd}">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">学校：</td>
+														<td>
+															<input id="graduateFrom" name="school" type="text" class="input-text"
+															th:value="${learningExperience.school}">
+														</td>
+														<td class="td-text">专业：</td>
+														<td>
+															<input id="profession" name="major" type="text" class="input-text"
+																th:value="${learningExperience.major}">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">学历：</td>
+														<td>
+															<!-- <input id="education" name="educationLevel" class="input-text" type="text" 
+																th:value="${learningExperience.educationLevel}"> -->
+															<select id="education" name="educationLevel" class="input-text" >
+																<option th:value="${learningExperience.educationLevel}" th:text=${learningExperience.educationLevelName}></option>
+															</select>
+														</td>
+														<td class="td-text">学位：</td>
+														<td>
+															<!-- <input id="degree" name="educationDegree" class="input-text" type="text" 
+															th:value="${learningExperience.educationDegree}"> -->
+															<select id="degree" name="educationDegree" class="input-text" >
+																<option th:value="${learningExperience.educationDegree}" th:text=${learningExperience.educationDegreeName}></option>
+															</select>
+														</td>
+													</tr>
+													<tr>
+														<!-- <td class="td-upload" colspan="2">
+															<button type="button" id="upload-pdf" class="upload-btn btn">附件上传</button>
+														</td> -->
+														<td colspan="4">
+														 <!-- <button type="button" id="upload-jobFile" class="upload-btn btn">附件上传</button> -->
+															<input type="hidden" id="have-file" name="haveFile" />
+															<input type="button" value="附件上传" class="upload-btn btn"/>
+															<input type="file" th:id="${learningExperience.busiId}" name="attachment" onchange="ajaxFileUpload(this,'learningExperience');" style="display:none"/>
+															<table id="attach_table" class="table table-striped">
+																<thead>
+															    <tr class="info">
+															        <th>文件名</th>
+															        <th>操作</th>
+															    </tr>
+															    </thead>
+															    <tbody id="tbody">
+															        <tr id="firstTr" th:if="${#lists.isEmpty(learningExperience.attachmentList)}">
+															    		<th colspan="2" id="thead_innerpartyPost_edit">暂无附件</th>
+															    	</tr>
+															        
+															    	<tr th:if="${not#lists.isEmpty(learningExperience.attachmentList)}" th:each="attachment,iterStat: ${learningExperience.attachmentList}"> 
+															    		<th th:text="${attachment.originalName}"></th>
+															    		<th th:id="${attachment.id}">
+															    		<a class="remove" th:href="${'/attachment/download?id='+attachment.id}">
+											            				<i class="glyphicon glyphicon-save"></i>下载</a>
+											            				<a class="remove" style="margin:0 0 0 10px" href="javascript:void(0);" onclick="delAttach(this,'workingExperience');">
+											            				<i class="glyphicon glyphicon-remove"></i>删除</a>
+											            				</th>
+															    	</tr>
+															    </tbody>
+															    
+															</table>  
+													</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+							
+							<div class="container form-wrap">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="edu_form_add" action="/hrms/learningExperience" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text" width="153">开始时间：</td>
+														<td width="200">
+															<input id="relationId" name="relationId" type="hidden" th:value="${orgPersonnel.identificationNo}">
+															<input id="eduBeginTime" name="dateBegin" type="text" class="render-year-month input-text">
+														</td>
+														<td width="250" class="td-text">结束时间：</td>
+														<td width="193">
+															<input id="eduEndTime" name="dateEnd" type="text" class="render-year-month input-text">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">学校：</td>
+														<td>
+															<input id="graduateFrom" name="school" type="text" class="input-text">
+														</td>
+														<td class="td-text">专业：</td>
+														<td>
+															<input id="profession" name="major" type="text" class="input-text">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">学历：</td>
+														<td>
+															<!-- <input id="education" name="educationLevel" class="input-text" type="text" value=""> -->
+															<select id="education" name="educationLevel" class="input-text" >
+																<option value="">---请选择---</option>
+															</select>
+														</td>
+														<td class="td-text">学位：</td>
+														<td>
+															<!-- <input id="degree" name="educationDegree" class="input-text" type="text" value=""> -->
+															<select id="degree" name="educationDegree" class="input-text" >
+																<option value="">---请选择---</option>
+															</select>
+														</td>
+													</tr>
+													<tr>
+														<!-- <td class="td-upload" colspan="2">
+															<button type="button" id="upload-pdf" class="upload-btn btn">附件上传</button>
+														</td> -->
+														<td colspan="4">
+																 <!-- <button type="button" id="upload-jobFile" class="upload-btn btn">附件上传</button> -->
+																<input type="hidden" id="have-file" name="haveFile" />
+																<input type="button" value="附件上传" class="upload-btn btn"/>
+																<input type="file" id="learningExperience" name="attachment" onchange="ajaxFileUpload(this,'learningExperience');" style="display:none"/>
+																<table id="attach_table" class="table table-striped">
+																	<thead>
+																    <tr class="info">
+																        <th>文件名</th>
+																        <th>操作</th>
+																    </tr>
+																    </thead>
+																    <tbody id="tbody">
+																        <tr id="firstTr" >
+																    		<th colspan="2">暂无附件</th>
+																    	</tr>
+																    </tbody>
+																</table>  
+															</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!--职称信息-->
+						<div id="jobTit-experience" class="background-info-box">
+							<div class="background-info-title">
+								<i class="icon-title-title icon-title"></i>
+								职称信息
+							</div>
+							<div class="noCon" th:style="'display:'+ ${#lists.size(document.professionalTitleList)==0 ?'block':'none'}">
+								<div class="exp_none_div">
+									<span class="exp_none_span">暂无记录</span>
+									<span>
+										<a title="增加" class="add-jobtitCon add-con" href="javascript:void(0)">
+											<i class="icon-add-orange"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+							<!-- 职称信息list begin -->
+							<div class="jobExperCon eCon" th:each="professionalTitle ,iterStat : ${document.professionalTitleList}"
+								th:if="${not#lists.isEmpty(document.professionalTitleList)}">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="tit_form_edit" action="/hrms/professionalTitle" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+												<a href="javascript:void(0)" class="btn editBtn">编辑</a>
+												<a href="javascript:void(0)" class="btn btn-danger delBtn">删除</a>
+												<a href="javascript:void(0)" class="btn btn-primary addBtn">新增</a>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text" width="153">职称名称：</td>
+														<td width="200">
+															<input id="id" name="id" type="hidden" th:value="${professionalTitle.id}">
+															<input id="busiId" name="busiId" type="hidden" th:value="${professionalTitle.busiId}">
+															<input id="relationId" name="relationId" type="hidden" th:value="${professionalTitle.relationId}">
+															<select id="jobTitle" name="name" class="input-text" th:if="${professionalTitle.name==null}">
+																<option value="">---请选择---</option>
+															</select>
+															<select id="jobTitle" name="name" class="input-text" th:if="${professionalTitle.name!=null}">
+																<option th:value="${professionalTitle.name}" th:text="${professionalTitle.nameName}"></option>
+															</select>
+															<div>
+																<input type="text" id="nameDesc" name="nameDesc" class="input-text" th:value="${professionalTitle.nameDesc}">
+															</div>
+														</td>
+														<td width="250" class="td-text">职称类型：</td>
+														<td width="193">
+															<select id="professionalTitleType" name="type" class="input-text" th:if="${professionalTitle.type==null}">
+																<option value="">---请选择---</option>
+															</select>
+															<select id="professionalTitleType" name="type" class="input-text"  th:if="${professionalTitle.type!=null}">
+																<option th:value="${professionalTitle.type}" th:text="${professionalTitle.typeName}"></option>
+															</select>
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">职称级别：</td>
+														<td>
+															<select id="professionalTitleLevel" name="level" class="input-text" th:if="${professionalTitle.level==null}">
+																<option value="">---请选择---</option>
+															</select>
+															<select id="professionalTitleLevel" name="level" class="input-text" th:if="${professionalTitle.level!=null}">
+																<option th:value="${professionalTitle.level}" th:text="${professionalTitle.levelName}"></option>
+															</select>
+														</td>
+														<td class="td-text">获得时间：</td>
+														<td>
+															<input id="acquireDate" name="gainDate" type="text" class="render-year-month input-text"
+															th:value="${professionalTitle.gainDate}">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">是否聘用：</td>
+														<td>
+															<select id="whether-hire" name="isHired" class="input-text yes_no" th:if="${professionalTitle.isHired==null}">
+																<option value="">---请选择---</option>
+															</select>
+															<select id="whether-hire" name="isHired" class="input-text yes_no" th:if="${professionalTitle.isHired!=null}">
+																<option th:value="${professionalTitle.isHired}" th:text="${professionalTitle.isHiredName}"></option>
+															</select>
+														</td>
+														<td class="td-text">聘用时间：</td>
+														<td>
+															<input id="hireDate" name="hireDate" class="render-year-month input-text" type="text" 
+															th:value="${professionalTitle.hireDate}">
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+							<!-- 职称信息list end -->
+							<div class="container form-wrap">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="tit_form_add" action="/hrms/professionalTitle" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text" width="153">职称名称：</td>
+														<td width="200">
+															<input id="relationId" name="relationId" type="hidden" th:value="${orgPersonnel.identificationNo}">
+															<!-- <input id="jobTitle" name="name" type="text" class="input-text"> -->
+															<select id="jobTitle1" name="name" class="input-text" >
+																<option value="">---请选择---</option>
+															</select>
+															<div>
+																<input type="text" id="nameDesc1" name="nameDesc" class="input-text" >
+															</div>
+														</td>
+														<td width="250" class="td-text">职称类型：</td>
+														<td width="193">
+															<select id="jobType" name="type" class="input-text">
+																<option value="">---请选择---</option>
+															</select>
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">职称级别：</td>
+														<td>
+															<select id="jobLevel" name="level" class="input-text">
+																<option value="">---请选择---</option>
+															</select>
+														</td>
+														<td class="td-text">获得时间：</td>
+														<td>
+															<input id="acquireDate" name="gainDate" type="text" class="render-year-month input-text">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">是否聘用：</td>
+														<td>
+															<select id="whether-hire" name="isHired" class="input-text yes_no">
+																<option value="">---请选择---</option>
+															</select>
+														</td>
+														<td class="td-text">聘用时间：</td>
+														<td>
+															<input id="hireDate" name="hireDate" class="render-year-month input-text" type="text" value="">
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!--培训经历-->
+						<div id="train-experience" class="background-info-box">
+							
+							<div class="background-info-title">
+								<i class="icon-title-train icon-title"></i>
+								培训经历
+							</div>
+							<div class="noExperCon" th:style="'display:'+ ${#lists.size(document.trainingExperienceList)==0 ?'block':'none'}">
+								<div class="exp_none_div">
+									<span class="exp_none_span">暂无记录</span>
+									<span>
+										<a title="增加" class="add-trainCon add-con" href="javascript:void(0)">
+											<i class="icon-add-orange"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+							<!--  培训经历 list begin -->
+							<div class="trainExperCon eCon"  th:each="trainingExperience ,iterStat : ${document.trainingExperienceList}"
+								th:if="${not#lists.isEmpty(document.trainingExperienceList)}">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="train_form_edit" action="/hrms/trainingExperience" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+												<a href="javascript:void(0)" class="btn editBtn">编辑</a>
+												<a href="javascript:void(0)" class="btn btn-danger delBtn">删除</a>
+												<a href="javascript:void(0)" class="btn btn-primary addBtn">新增</a>
+											</div>
+											<div class="home_instructions">
+												<h4>填写说明：</h4>
+												<p>请填写脱产1个月以上培训</p>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text" width="153">培训类型：</td>
+														<td width="200">
+															<input id="id" name="id" type="hidden" th:value="${trainingExperience.id}">
+															<input id="busiId" name="busiId" type="hidden" th:value="${trainingExperience.busiId}">
+															<input id="relationId" name="relationId" type="hidden" th:value="${trainingExperience.relationId}">
+															<input id="trainingType" name="type" type="text" class="input-text"
+															th:value="${trainingExperience.type}">
+														</td>
+														<td width="250" class="td-text">培训内容：</td>
+														<td width="193">
+															<input id="trainingRemark" name="remark" type="remark" class="input-text"
+															th:value="${trainingExperience.remark}">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">培训单位：</td>
+														<td>
+															<input id="trainingUnit" name="unit" type="text" class="input-text"
+															th:value="${trainingExperience.unit}">
+														</td>
+														<td class="td-text">培训地点：</td>
+														<td>
+															<input id="training-location" name="address" type="text" class="input-text"
+															th:value="${trainingExperience.address}">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">开始时间：</td>
+														<td>
+															<input id="trainBeginDate" name="dateBegin" type="text" class="render-year-month input-text"
+															th:value="${trainingExperience.dateBegin}">
+														</td>
+														<td class="td-text">结束时间：</td>
+														<td>
+															<input id="trainEndDate" name="dateEnd" class="render-year-month input-text" type="text" 
+															th:value="${trainingExperience.dateEnd}">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">是否结业：</td>
+														<td>
+															<select id="endSituation" name="isGraduation" class="input-text yes_no" th:if="${trainingExperience.isGraduation==null}">
+																<option	value="">---请选择---</option>
+															</select>
+															<select id="endSituation" name="isGraduation" class="input-text yes_no" th:if="${trainingExperience.isGraduation!=null}">
+																<option	th:value="${trainingExperience.isGraduation}" th:text="${trainingExperience.isGraduationName}"></option>
+															</select>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+							<!--  培训经历 list end -->
+							
+							<div class="container form-wrap">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="train_form_add" action="/hrms/trainingExperience" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+											</div>
+											<div class="home_instructions">
+												<h4>填写说明：</h4>
+												<p>请填写脱产1个月以上培训</p>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text" width="153">培训类型：</td>
+														<td width="200">
+															<input id="relationId" name="relationId" type="hidden" th:value="${orgPersonnel.identificationNo}">
+															<input id="trainingType" name="type" type="text" class="input-text">
+														</td>
+														<td width="250" class="td-text">培训内容：</td>
+														<td width="193">
+															<input id="trainingRemark" name="remark" type="remark" class="input-text">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">培训单位：</td>
+														<td>
+															<input id="trainingUnit" name="unit" type="text" class="input-text">
+														</td>
+														<td class="td-text">培训地点：</td>
+														<td>
+															<input id="training-location" name="address" type="text" class="input-text">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">开始时间：</td>
+														<td>
+															<input id="trainBeginDate" name="dateBegin" type="text" class="render-year-month input-text">
+														</td>
+														<td class="td-text">结束时间：</td>
+														<td>
+															<input id="trainEndDate" name="dateEnd" class="render-year-month input-text" type="text" value="">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">是否结业：</td>
+														<td>
+															<select id="endSituation" name="isGraduation" class="input-text yes_no">
+																<option	value="">---请选择---</option>
+															</select>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!--奖励情况-->
+						<div id="reward-experience" class="background-info-box">
+							
+							<div class="background-info-title">
+								<i class="icon-title-reward icon-title"></i>
+								奖励情况
+							</div>
+							<div class="noExperCon" th:style="'display:'+ ${#lists.size(document.rewardSituationList)==0 ?'block':'none'}">
+								<div class="exp_none_div">
+									<span class="exp_none_span">暂无记录</span>
+									<span>
+										<a title="增加" class="add-rewardCon add-con" href="javascript:void(0)">
+											<i class="icon-add-orange"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+							<!-- 奖惩情况list begin -->
+							<div class="rewardCon eCon" th:each="rewardSituation ,iterStat : ${document.rewardSituationList}"
+								th:if="${not#lists.isEmpty(document.rewardSituationList)}">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="reward_form_edit" action="/hrms/rewardSituation" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+												<a href="javascript:void(0)" class="btn editBtn">编辑</a>
+												<a href="javascript:void(0)" class="btn btn-danger delBtn">删除</a>
+												<a href="javascript:void(0)" class="btn btn-primary addBtn">新增</a>
+											</div>
+											<div class="home_instructions">
+												<h4>填写说明：</h4>
+												<p>昆山市政府（含昆山人社局）及以上单位颁发的奖励</p>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text" width="153">奖励项目：</td>
+														<td width="200">
+															<input id="id" name="id" type="hidden" th:value="${rewardSituation.id}">
+															<input id="busiId" name="busiId" type="hidden" th:value="${rewardSituation.busiId}">
+															<input id="relationId" name="relationId" type="hidden" th:value="${rewardSituation.relationId}">
+															<input id="reward-project" name="project" type="text" class="input-text"
+															th:value="${rewardSituation.project}">
+														</td>
+														<td width="250" class="td-text">奖励级别：</td>
+														<td width="193">
+															<input id="reward-level" name="rewardLevel" type="text" class="input-text"
+															th:value="${rewardSituation.rewardLevel}">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">奖励类别：</td>
+														<td>
+															<select id="reward-type" name="rewardType" class="input-text" th:if="${rewardSituation.rewardType==null}">
+																<option	th:value="${rewardSituation.rewardType}" th:text="${rewardSituation.rewardTypeName}">
+															</select>
+															<select id="reward-type" name="rewardType" class="input-text" th:if="${rewardSituation.rewardType!=null}">
+																<option	th:value="${rewardSituation.rewardType}" th:text="${rewardSituation.rewardTypeName}">
+															</select>
+														</td>
+														<td class="td-text">获奖时间：</td>
+														<td>
+															<input id="reward-date" name="rewardDate" type="text" class="render-year-month input-text"
+															th:value="${rewardSituation.rewardDate}">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">授奖部门：</td>
+														<td>
+															<input id="awarding-department" name="awardDepartment" class="input-text" type="text" 
+															th:value="${rewardSituation.awardDepartment}">
+														</td>
+														<td class="td-text">是否撤销：</td>
+														<td>
+															<select id="whether-cancel" name="isCancel" class="input-text yes_no" th:if="${rewardSituation.isCancel==null}">
+																<option value="">---请选择---</option>
+															</select>
+															<select id="whether-cancel" name="isCancel" class="input-text yes_no" th:if="${rewardSituation.isCancel!=null}">
+																<option th:value="${rewardSituation.isCancel}" th:text="${rewardSituation.isCancelName}"></option>
+															</select>
+														</td>
+													</tr>
+													
+													<tr>
+														<td class="td-text">获奖金额：</td>
+														<td>
+															<input id="award-amount" name="money" class="input-text" type="text" 
+															th:value="${rewardSituation.money}">
+														</td>
+														
+														<td class="td-text">获奖理由：</td>
+														<td>
+															<input id="award-reason" name="reason" class="input-text" type="text" 
+															th:value="${rewardSituation.reason}">
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+							<!-- 奖惩情况list end -->
+							
+							<div class="container form-wrap">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="reward_form_add" action="/hrms/rewardSituation" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+											</div>
+											<div class="home_instructions">
+												<h4>填写说明：</h4>
+												<p>昆山市政府（含昆山人社局）及以上单位颁发的奖励</p>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text" width="153">奖励项目：</td>
+														<td width="200">
+															<input id="relationId" name="relationId" type="hidden" th:value="${orgPersonnel.identificationNo}">
+															<input id="reward-project" name="project" type="text" class="input-text">
+														</td>
+														<td width="250" class="td-text">奖励级别：</td>
+														<td width="193">
+															<input id="reward-level" name="rewardLevel" type="text" class="input-text">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">奖励类别：</td>
+														<td>
+															<select id="reward-type" name="rewardType" class="input-text">
+																<option value="">---请选择---</option>
+															</select>
+														</td>
+														<td class="td-text">获奖时间：</td>
+														<td>
+															<input id="reward-date" name="rewardDate" type="text" class="render-year-month input-text">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">授奖部门：</td>
+														<td>
+															<input id="awarding-department" name="awardDepartment" class="input-text" type="text" value="">
+														</td>
+														<td class="td-text">是否撤销：</td>
+														<td>
+															<select id="whether-cancel" name="isCancel" class="input-text yes_no">
+																<option value="">---请选择---</option>
+															</select>
+														</td>
+													</tr>
+													
+													<tr>
+														<td class="td-text">获奖金额：</td>
+														<td>
+															<input id="award-amount" name="money" class="input-text" type="text" value="">
+														</td>
+														
+														<td class="td-text">获奖理由：</td>
+														<td>
+															<input id="award-reason" name="reason" class="input-text" type="text" value="">
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						
+						<!--处罚情况-->
+						<div id="punish-experience" class="background-info-box">
+							
+							<div class="background-info-title">
+								<i class="icon-title-punish icon-title"></i>
+								处罚情况
+							</div>
+							<div class="noExperCon" th:style="'display:'+ ${#lists.size(document.punishSituationList)==0 ?'block':'none'}">
+								<div class="exp_none_div">
+									<span class="exp_none_span">暂无记录</span>
+									<span>
+										<a title="增加" class="add-punishCon add-con" href="javascript:void(0)">
+											<i class="icon-add-orange"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+							<!-- 处罚情况list begin -->
+							<div class="punishCon eCon" th:each="punishSituation ,iterStat : ${document.punishSituationList}"
+								th:if="${not#lists.isEmpty(document.punishSituationList)}">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="punish_form_edit" action="/hrms/punishSituation" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+												<a href="javascript:void(0)" class="btn editBtn">编辑</a>
+												<a href="javascript:void(0)" class="btn btn-danger delBtn">删除</a>
+												<a href="javascript:void(0)" class="btn btn-primary addBtn">新增</a>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text" width="153">处罚名目：</td>
+														<td width="200">
+															<input id="id" name="id" type="hidden" th:value="${punishSituation.id}">
+															<input id="busiId" name="busiId" type="hidden" th:value="${punishSituation.busiId}">
+															<input id="relationId" name="relationId" type="hidden" th:value="${punishSituation.relationId}">
+															<input id="punish-project" name="project" type="text" class="input-text"
+															th:value="${punishSituation.project}">
+														</td>
+														<td width="250" class="td-text">处罚级别：</td>
+														<td width="193">
+															<input id="punish-level" name="punishLevel" type="text" class="input-text"
+															th:value="${punishSituation.punishLevel}">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">处罚类别：</td>
+														<td>
+															<input id="punish-type" name="punishType" type="text" class="input-text"
+															th:value="${punishSituation.punishType}">
+														</td>
+														<td class="td-text">处罚时间：</td>
+														<td>
+															<input id="punish-date" name="punishDate" type="text" class="render-year-month input-text"
+															th:value="${punishSituation.punishDate}">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">处罚单位：</td>
+														<td>
+															<input id="punishing-department" name="punishDepartment" class="input-text" type="text" 
+															th:value="${punishSituation.punishDepartment}">
+														</td>
+														<td class="td-text">是否撤销：</td>
+														<td>
+															<select id="whether-cancel" name="isCancel" class="input-text yes_no" th:if="${punishSituation.isCancel==null}">
+																<option value="">---请选择---</option>
+															</select>
+															<select id="whether-cancel" name="isCancel" class="input-text yes_no" th:if="${punishSituation.isCancel!=null}">
+																<option th:value="${punishSituation.isCancel}" th:text="${punishSituation.isCancelName}"></option>
+															</select>
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">处罚金额：</td>
+														<td>
+															<input id="punish-amount" name="money" class="input-text" type="text" 
+															th:value="${punishSituation.money}">
+														</td>
+														
+														<td class="td-text">处罚理由：</td>
+														<td>
+															<input id="punish-reason" name="reason" class="input-text" type="text" 
+															th:value="${punishSituation.reason}">
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+							<!-- 处罚情况list end -->
+							
+							<div class="container form-wrap">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="punish_form_add" action="/hrms/punishSituation" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text" width="153">处罚名目：</td>
+														<td width="200">
+															<input id="relationId" name="relationId" type="hidden" th:value="${orgPersonnel.identificationNo}">
+															<input id="punish-project" name="project" type="text" class="input-text">
+														</td>
+														<td width="250" class="td-text">处罚级别：</td>
+														<td width="193">
+															<input id="punish-level" name="punishLevel" type="text" class="input-text">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">处罚类别：</td>
+														<td>
+															<input id="punish-type" name="punishType" type="text" class="input-text">
+														</td>
+														<td class="td-text">处罚时间：</td>
+														<td>
+															<input id="punish-date" name="punishDate" type="text" class="render-year-month input-text">
+														</td>
+													</tr>
+													<tr>
+														<td class="td-text">处罚单位：</td>
+														<td>
+															<input id="punishing-department" name="punishDepartment" class="input-text" type="text" value="">
+														</td>
+														<td class="td-text">是否撤销：</td>
+														<td>
+															<select id="whether-cancel" name="isCancel" class="input-text yes_no">
+																<option value="">---请选择---</option>
+															</select>
+														</td>
+													</tr>
+													
+													<tr>
+														<td class="td-text">处罚金额：</td>
+														<td>
+															<input id="punish-amount" name="money" class="input-text" type="text" value="">
+														</td>
+														
+														<td class="td-text">处罚理由：</td>
+														<td>
+															<input id="punish-reason" name="reason" class="input-text" type="text" value="">
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						
+						
+						
+						<!--年度考核-->
+						<div id="certificate-experience" class="background-info-box">
+							
+							<div class="background-info-title">
+								<i class="icon-title-certificate icon-title"></i>
+								年度考核
+							</div>
+							<div class="noExperCon" th:style="'display:'+ ${#lists.size(document.annualCheckList)==0 ?'block':'none'}">
+								<div class="exp_none_div">
+									<span class="exp_none_span">暂无记录</span>
+									<span>
+										<a title="增加" class="add-certificateCon add-con" href="javascript:void(0)">
+											<i class="icon-add-orange"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+							<!--  年度考核  list begin -->
+							<div class="annualCon eCon" th:each="annualCheck ,iterStat : ${document.annualCheckList}"
+								th:if="${not#lists.isEmpty(document.annualCheckList)}">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="annual_form_edit" action="/hrms/annualCheck" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+												<a href="javascript:void(0)" class="btn editBtn">编辑</a>
+												<a href="javascript:void(0)" class="btn btn-danger delBtn">删除</a>
+												<a href="javascript:void(0)" class="btn btn-primary addBtn">新增</a>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text" width="153">年度：</td>
+														<td width="200">
+															<input id="id" name="id" type="hidden" th:value="${annualCheck.id}">
+															<input id="busiId" name="busiId" type="hidden" th:value="${annualCheck.busiId}">
+															<input id="relationId" name="relationId" type="hidden" th:value="${annualCheck.relationId}">
+															<input id="certificate-year" name="year" type="text" class="input-text render-year"
+															th:value="${annualCheck.year}">
+														</td>
+														<td width="250" class="td-text">考核结果：</td>
+														<td width="193">
+															<input id="certificate-approval-status" name="checkState" class="input-text" type="text" 
+															th:value="${annualCheck.checkState}">
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+							<!--  年度考核  list end -->
+							
+							<div class="container form-wrap">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="certificate_form_add" action="/hrms/annualCheck" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+											</div>
+											<table class="background-info-table">
+												<tbody>
+													<tr>
+														<td class="td-text" width="153">年度：</td>
+														<td width="200">
+															<input id="relationId" name="relationId" type="hidden" th:value="${orgPersonnel.identificationNo}">
+															<input id="certificate-year" name="year" type="text" class="input-text render-year">
+														</td>
+														<td width="250" class="td-text">考核结果：</td>
+														<td width="193">
+															<input id="certificate-approval-status" name="checkState" class="input-text" type="text" value="">
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!--家庭成员信息-->
+						<div id="home-experience" class="background-info-box">
+							<div class="background-info-title">
+								<i class="icon-title-home icon-title"></i>
+								家庭成员信息
+							</div>
+							<div class="noExperCon" th:style="'display:'+ ${#lists.size(document.familyMemberList)==0 ?'block':'none'}">
+								<div class="exp_none_div">
+									<span class="exp_none_span">暂无记录</span>
+									<span>
+										<a title="增加" class="add-homeCon add-con" href="javascript:void(0)">
+											<i class="icon-add-orange"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+							<div class="memberCon eCon" th:each="familyMember ,iterStat : ${document.familyMemberList}"
+								th:if="${not#lists.isEmpty(document.familyMemberList)}">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="home_form_edit" action="/hrms/familyMember" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+												<a href="javascript:void(0)" class="btn editBtn">编辑</a>
+												<a href="javascript:void(0)" class="btn btn-danger delBtn">删除</a>
+												<a href="javascript:void(0)" class="btn btn-primary addBtn">新增</a>
+											</div>
+											<div class="home_instructions">
+												<h4>填写说明：</h4>
+												<p>1.家庭成员请按以下顺序依次填写：配偶、子女、父母、兄弟姐妹、配偶父母、女婿或媳妇(重要社会关系中有<b>科级及以上</b>领导干部的须列出)</p>
+												<p>2.备注项填写说明：</p>
+												<p>&nbsp;&nbsp;1)如已故，请一并填写原工作单位及职务并注明；</p>
+												<p>&nbsp;&nbsp;2)如退休，请一并填写退休前工作单位及职务并注明；</p>
+												<p>&nbsp;&nbsp;3)如无工作单位，请填写×市×镇×村村民或×市×镇×社区居民；</p>
+												<p>&nbsp;&nbsp;4)如已上学，请填写学校名称及年级（或专业）；</p>
+												<p>&nbsp;&nbsp;5)如年幼，在职务一栏一律填”学龄前儿童”。</p>
+											</div>
+											<div class="left-inputs col-md-6 col-xs-6">
+												<div class="form-group">
+													<label for="title" class="td-text col-md-4">称谓：</label>
+													<input id="id" name="id" type="hidden" th:value="${familyMember.id}">
+													<input id="busiId" name="busiId" type="hidden" th:value="${familyMember.busiId}">
+													<input id="relationId" name="relationId" type="hidden" th:value="${familyMember.relationId}">
+													<input id="appellation" name="title" class="input-text col-md-9" type="text" 
+													th:value="${familyMember.title}">
+												</div>
+												<div class="form-group">
+													<label for="unit" class="td-text col-md-4">工作单位：</label>
+													<input id="member-employer" name="unit" class="input-text col-md-9" type="text" 
+													th:value="${familyMember.unit}">
+												</div>
+												<div class="form-group">
+													<label for="idnumber" class="td-text col-md-4">身份证号：</label>
+													<input id="member-idcardNum" name="idnumber" class="input-text col-md-9" type="text" 
+													th:value="${familyMember.idnumber}" onblur="getFamilyMemberAge(this);">
+												</div>
+												<div class="form-group">
+													<label for="age" class="td-text col-md-4">年龄：</label>
+	    											<input id="member-age" name="age" class="input-text col-md-9" type="text" 
+	    											th:value="${familyMember.age}">
+												</div>
+											</div>
+											<div class="right-inputs col-md-6 col-xs-6">
+												<div class="form-group">
+													<label for="name" class="td-text col-md-4">姓名：</label>
+													<input id="member-name" name="name" class="input-text col-md-9" type="text" 
+													th:value="${familyMember.name}">
+												</div>
+												<div class="form-group">
+													<label for="position" class="td-text col-md-4">职务：</label>
+													<input id="member-position" name="position" class="input-text col-md-9" type="text" 
+													th:value="${familyMember.position}">
+												</div>
+												<div class="form-group">
+													<label for="politics" class="td-text col-md-4">政治面貌：</label>
+													<input id="member-political-status" name="politics" class="input-text col-md-9" type="text" 
+													th:value="${familyMember.politics}">
+												</div>
+											</div>
+											<div class="col-md-12 fuild residing-col form-group" style="line-height: 25px">
+												<label for="isOverseas" class="col-md-10" style="width:75%;padding-right:0;">是否具有外国国籍、港澳台居民身份，或者已经取得国（境）外永久居留权、长期居留许可：</label>
+												<select id="residing-overseas" name="isOverseas" class="input-text col-md-2 yes_no" style="width:17% !important;margin: 0;">
+													<option th:value="${familyMember.isOverseas}" th:text="${familyMember.isOverseasName}">"></option>
+												</select>
+											</div>
+											
+											<div class="col-md-12 fuild residing-desCol form-group">
+												<label for="overseasDesc" class="col-md-12">居留海外，情况说明：</label>
+												<div class="col-md-12">
+													<textarea id="residing-overseas-des" class="input-text" name="overseasDesc" style="width:100%;resize: none;" rows="10" cols="80"
+													th:value="${familyMember.overseasDesc}" th:text="${familyMember.overseasDesc}"></textarea>
+												</div>
+											</div>
+											
+											<div class="col-md-12 fuild remarks-col form-group">
+												<label for="remark" class="col-md-12">备注（若死亡备注已故）：</label>
+												<input id="remarks" name="remark" class="input-text col-md-12" type="text" th:value="${familyMember.remark}">
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="container form-wrap">
+								<div class="col-md-2"></div>
+								<div class="col-md-9">
+									<div class="new-form">
+										<form id="home_form_add"  action="/hrms/familyMember" class="form_add">
+											<div class="action-btns">
+												<a href="javascript:void(0)" class="btn cancel-btn">取消</a>
+												<button type="submit" class="btn save-btn" >保存</button>
+											</div>
+											<div class="home_instructions">
+												<h4>填写说明：</h4>
+												<p>1.家庭成员请按以下顺序依次填写：配偶、子女、父母、兄弟姐妹、配偶父母、女婿或媳妇(重要社会关系中有<b>科级及以上</b>领导干部的须列出)</p>
+												<p>2.备注项填写说明：</p>
+												<p>&nbsp;&nbsp;1)如已故，请一并填写原工作单位及职务并注明；</p>
+												<p>&nbsp;&nbsp;2)如退休，请一并填写退休前工作单位及职务并注明；</p>
+												<p>&nbsp;&nbsp;3)如无工作单位，请填写×市×镇×村村民或×市×镇×社区居民；</p>
+												<p>&nbsp;&nbsp;4)如已上学，请填写学校名称及年级（或专业）；</p>
+												<p>&nbsp;&nbsp;5)如年幼，在职务一栏一律填”学龄前儿童”。</p>
+											</div>
+											<div class="left-inputs col-md-6 col-xs-6">
+												<div class="form-group">
+													<input id="relationId" name="relationId" type="hidden" th:value="${orgPersonnel.identificationNo}">
+													<label for="title" class="td-text col-md-4">称谓：</label>
+	    											<input id="appellation" name="title" class="input-text col-md-9" type="text" >
+												</div>
+												<div class="form-group">
+													<label for="unit" class="td-text col-md-4">工作单位：</label>
+	    											<input id="member-employer" name="unit" class="input-text col-md-9" type="text" >
+												</div>
+												<div class="form-group">
+													<label for="idnumber" class="td-text col-md-4">身份证号：</label>
+	    											<input id="member-idcardNum" name="idnumber" onblur="getFamilyMemberAge(this);" class="input-text col-md-9" type="text" >
+												</div>
+												<div class="form-group">
+													<label for="age" class="td-text col-md-4">年龄：</label>
+	    											<input id="member-age" name="age" class="input-text col-md-9" type="text" >
+												</div>
+											</div>
+											
+											<div class="right-inputs col-md-6 col-xs-6">
+												<div class="form-group">
+													<label for="name" class="td-text col-md-4">姓名：</label>
+	    											<input id="member-name" name="name" class="input-text col-md-9" type="text" >
+												</div>
+												<div class="form-group">
+													<label for="position" class="td-text col-md-4">职务：</label>
+	    											<input id="member-position" name="position" class="input-text col-md-9" type="text" >
+												</div>
+												<div class="form-group">
+													<label for="politics" class="td-text col-md-4">政治面貌：</label>
+	    											<input id="member-political-status" name="politics" class="input-text col-md-9" type="text" >
+												</div>
+											</div>
+											
+											<div class="col-md-12 fuild residing-col form-group" style="line-height: 25px">
+												<label for="isOverseas" class="col-md-10" style="width:77%;padding-right:0;">是否具有外国国籍、港澳台居民身份，或者已经取得国（境）外永久居留权、长期居留许可：</label>
+												<select id="residing-overseas" name="isOverseas" class="input-text col-md-2 yes_no" style="width:17% !important;margin: 0;">
+													<option value="">---请选择---</option>
+												</select>
+											</div>
+											<div class="col-md-12 fuild residing-desCol form-group">
+												<label for="overseasDesc" class="col-md-12">居留海外，情况说明：</label>
+												<div class="col-md-12">
+													<textarea id="residing-overseas-des" name="overseasDesc" style="width:100%;resize: none;" rows="10" cols="80"></textarea>
+												</div>
+											</div>
+											
+											<div class="col-md-12 fuild remarks-col form-group">
+												<label for="remark" class="col-md-12">备注（若死亡备注已故）：</label>
+												<input id="remarks" name="remark" class="input-text col-md-12" type="text" >
+											</div>
+										</form>
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div id="submit">
+					<button type="submit" class="btn submit-btn">上报</button>
+				</div> -->
+			</div>
+		</div>
+	</body>
+<!-- <div th:include="include :: footer"></div> -->
+<footer th:include="hrms/footer" ></footer>
+<script type="text/javascript" src="/static/assets/jquery/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="/static/assets/bootstrap4/js/bootstrap.js"></script>
+<script type="text/javascript" src="/static/assets/bootstrap4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/static/js/document/validate/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/static/js/document/edit.js"></script>
+<script type="text/javascript" src="/static/js/document/date-addCon.js"></script>
+	
+</html>

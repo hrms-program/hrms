@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="hrms/header" />
+
+<body>
+<section class="content-header">
+        <h1>机构变更</h1>
+    </section>
+    <tt:constant enumcode="sex,agency-appeals-status" />
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-search"></i>
+                <h3 class="box-title">查询</h3>
+            </div>
+            <div class="box-body">
+                <form id="searchbar" class="form-horizontal">
+                 <div class="form-group">
+                <label for="name" style="width:130px" class="col-md-1 control-label">姓名</label>
+                    <div class="col-md-2">
+                        <input type="text" name="name" class="form-control" th:value="${query?.name}" placeholder="请输入姓名" />
+                    </div>
+                 <label for="name" style="width:130px" class="col-md-1 control-label">请输入机构名称</label>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <input type="text" name="agencyName" class="form-control tonto-agency" placeholder="请输入机构名称" th:value="${query?.agencyName}">
+                            <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
+                            <div class="input-group-btn">
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <label for="name" style="width:143px" class="col-md-2 control-label">请输入身份证号码</label>
+                    <div class="col-md-2">
+                        <input type="text" name="identificationNo" class="form-control" th:value="${query?.identificationNo}" placeholder="请输入身份证号码" />
+                    </div>
+                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                    <input type="text" style="display:none">
+                    </div>
+                </form>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
+                    </div>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+        </div>
+        <div class="box box-solid" style="margin-top:20px">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+            </div>
+            <div id="result" class="box-body">
+                <table id="dataGrid"></table>
+                <div id="toolbar">
+                    <div class="input-group" style="width:500px" autowidth="no" clearright="135">
+                        <input type="hidden" name="agencyId" id="targetAgency" />
+                        <input type="text" name="agencyName" id="targetAgencyName" class="form-control tonto-agency" placeholder="请输入机构名称">
+                        <div class="input-group-btn">
+                            <a href="javascript:transferAll()" class="btn btn-default"><i class="fa fa-exchange"></i>申请转移目标</a>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:include="hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function() {
+        initDataGrid();
+    });
+
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [
+                    { checkbox: true },
+                    { title: "姓名", align: "center", field: "name" },
+                    { title: "性别", align: "center", field: "sex", enumcode: "sex" },
+                    { title: "身份证号码", align: "center", field: "identificationNo" },
+                    { title: "现所属机构", align: "center", field: "agencyName" },
+                    { title: "转移目标机构", align: "center", field: "targetAgencyName" },
+                    {
+                        title: "转移状态",
+                        align: "center",
+                        field: "status",
+                        formatter: function transferFormatter(value, row, index) {
+                            if (row.status === 0) {
+                                return '<span class="label label-info"><i class="fa fa-clock-o"></i>待审核</span>';
+                            }
+                            if (row.status === 1) {
+                                return '<span class="label label-success"><i class="glyphicon glyphicon-ok"></i>已通过</span>';
+                            }
+                            if (row.status === 2) {
+                                return '<span class="label label-danger"><i class="glyphicon glyphicon-remove"></i>未通过</span>';
+                            }
+                        }
+                    },
+                    {
+                        title: "操作",
+                        align: "center",
+                        formatter: function transferFormatter(value, row, index) {
+                            if (!row.targetAgencyId || row.status === 1 || row.status === 2) {
+                                return '<a class="transfer" href="javascript:void(0);" ><i class="fa fa-exchange"></i>申请</a>';
+                            } else {
+                                return '<a class="delete" href="javascript:void(0);" ><i class="glyphicon glyphicon-remove"></i>撤销</a>';
+                            }
+                        },
+                        events: {
+                            'click .transfer': function(e, value, row, index) {
+                            	transferAll(row.id);
+                            },
+                            'click .delete': function(e, value, row, index) {
+                            	deleteTransfer(row.id);
+                            }
+                        },
+
+                    },
+                ]
+            ],
+            url: '/hrms/complaint/agency/appeals/find/',
+            searchbar: '#searchbar',
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            clickToSelect: true,
+            toolbar: "#toolbar",
+            showRefresh: true
+        });
+    }
+
+    function transferAll() {
+        var targetAgency = $("#targetAgency").val();
+        if (!targetAgency) {
+            $.errorMessage("请先选择转移的目标机构");
+            return;
+        }
+
+        var rows = table.getSelections();
+        if (rows && rows.length > 0) {
+            var ids = [];
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.status === 0) {
+                    $.errorMessage("[" + row.name + "]正在转移机构审核中，无法再次申请转移");
+                    return;
+                }
+
+                if (targetAgency == row.agencyId) {
+                    $.errorMessage("[" + row.name + "]已经在目标机构，不需要转移");
+                    return;
+                }
+
+                ids.push(row.id);
+            }
+            transfer(ids);
+        } else {
+            $.errorMessage("请先选择需要申请转移的人员");
+        }
+    }
+
+    function transfer(ids) {
+        var targetAgency = $("#targetAgency").val();
+        if (!targetAgency) {
+            $.errorMessage("请先选择转移的目标机构");
+            return;
+        }
+
+        if (typeof ids === 'string') {
+            ids = [ids];
+        }
+
+        if (!ids || ids.length == 0) {
+            $.errorMessage("请先选择需要申请转移的人员");
+        }
+
+        layer.confirm('确定要申请变更机构吗', function() {
+            $.postAjax("/hrms/complaint/agency/appeals/transfer", { personnelIds: ids, targetAgency: targetAgency }, function() {
+                $.successMessage("申请变更成功");
+                query();
+            });
+        });
+    }
+
+    function deleteTransfer(id) {
+        layer.confirm('确定要取消机构变更吗', function() {
+        	$.postAjax("/hrms/complaint/agency/appeals/deleteTransfer",{id:id},function(){
+				 $.successMessage("取消变更成功");
+	             query();
+			})
+        });
+    }
+
+    function query() {
+        table.refresh();
+    }
+
+    /*]]>*/
+    </script>
+</body>
+
+</html>
