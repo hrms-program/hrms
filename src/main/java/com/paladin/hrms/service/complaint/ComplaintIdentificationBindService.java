@@ -7,7 +7,6 @@ import com.paladin.framework.common.PageResult;
 import com.paladin.framework.common.QueryType;
 import com.paladin.framework.core.copy.SimpleBeanCopier;
 import com.paladin.framework.core.exception.BusinessException;
-import com.paladin.hrms.controller.complaint.pojo.ComplaintIdentificationBindDTO;
 import com.paladin.hrms.controller.complaint.pojo.IdentificationBindQuery;
 import com.paladin.hrms.core.DataPermissionUtil;
 import com.paladin.hrms.core.HrmsUserSession;
@@ -50,7 +49,7 @@ public class ComplaintIdentificationBindService extends ComplaintServiceSupport<
     public ComplaintIdentificationBind appCheck(String personnelId){
         List<ComplaintIdentificationBind> bind =
             searchAll(new GeneralCriteriaBuilder.Condition[] {
-                new GeneralCriteriaBuilder.Condition(ComplaintIdentificationBind.COLUMN_PERSONAL_ID, QueryType.EQUAL,
+                new GeneralCriteriaBuilder.Condition(ComplaintIdentificationBind.COLUMN_FIELD_PERSONNEL_ID, QueryType.EQUAL,
                     personnelId),
                 new GeneralCriteriaBuilder.Condition(ComplaintIdentificationBind.COLUMN_STATUS, QueryType.EQUAL, 0)});
         return (bind != null && bind.size() > 0) ? bind.get(0) : null;

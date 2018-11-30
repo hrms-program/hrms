@@ -1,29 +1,33 @@
 package com.paladin.hrms.model.complaint;
 
 import java.util.Date;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 public class ComplaintIdentificationBind extends ComplaintModel {
 
-    public final static String COLUMN_PERSONAL_ID = "personalId";
-
     public final static String COLUMN_STATUS = "status";
-
-
-
+    @Id
+	@GeneratedValue(generator = "UUID")
+    private String id;
+    
 	private Integer usedIdentificationType;
 
-
 	private String usedIdentificationNo;
-
 
 	private String attachments;
 
 	private String checkPeople;
 
-
 	private Date checkDate;
 
+	public String getId() {
+		return id;
+	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public Integer getUsedIdentificationType() {
 		return usedIdentificationType;
@@ -49,7 +53,6 @@ public class ComplaintIdentificationBind extends ComplaintModel {
 		this.attachments = attachments;
 	}
 
-
 	public String getCheckPeople() {
 		return checkPeople;
 	}
@@ -65,7 +68,5 @@ public class ComplaintIdentificationBind extends ComplaintModel {
 	public void setCheckDate(Date checkDate) {
 		this.checkDate = checkDate;
 	}
-
-
 
 }

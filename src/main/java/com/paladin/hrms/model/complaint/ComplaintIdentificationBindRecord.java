@@ -12,8 +12,6 @@ public class ComplaintIdentificationBindRecord extends BaseModel {
     @GeneratedValue(generator = "UUID")
 	private String id;
 
-	private String nowIdentificationNo;
-
 	private Integer usedIdentificationType;
 
 	private String usedIdentificationNo;
@@ -36,14 +34,6 @@ public class ComplaintIdentificationBindRecord extends BaseModel {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getNowIdentificationNo() {
-		return nowIdentificationNo;
-	}
-
-	public void setNowIdentificationNo(String nowIdentificationNo) {
-		this.nowIdentificationNo = nowIdentificationNo;
 	}
 
 	public Integer getUsedIdentificationType() {

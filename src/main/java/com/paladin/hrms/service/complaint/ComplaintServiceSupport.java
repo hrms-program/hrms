@@ -66,10 +66,7 @@ public class ComplaintServiceSupport<T extends ComplaintModel> extends ServiceSu
 		if (personnelId == null || personnelId.length() == 0) {
 			throw new BusinessException("没有选择申请人");
 		}
-
 		model.setStatus(ComplaintModel.STATUS_WAITING);
-		saveModelWrap(model);
-		
 		if(get(personnelId) != null){
 		    return update(model);
 		}else{

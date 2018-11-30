@@ -18,43 +18,6 @@ public class ComplaintIcExchange extends BaseModel {
 
 	private Integer dealStatus;
 	
-	
-	
-	/**
-     * 已申请
-     */
-    public static final Integer APPLIED = 1;
-	
-    /**
-     * 发起区县管理员通过
-     */
-    public static final Integer DISTRICTS_AND_COUNTIES_INITIATED_ADOPT = 2;
-	
-    /**
-     * 发起区县管理员驳回
-     */
-    public static final Integer DISTRICTS_AND_COUNTIES_INITIATED_REJECT = 3;
-    
-    /**
-     * 置换区县管理员通过
-     */
-    public static final Integer DISTRICTS_AND_COUNTIES_FOR_EXCHANGE_ADOPT = 4;
-    
-    /**
-     * 置换区县管理员驳回
-     */
-    public static final Integer  DISTRICTS_AND_COUNTIES_FOR_EXCHANGE_REJECT= 5;
-	
-	/**
-	 * 处理成功
-	 */
-	public static final Integer SUCCESSFUL_DEAL = 6;
-	
-	/**
-	 * 处理异常
-	 */
-	public static final Integer EXCEPTIONAL_DEAL = 7;
-	
 
 	public String getId() {
             return id;

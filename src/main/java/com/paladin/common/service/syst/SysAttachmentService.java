@@ -57,6 +57,13 @@ public class SysAttachmentService extends ServiceSupport<SysAttachment> {
 		}
 	}
 
+	/**
+	 * 创建附件（MultipartFile格式）
+	 * 
+	 * @param file
+	 * @param attachmentName
+	 * @return
+	 */
 	public SysAttachment createAttachment(MultipartFile file, String attachmentName) {
 		String id = UUIDUtil.createUUID();
 		String name = file.getOriginalFilename();
@@ -94,9 +101,54 @@ public class SysAttachmentService extends ServiceSupport<SysAttachment> {
 		return attachment;
 	}
 
+	/**
+	 * 创建附件（base64格式）
+	 * 
+	 * @param base64String
+	 * @param filename
+	 * @return
+	 */
+	public SysAttachment createAttachment(String base64String, String filename, String type) {
+		String id = UUIDUtil.createUUID();
+		long size = Base64Util.getFileSize(base64String);
+		if (size > maxFileByteSize) {
+			throw new BusinessException("上传附件不能大于" + maxFileSize + "MB");
+		}
+
+		SysAttachment attachment = new SysAttachment();
+		attachment.setId(id);
+		attachment.setSize(size);
+		attachment.setType(type);
+
+		if (filename != null && filename.length() > 0) {
+			int i = filename.lastIndexOf(".");
+			if (i >= 0) {
+				String suffix = filename.substring(i);
+				attachment.setSuffix(suffix);
+				attachment.setName(filename.substring(0, i));
+			} else {
+				attachment.setName(filename);
+			}
+		} else {
+			throw new BusinessException("文件名不能为空");
+		}
+
+		try {
+			saveFile(Base64Util.decode(base64String), attachment);
+		} catch (IOException e) {
+			throw new SystemException("保存附件文件失败", e);
+		}
+		save(attachment);
+		return attachment;
+	}
+
 	private SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 
 	private void saveFile(byte[] data, SysAttachment attachment) throws IOException {
+		if (data == null || data.length == 0) {
+			throw new SystemException("文件为空");
+		}
+
 		String date = format.format(new Date());
 		Path path = Paths.get(attachmentPath, date);
 		if (!Files.exists(path)) {
@@ -119,12 +171,19 @@ public class SysAttachmentService extends ServiceSupport<SysAttachment> {
 		attachment.setPelativePath(pelativePath);
 	}
 
+	/**
+	 * 获取文件附件记录
+	 * 
+	 * @param ids
+	 * @return
+	 */
 	public List<SysAttachment> getAttachment(String... ids) {
 		return searchAll(new Condition(SysAttachment.COLUMN_FIELD_ID, QueryType.IN, Arrays.asList(ids)));
 	}
 
 	/**
 	 * 通过拼接字符串查出附件或者创建新的附件
+	 * 
 	 * @param idString
 	 * @param attachmentFiles
 	 * @return
@@ -153,6 +212,7 @@ public class SysAttachmentService extends ServiceSupport<SysAttachment> {
 
 	/**
 	 * 拼接附件ID字符串
+	 * 
 	 * @param attachments
 	 * @return
 	 */
@@ -165,52 +225,6 @@ public class SysAttachmentService extends ServiceSupport<SysAttachment> {
 			return str;
 		}
 		return null;
-	}
-	
-	/**
-	 * 通过base64上传图片
-	 */
-	public SysAttachment createAttachment(String imageStr, String filename) {
-		// TODO 需要审核代码
-		
-		String id = UUIDUtil.createUUID();
-		//base64字符串长度计算图片的大小
-		long size=Base64Util.imageSize(imageStr);
-		System.out.println(size);
-		if (size > maxFileByteSize) {
-			throw new BusinessException("上传附件不能大于" + maxFileSize + "MB");
-		}
-		SysAttachment attachment = new SysAttachment();
-		attachment.setId(id);
-		attachment.setSize(size);
-		attachment.setType("image/jpeg");
-
-		if (filename != null && filename.length() > 0) {
-			int i = filename.lastIndexOf(".");
-			if (i >= 0) {
-				String suffix = filename.substring(i);
-				attachment.setSuffix(suffix);
-				attachment.setName(filename.substring(0, i));
-			}
-
-			if (filename == null || filename.length() == 0) {
-				attachment.setName(UUIDUtil.createUUID());
-				attachment.setSuffix(".jpg");
-			}
-		}
-
-		try {
-			//base64转图片流
-			byte[] data=Base64Util.GenerateImageStream(imageStr);
-			if(data==null){
-				throw new SystemException("保存附件文件失败");
-			}
-			saveFile(Base64Util.GenerateImageStream(imageStr), attachment);
-		} catch (IOException e) {
-			throw new SystemException("保存附件文件失败", e);
-		}
-		save(attachment);
-		return attachment;
 	}
 
 }

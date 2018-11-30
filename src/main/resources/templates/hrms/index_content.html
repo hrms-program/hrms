@@ -1,260 +1,197 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:include="hrms/header" />
 <style>
 .notice-list {
-	list-style: none;
+    list-style: none;
 }
 
 .right-tool {
-	float: right;
+    float: right;
 }
 
 .list {
-	list-style: none;
-	float: left;
-	text-align: center;
-	width: 23%
+    list-style: none;
+    float: left;
+    text-align: center;
+    width: 23%
 }
 
 .right-text {
-	display: inline;
-	float: right;
+    display: inline;
+    float: right;
 }
 
 .name-box {
-	display: inline-block;
-	height: 54px;
-	width: 140px;
+    display: inline-block;
+    height: 54px;
+    width: 140px;
 }
 
 .fa-check-square-o {
-	font-size: 54px;
+    font-size: 54px;
 }
 
 .p1 {
-	color: #666666;
-	font-size: 14px;
-	line-height: 18px;
+    color: #666666;
+    font-size: 14px;
+    line-height: 18px;
 }
 
 .p2 {
-	color: #666666;
-	line-height: 20px;
-	font-size: 22px;
+    color: #666666;
+    line-height: 20px;
+    font-size: 22px;
 }
 
-.go-todo-btn {padding
-	
+.go-todo-btn {
+    padding
 }
 
 .name {
-	color: #000;
+    color: #000;
 }
 
-.name:hover, .name:active, .name:focus {
-	color: #000;
-	text-decoration: underline
+.name:hover,
+.name:active,
+.name:focus {
+    color: #000;
+    text-decoration: underline
 }
 
 .btn-primary {
-	background-color: #00a65a;
-	border-color: #00a65a
+    background-color: #00a65a;
+    border-color: #00a65a
 }
 
 .btn-primary:hover {
-	background-color: #1ddc50;
-	border-color: #1ddc50
+    background-color: #1ddc50;
+    border-color: #1ddc50
 }
 
 .p-number strong {
-	font-size: 24px
+    font-size: 24px
 }
 
 .ul-dashed {
-	border-bottom: 1px dashed #dddddd;
-	padding-left: 12px;
-	line-height: 14px;
-	margin-right: 21px;
+    border-bottom: 1px dashed #dddddd;
+    padding-left: 12px;
+    line-height: 14px;
+    margin-right: 21px;
 }
 
 .notice-li {
-	margin-bottom: 6px;
+    margin-bottom: 6px;
 }
 
 .info-box-text {
-	font-size: 20px;
+    font-size: 20px;
 }
 
 .info-box-content {
-	padding: 5px 25px;
+    padding: 5px 25px;
 }
 
 .text-view {
-	margin-left: 90px;
-	text-align: right;
-	margin-right: 19px;
+    margin-left: 90px;
+    text-align: right;
+    margin-right: 19px;
 }
 
 #noticeContent p {
-	margin-left: 15px;
+    margin-left: 15px;
 }
 
 .content {
-	min-height: 250px;
-	padding: 30px;
-	margin-right: auto;
-	margin-left: auto;
-	padding-left: 30px;
-	padding-right: 30px;
+    min-height: 250px;
+    padding: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 </style>
+
 <body>
-	<section class="content">
-		<div class="box box-solid">
-			<div class="box-header with-border">
-				<i class="fa fa-bullhorn"></i>
-				<h3 class="box-title">通知公告</h3>
-				<a style="float:right" href="/hrms/system/announcement/index">更多 </a>
-			</div>
-			<div class="box-body">
-				 <ul  class="notice-list ul-dashed" th:each="notice,iter: ${notices}">
-					<li class="notice-li">
-						
-							<strong><a class="name" th:href="${'/hrms/system/announcement/view?id='+ notice.id}" th:text="${notice.title}"></a></strong>
-						     <div class="right-tool">
-								<span th:text="${#dates.format(notice.publishedTime, 'yyyy-MM-dd')}"></span>
-						     </div>
-						<div th:if="${!#strings.isEmpty(notice.content) and iter.index==0}" id="noticeContent" th:utext="${notice.content}"></div>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<div class="box box-solid">
-			<div class="box-header with-border">
-				<i class="fa fa-list-ul"></i>
-				<h3 class="box-title">待办事项</h3>
-			</div>
-			<div class="box-body">
-				<!--  <ul class="total" >
-					 <li class="list">
-                        <div class="todo-list">
-                            <div class="name-box">
-                                <img width="50px" src="/static/image/待审核.png">
-                                <div class="right-text">
-                                    <p class="p1">档案</p>
-                                    <p class="p2">待审核</p>
-                                </div>
-                            </div>
-                            <p class="p-number"><strong th:text="${things.pendCount}"></strong>条</p>
-                            <a class="btn btn-primary" href="/hrms/complaint/personnel/archives/index">查看</a>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-bullhorn"></i>
+                <h3 class="box-title">通知公告</h3>
+                <a style="float:right" href="/hrms/system/announcement/index">更多 </a>
+            </div>
+            <div class="box-body">
+                <ul class="notice-list ul-dashed" th:each="notice,iter: ${notices}">
+                    <li class="notice-li">
+                        <strong><a class="name" th:href="${'/hrms/system/announcement/view?id='+ notice.id}" th:text="${notice.title}"></a></strong>
+                        <div class="right-tool">
+                            <span th:text="${#dates.format(notice.publishedTime, 'yyyy-MM-dd')}"></span>
                         </div>
                     </li>
-                    
-                     <li class="list">
-                        <div class="todo-list">
-                            <div class="name-box">
-                                 <img width="50px" src="/static/image/审核通过.png">
-                                <div class="right-text">
-                                    <p class="p1">档案</p>
-                                    <p class="p2">已审核</p>
-                                </div>
-                            </div>
-                            <p class="p-number"><strong th:text="${things.checkedCount}"></strong>条</p>
-                            <a class="btn btn-primary"  href="/hrms/complaint/personnel/archives/index">查看</a>
+                </ul>
+            </div>
+        </div>
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-list-ul"></i>
+                <h3 class="box-title">待办事项</h3>
+            </div>
+            <div class="box-body">
+                <!-- state -->
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-yellow"><img width="50px" src="/static/image/dsh.png"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">待审核</span>
+                            <span class="info-box-number"><strong th:text="${things.pendCount}"></strong>条</span>
                         </div>
-                    </li>
-                    
-                     <li class="list">
-                        <div class="todo-list">
-                            <div class="name-box">
-                                <img width="50px" src="/static/image/审核不通过.png">
-                                <div class="right-text">
-                                    <p class="p1">档案</p>
-                                    <p class="p2">未通过</p>
-                                </div>
-                            </div>
-                            <p class="p-number"><strong th:text="${things.nopassCount}"></strong>条</p>
-                            <a class="btn btn-primary"  href="/hrms/complaint/personnel/archives/index">查看</a>
+                        <div class="text-view">
+                            <a href="/hrms/complaint/personnel/archives/index" class="small-box-footer">查看<i class="fa fa-arrow-circle-right"></i></a>
                         </div>
-                    </li>
-                    
-                     <li class="list">
-                        <div class="name-box">
-                            <div class="name-box">
-                                <img width="50px" src="/static/image/已通过.png">
-                                <div class="right-text">
-                                    <p class="p1">档案</p>
-                                    <p class="p2">已通过</p>
-                                </div>
-                            </div>
-                            <p class="p-number"><strong th:text="${things.passCount}"></strong>条</p>
-                            <a class="btn btn-primary"  href="/hrms/complaint/personnel/archives/index">查看</a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-aqua"> <img width="50px" src="/static/image/ysh.png"></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">已审核</span>
+                            <span class="info-box-number"><strong th:text="${things.checkedCount}"></strong>条</span>
                         </div>
-                    </li>
-				</ul> -->
-				
-				<!-- state -->
-		<div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-yellow"><img width="50px" src="/static/image/dsh.png"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">待审核</span>
-              <span class="info-box-number"><strong th:text="${things.pendCount}"></strong>条</span>
+                        <div class="text-view">
+                            <a href="/hrms/complaint/personnel/archives/index" class="small-box-footer">查看<i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-red"><img width="50px" src="/static/image/wtg.png"></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">未通过</span>
+                            <span class="info-box-number"><strong th:text="${things.nopassCount}"></strong>条</span>
+                        </div>
+                        <div class="text-view">
+                            <a href="/hrms/complaint/personnel/archives/index" class="small-box-footer">查看<i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-green"><img width="50px" src="/static/image/ytg.png"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">已通过</span>
+                            <span class="info-box-number"><strong th:text="${things.passCount}"></strong>条</span>
+                        </div>
+                        <div class="text-view">
+                            <a href="/hrms/complaint/personnel/archives/index" class="small-box-footer">查看<i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- end -->
             </div>
-            <div class="text-view">
-            <a href="/hrms/complaint/personnel/archives/index" class="small-box-footer">
-             	查看 <i class="fa fa-arrow-circle-right"></i>
-            </a>
-            </div>
-          </div>
         </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-aqua"> <img width="50px" src="/static/image/ysh.png"></span>
-            <div class="info-box-content">
-              <span class="info-box-text">已审核</span>
-              <span class="info-box-number"><strong th:text="${things.checkedCount}"></strong>条</span>
-            </div>
-             <div class="text-view">
-            <a href="/hrms/complaint/personnel/archives/index" class="small-box-footer">
-             	查看 <i class="fa fa-arrow-circle-right"></i>
-            </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-red"><img width="50px" src="/static/image/wtg.png"></span>
-            <div class="info-box-content">
-              <span class="info-box-text">未通过</span>
-              <span class="info-box-number"><strong th:text="${things.nopassCount}"></strong>条</span>
-            </div>
-             <div class="text-view">
-            <a href="/hrms/complaint/personnel/archives/index" class="small-box-footer">
-             	查看 <i class="fa fa-arrow-circle-right"></i>
-            </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-green"><img width="50px" src="/static/image/ytg.png"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">已通过</span>
-              <span class="info-box-number"><strong th:text="${things.passCount}"></strong>条</span>
-            </div>
-             <div class="text-view">
-            <a href="/hrms/complaint/personnel/archives/index" class="small-box-footer">
-             	查看 <i class="fa fa-arrow-circle-right"></i>
-            </a>
-            </div>
-          </div>
-        </div>
-				<!-- end -->
-			</div>
-		</div>
-	</section>
-<div th:include="hrms/footer" />
+    </section>
+    <div th:include="hrms/footer" />
 </body>
+
 </html>

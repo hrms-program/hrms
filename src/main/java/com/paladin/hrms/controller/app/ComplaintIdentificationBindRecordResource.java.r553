@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.paladin.framework.core.ControllerSupport;
 import com.paladin.framework.web.response.CommonResponse;
 import com.paladin.hrms.controller.complaint.pojo.ComplaintIdentificationBindVO;
-<<<<<<< .mine
-=======
 import com.paladin.hrms.service.complaint.ComplaintIdentificationBindRecordService;
->>>>>>> .r553
 import com.paladin.hrms.service.complaint.ComplaintIdentificationBindService;
 import com.paladin.hrms.service.org.OrgPersonnelService;
 import com.paladin.hrms.service.org.dto.OrgPersonnelVO;
@@ -23,7 +20,10 @@ import com.paladin.hrms.service.org.dto.OrgPersonnelVO;
 @Controller
 @RequestMapping("/hrms/app/complaint/zjbind/")
 public class ComplaintIdentificationBindRecordResource extends ControllerSupport{
-        
+    
+    @Autowired
+    private ComplaintIdentificationBindRecordService complaintIdentificationBindRecordService;
+    
     @Autowired
     private OrgPersonnelService orgPersonnelService;
     

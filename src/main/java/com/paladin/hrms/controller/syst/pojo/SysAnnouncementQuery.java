@@ -8,6 +8,7 @@ public class SysAnnouncementQuery extends OffsetPage{
 	
 	private String title;
 	private Integer type;
+	
 	@QueryCondition(type = QueryType.LIKE)
 	public String getTitle() {
 		return title;
@@ -15,6 +16,7 @@ public class SysAnnouncementQuery extends OffsetPage{
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
 	@QueryCondition(type = QueryType.EQUAL)
 	public Integer getType() {
 		return type;

@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 public class ComplaintIdentificationBindDTO {
 
     private String personnelId;
-
+    
     @NotNull(message = "请认真选择证件类型!")
     private Integer usedIdentificationType;
 

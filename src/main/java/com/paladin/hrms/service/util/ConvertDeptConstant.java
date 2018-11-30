@@ -52,12 +52,13 @@ public class ConvertDeptConstant implements ReadPropertyConvert<String>, ValueFo
 
 	@Override
 	public String convert(ICell cell) throws ExcelReadException {
+	      String val = null;
 		if (cell != null) {
 			String value;
 			try {
 				value = cell.getString();
 				if (value != null && value.length() != 0) {
-					String val = name2key.get(value);
+					 val = name2key.get(value);
 					if (val == null) {
 						throw new ExcelReadException("所在科室不正确");
 					}
@@ -66,7 +67,7 @@ public class ConvertDeptConstant implements ReadPropertyConvert<String>, ValueFo
 				throw new ExcelReadException("所在科室不正确");
 			}
 		}
-		return null;
+		return val;
 	}
 
 	@Override

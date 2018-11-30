@@ -15,7 +15,6 @@ import com.paladin.hrms.controller.org.pojo.OrgPersonnelPositionalInfoVO;
 import com.paladin.hrms.controller.org.pojo.OrgPersonnelRewardInfoVO;
 import com.paladin.hrms.controller.org.pojo.OrgPersonnelScienceEducationVO;
 import com.paladin.hrms.controller.org.pojo.OrgPersonnelWorkExperienceVO;
-import com.paladin.hrms.service.org.OrgPersonnelClaimRecordService;
 import com.paladin.hrms.service.org.OrgPersonnelCultivateService;
 import com.paladin.hrms.service.org.OrgPersonnelEducationService;
 import com.paladin.hrms.service.org.OrgPersonnelJobService;
@@ -65,8 +64,6 @@ public class OrgPersonnelResource extends ControllerSupport{
     @Autowired
     private OrgPersonnelScienceEducationService orgPersonnelScienceEducationService;
 
-    @Autowired
-    private OrgPersonnelClaimRecordService orgPersonnelClaimRecordService;
     
 	/**
 	 * 基本信息
@@ -223,8 +220,8 @@ public class OrgPersonnelResource extends ControllerSupport{
     @RequestMapping("/scienceEducation/type")
     @ResponseBody
     @CrossOrigin(origins = "*", maxAge = 3600)
-    public Object detailScienceEducationType(@RequestParam Integer type){
-        return CommonResponse.getSuccessResponse(orgPersonnelScienceEducationService.getAppScienceEducation(type));
+    public Object detailScienceEducationType(@RequestParam Integer type,@RequestParam String personnelId){
+        return CommonResponse.getSuccessResponse(orgPersonnelScienceEducationService.getAppScienceEducation(type, personnelId));
     }
     
     /**
