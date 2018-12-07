@@ -48,6 +48,7 @@ public class DocumentWorkingExperienceService{
 	 * @param list
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private List<DocumentWorkingExperience> enhanceAllProperties(
 			List<DocumentWorkingExperience> list) {
 

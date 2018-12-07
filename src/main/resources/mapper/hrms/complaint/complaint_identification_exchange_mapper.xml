@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.complaint.ComplaintIdentificationExchangeMapper">
+	<select id="findComplaint" resultType="com.paladin.hrms.service.complaint.dto.ComplaintIdentificationExchangeSimpleVO">
+	    SELECT
+		    a.id,
+		    a.from_personnel_id AS fromPersonnelId,
+		    f.name AS fromPersonnelName,
+		    f.identification_no AS fromIdentificationNo,
+		    a.to_personnel_id AS toPersonnelId,
+		    t.name AS toPersonnelName,
+		    t.identification_no AS toIdentificationNo
+	    FROM complaint_identification_exchange a
+	    LEFT JOIN org_personnel f ON f.id = a.from_personnel_id
+	    LEFT JOIN org_personnel t ON t.id = a.to_personnel_id
+	    WHERE 1 = 1
+	    <if test="query.name!=null and query.name !=''">
+	        AND (f.name LIKE CONCAT('%',#{query.name},'%') OR t.name LIKE CONCAT('%',#{query.name},'%'))
+	    </if>
+	    <if test="query.identificationNo !=null and query.identificationNo !=''">
+	        AND (f.identification_no LIKE CONCAT('%',#{query.identificationNo},'%') OR t.identification_no LIKE CONCAT('%',#{query.identificationNo},'%'))
+	    </if>
+	    <if test="permission.cityCode!=null">
+	        AND f.city_code =#{permission.cityCode}
+	    </if>
+	    <if test="permission.cityCodes!=null">
+	        AND f.city_code IN
+	        <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+	            #{item}
+	        </foreach>
+	    </if>
+	    <if test="permission.townCode!=null">
+	        AND f.town_code =#{permission.townCode}
+	    </if>
+	    <if test="permission.townCodes!=null">
+	        AND f.town_code IN
+	        <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+	            #{item}
+	        </foreach>
+	    </if>
+	    <if test="permission.districtCode!=null">
+	        AND f.district_code =#{permission.districtCode}
+	    </if>
+	    <if test="permission.districtCodes!=null">
+	        AND f.district_code IN
+	        <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+	            #{item}
+	        </foreach>
+	    </if>
+	    <if test="permission.agencyId!=null">
+	        AND f.agency_id =#{permission.agencyId}
+	    </if>
+	    <if test="permission.agencyIds!=null">
+	        AND f.agency_id IN
+	        <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+	            #{item}
+	        </foreach>
+	    </if>
+	</select>
+	
+	<update id="exchangeIdentificationNo">
+		UPDATE org_personnel a,org_personnel b 
+		SET a.identification_type = b.identification_type,
+			a.identification_no = b.identification_no
+		WHERE a.id = #{target}  AND b.id = #{source}
+	</update>
+	
+	<select id="countRelationRecord" resultType="int">
+		SELECT COUNT(1) 
+		FROM complaint_identification_exchange
+		WHERE from_personnel_id = #{fromId} OR from_personnel_id = #{toId} OR to_personnel_id  = #{fromId} OR to_personnel_id  = #{toId}
+	</select>
+	
+</mapper>

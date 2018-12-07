@@ -23,5 +23,13 @@ public class AnalysisPersonnelDataScoreController extends ControllerSupport {
 	public Object find(AnalysisPersonnelDataScoreQueryDTO query) {
 		return CommonResponse.getSuccessResponse(analysisPersonnelDataScoreService.findPersonnelScore(query));
 	}
+	
+    @RequestMapping(value = "/execute")
+    @ResponseBody
+    public Object execute() {
+        analysisPersonnelDataScoreService.figureOutScore();
+        return CommonResponse.getSuccessResponse("执行成功！");
+    }
+
 
 }

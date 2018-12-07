@@ -35,4 +35,6 @@ public interface OrgPersonnelMapper extends CustomMapper<OrgPersonnel>{
 			@Param("permission") DataPermissionCondition permission);
 
 	public int updateAgencyAndDistrict(@Param("agency") OrgAgency agency,@Param("id") String personnelId);
+	
+    public List<OrgPersonnelLevelVO> findAllLevelPeople(@Param("query") OrgPersonnelClaimQueryDTO query);
 }

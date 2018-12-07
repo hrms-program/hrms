@@ -5,7 +5,9 @@ import com.paladin.framework.core.ControllerSupport;
 import com.paladin.framework.web.response.CommonResponse;
 import com.paladin.hrms.controller.org.pojo.OrgAgencyDetailVO;
 import com.paladin.hrms.controller.org.pojo.OrgAgencyVO;
+import com.paladin.hrms.service.org.OrgAgencyDetailService;
 import com.paladin.hrms.service.org.OrgAgencyService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,9 @@ public class OrgAgencyAccountController extends ControllerSupport {
 
     @Autowired
      private OrgAgencyService orgAgencyService;
+    
+    @Autowired
+    private OrgAgencyDetailService orgAgencyDetailService;
 
     @RequestMapping("/index")
     public String index() { return "/hrms/org/agency_account_index";}
@@ -48,7 +53,7 @@ public class OrgAgencyAccountController extends ControllerSupport {
     public Object getDetail(@RequestParam String id) {
         HashMap<String, Object> result = new HashMap<>();
         result.put("base", beanCopy(orgAgencyService.get(id), new OrgAgencyVO()));
-        result.put("detail", beanCopy(orgAgencyService.get(id), new OrgAgencyDetailVO()));
+        result.put("detail", beanCopy(orgAgencyDetailService.get(id), new OrgAgencyDetailVO()));
 
         return CommonResponse.getSuccessResponse(result);
     }

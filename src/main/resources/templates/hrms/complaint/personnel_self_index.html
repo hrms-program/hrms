@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:include="hrms/header" />
+<head th:include="/hrms/header" />
 
 <body>
     <tt:constant enumcode="sex,identification-type,complaint-status,complaint-problem-type" />
@@ -97,6 +97,7 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="attachments" class="col-sm-3 control-label">附件：</label>
                         <div name="attachments">
                         </div>
                     </div>
@@ -194,7 +195,7 @@
             </div>
         </div>
     </section>
-    <div th:include="hrms/footer" />
+    <div th:include="/hrms/footer" />
     <script type="text/javascript">
     /*<![CDATA[*/
     var columns = [

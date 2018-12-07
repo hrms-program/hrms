@@ -22,6 +22,7 @@ public class ComplaintPositionalTitleRecordService extends ServiceSupport<Compla
     @Autowired
     ComplaintPositionalTitleMapper complaintPositionalTitleMapper;
     
+
     @Autowired
     OrgPersonnelPositionalInfoService  orgPersonnelPositionalInfoService;
     

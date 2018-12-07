@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/hrms/header" />
+
+<body>
+    <section class="content">
+        <div class="box box-solid" style="margin-top:20px">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+            </div>
+            <div id="result" class="box-body">
+                <table id="dataGrid"></table>
+                <div id="toolbar">
+                    <div class="btn-group">
+                       <!--  <a onclick="view()" class="btn btn-default"><i class="glyphicon glyphicon-search"></i>查看</a> -->
+                        <a onclick="add()" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>新增</a>
+                        <a onclick="edit()" class="btn btn-default"><i class="glyphicon glyphicon-edit"></i>修改</a>
+                        <a onclick="remove()" class="btn btn-default"><i class="glyphicon glyphicon-remove"></i>删除</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:include="/hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function() {
+        initDataGrid();
+    });
+
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [
+                    { radio: true },
+                    { title: "名称", field: "attachmentId" },
+                    { title: "描述", field: "describes" },
+                    { title: "版本号", field: "version"}
+                ]
+            ],
+            url: '/hrms/system/app/find',
+            searchbar: '#searchbar',
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            clickToSelect: true,
+            toolbar: "#toolbar",
+            showRefresh: true
+        });
+    }
+
+    function view() {
+        var row = getSelectRow();
+        if (row) {
+            window.location = '/hrms/system/user/view?id=' + row.id;
+        }
+    }
+
+    function add() {
+        window.location = '/hrms/system/app/add';
+    }
+
+    function edit() {
+        var row = getSelectRow();
+        if (row) {
+            window.location = '/hrms/system/app/edit?id=' + row.id;
+        }
+    }
+
+    function remove() {
+        var row = getSelectRow();
+        if (row) {
+            layer.confirm('确定删除吗?', function() {
+                $.getAjax('/hrms/system/app/remove?id=' + row.id, function() {
+                    $.successMessage("删除成功");
+                    table.refresh();
+                });
+            });
+        }
+    }
+
+    function getSelectRow(notShowError) {
+        var rows = table.getSelections();
+        var row = rows.length > 0 ? rows[0] : null;
+        if (!notShowError && !row) {
+            $.errorMessage("请选中一条业务数据");
+        }
+        return row;
+    }
+    /*]]>*/
+    </script>
+</body>
+
+</html>

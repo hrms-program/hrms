@@ -16,6 +16,7 @@ public class ReportPersonnelInforService {
 	@Autowired
 	private ReportPersonnelInforMapper reportPersonnelInforMapper;
 
+	@SuppressWarnings("unused")
 	public Page<ReportPersonnelInforDTO> searchTableList(
 			ReportPersonnelInforQuery query) {
 		Page<OrgPersonnelVO> page = PageHelper.offsetPage(query.getOffset(), query.getLimit());

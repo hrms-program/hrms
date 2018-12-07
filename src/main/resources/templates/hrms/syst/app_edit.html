@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/hrms/header" />
+
+<body>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">表单</h3>
+                <div class="box-tools pull-right">
+					<a class="btn" id="app_edit_btn" href="javascript:void(0)"><i
+						class="fa fa-edit"></i>编辑</a>
+				</div>
+            </div>
+            
+            <div id="app_view" class="box-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+                        <label for="title" class="col-sm-2 control-label">版本号：</label>
+                        <div class="col-sm-8">
+                           <p name="version" class="form-control-static description"></p>
+                        </div>
+                    </div>
+                      <div class="form-group">
+                        <label for="notice" class="col-sm-2 control-label">描述：</label>
+                        <div class="col-sm-8">
+                           <div name="describes" class="form-control-static description"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachmentId" class="col-sm-2 control-label">安装包：</label>
+                        <div class="col-sm-8">
+                           <div id="attachmentId" class="form-control-static description"></div>
+                        </div>
+                    </div>
+				</form>
+			</div>
+            
+            
+            <div id="app_edit" class="box-body" style="display: none">
+                <form id="app_form" class="form-horizontal edit-body" action="/hrms/system/app/save" callback-url="/hrms/system/app/index" 
+                enctype="multipart/form-data" method="post">
+                <input type="hidden" id="id" name="id" th:value="${id}"/>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">版本号：</label>
+                        <div class="col-sm-3">
+                            <input type="text" required="required" name="version" class="form-control"  />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-2 control-label">描述：</label>
+                        <div class="col-sm-4">
+                            <textarea name="describes" class="form-control" rows="4" style="resize: none;" ></textarea>
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label for="app" class="col-sm-2 control-label">安装包：</label>
+                        <div class="col-sm-5">
+                            <input type="file" class="form-control" name="attachmentFiles"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+						<div class="col-sm-1 col-sm-offset-2">
+							<button type="submit" id="app_form_submit_btn"
+								class="btn btn-primary btn-block">保存</button>
+						</div>
+						<div class="col-sm-1 col-sm-offset-0">
+							<button type="button" id="app_form_cancel_btn"
+								class="btn btn-default btn-block">取消</button>
+						</div>
+					</div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <div th:include="/hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+ var appModelConfig = {
+			id : "app",
+			name : "表单",
+			columns : [ {
+				name : "id",
+				inputType : "ID"
+			}, {
+				name : "version",
+				inputType : "TEXT",
+				title : "版本号"
+			}, {
+				name : "describes",
+				inputType : "TEXT",
+				title : "描述"
+			},  {
+				name : "attachmentId",
+				inputType : "ATTACHMENT",
+				allowedFileExtensions:["apk"],
+				fileName : "attachmentFiles"
+			} ]
+		};
+    
+ var baseModel;
+ var id;
+ $(function() {
+     id = $("#id").val();
+     baseModel = new tonto.Model(appModelConfig.id, appModelConfig.columns, {
+         successCallback: function(data) {
+             $.successMessage("保存成功");
+             window.location.href="/hrms/system/app/index";
+         }
+     });
+     if (id) {
+         $.getAjax("/hrms/system/app/detail?id=" + id, function(data) {
+             baseModel.setData(data);
+             var attachs =data.attachmentFiles;
+             if (attachs){
+           	  var attDiv=$("#attachmentId");
+           	  var html = "";
+           	  for(var i in attachs){
+           		  html += '<label><a target="_blank" href="' + attachs[i].url + '"><i class="fa fa-download"></i>' + attachs[i].name +'</a></label><br/>';
+           	  }
+                 attDiv.html(html);
+ 	     }
+         });
+     } else {
+         baseModel.setData(null);
+     }
+ }) 
+    /*]]>*/
+    </script>
+</body>
+
+</html>

@@ -5,10 +5,6 @@ import java.io.Serializable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.springframework.data.annotation.Transient;
-
-import com.paladin.framework.common.UnDeleteModel;
-
 //奖惩情况
 public class DocumentPunishSituation implements Serializable{
 	

@@ -119,6 +119,16 @@ public class ComplaintPersonnelService extends ComplaintServiceSupport<Complaint
 			record.setIllustrate(illustrate);
 			record.setResult(status);
 			complaintPersonnelRecordService.save(record);
+			if(status == ComplaintModel.STATUS_SUCCESS){
+			    OrgPersonnel org= new OrgPersonnel();
+	            org.setId(complaintPersonnel.getPersonnelId());
+	            org.setIdentificationType(complaintPersonnel.getNowIdentificationType());
+	            org.setIdentificationNo(complaintPersonnel.getNowIdentificationNo());
+	            org.setName(complaintPersonnel.getNowName());
+	            org.setSex(complaintPersonnel.getNowSex());
+	            personnelService.updateSelective(org);
+			}
+			
 			return true;
 		}
 		return false;

@@ -3,7 +3,8 @@
 <mapper namespace="com.paladin.hrms.mapper.report.ReportInforMapper">
             <select id="searchTableList" parameterType="com.paladin.hrms.controller.report.pojo.ReportInforQuery" 
                 resultType="com.paladin.hrms.controller.report.pojo.ReportInforDTO">
-                  SELECT per.agency_id as org,
+                  <!-- SELECT per.agency_id as org,
+                  	per.agency_name as agencyName,
 					count(per.identification_no) as todo,					
 					sum(case when per.report_state=1
 							and per.basic_infor_status=1 
@@ -17,15 +18,78 @@
 							or per.license_infor_status=0
 							or per.education_infor_status=0)
 							then 1 else 0 end) as n,
-					sum(case when per.report_state=1 then 0 else 1 end ) as un,	<!-- 已上报的不计入 -->
+					sum(case when per.report_state=1 then 0 else 1 end ) as un,	已上报的不计入
 					case org.confirm_state when 1 then '已上报' else '未上报' end as confirmState 
 				FROM org_agency ag
 				left join report_confirm_org org on ag.id=org.org_id
-				left join	v_report_personnel_infor per on ag.id=per.agency_id
+				left join	v_report_personnel_infor per on ag.id=per.agency_id -->
+				SELECT
+					ag.id AS org,
+					ag.name AS agencyName,
+					count(per.identification_no ) AS todo,
+					sum(
+						CASE
+						WHEN per.report_state = 1
+						AND per.basic_infor_status = 1
+						AND per.working_infor_status = 1
+						AND per.license_infor_status = 1
+						AND per.education_infor_status = 1 THEN 1 ELSE 0 END ) AS y,
+					sum(
+						CASE WHEN per.report_state = 1
+						AND (
+							per.basic_infor_status = 0
+							OR per.working_infor_status = 0
+							OR per.license_infor_status = 0
+							OR per.education_infor_status = 0
+						) THEN 1 ELSE 0 END) AS n,
+					sum(
+						CASE WHEN per.report_state = 1 THEN 0 ELSE 1 END) AS un,
+				
+					CASE org.confirm_state WHEN 1 THEN '已上报' ELSE '未上报' END AS confirmState
+				FROM
+					org_agency ag
+				LEFT JOIN report_confirm_org org ON ag.id = org.org_id and org.state=1
+				LEFT JOIN v_report_personnel_infor per ON ag.id = per.agency_id
 				<where>
 					and ag.is_delete=0
-					<if test="org !=null and org !='' ">
-					and ag.id=#{org}
+					<if test="permission.cityCode!=null">
+			            AND ag.city_code =#{permission.cityCode}
+			        </if>
+			        <if test="permission.cityCodes!=null">
+			            AND ag.city_code IN
+			            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+			                #{item}
+			            </foreach>
+			        </if>
+			        <if test="permission.townCode!=null">
+			            AND ag.town_code =#{permission.townCode}
+			        </if>
+			        <if test="permission.townCodes!=null">
+			            AND ag.town_code IN
+			            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+			                #{item}
+			            </foreach>
+			        </if>
+			        <if test="permission.districtCode!=null">
+			            AND ag.district_code =#{permission.districtCode}
+			        </if>
+			        <if test="permission.districtCodes!=null">
+			            AND ag.district_code IN
+			            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+			                #{item}
+			            </foreach>
+			        </if>
+			        <if test="permission.agencyId!=null">
+			            AND ag.id =#{permission.agencyId}
+			        </if>
+			        <if test="permission.agencyIds!=null">
+			            AND ag.agency_id IN
+			            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+			                #{item}
+			            </foreach>
+			        </if>
+					<if test="query.agencyName !=null and query.agencyName !='' ">
+					AND ag.name LIKE CONCAT('%',#{query.agencyName},'%')
 					</if>
 				</where>
 				group by ag.id
@@ -52,7 +116,8 @@
          
          <select id="searchOrgList" parameterType="com.paladin.hrms.controller.report.pojo.ReportInforQuery" 
                 resultType="com.paladin.hrms.controller.report.pojo.ReportInforDTO">
-                  SELECT per.agency_id as org,
+                  SELECT ag.id as org,
+                  	ag.name as agencyName,
 					count(per.identification_no) as todo,					
 					sum(case when per.report_state=1
 							and per.basic_infor_status=1 
@@ -69,12 +134,48 @@
 					sum(case when per.report_state=1 then 0 else 1 end ) as un,	<!-- 已上报的不计入 -->
 					case org.confirm_state when 1 then '已上报' else '未上报' end as confirmState 
 				FROM org_agency ag
-				left join report_confirm_org org on ag.id=org.org_id
+				left join report_confirm_org org on ag.id=org.org_id and org.state=1
 				left join	v_report_personnel_infor per on ag.id=per.agency_id
 				<where>
 					and ag.is_delete=0
-					<if test="org !=null and org !='' ">
-					and ag.id=#{org}
+					<if test="permission.cityCode!=null">
+			            AND ag.city_code =#{permission.cityCode}
+			        </if>
+			        <if test="permission.cityCodes!=null">
+			            AND ag.city_code IN
+			            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+			                #{item}
+			            </foreach>
+			        </if>
+			        <if test="permission.townCode!=null">
+			            AND ag.town_code =#{permission.townCode}
+			        </if>
+			        <if test="permission.townCodes!=null">
+			            AND ag.town_code IN
+			            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+			                #{item}
+			            </foreach>
+			        </if>
+			        <if test="permission.districtCode!=null">
+			            AND ag.district_code =#{permission.districtCode}
+			        </if>
+			        <if test="permission.districtCodes!=null">
+			            AND ag.district_code IN
+			            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+			                #{item}
+			            </foreach>
+			        </if>
+			        <if test="permission.agencyId!=null">
+			            AND ag.id =#{permission.agencyId}
+			        </if>
+			        <if test="permission.agencyIds!=null">
+			            AND ag.agency_id IN
+			            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+			                #{item}
+			            </foreach>
+			        </if>
+					<if test="query.agencyName !=null and query.agencyName !='' ">
+					AND ag.name LIKE CONCAT('%',#{query.agencyName},'%')
 					</if>
 				</where>
 				group by ag.id

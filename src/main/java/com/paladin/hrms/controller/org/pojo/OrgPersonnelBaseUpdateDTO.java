@@ -12,8 +12,6 @@ public class OrgPersonnelBaseUpdateDTO {
 
 	private String officePhone;
 
-	private String profilePhoto;
-
 	private Integer nationality;
 
 	private Integer nation;
@@ -60,14 +58,6 @@ public class OrgPersonnelBaseUpdateDTO {
 
 	public void setOfficePhone(String officePhone) {
 		this.officePhone = officePhone;
-	}
-
-	public String getProfilePhoto() {
-		return profilePhoto;
-	}
-
-	public void setProfilePhoto(String profilePhoto) {
-		this.profilePhoto = profilePhoto;
 	}
 
 	public Integer getNationality() {

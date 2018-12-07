@@ -16,7 +16,6 @@ import com.paladin.framework.utils.DateUtil;
 import com.paladin.framework.utils.SysContants;
 import com.paladin.framework.utils.uuid.UUIDUtil;
 import com.paladin.hrms.controller.document.pojo.DocumentAdministrativePostVO;
-import com.paladin.hrms.core.HrmsUserSession;
 import com.paladin.hrms.mapper.document.DocumentAdministrativePostMapper;
 import com.paladin.hrms.model.document.DocumentAdministrativePost;
 
@@ -55,6 +54,7 @@ public class DocumentAdministrativePostService {
 	 * @param list
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private List<DocumentAdministrativePost> enhanceAllProperties(
 			List<DocumentAdministrativePost> list) {
 

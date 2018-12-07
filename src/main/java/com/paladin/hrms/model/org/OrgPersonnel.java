@@ -1,6 +1,6 @@
 package com.paladin.hrms.model.org;
 
-import com.paladin.framework.common.UnDelete;
+import com.paladin.framework.common.UnDeleteBaseModel;
 
 import java.util.Date;
 
@@ -10,7 +10,10 @@ import javax.persistence.Id;
  * 个人信息 OrgPersonnel
  * 
  */
-public class OrgPersonnel extends PersonnelModel implements UnDelete {
+public class OrgPersonnel extends UnDeleteBaseModel {
+	
+	public final static int STATUS_NORMAL = 0;
+	public final static int STATUS_LEVEL = 2;
 
 	
 	public static final String COLUMN_FIELD_IDENTIFICATION_NO = "identificationNo";
@@ -60,8 +63,6 @@ public class OrgPersonnel extends PersonnelModel implements UnDelete {
 	private String interest;
 	//籍贯
 	private String nativePlace;
-	// 是否删除
-	private Integer isDelete = 0;
 
 	public String getId() {
 		return id;
@@ -237,15 +238,6 @@ public class OrgPersonnel extends PersonnelModel implements UnDelete {
 
 	public void setUsedName(String usedName) {
 		this.usedName = usedName;
-	}
-	
-
-	public Integer getIsDelete() {
-		return isDelete;
-	}
-
-	public void setIsDelete(Integer isDelete) {
-		this.isDelete = isDelete;
 	}
 
 }

@@ -9,7 +9,7 @@
 			p.`sex` AS sex,
 			p.`agency_name` AS agencyName,
 			j.`positional_title_name` AS positionalTitleName,
-			J.`positional_title_type` AS positionalTitleType,
+			j.`positional_title_type` AS positionalTitleType,
 			c.`status` AS STATUS
 		FROM org_personnel_positional_info AS j
 		LEFT JOIN org_personnel AS p
@@ -73,12 +73,12 @@
 			j.`positional_title_name` AS positionalTitleName,
 			j.`positional_title_type` AS positionalTitleType,
 			j.`positional_level_level`AS positionalLevelLevel,
-			J.`positional_title_time` AS positionalTitleTime,
+			j.`positional_title_time` AS positionalTitleTime,
 			c.`modify_type` AS `modifyType`,
 			c.`new_positional_title_name` AS newPositionalTitleName,
 			c.`new_positional_level_level` AS newPositionalLevelLevel,
 			c.`new_positional_title_time` AS newPositionalTitleTime,
-			C.`attachment_id` AS attachmentId,
+			c.`attachment_id` AS attachmentId,
 			c.`status` AS STATUS
 		FROM org_personnel_positional_info AS j
 		LEFT JOIN org_personnel AS p
@@ -158,7 +158,7 @@
 			p.`id` AS personnelId,
 			j.`positional_title_name` AS oldPositionalTitleName,
 			j.`positional_level_level`AS oldPositionalLevelLevel,
-			J.`positional_title_time` AS oldPositionalTitleTime,
+			j.`positional_title_time` AS oldPositionalTitleTime,
 			j.`attachments` AS oldAttachmentId,
 			c.`new_positional_title_name` AS newPositionalTitleName,
 			c.`new_positional_level_level` AS newPositionalLevelLevel,

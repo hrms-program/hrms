@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:include="hrms/header" />
+<head th:include="/hrms/header" />
 
 <body>
     <tt:constant enumcode="boolean,org-level,org-type" />
@@ -517,7 +517,7 @@
         <a href="javascript:scroll(0,0)" class="btn toolbar-item"><i class="glyphicon glyphicon-arrow-up"></i></a>
         <a href="/hrms/org/agency/index" class="btn toolbar-item"><i class="glyphicon glyphicon-menu-left"></i></a>
     </div>
-    <div th:include="hrms/footer" />
+    <div th:include="/hrms/footer" />
     <script type="text/javascript">
     var detailModelConfig = {
         id: "detail",

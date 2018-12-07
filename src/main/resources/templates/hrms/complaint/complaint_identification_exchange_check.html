@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head th:include="/hrms/header" />
+<meta charset="UTF-8">
+</head>
+
+<body>
+    <tt:constant enumcode="sex,boolean,nation,nationality,identification-type,political-affiliation" />
+    <input type="hidden" id="id" name="id" th:value="${id}" />
+    <section class="content-header">
+        <h1>身份证置换管理</h1>
+        <ol class="breadcrumb">
+            <li><a href="/hrms/complaint/identification/exchange/index"><i class="fa fa-list-alt"></i>身份证置换列表</a></li>
+            <li class="active">审核身份证置换</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">发起人信息</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body" id="fromBody">
+            </div>
+        </div>
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">置换人信息</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body" id="toBody">
+            </div>
+        </div>
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-edit"></i>
+                <h3 class="box-title">审核</h3>
+            </div>
+            <div class="box-body" style="padding-top:20px">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="illustrate" class="col-sm-3 control-label">审核意见：</label>
+                        <div class="col-sm-6">
+                            <input name="illustrate" id="illustrate" placeholder="请输入审核意见" type="text" class="form-control" maxlength="200" />
+                        </div>
+                    </div>
+                    <div class="form-group" style="padding-top:20px">
+                        <div class="col-sm-2 col-sm-offset-3">
+                            <button type="button" id="passBtn" functio class="btn btn-success btn-block"><i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;审核通过</button>
+                        </div>
+                        <div class="col-sm-2 col-sm-offset-1">
+                            <button type="button" id="unpassBtn" class="btn btn-danger btn-block"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;审核不通过</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <div th:include="/hrms/footer" />
+    <script type="text/javascript">
+    var modelColumns = [
+        { name: "id", inputType: "ID" },
+        { name: "name", inputType: "TEXT", title: "姓名" },
+        { name: "sex", inputType: "SELECT", enum: "sex", title: "性别" },
+        { name: "nation", inputType: "SELECT", enum: "nation", title: "民族" },
+        { name: "nationality", inputType: "SELECT", enum: "nationality", title: "国籍" },
+        { name: "identificationType", inputType: "SELECT", enum: "identification-type", title: "身份证类型" },
+        { name: "identificationNo", inputType: "TEXT", title: "身份证号码" },
+        { name: "birthday", inputType: "DATE", title: "出生日期" },
+        { name: "startWorkTime", inputType: "DATE", title: "参加工作日期" },
+        { name: "joinPartyTime", inputType: "DATE", title: "参加党派时间" },
+        { name: "politicalAffiliation", inputType: "SELECT", enum: "political-affiliation", title: "政治面貌" },
+        { name: "cellphone", inputType: "TEXT", title: "手机号码" },
+        { name: "agencyName", inputType: "TEXT", title: "原始身份证号目前所在机构： " }
+    ];
+
+    var id;
+
+    function pass(b) {
+        if (!id) return;
+        var illustrate = $("#illustrate").val();
+        if (b) {
+            $.postAjax("/hrms/complaint/identification/exchange/check/success", {
+                id: id,
+                illustrate: illustrate
+            }, function() {
+                $.successAlert("审核成功", function() {
+                    window.location = "/hrms/complaint/identification/exchange/index";
+                });
+            });
+        } else {
+            if (!illustrate) {
+                $.errorMessage("请填写不通过审核意见");
+                return;
+            }
+
+            $.postAjax("/hrms/complaint/identification/exchange/check/fail", {
+                id: id,
+                illustrate: illustrate
+            }, function() {
+                $.successAlert("审核成功", function() {
+                    window.location = "/hrms/complaint/identification/exchange/index";
+                });
+            });
+        }
+    }
+
+    $(function() {
+        id = $("#id").val();
+
+        $("#passBtn").click(function() {
+            pass(true);
+        });
+
+        $("#unpassBtn").click(function() {
+            pass(false);
+        });
+        $.getAjax("/hrms/complaint/identification/exchange/get/detail?id=" + id, function(data) {
+            var fromHtml = generateViewFormHtml({
+                id: "from",
+                name: "发起人信息",
+                columns: modelColumns
+            });
+
+            var toHtml = generateViewFormHtml({
+                id: "to",
+                name: "待置换人信息",
+                columns: modelColumns
+            });
+
+            $("#fromBody").html(fromHtml);
+            $("#toBody").html(toHtml);
+
+            var from = new tonto.Model("from", modelColumns);
+            from.setData(data.fromPersonnel);
+            var to = new tonto.Model("to", modelColumns);
+            to.setData(data.toPersonnel);
+        });
+    });
+    </script>
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:include="hrms/header" />
+<head th:include="/hrms/header" />
 <link rel="stylesheet" href="/static/js/hrms/org/personal_edit.css">
 
 <body>
@@ -26,10 +26,10 @@
                             <a href="#job_view">工作信息</a>
                         </li>
                         <li class="top-twenty">
-                            <a href="javascript:void(0)">行政职务</a>
+                            <a href="#practice_view">执业信息</a>
                         </li>
                         <li class="top-twenty">
-                            <a href="javascript:void(0)">党内职务</a>
+                            <a href="#scienceEducation_view">科教信息</a>
                         </li>
                         <li class="top-fifty">
                             <a href="#workExperience_view">工作经历</a>
@@ -44,7 +44,7 @@
                             <a href="#cultivate_view">培训经历</a>
                         </li>
                         <li class="top-fifty">
-                            <a href="javascript:void(0)">奖惩情况</a>
+                            <a href="#rewardInfo_view">奖励信息</a>
                         </li>
                         <li class="top-fifty">
                             <a href="#yearassess_view">年度考核</a>
@@ -121,7 +121,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group" style="height:245px;padding-top:40px">
-                            <img class="profile-user-img img-responsive img-circle" src="/static/image/user.png" alt="User profile picture">
+                            <img class="profile-user-img img-responsive img-circle" id="profileImg" style="cursor: pointer;" onclick="changeProfile()" src="" alt="头像">
                             <h3 name="name" class="profile-username text-center"></h3>
                             <p class="text-muted text-center">
                                 <span name="sex" style="border-right:2px solid #f4f4f4;padding-right:20px;margin-left:20px;">无</span>
@@ -1555,14 +1555,15 @@
                 </div>
             </div>
         </div>
-        <div>
-        <a href="javascript:void(0)" class="btn toolbar-item" onclick="report();">上报</a>
+            <div class="col-sm-3 col-sm-offset-5">
+                <a href="javascript:void(0)" class="btn btn-success" onclick="report();">上报</a>
+            </div>
         </div>
         <div class="toolbar">
             <a href="javascript:scroll(0,0)" class="btn toolbar-item"><i class="glyphicon glyphicon-arrow-up"></i></a>
             <a href="/hrms/org/personal/index" class="btn toolbar-item"><i class="glyphicon glyphicon-menu-left"></i></a>
         </div>
-        <div th:include="hrms/footer" />
+        <div th:include="/hrms/footer" />
         <script type="text/javascript" src="/static/js/hrms/org/personal_edit.js"></script>
 </body>
 

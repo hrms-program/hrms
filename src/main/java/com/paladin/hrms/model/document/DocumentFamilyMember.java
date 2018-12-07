@@ -5,8 +5,6 @@ import java.io.Serializable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import com.paladin.framework.common.UnDeleteModel;
-
 //家庭成员
 public class DocumentFamilyMember  implements Serializable{
 	

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="hrms/header" />
+<head th:include="/hrms/header" />
 
 <body>
     <section class="content">
@@ -8,7 +8,7 @@
             <div class="box-header with-border">
                 <h4 class="box-title" th:text="${object.title}"></h4>
                 <div class="pull-right box-tools">
-                    <a class="btn btn-default btn-sm" href="/hrms/manager/index">
+                    <a class="btn btn-default btn-sm" th:href="${backUrl}">
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
@@ -29,7 +29,7 @@
             </div>
         </div>
     </section>
-    <div th:include="hrms/footer" />
+    <div th:include="/hrms/footer" />
 </body>
 
 </html>

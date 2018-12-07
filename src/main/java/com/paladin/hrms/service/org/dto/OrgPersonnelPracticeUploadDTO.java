@@ -6,7 +6,7 @@ import com.paladin.framework.excel.read.ReadProperty;
 
 public class OrgPersonnelPracticeUploadDTO {
 	// 医师执业类别代码
-	@ReadProperty(cellIndex = 0, enumType = "practice-category")
+	@ReadProperty(cellIndex = 0, enumType = "practice-category-type")
 	private Integer practiceCategory;
 	// 医师执业范围代码
 	@ReadProperty(cellIndex = 1)

@@ -84,10 +84,15 @@ public class ComplaintPersonnelController extends ControllerSupport {
 			return CommonResponse.getErrorResponse("附件数量不能超过4张");
 		}
 		complaintPersonnelDTO.setAttachments(attachmentService.splicingAttachmentId(attachments));
-		ComplaintPersonnel model = beanCopy(complaintPersonnelDTO, new ComplaintPersonnel());
 
-		if (complaintPersonnelService.applyOrModifyComplaint(model) > 0) {
-			return CommonResponse.getSuccessResponse(complaintPersonnelService.getComplaintPersonnel(model.getPersonnelId()));
+		String personnelId = complaintPersonnelDTO.getPersonnelId();
+		if (personnelId != null && personnelId.length() > 0) {
+			ComplaintPersonnel personnel = complaintPersonnelService.get(personnelId);
+			ComplaintPersonnel model = beanCopy(complaintPersonnelDTO, personnel == null ? new ComplaintPersonnel() : personnel);
+
+			if (complaintPersonnelService.applyOrModifyComplaint(model) > 0) {
+				return CommonResponse.getSuccessResponse(complaintPersonnelService.getComplaintPersonnel(personnelId));
+			}
 		}
 
 		return CommonResponse.getFailResponse();

@@ -14,7 +14,9 @@ import com.paladin.hrms.mapper.complaint.ComplaintIdentificationBindRecordMapper
 import com.paladin.hrms.model.complaint.ComplaintIdentificationBind;
 import com.paladin.hrms.model.complaint.ComplaintIdentificationBindRecord;
 import com.paladin.hrms.model.complaint.ComplaintModel;
+import com.paladin.hrms.model.org.OrgPersonnel;
 import com.paladin.hrms.service.complaint.dto.ComplaintIdentificationBindSimpleVO;
+import com.paladin.hrms.service.org.OrgPersonnelService;
 import com.paladin.hrms.controller.complaint.pojo.ComplaintIdentificationBindVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,9 @@ public class ComplaintIdentificationBindService extends ComplaintServiceSupport<
 
     @Autowired
     private ComplaintIdentificationBindRecordService complaintIdentificationBindRecordService;
+    
+    @Autowired
+    private OrgPersonnelService orgPersonnelService;
 
     public PageResult<ComplaintIdentificationBindSimpleVO> findComplaintPersonnelPage(IdentificationBindQuery query) {
         Page<ComplaintIdentificationBindSimpleVO> page = PageHelper.offsetPage(query.getOffset(), query.getLimit());
@@ -85,6 +90,14 @@ public class ComplaintIdentificationBindService extends ComplaintServiceSupport<
             SimpleBeanCopier.SimpleBeanCopyUtil.simpleCopy(complaintPersonnel, record);
             record.setResult(status);
             complaintIdentificationBindRecordService.save(record);
+            
+            if(status == ComplaintModel.STATUS_SUCCESS){
+                OrgPersonnel org = new OrgPersonnel();
+                org.setId(complaintPersonnel.getPersonnelId());
+                org.setIdentificationType(complaintPersonnel.getUsedIdentificationType());
+                org.setIdentificationNo(complaintPersonnel.getUsedIdentificationNo());
+                orgPersonnelService.updateSelective(org);
+            }
             return true;
         }
         return false;

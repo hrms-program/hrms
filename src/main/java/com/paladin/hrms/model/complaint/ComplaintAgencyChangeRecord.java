@@ -1,25 +1,28 @@
 package com.paladin.hrms.model.complaint;
 
 import com.paladin.framework.common.BaseModel;
-
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 public class ComplaintAgencyChangeRecord extends BaseModel {
 
-    @Id
-    @GeneratedValue(generator = "UUID")
+	// 
+	@Id
 	private String id;
 
+	// 
 	private String personnelId;
 
+	// 原机构id
 	private String agencyId;
 
+	// 目的机构id
 	private String targetAgencyId;
 
-	private String illustrate;
-	
+	// 
 	private Integer result;
+
+	// 处理说明
+	private String illustrate;
 
 	public String getId() {
 		return id;
@@ -37,32 +40,20 @@ public class ComplaintAgencyChangeRecord extends BaseModel {
 		this.personnelId = personnelId;
 	}
 
-	public String getAgencyId()
-    {
-        return agencyId;
-    }
-
-    public void setAgencyId(String agencyId)
-    {
-        this.agencyId = agencyId;
-    }
-
-    public String getTargetAgencyId()
-    {
-        return targetAgencyId;
-    }
-
-    public void setTargetAgencyId(String targetAgencyId)
-    {
-        this.targetAgencyId = targetAgencyId;
-    }
-
-    public String getIllustrate() {
-		return illustrate;
+	public String getAgencyId() {
+		return agencyId;
 	}
 
-	public void setIllustrate(String illustrate) {
-		this.illustrate = illustrate;
+	public void setAgencyId(String agencyId) {
+		this.agencyId = agencyId;
+	}
+
+	public String getTargetAgencyId() {
+		return targetAgencyId;
+	}
+
+	public void setTargetAgencyId(String targetAgencyId) {
+		this.targetAgencyId = targetAgencyId;
 	}
 
 	public Integer getResult() {
@@ -73,5 +64,12 @@ public class ComplaintAgencyChangeRecord extends BaseModel {
 		this.result = result;
 	}
 
-	
+	public String getIllustrate() {
+		return illustrate;
+	}
+
+	public void setIllustrate(String illustrate) {
+		this.illustrate = illustrate;
+	}
+
 }

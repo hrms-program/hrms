@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
+
 /**
  * <医师定期考核>
  *
@@ -115,5 +119,19 @@ public class PhysicianAssessRecordController extends ControllerSupport{
     @ResponseBody
     public Object idCard(@RequestParam String identificationNo){
         return CommonResponse.getSuccessResponse(orgPersonnelService.getPersonnelByIdentificationNo(identificationNo));
+    }
+
+
+    @RequestMapping("/export/do")
+    public void exportDo(PhysicianAssessQuery query, HttpServletResponse response) {
+        try {
+            // 1.设置文件ContentType类型，这样设置，会自动判断下载文件类型
+            response.setContentType("multipart/form-data");
+            // 2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)
+            response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode("医师定期考核统计表.xlsx", "UTF-8"));
+            assessPhysicianRecordService.export(query, response.getOutputStream());
+        } catch (IOException e) {
+            throw new BusinessException("导出人员信息失败");
+        }
     }
 }

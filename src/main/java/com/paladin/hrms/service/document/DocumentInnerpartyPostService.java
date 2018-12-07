@@ -47,6 +47,7 @@ public class DocumentInnerpartyPostService{
 	 * @param list
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private List<DocumentInnerpartyPost> enhanceAllProperties(
 			List<DocumentInnerpartyPost> list) {
 

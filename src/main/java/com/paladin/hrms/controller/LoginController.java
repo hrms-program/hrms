@@ -84,14 +84,14 @@ public class LoginController extends ControllerSupport {
 
 		Subject subject = SecurityUtils.getSubject();
 		boolean isAjax = WebUtil.isAjaxRequest(request);
-		String flag=request.getParameter("isApp");
-		boolean isApp=(flag!=null && flag.length()>0);
-		
+		boolean isApp = WebUtil.isApp(request);
+
 		if (subject.isAuthenticated()) {
-			if(isApp){
-				WebUtil.sendJson(response, CommonResponse.getSuccessResponse("登录成功",subject.getSession().getId()));
+			if (isApp) {
+				WebUtil.sendJson(response, CommonResponse.getSuccessResponse("登录成功", subject.getSession().getId()));
 				return null;
 			}
+
 			if (isAjax) {
 				WebUtil.sendJson(response, CommonResponse.getSuccessResponse("登录成功"));
 				return null;
@@ -99,10 +99,11 @@ public class LoginController extends ControllerSupport {
 				return null;
 			}
 		} else {
-			if(isApp){
+			if (isApp) {
 				WebUtil.sendJson(response, CommonResponse.getFailResponse("登录失败,用户名或密码错误！"));
 				return null;
 			}
+			
 			if (isAjax) {
 				WebUtil.sendJson(response, CommonResponse.getFailResponse("登录失败,用户名或密码错误！"));
 				return null;
@@ -123,14 +124,11 @@ public class LoginController extends ControllerSupport {
 	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public Object logout(HttpServletRequest request, HttpServletResponse response, Model model) {
-		String token=request.getHeader("token");
 		Subject subject = SecurityUtils.getSubject();
-		request.getSession().removeAttribute(token);
-		subject.getSession().removeAttribute(token);
+		subject.logout();
 		return CommonResponse.getSuccessResponse("退出成功");
 	}
-		
-	
+
 	/**
 	 * 更新密码
 	 * 

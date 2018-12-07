@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="hrms/header"/>
+<head th:include="/hrms/header"/>
 
 <body>
 <section class="content-header">
@@ -58,13 +58,16 @@
             <table id="dataGrid"></table>
             <div id="toolbar">
                 <div class="btn-group">
-                    <a onclick="add()" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i>新增</a>
+                    <a onclick="add()" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>新增</a>
+                </div>
+                <div class="btn-group">
+                    <a onclick="exportPersonnel()" class="btn btn-success"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;导出&nbsp;&nbsp;</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<div th:include="hrms/footer"/>
+<div th:include="/hrms/footer"/>
 <script type="text/javascript">
     /*<![CDATA[*/
     var table;
@@ -147,6 +150,13 @@
                 table.refresh()
             })
         });
+    }
+
+    function exportPersonnel() {
+        var params = $("#searchbar").serializeObject({
+
+        });
+        window.open($.wrapGetUrl("/hrms/yskh/export/do", params));
     }
     /*]]>*/
 </script>

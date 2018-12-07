@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:include="hrms/header" />
+<head th:include="/hrms/header" />
 
 <body>
     <tt:constant enumcode="hr_info_check_type,hr_info_check_status,boolean" />
@@ -60,7 +60,7 @@
         </div>
     </section>
     <script type="text/javascript" src="/static/js/hrms/org/personal_tree_constant.js"></script>
-    <div th:include="hrms/footer" />
+    <div th:include="/hrms/footer" />
     <script type="text/javascript">
     /*<![CDATA[*/
     var table;

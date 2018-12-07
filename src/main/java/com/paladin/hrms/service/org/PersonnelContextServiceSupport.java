@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.paladin.framework.core.ServiceSupport;
+import com.paladin.framework.utils.uuid.UUIDUtil;
 import com.paladin.hrms.model.org.PersonnelContextModel;
 import com.paladin.hrms.service.complaint.ComplaintPersonnelArchivesCheckService;
 
@@ -29,9 +30,13 @@ public abstract class PersonnelContextServiceSupport<T extends PersonnelContextM
 	@Transactional
 	public int save(T model) {
 		model.setStatus(PersonnelContextModel.STATUS_DEFAULT);
+		String id = model.getId();
+		if(id == null || id.length() == 0) {
+			id = UUIDUtil.createUUID();
+		}
 		int effect = super.save(model);
 		if (effect > 0) {
-			return complaintPersonnelArchivesCheckService.addArchivesCheck(model.getId(), model.getPersonnelId(), getPersonnelArchivesCheckType()) ? 1 : 0;
+			return complaintPersonnelArchivesCheckService.addArchivesCheck(id, model.getPersonnelId(), getPersonnelArchivesCheckType()) ? 1 : 0;
 		}
 		return 0;
 	}

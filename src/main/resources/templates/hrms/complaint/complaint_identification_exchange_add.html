@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="/hrms/header" />
+
+<body>
+    <tt:constant enumcode="sex,personnel-status,boolean" />
+    <section class="content-header">
+        <h1>身份证置换管理</h1>
+        <ol class="breadcrumb">
+            <li><a href="/hrms/complaint/identification/exchange/index"><i class="fa fa-list-alt"></i>身份证置换列表</a></li>
+            <li class="active">申请身份证置换</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <span>
+                    <h3 class="box-title">
+                        身份证置换 
+                    </h3>
+                    (处理两类问题：1.两个人身份证错误需互相交换！2.系统内一个人有多个身份证，只有一个基本信息是正确的！)
+                </span>
+                <div class="pull-right box-tools">
+                    <a class="btn btn-default btn-sm" href="/hrms/complaint/identification/exchange/index">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-horizontal" method="post">
+                    <input type="hidden" name="operate" th:value="${bOperate}" />
+                    <div class="form-group">
+                        <label for="initiateIc" style="width:174px;" class="col-sm-4 control-label">请输入发起人身份证号</label>
+                        <div class="col-sm-2">
+                            <input type="text" id="fromInput" class="form-control" required="required" placeholder="需为管理范围内人员" onblur="searchFrom();" />
+                        </div>
+                    </div>
+                    <br>
+                    <table id="table1"></table>
+                    <br>
+                    <div class="form-group">
+                        <label for="forExchangeIc" style="width:174px" class="col-sm-4 control-label">请输入待置换身份证号</label>
+                        <div class="col-sm-2">
+                            <input type="text" id="toInput" class="form-control" required="required" placeholder="请输入待置换身份证号" onblur="searchTo();" />
+                        </div>
+                    </div>
+                    <br>
+                    <table id="table2"></table>
+                    <br>
+                    <div class="form-group">
+                        <div class="form-group" style="padding-top:20px">
+                            <div class="col-sm-2 col-sm-offset-3">
+                                <button type="button" onclick="submitExchange()" class="btn btn-success btn-block">提交</button>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <a href="/hrms/complaint/identification/exchange/index" class="btn btn-default btn-block">返回</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:include="/hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table1, fromId;
+    var table2, toId;
+
+    function searchFrom() {
+        var id = $("#fromInput").val();
+        if (!id || id == fromId) {
+            return;
+        } else {
+            fromId = id;
+        }
+
+        if (!table1) {
+            table1 = $.createTable("#table1", {
+                idField: "id",
+                columns: [
+                    [
+                        { radio: true },
+                        { title: "姓名", align: "center", field: "name" },
+                        { title: "性别", align: "center", field: "sex", enumcode: "sex" },
+                        { title: "身份证号", align: "center", field: "identificationNo" },
+                        { title: "所属机构", align: "center", field: "agencyName" },
+                        { title: "人员状态", align: "center", field: "isDelete", enumcode: "personnel-status" }
+                    ]
+                ],
+                url: '/hrms/complaint/identification/exchange/find/personnel',
+                queryParams: function() {
+                    return {
+                        identificationNo: fromId
+                    }
+                },
+                clickToSelect: true,
+                pagination: false,
+            });
+        } else {
+            table1.refresh();
+        }
+    }
+
+    function searchTo() {
+        var id = $("#toInput").val();
+        if (!id || toId == id) {
+            return;
+        } else {
+            toId = id;
+        }
+        if (!table2) {
+            table2 = $.createTable("#table2", {
+                idField: "id",
+                columns: [
+                    [
+                        { radio: true },
+                        { title: "姓名", field: "name" },
+                        { title: "性别", field: "sex", enumcode: "sex" },
+                        { title: "身份证号", field: "identificationNo" },
+                        { title: "所属机构", field: "agencyName" },
+                        { title: "人员状态", field: "isDelete", enumcode: "personnel-status" }
+                    ]
+                ],
+                url: '/hrms/complaint/identification/exchange/find/personnel',
+                queryParams: function() {
+                    return {
+                        identificationNo: toId
+                    }
+                },
+                clickToSelect: true,
+                pagination: false,
+            });
+        } else {
+            table2.refresh();
+        }
+    }
+
+
+    function submitExchange() {
+        if (table1 && table1.data && table2 && table2.data) {
+            var fromPid, toPid;
+
+            if (table1.data.length > 1) {
+                var rows = table1.getSelections();
+                if (rows.length > 0) {
+                    fromPid = rows[0].id;
+                }
+            } else {
+                fromPid = table1.data[0].id;
+            }
+
+            if (table2.data.length > 1) {
+                var rows = table2.getSelections();
+                if (rows.length > 0) {
+                    toPid = rows[0].id;
+                }
+            } else {
+                toPid = table2.data[0].id;
+            }
+
+            if (fromPid && toPid) {
+                if (fromPid != toPid) {
+                    $.postAjax("/hrms/complaint/identification/exchange/save", {
+                        fromPersonnelId: fromPid,
+                        toPersonnelId: toPid
+                    }, function() {
+                        $.successAlert("保存成功", function() {
+                            window.location = "/hrms/complaint/identification/exchange/index";
+                        });
+                    });
+                } else {
+                    $.errorMessage("置换的人员不能相同");
+                }
+            } else {
+                $.errorMessage("请选择需要置换的人员");
+            }
+        } else {
+            $.errorMessage("没有选择需要置换的人员");
+        }
+    }
+    </script>
+</body>
+
+</html>

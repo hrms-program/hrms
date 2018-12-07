@@ -11,8 +11,9 @@ import com.paladin.framework.core.copy.SimpleBeanCopier.SimpleBeanCopyUtil;
 import com.paladin.framework.core.exception.BusinessException;
 
 import com.paladin.hrms.controller.org.pojo.OrgPersonalAccountQuery;
-import com.paladin.hrms.controller.org.pojo.PersonnelClaimParamVO;
 import com.paladin.hrms.core.HrmsUserSession;
+import com.paladin.hrms.core.OrgDistrictContainer;
+import com.paladin.hrms.core.OrgDistrictContainer.District;
 import com.paladin.hrms.model.syst.SysUser;
 import com.paladin.hrms.service.assess.AssessPhysicianRecordService;
 import com.paladin.hrms.service.org.dto.*;
@@ -55,7 +56,7 @@ public class OrgPersonnelService extends ServiceSupport<OrgPersonnel> {
 	@Autowired
 	private OrgPersonnelYearAssessMapper orgPersonnelYearAssessMapper;
 	@Autowired
-	private OrgPersonnelClaimRecordService orgPersonnelClaimRecordService;
+	private OrgPersonnelClaimRecordService personnelClaimRecordService;
 	@Autowired
 	private OrgAgencyService agencyService;
 
@@ -92,13 +93,28 @@ public class OrgPersonnelService extends ServiceSupport<OrgPersonnel> {
 	}
 
 	/**
-	 * 变更机构
+	 * 通过身份证号码查询所有状态的人员（正常、离岗等）
+	 * 
+	 * @param identificationNo
+	 * @return
+	 */
+	public List<OrgPersonnel> getAllStatusPersonnelByIdNo(String identificationNo) {
+		if (identificationNo != null && identificationNo.length() > 0) {
+			return searchAll(new Condition(OrgPersonnel.COLUMN_FIELD_IDENTIFICATION_NO, QueryType.EQUAL, identificationNo), true);
+		}
+
+		return null;
+	}
+
+	/**
+	 * 变更自己人员的机构
 	 * 
 	 * @param personnelId
 	 * @param targetAgencyId
 	 * @return
 	 */
-	public boolean changeAgency(String personnelId, String targetAgencyId) {
+	public boolean changeAgencyForOwnPersonnel(String personnelId, String targetAgencyId) {
+		// TODO 判断是否管辖下人员，在SQL中增加permission
 		OrgAgency agency = agencyService.get(targetAgencyId);
 		if (agency != null) {
 			return personnelMapper.updateAgencyAndDistrict(agency, personnelId) > 0;
@@ -137,6 +153,48 @@ public class OrgPersonnelService extends ServiceSupport<OrgPersonnel> {
 			throw new BusinessException("已经存在身份证号码为[" + identificationNo + "]的人员");
 		}
 
+		String agencyId = personnel.getAgencyId();
+		HrmsUserSession session = HrmsUserSession.getCurrentUserSession();
+
+		// TODO 暂时只做最简单情况判断，机构管理员默认只管理一个机构，区域管理员只管理一个区域
+		if (session.isAgencyManager()) {
+			agencyId = session.getManageAgencyId()[0];
+		} else if (session.isDistrictManager()) {
+			if (agencyId == null || agencyId.length() == 0) {
+				int districtCode = session.getManageDistrictCode()[0];
+				District district = OrgDistrictContainer.getDistrict(districtCode);
+				personnel.setCityCode(district.getCity().getCode());
+				District town = district.getTown();
+				personnel.setTownCode(town == null ? null : town.getCode());
+				personnel.setDistrictCode(districtCode);
+				personnel.setAgencyId(null);
+				personnel.setAgencyName(null);
+			}
+		} else if (session.isSystemAdmin()) {
+			if (agencyId == null || agencyId.length() == 0) {
+				personnel.setCityCode(null);
+				personnel.setTownCode(null);
+				personnel.setDistrictCode(null);
+				personnel.setAgencyId(null);
+				personnel.setAgencyName(null);
+			}
+		} else {
+			throw new BusinessException("没有新增该人员的权限");
+		}
+
+		if (agencyId != null && agencyId.length() > 0) {
+			OrgAgency agency = agencyService.get(agencyId);
+			if (agency == null) {
+				throw new BusinessException("找不到人员所属机构");
+			} else {
+				personnel.setCityCode(agency.getCityCode());
+				personnel.setTownCode(agency.getTownCode());
+				personnel.setDistrictCode(agency.getDistrictCode());
+				personnel.setAgencyId(agencyId);
+				personnel.setAgencyName(agency.getName());
+			}
+		}
+
 		return super.save(personnel);
 	}
 
@@ -153,6 +211,79 @@ public class OrgPersonnelService extends ServiceSupport<OrgPersonnel> {
 		model.setProfilePhoto(attachmentId);
 		return updateSelective(model) > 0;
 	}
+
+	/**
+	 * 离岗
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean levelPersonnel(String id) {
+		OrgPersonnel model = new OrgPersonnel();
+		model.setId(id);
+		model.setIsDelete(OrgPersonnel.STATUS_LEVEL);
+		return updateSelective(model) > 0;
+	}
+
+	/**
+	 * 查找离岗人员
+	 * 
+	 * @param query
+	 * @return
+	 */
+	public PageResult<OrgPersonnelLevelVO> findLevelPersonnelPage(OrgPersonnelClaimQueryDTO query) {
+		Page<OrgPersonnelLevelVO> page = PageHelper.offsetPage(query.getOffset(), query.getLimit());
+		personnelMapper.findAllLevelPeople(query);
+		return new PageResult<>(page);
+	}
+
+	/**
+	 * 认领人员
+	 * 
+	 * @param personnelClaimParamVO
+	 * @return
+	 */
+	@Transactional
+	public boolean claimPersonnel(OrgPersonnelClaimDTO personnelClaim) {
+
+		String personnelId = personnelClaim.getPersonnelId();
+		String agencyId = personnelClaim.getAgencyId();
+
+		OrgPersonnel personnel = get(personnelId);
+		if (personnel == null) {
+			throw new BusinessException("找不到对应人员");
+		}
+
+		OrgAgency agency = agencyService.get(agencyId);
+		if (agency == null) {
+			throw new BusinessException("找不到对应机构");
+		}
+
+		OrgPersonnel model = new OrgPersonnel();
+		model.setId(personnelId);
+		model.setAgencyId(agencyId);
+		model.setAgencyName(agency.getName());
+		model.setCityCode(agency.getCityCode());
+		model.setTownCode(agency.getTownCode());
+		model.setDistrictCode(agency.getDistrictCode());
+		model.setIsDelete(OrgPersonnel.STATUS_NORMAL);
+
+		if (updateSelective(model) > 0) {
+
+			OrgPersonnelClaimRecord record = new OrgPersonnelClaimRecord();
+			record.setOriginAgencyId(personnel.getAgencyId());
+			record.setPersonnelId(personnelId);
+			record.setTargetAgencyId(agencyId);
+
+			personnelClaimRecordService.save(record);
+			return true;
+		}
+		return false;
+	}
+
+	// -----------------------------------
+	// 人员信息导入模块
+	// -----------------------------------
 
 	/**
 	 * 人员信息上传
@@ -333,24 +464,6 @@ public class OrgPersonnelService extends ServiceSupport<OrgPersonnel> {
 			addAccounts.seteIds(eIds);
 			return addAccounts;
 		}
-
-	}
-
-	@Transactional
-	public int confirm(PersonnelClaimParamVO personnelClaimParamVO) {
-		OrgPersonnelClaimRecord claimRecord = new OrgPersonnelClaimRecord();
-		claimRecord.setName(personnelClaimParamVO.getUserName());
-		claimRecord.setIdentificationNo(personnelClaimParamVO.getIdentificationNo());
-		claimRecord.setAgencyId(personnelClaimParamVO.getAgencyId());
-		claimRecord.setAgencyName(personnelClaimParamVO.getGoalAgencyName());
-		claimRecord.setStatus(1);
-		orgPersonnelClaimRecordService.save(claimRecord);
-		OrgPersonnel personnel = get(personnelClaimParamVO.getUserId());
-		personnel.setAgencyId(personnelClaimParamVO.getAgencyId());
-		personnel.setAgencyName(personnelClaimParamVO.getGoalAgencyName());
-		personnel.setStatus(1);
-		return update(personnel);
-
 	}
 
 }

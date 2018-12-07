@@ -20,16 +20,16 @@ public class PhysicianAssessUploadDTO {
 	@ReadProperty(cellIndex = 3)
 	private Date advanceAssessTime;
 	//业务水平测评
-	@ReadProperty(cellIndex = 4, enumType="assess-result")
+	@ReadProperty(cellIndex = 4, enumType="physician-assess-result")
 	private Integer businessLevelEvaluation;
 	//工作成绩
-	@ReadProperty(cellIndex = 5, enumType="assess-result")
+	@ReadProperty(cellIndex = 5, enumType="physician-assess-result")
 	private Integer jobPerformance;
 	//执业道德评定
-	@ReadProperty(cellIndex = 6, enumType="assess-result")
+	@ReadProperty(cellIndex = 6, enumType="physician-assess-result")
 	private Integer practiceMoralEvaluation;
 	//考核结果
-	@ReadProperty(cellIndex = 7, enumType="assess-result")
+	@ReadProperty(cellIndex = 7, enumType="physician-assess-result")
 	private Integer assessResult;
 	//说明
 	@ReadProperty(cellIndex = 8)

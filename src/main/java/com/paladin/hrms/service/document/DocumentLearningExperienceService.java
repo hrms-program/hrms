@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,6 @@ public class DocumentLearningExperienceService{
 	@Autowired
 	private DocumentLearningExperienceMapper learningExperienceMapper;
 	
-	@Autowired
-	private DocumentAttachmentService attachmentService;
 	/**
 	 * 按条件查询，学习经历列表
 	 */

@@ -102,7 +102,7 @@ public class ComplaintAgencyChangeService extends ComplaintServiceSupport<Compla
 			String targetAgencyId = change.getTargetAgencyId();
 
 			if (pass) {
-				if (!personnelService.changeAgency(personnelId, targetAgencyId)) {
+				if (!personnelService.changeAgencyForOwnPersonnel(personnelId, targetAgencyId)) {
 					throw new BusinessException("机构变更失败");
 				}
 			}

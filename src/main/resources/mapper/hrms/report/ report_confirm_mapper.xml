@@ -2,14 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.paladin.hrms.mapper.report.confirm.ReportConfirmMapper">
         <select id="findOrgCount" resultType="com.paladin.hrms.controller.report.confirm.pojo.ReportConfirmVO">
-          SELECT  
+         <!--  SELECT  
 			'昆山市'as division,
 			count(ag.id) as shouldReport,
 			sum(case org.confirm_state when 1 then 1 else 0 end) as reportedOrg,
 			sum(case org.confirm_state when 1 then 0 else 1 end) as noReportedOrg
 			from org_agency ag
 			left join report_confirm_org org on ag.id=org.org_id and YEAR(org.confirm_time)=year(NOW())
-			where ag.is_delete =0
+			where ag.is_delete =0 -->
+
+			SELECT
+			'昆山市' AS division,
+			count(ag.id) AS shouldReport,
+			sum(CASE org.confirm_state WHEN 1 THEN 1 ELSE 0 END) AS reportedOrg,
+			sum(CASE org.confirm_state WHEN 1 THEN 0 ELSE 1 END) AS noReportedOrg
+			FROM org_agency ag
+			LEFT JOIN report_confirm_org org ON ag.id = org.org_id and org.state=1
+			AND YEAR (org.confirm_time) = YEAR (NOW())
+			WHERE ag.is_delete = 0 
         </select>
         
         <select id="findOldOrgEntity" parameterType="String" resultType="com.paladin.hrms.model.report.ReportConfirmOrg">

@@ -1,14 +1,10 @@
 package com.paladin.hrms.model.document;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.springframework.data.annotation.Transient;
-
-import com.paladin.framework.common.UnDeleteModel;
 
 //学历教育简历
 public class DocumentLearningExperience  implements Serializable {

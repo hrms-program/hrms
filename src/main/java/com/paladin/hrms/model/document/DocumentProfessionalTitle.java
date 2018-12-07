@@ -5,8 +5,6 @@ import java.io.Serializable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import com.paladin.framework.common.UnDeleteModel;
-
 //专业技术职称简历
 public class DocumentProfessionalTitle  implements Serializable {
 	

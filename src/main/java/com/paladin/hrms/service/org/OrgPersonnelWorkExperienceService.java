@@ -7,7 +7,6 @@ import com.paladin.hrms.model.complaint.ComplaintPersonnelArchivesCheck;
 import com.paladin.hrms.model.org.OrgPersonnelWorkExperience;
 import com.paladin.framework.common.QueryType;
 import com.paladin.framework.common.GeneralCriteriaBuilder.Condition;
-import com.paladin.framework.core.ServiceSupport;
 
 @Service
 public class OrgPersonnelWorkExperienceService extends PersonnelContextServiceSupport<OrgPersonnelWorkExperience>{

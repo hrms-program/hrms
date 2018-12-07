@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +25,6 @@ import com.paladin.framework.utils.Query;
 import com.paladin.framework.utils.SysContants;
 import com.paladin.framework.web.response.CommonResponse;
 import com.paladin.hrms.controller.document.pojo.DocumentInforVO;
-import com.paladin.hrms.controller.org.pojo.OrgPersonnelQuery;
 import com.paladin.hrms.service.document.DocumentInforService;
 
 @Controller

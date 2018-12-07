@@ -65,10 +65,15 @@ public class SysAnnouncementController extends ControllerSupport {
 	 * @return
 	 */
 	@RequestMapping("/view")
-	public String view(@RequestParam String id, Model model) {
+	public String view(@RequestParam String id,@RequestParam Boolean homePage, Model model) {
 		SysAnnouncement sysAnnouncement = sysAnnouncementService.get(id);
 		if (sysAnnouncement == null) {
 			throw new BusinessException("查看的内容不存在");
+		}
+		if(homePage){
+		    model.addAttribute("backUrl", "/hrms/manager/index");
+		}else{
+		    model.addAttribute("backUrl", "/hrms/system/announcement/index");
 		}
 		SysAnnouncementVO sysAnnouncementVO = beanIncompleteCopy(sysAnnouncement, new SysAnnouncementVO());
 		model.addAttribute("object", sysAnnouncementVO);
@@ -142,7 +147,8 @@ public class SysAnnouncementController extends ControllerSupport {
 			}
 
 			beanIncompleteCopy(sysAnnouncementDTO, sysAnnouncement);
-			return CommonResponse.getResponse(sysAnnouncementService.updateSelective(sysAnnouncement));
+			sysAnnouncement.setPublishedTime(new Date());
+			return CommonResponse.getResponse(sysAnnouncementService.update(sysAnnouncement));
 		} else {
 			SysAnnouncement sysAnnouncement = beanCompleteCopy(sysAnnouncementDTO, new SysAnnouncement());
 			sysAnnouncement.setPublishedTime(new Date());

@@ -7,9 +7,6 @@ import java.util.List;
 
 import org.springframework.data.annotation.Transient;
 
-import com.paladin.framework.common.UnDeleteModel;
-import com.paladin.hrms.model.document.DocumentAdministrativePost;
-
 public class DocumentInforVO implements Serializable {
 	
 	/**

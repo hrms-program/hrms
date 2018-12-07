@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/static/assets/bootstrap3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/static/css/font-awesome.min.css">
     <link rel="stylesheet" href="/static/css/ionicons.min.css">
+    <link rel="stylesheet" href="/static/css/iconfont.css">
     <link rel="stylesheet" href="/static/css/AdminLTE.min.css">
     <link rel="stylesheet" href="/static/css/skins/skin-blue-light.min.css">
     <style type="text/css">
@@ -250,7 +251,7 @@
             {
                 id: "10000",
                 text: "机构信息",
-                icon: "fa fa-laptop",
+                icon: "fa iconfont icon-jigouguanliicon-",
                 children: [{
                     id: "10010",
                     text: "机构信息查询",
@@ -262,7 +263,7 @@
             {
                 id: "20000",
                 text: "人力资源",
-                icon: "fa fa-laptop",
+                icon: "fa iconfont icon-renyuanguanli",
                 children: [{
                     id: "20010",
                     text: "人力资源管理",
@@ -292,7 +293,7 @@
             {
                 id: "30000",
                 text: "信息审核",
-                icon: "fa fa-laptop",
+                icon: "fa iconfont icon-shenhe",
                 children: [{
                     id: "30010",
                     text: "人力资源信息审核",
@@ -304,7 +305,7 @@
             {
                 id: "31000",
                 text: "系统申诉",
-                icon: "fa fa-laptop",
+                icon: "fa iconfont icon-change",
                 children: [{
                     id: "31001",
                     text: "个人信息申诉",
@@ -327,7 +328,7 @@
                     id: "31004",
                     text: "身份证置换管理",
                     icon: "fa fa-circle-o",
-                    url: "complaint/ic/exchange/index",
+                    url: "complaint/identification/exchange/index",
                     targetType: "iframe-tab"
                 }, {
                     id: "31005",
@@ -347,7 +348,7 @@
 
                 id: "34000",
                 text: "资源分析",
-                icon: "fa fa-laptop",
+                icon: "fa iconfont icon-fenxi",
                 children: [{
                     id: "34001",
                     text: "人员信息完整度",
@@ -371,7 +372,7 @@
             {
                 id: "32000",
                 text: "医师定期考核",
-                icon: "fa fa-laptop",
+                icon: "fa iconfont icon-xinrenkaohebiaozhun",
                 children: [{
                     id: "32001",
                     text: "医师定期考核管理",
@@ -383,7 +384,7 @@
             {
                 id: "34000",
                 text: "卫生统计年度上报",
-                icon: "fa fa-laptop",
+                icon: "fa iconfont icon-shangbao",
                 children: [{
                     id: "34001",
                     text: "个案信息上报",
@@ -401,7 +402,7 @@
             {
                 id: "33000",
                 text: "账户管理",
-                icon: "fa fa-laptop",
+                icon: "fa iconfont icon-zhanghaoxinxi-xiugai",
                 children: [{
                     id: "33002",
                     text: "所辖机构管理员",
@@ -419,12 +420,23 @@
             {
                 id: "35000",
                 text: "公告管理",
-                icon: "fa fa-laptop",
+                icon: "fa iconfont icon-gonggao",
                 children: [{
                     id: "35001",
                     text: "公告信息",
                     icon: "fa fa-circle-o",
                     url: "system/announcement/index",
+                    targetType: "iframe-tab"
+                }]
+            }, {
+                id: "36000",
+                text: "APP管理",
+                icon: "",
+                children: [{
+                    id: "35002",
+                    text: "APP管理",
+                    icon: "fa fa-circle-o",
+                    url: "system/app/index",
                     targetType: "iframe-tab"
                 }]
             }

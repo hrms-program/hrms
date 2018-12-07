@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="hrms/header"/>
+<head th:include="/hrms/header"/>
 
 <body>
 <section class="content-header">
@@ -16,12 +16,14 @@
             <div class="box-body">
                 <form id="searchbar" class="form-horizontal">
                     <div class="form-group">
-                        <div class="col-md-3">
-                            <input type="text" name="name" class="form-control" th:value="${query?.name}" placeholder="用户名称" />
+                    <label for="name" style="width:130px" class="col-sm-1 control-label">用户名称</label>
+                        <div class="col-md-2">
+                            <input type="text" name="name" class="form-control" placeholder="请输入用户名称" th:value="${query?.name}" />
                         </div>
-                        <div class="col-md-3">
+                        <label for="name" style="width:130px" class="col-sm-1 control-label">机构名称</label>
+                        <div class="col-md-2">
                             <div class="input-group">
-                                <input type="text" name="agencyName" class="form-control tonto-agency" placeholder="机构名称" th:value="${query?.agencyName}">
+                                <input type="text" name="agencyName" placeholder="请输入机构名称" class="form-control tonto-agency" th:value="${query?.agencyName}">
                                 <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
                                 <div class="input-group-btn">
                                     <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
@@ -57,7 +59,7 @@
         </div>
     </div>
 </section>
-<div th:include="hrms/footer"/>
+<div th:include="/hrms/footer"/>
 <script type="text/javascript">
     /*<![CDATA[*/
          var table;

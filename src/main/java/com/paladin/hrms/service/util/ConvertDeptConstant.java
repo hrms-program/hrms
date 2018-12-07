@@ -1,12 +1,11 @@
 package com.paladin.hrms.service.util;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.io.FileUtils;
-import org.springframework.util.ResourceUtils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -29,13 +28,21 @@ public class ConvertDeptConstant implements ReadPropertyConvert<String>, ValueFo
 	private final static Map<String, String> name2key;
 
 	static {
-		File jsonFile = null;
 		String jsonStr = null;
 		key2name = new HashMap<String, String>();
 		name2key = new HashMap<String, String>();
 		try {
-			jsonFile = ResourceUtils.getFile("classpath:static/js/hrms/org/personal_tree_constant.json");
-			jsonStr = FileUtils.readFileToString(jsonFile, "UTF-8");
+			InputStream input = ConvertTechQualificationConstant.class.getResourceAsStream("personal_tree_constant.json");
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"))) {
+				StringBuilder sb = new StringBuilder();
+				for (;;) {
+					String line = reader.readLine();
+					if (line == null)
+						break;
+					sb.append(line);
+				}
+				jsonStr = sb.toString();
+			}
 			Map map = (Map) JSONObject.parseObject(jsonStr);
 			JSONArray json = (JSONArray) map.get("department-type");
 			for (Object jsonObject : json) {

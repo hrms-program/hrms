@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.paladin.framework.core.ControllerSupport;
-import com.paladin.framework.core.UserSession;
 import com.paladin.framework.core.exception.BusinessException;
 import com.paladin.framework.web.response.CommonResponse;
 import com.paladin.hrms.controller.document.pojo.DocumentInforVO;
-import com.paladin.hrms.controller.org.pojo.OrgPersonnelBaseDTO;
 import com.paladin.hrms.model.document.DocumentInfor;
 import com.paladin.hrms.model.org.OrgPersonnel;
 import com.paladin.hrms.service.document.DocumentInforService;

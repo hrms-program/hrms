@@ -91,7 +91,9 @@ public class ComplaintIdentificationBindRecordController  extends ControllerSupp
             return CommonResponse.getErrorResponse("附件数量不能超过4张");
         }
         complaintIdentificationBindDTO.setAttachments(attachmentService.splicingAttachmentId(attachments));
-        ComplaintIdentificationBind complaintIdentificationBind = beanCopy(complaintIdentificationBindDTO, new ComplaintIdentificationBind());
+        ComplaintIdentificationBind bind = complaintIdentificationBindService.get(complaintIdentificationBindDTO.getPersonnelId());
+        boolean isAdd = (bind == null);
+        ComplaintIdentificationBind complaintIdentificationBind = beanCopy(complaintIdentificationBindDTO, isAdd ? new ComplaintIdentificationBind() : bind);
         int i =complaintIdentificationBindService.applyOrModifyComplaint(complaintIdentificationBind);
         if ( i > 0) {
             return  CommonResponse.getSuccessResponse(complaintIdentificationBindService.getComplaintPersonnel(complaintIdentificationBind.getPersonnelId()));

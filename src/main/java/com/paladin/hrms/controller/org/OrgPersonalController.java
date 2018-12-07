@@ -35,6 +35,8 @@ import com.paladin.framework.excel.read.ReadColumn;
 import com.paladin.framework.utils.uuid.UUIDUtil;
 import com.paladin.framework.web.response.CommonResponse;
 import com.paladin.hrms.service.org.dto.OrgPersonnelBaseUploadDTO;
+import com.paladin.hrms.service.org.dto.OrgPersonnelClaimDTO;
+import com.paladin.hrms.service.org.dto.OrgPersonnelClaimQueryDTO;
 import com.paladin.hrms.service.org.dto.OrgPersonnelExportQueryDTO;
 import com.paladin.hrms.service.org.dto.OrgPersonnelPracticeUploadDTO;
 import com.paladin.hrms.service.org.dto.OrgPersonnelYearAssessUploadDTO;
@@ -79,9 +81,6 @@ public class OrgPersonalController extends ControllerSupport {
 
 	@Autowired
 	private OrgPersonnelScienceEducationService OrgScienceEducationService;
-
-	@Autowired
-	private OrgPersonnelClaimRecordService orgPersonnelClaimRecordService;
 
 	@Autowired
 	private OrgPersonnelExportService personnelExportService;
@@ -811,7 +810,7 @@ public class OrgPersonalController extends ControllerSupport {
 	 * @return:java.lang.String
 	 */
 	@RequestMapping("/claim/index")
-	@QueryInputMethod(queryClass = OrgPersonnelClaimQuery.class)
+	@QueryInputMethod(queryClass = OrgPersonnelClaimQueryDTO.class)
 	public String claimIndex() {
 		return "/hrms/org/personal_claim_index";
 	}
@@ -825,9 +824,19 @@ public class OrgPersonalController extends ControllerSupport {
 	 */
 	@RequestMapping("/claim/find")
 	@ResponseBody
-	@QueryOutputMethod(queryClass = OrgPersonnelClaimQuery.class, paramIndex = 0)
-	public Object findAll(OrgPersonnelClaimQuery query) {
-		return CommonResponse.getSuccessResponse(orgPersonnelClaimRecordService.findPersonPageByQuery(query));
+	@QueryOutputMethod(queryClass = OrgPersonnelClaimQueryDTO.class, paramIndex = 0)
+	public Object findAll(OrgPersonnelClaimQueryDTO query) {
+		return CommonResponse.getSuccessResponse(personnelService.findLevelPersonnelPage(query));
+	}
+
+	/**
+	 * 离岗
+	 * 
+	 */
+	@RequestMapping("/leave")
+	@ResponseBody
+	public Object leave(String id) {
+		return CommonResponse.getResponse(personnelService.levelPersonnel(id));
 	}
 
 	/**
@@ -841,8 +850,8 @@ public class OrgPersonalController extends ControllerSupport {
 	 */
 	@RequestMapping("/claim/confirm")
 	@ResponseBody
-	public Object confirm(PersonnelClaimParamVO personnelClaimParamVO) {
-		return CommonResponse.getResponse(personnelService.confirm(personnelClaimParamVO));
+	public Object confirm(OrgPersonnelClaimDTO personnelClaimDTO) {
+		return CommonResponse.getResponse(personnelService.claimPersonnel(personnelClaimDTO));
 	}
 
 	@RequestMapping("/export/index")
@@ -869,16 +878,4 @@ public class OrgPersonalController extends ControllerSupport {
 		}
 	}
 
-	/**
-	 * 离岗
-	 * 
-	 */
-	@RequestMapping("/leave")
-	@ResponseBody
-	public Object leave(String id) {
-		OrgPersonnel per = new OrgPersonnel();
-		per.setId(id);
-		per.setStatus(2);
-		return CommonResponse.getSuccessResponse(personnelService.updateSelective(per));
-	}
 }

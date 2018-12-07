@@ -54,8 +54,7 @@ public class AjaxFormAuthenticationFilter extends FormAuthenticationFilter {
 	}
 
 	protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
-		String flag = request.getParameter("isApp");
-		if (flag != null && flag.length() > 0) {
+		if (WebUtil.isApp((HttpServletRequest) request)) {
 			HrmsUserSession userSession = (HrmsUserSession) subject.getPrincipal();
 			Map<String, Object> map = new HashMap<>();
 			map.put("userSession", userSession);
@@ -63,6 +62,7 @@ public class AjaxFormAuthenticationFilter extends FormAuthenticationFilter {
 			WebUtil.sendJson((HttpServletResponse) response, CommonResponse.getSuccessResponse("登录成功", map));
 			return false;
 		}
+
 		if (WebUtil.isAjaxRequest((HttpServletRequest) request)) {
 			WebUtil.sendJson((HttpServletResponse) response, CommonResponse.getSuccessResponse("成功登录"));
 			return false;
@@ -73,8 +73,7 @@ public class AjaxFormAuthenticationFilter extends FormAuthenticationFilter {
 	}
 
 	protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
-		String flag = request.getParameter("isApp");
-		if (flag != null && flag.length() > 0) {
+		if (WebUtil.isApp((HttpServletRequest) request)) {
 			WebUtil.sendJson((HttpServletResponse) response, CommonResponse.getUnLoginResponse("登录失败,用户名或密码错误！"));
 			return false;
 		}

@@ -5,8 +5,6 @@ import java.io.Serializable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import com.paladin.framework.common.UnDeleteModel;
-
 //培训教育经历
 public class DocumentTrainingExperience  implements Serializable{
 	

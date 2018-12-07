@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="hrms/header" />
+<head th:include="/hrms/header" />
 
 <body>
 <tt:constant enumcode="ic-deal-status,ic-operate,boolean"/>
@@ -26,8 +26,8 @@
                 </form>
                 <div class="col-md-12">
                     <div class="pull-right">
-                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()">查询</button>
-                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()">重置</button>
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
                     </div>
                 </div>
                 <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
@@ -35,12 +35,19 @@
             </div>
         </div>
         <div class="box box-solid" style="margin-top:20px">
+        <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+            </div>
             <div id="result" class="box-body">
                 <table id="dataGrid"></table>
             </div>
+            <div class="toolbar">
+            <a href="/hrms/report/infor/index" class="btn toolbar-item"><i class="glyphicon glyphicon-menu-left"></i></a>
+        </div>
         </div>
     </section>
-    <div th:include="hrms/footer" />
+    <div th:include="/hrms/footer" />
     <script type="text/javascript">
     /*<![CDATA[*/
     var table;

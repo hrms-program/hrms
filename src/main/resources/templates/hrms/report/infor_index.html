@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="hrms/header" />
+<head th:include="/hrms/header" />
 
 <body>
 <tt:constant enumcode="ic-deal-status,ic-operate,boolean"/>
@@ -13,20 +13,27 @@
             <div class="box-body">
                 <form id="searchbar" class="form-horizontal">
                     <div class="form-group">
-                        <div class="col-md-3">
-                            <label for="org" class="col-md-5 control-label">机构名称</label>
-                            <div class="col-md-7">
-                                <input type="text" name="org" class="form-control" th:value="${query?.org}" />
-                            </div>
-                        </div> 
+                        <div class="col-md-4">
+                        <label for="name"  class="col-md-5 control-label">请输入机构名称</label>
+							<div class="col-md-7">
+								<div class="input-group">
+									<input type="text" name="agencyName" class="form-control tonto-agency"
+										placeholder="请输入机构名称" th:value="${query?.agencyName}"> <input
+										type="hidden" name="agencyId" th:value="${query?.agencyId}" />
+									<div class="input-group-btn">
+										<ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+									</div>
+								</div>
+							</div>
+						</div> 
                     </div>
                     <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
                     <input type="text" style="display:none">
                 </form>
                 <div class="col-md-12">
                     <div class="pull-right">
-                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()">查询</button>
-                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()">重置</button>
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
                     </div>
                 </div>
                 <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
@@ -34,12 +41,16 @@
             </div>
         </div>
         <div class="box box-solid" style="margin-top:20px">
+        <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+            </div>
             <div id="result" class="box-body">
                 <table id="dataGrid"></table>
             </div>
         </div>
     </section>
-    <div th:include="hrms/footer" />
+    <div th:include="/hrms/footer" />
     <script type="text/javascript">
     /*<![CDATA[*/
     var table;
@@ -57,7 +68,7 @@
             columns: [
                     { title: "机构名称", field: "org",formatter:function (value, row, index) {
                     	return ['<a style="font-weight:bold;" href="/hrms/report/personnel/infor/index?agencyId='+value+'" >',
-                    		value,
+                    	        row.agencyName,
                     		'</a>'].join('');
                     }},
                     { title: "应上报人数", field: "todo" },

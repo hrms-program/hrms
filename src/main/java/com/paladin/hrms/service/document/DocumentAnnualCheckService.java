@@ -2,7 +2,6 @@ package com.paladin.hrms.service.document;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import com.paladin.framework.core.exception.BusinessException;
 import com.paladin.framework.utils.DateUtil;
 import com.paladin.framework.utils.SysContants;
 import com.paladin.framework.utils.uuid.UUIDUtil;
-import com.paladin.hrms.controller.document.DocumentAnnualCheckController;
 import com.paladin.hrms.controller.document.pojo.DocumentAnnualCheckVO;
 import com.paladin.hrms.mapper.document.DocumentAnnualCheckMapper;
 import com.paladin.hrms.model.document.DocumentAnnualCheck;

@@ -11,15 +11,11 @@ public class OrgPersonnelClaimRecord extends BaseModel {
 	@GeneratedValue(generator = "UUID")
 	private String id;
 
-	private String name;
+	private String personnelId;
 
-	private String identificationNo;
-
-	private String agencyId;
-
-	private String agencyName;
-
-	private Integer status;
+	private String originAgencyId;
+	
+	private String targetAgencyId;
 
 	public String getId() {
 		return id;
@@ -29,44 +25,29 @@ public class OrgPersonnelClaimRecord extends BaseModel {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getPersonnelId() {
+		return personnelId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPersonnelId(String personnelId) {
+		this.personnelId = personnelId;
 	}
 
-	public String getIdentificationNo() {
-		return identificationNo;
+	public String getOriginAgencyId() {
+		return originAgencyId;
 	}
 
-	public void setIdentificationNo(String identificationNo) {
-		this.identificationNo = identificationNo;
+	public void setOriginAgencyId(String originAgencyId) {
+		this.originAgencyId = originAgencyId;
 	}
 
-	public String getAgencyId() {
-		return agencyId;
+	public String getTargetAgencyId() {
+		return targetAgencyId;
 	}
 
-	public void setAgencyId(String agencyId) {
-		this.agencyId = agencyId;
+	public void setTargetAgencyId(String targetAgencyId) {
+		this.targetAgencyId = targetAgencyId;
 	}
 
-	public String getAgencyName() {
-		return agencyName;
-	}
-
-	public void setAgencyName(String agencyName) {
-		this.agencyName = agencyName;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
+	
 }

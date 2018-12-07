@@ -4,6 +4,8 @@ public class ReportInforDTO {
 
 	public String area;
 	
+	public String agencyName;
+	
 	public String org;
 	
 	public String todo;//应上报人数
@@ -63,5 +65,15 @@ public class ReportInforDTO {
 	public void setUn(String un) {
 		this.un = un;
 	}
+
+    public String getAgencyName()
+    {
+        return agencyName;
+    }
+
+    public void setAgencyName(String agencyName)
+    {
+        this.agencyName = agencyName;
+    }
 
 }

@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +29,6 @@ import com.paladin.framework.utils.uuid.UUIDUtil;
 import com.paladin.hrms.controller.document.pojo.DocumentInforVO;
 import com.paladin.hrms.mapper.document.DocumentInforMapper;
 import com.paladin.hrms.model.document.DocumentInfor;
-import com.paladin.hrms.model.org.OrgPersonnel;
-import com.paladin.hrms.service.org.OrgPersonnelService;
-
-
 
 @Service
 public class DocumentInforService {
@@ -55,8 +50,6 @@ public class DocumentInforService {
 	private DocumentProfessionalTitleService professionalTitleService;
 	@Autowired
 	private DocumentFamilyMemberService familyMemberService;
-	@Autowired
-    private OrgPersonnelService personnelService;
 //	@Autowired
 //	private DictService dictService;
 	@Autowired
@@ -225,6 +218,7 @@ public class DocumentInforService {
 	}
 
 	// 基本信息保存
+	@SuppressWarnings("unused")
 	@Transactional
 	public void saveInfo(DocumentInfor document) {
 		// 基本信息，工作信息保存
@@ -297,6 +291,7 @@ public class DocumentInforService {
 	/**
 	 * 导出页面的查询列表
 	 */
+	@SuppressWarnings("unused")
 	public PageResult<DocumentInforVO> listForExport(Query query) {
 		Page<DocumentInforVO> page = PageHelper.offsetPage(query.getOffset(), query.getLimit());
 		List<DocumentInforVO> listForExport = getListForExport(query);
@@ -306,6 +301,7 @@ public class DocumentInforService {
 	/**
 	 * 用户信息导入
 	 */
+	@SuppressWarnings({ "unused"})
 	@Transactional
 	public List<DocumentInfor> importExcel(MultipartFile file) throws Exception {
 		Sheet sheet = ExcelUtils.getSheet(file);

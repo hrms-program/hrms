@@ -59,7 +59,7 @@ public class CommonController {
 	 */
 	@RequestMapping("/upload/images")
 	@ResponseBody
-	public Object uploadImages(@RequestParam("imageStr") String imageStr, @RequestParam(value = "imageName", required = false) String imageName) {
+	public Object uploadImageByBase64(@RequestParam("imageStr") String imageStr, @RequestParam(value = "imageName", required = false) String imageName) {
 		if (imageStr == null || imageStr.length() == 0) {
 			return CommonResponse.getErrorResponse("上传图片的图片为空");
 		}

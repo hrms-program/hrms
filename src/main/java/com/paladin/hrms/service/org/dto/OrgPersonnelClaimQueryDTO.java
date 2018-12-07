@@ -1,42 +1,25 @@
-package com.paladin.hrms.model.org;
+package com.paladin.hrms.service.org.dto;
+
+import com.paladin.framework.common.OffsetPage;
 
 /**
  * <>
  *
  * @author Huangguochen
- * @create 2018/11/5 9:40
+ * @create 2018/11/3 16:43
  * @since 1.0.0
  */
-public class OrgPersonnelClaimDetail {
-    private String id;
-
-    private String name;
-
-    private Integer sex;
+public class OrgPersonnelClaimQueryDTO extends OffsetPage {
 
     private String identificationNo;
-
-    private String agencyId;
-
+    //姓名
+    private String name;
+    //机构名称
     private String agencyName;
-
+    // 从事专业类别
     private Integer major;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private Integer sex;
 
     public String getIdentificationNo() {
         return identificationNo;
@@ -46,12 +29,12 @@ public class OrgPersonnelClaimDetail {
         this.identificationNo = identificationNo;
     }
 
-    public String getAgencyId() {
-        return agencyId;
+    public String getName() {
+        return name;
     }
 
-    public void setAgencyId(String agencyId) {
-        this.agencyId = agencyId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAgencyName() {
@@ -77,4 +60,5 @@ public class OrgPersonnelClaimDetail {
     public void setSex(Integer sex) {
         this.sex = sex;
     }
+
 }

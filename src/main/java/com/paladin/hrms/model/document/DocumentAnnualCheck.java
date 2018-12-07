@@ -5,8 +5,6 @@ import java.io.Serializable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import com.paladin.framework.common.UnDeleteModel;
-
 //年度考核
 public class DocumentAnnualCheck implements Serializable{
 	

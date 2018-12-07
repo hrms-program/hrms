@@ -12,13 +12,10 @@ import com.paladin.framework.core.UserSession;
 import com.paladin.framework.utils.SysContants;
 import com.paladin.framework.utils.uuid.UUIDUtil;
 import com.paladin.hrms.controller.org.pojo.OrgAgencyQuery;
-import com.paladin.hrms.controller.org.pojo.OrgAgencyVO;
-import com.paladin.hrms.controller.org.pojo.OrgPersonnelDetailVO;
 import com.paladin.hrms.controller.report.confirm.pojo.ReportConfirmVO;
 import com.paladin.hrms.mapper.report.confirm.ReportConfirmMapper;
 import com.paladin.hrms.model.org.OrgAgency;
 import com.paladin.hrms.model.report.ReportConfirmOrg;
-import com.paladin.hrms.model.report.ReportPersonnelInfor;
 import com.paladin.hrms.service.org.OrgAgencyService;
 
 @Service

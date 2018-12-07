@@ -6,7 +6,9 @@ public class ReportInforQuery extends OffsetPage{
 
 	public String area;
 	
-	public String org;
+	public String agencyName;
+	
+	public String agencyId;
 	
 	public String getArea() {
 		return area;
@@ -16,12 +18,24 @@ public class ReportInforQuery extends OffsetPage{
 		this.area = area;
 	}
 
-	public String getOrg() {
-		return org;
-	}
+    public String getAgencyName()
+    {
+        return agencyName;
+    }
 
-	public void setOrg(String org) {
-		this.org = org;
-	}
+    public void setAgencyName(String agencyName)
+    {
+        this.agencyName = agencyName;
+    }
+
+    public String getAgencyId()
+    {
+        return agencyId;
+    }
+
+    public void setAgencyId(String agencyId)
+    {
+        this.agencyId = agencyId;
+    }
 
 }

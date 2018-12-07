@@ -1,7 +1,6 @@
 package com.paladin.hrms.model.complaint;
 
 import com.paladin.framework.common.BaseModel;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Date;

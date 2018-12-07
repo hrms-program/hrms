@@ -12,7 +12,7 @@
                 	from v_report_personnel_infor per
                 	<where>
                 		<if test="name != null and name != ''">
-							and per.name=#{name}
+							and per.name LIKE CONCAT ("%",#{name},"%")  
 						</if>
 						<if test="agencyId != null and agencyId != ''">
 							and per.agency_id=#{agencyId}

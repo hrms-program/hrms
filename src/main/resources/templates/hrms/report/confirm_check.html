@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="hrms/header" />
+<head th:include="/hrms/header" />
 
 <body>
 <tt:constant enumcode="ic-deal-status,ic-operate,boolean"/>
     <section class="content">
         <div class="box box-solid" style="margin-top:20px">
+        <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+            </div>
             <div id="result" class="box-body">
                 <table id="dataGrid"></table>
             </div>
+             <div class="toolbar">
+            <a href="/hrms/report/confirm/index" class="btn toolbar-item"><i class="glyphicon glyphicon-menu-left"></i></a>
+        </div>
         </div>
     </section>
-    <div th:include="hrms/footer" />
+    <div th:include="/hrms/footer" />
     <script type="text/javascript">
     /*<![CDATA[*/
     var table;
@@ -27,7 +34,7 @@
         table = $.createTable("#dataGrid", {
             idField: "id",
             columns: [
-                    { title: "机构名称", field: "org"},
+                    { title: "机构名称", field: "agencyName"},
                     { title: "应上报人数", field: "todo" },
                     { title: "已上报合格人数", field: "y"},
                     { title: "上报不合格人数", field: "n" },
@@ -67,6 +74,7 @@
         		success : function(data) { //服务器成功响应处理函数
         			if (data.status == 1) {
         				layer.alert(data.message);
+        				table.refresh();
         			} else if (data.status == 0) {
         				layer.alert(data.message);
         			}

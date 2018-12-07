@@ -46,6 +46,17 @@
 .modal-footer {
     padding: 22px;
 }
+.modal-footer{
+	cursor:pointer;
+}
+.code{
+	position: absolute;
+	margin-left: 152px;
+}
+#code{
+	text-decoration:none;
+}
+
 </style>
 <body class="login_bg">
         <div id="loginModal" class="modal show">
@@ -72,12 +83,25 @@
                         </form>
                     </div>
                     <div class="modal-footer">
+                   		<a id="code">点击扫描二维码下载APP</a>
+                   		<div class="code" style="display: none;">
+	                   		<div style="border: 1px #ccc solid;">
+	                   			<img width="150px" alt="无APP可下载" height="150px" src="/app/obtain/url"/>
+	                   		</div>
+           				</div>
                     </div>
                 </div>
+                 
             </div>
         </div>
         </div>
         </div>
 </body>
-
+<script type="text/javascript">
+$(function(){
+	$("#code").click(function(){
+		$(".code").fadeToggle(1000);
+	})
+})
+</script>
 </html>

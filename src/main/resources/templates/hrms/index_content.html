@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:include="hrms/header" />
+<head th:include="/hrms/header" />
 <style>
 .notice-list {
     list-style: none;
@@ -124,7 +124,7 @@
             <div class="box-body">
                 <ul class="notice-list ul-dashed" th:each="notice,iter: ${notices}">
                     <li class="notice-li">
-                        <strong><a class="name" th:href="${'/hrms/system/announcement/view?id='+ notice.id}" th:text="${notice.title}"></a></strong>
+                        <strong><a class="name" th:href="${'/hrms/system/announcement/view?homePage=true&id='+ notice.id}" th:text="${notice.title}"></a></strong>
                         <div class="right-tool">
                             <span th:text="${#dates.format(notice.publishedTime, 'yyyy-MM-dd')}"></span>
                         </div>
@@ -191,7 +191,7 @@
             </div>
         </div>
     </section>
-    <div th:include="hrms/footer" />
+    <div th:include="/hrms/footer" />
 </body>
 
 </html>

@@ -8,8 +8,6 @@ import javax.persistence.Id;
 
 import org.springframework.data.annotation.Transient;
 
-import com.paladin.framework.common.UnDeleteModel;
-
 //行政职务
 public class DocumentAdministrativePost  implements Serializable{
 	/**

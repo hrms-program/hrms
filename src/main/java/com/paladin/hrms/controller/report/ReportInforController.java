@@ -1,21 +1,15 @@
 package com.paladin.hrms.controller.report;
 
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.paladin.framework.common.PageResult;
 import com.paladin.framework.core.ControllerSupport;
 import com.paladin.framework.core.query.QueryOutputMethod;
 import com.paladin.framework.web.response.CommonResponse;
-import com.paladin.hrms.controller.org.pojo.OrgPersonnelDetailVO;
-import com.paladin.hrms.controller.report.pojo.ReportInforDTO;
 import com.paladin.hrms.controller.report.pojo.ReportInforQuery;
-import com.paladin.hrms.service.org.OrgPersonnelService;
 import com.paladin.hrms.service.report.ReportInforService;
 
 /**
@@ -45,7 +39,7 @@ public class ReportInforController extends ControllerSupport {
     @ResponseBody
     @QueryOutputMethod(queryClass = ReportInforQuery.class, paramIndex = 0)
     public Object findAll(ReportInforQuery query) {
-        return CommonResponse.getSuccessResponse(new PageResult<ReportInforDTO>(reportInforService.searchTableList(query))  );
+        return CommonResponse.getSuccessResponse(reportInforService.searchTableList(query));
     }
 	
     /**
@@ -56,7 +50,6 @@ public class ReportInforController extends ControllerSupport {
     @RequestMapping("/reportPersonal")
 	@ResponseBody
 	public Object reportPersonal(@RequestParam String personnelId) {
-		HashMap<String, Object> result = new HashMap<>();
 		try{
 			reportInforService.reportPersonal(personnelId);
 		}catch(Exception e){

@@ -1,18 +1,18 @@
 package com.paladin.hrms.service.report;
 
 import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.paladin.framework.common.PageResult;
 import com.paladin.framework.core.UserSession;
 import com.paladin.framework.utils.SysContants;
 import com.paladin.framework.utils.uuid.UUIDUtil;
-import com.paladin.hrms.controller.org.pojo.OrgPersonnelDetailVO;
 import com.paladin.hrms.controller.report.pojo.ReportInforDTO;
 import com.paladin.hrms.controller.report.pojo.ReportInforQuery;
-import com.paladin.hrms.controller.report.pojo.ReportPersonnelInforDTO;
+import com.paladin.hrms.core.DataPermissionUtil;
+import com.paladin.hrms.core.DataPermissionUtil.DataPermissionCondition;
 import com.paladin.hrms.mapper.report.ReportInforMapper;
 import com.paladin.hrms.model.report.ReportPersonnelInfor;
 import com.paladin.hrms.service.org.OrgPersonnelService;
@@ -27,14 +27,22 @@ public class ReportInforService {
 	@Autowired
 	private OrgPersonnelService personnelService;
 
-	public Page<ReportInforDTO> searchTableList(ReportInforQuery query) {
-		
-		
-		return  reportInforMapper.searchTableList(query);
+	public PageResult<ReportInforDTO> searchTableList(ReportInforQuery query) {
+	    Page<ReportInforDTO> page = PageHelper.offsetPage(query.getOffset(), query.getLimit());
+        String agencyId = query.getAgencyId();
+        String[] agencyIds = (agencyId == null || agencyId.length() == 0) ? null : new String[] { agencyId };
+        DataPermissionCondition permission = DataPermissionUtil.getPermissionCondition(null, agencyIds);
+        reportInforMapper.searchTableList(query, permission);
+        return new PageResult<>(page);
 	}
 
-	public Page<ReportInforDTO> searchOrgList(ReportInforQuery query) {
-		return reportInforMapper.searchOrgList(query);
+	public PageResult<ReportInforDTO> searchOrgList(ReportInforQuery query) {
+	    Page<ReportInforDTO> page = PageHelper.offsetPage(query.getOffset(), query.getLimit());
+        String agencyId = query.getAgencyId();
+        String[] agencyIds = (agencyId == null || agencyId.length() == 0) ? null : new String[] { agencyId };
+        DataPermissionCondition permission = DataPermissionUtil.getPermissionCondition(null, agencyIds);
+        reportInforMapper.searchOrgList(query, permission);
+        return new PageResult<>(page);
 	}
 
 	public void reportPersonal(String personnelId) {

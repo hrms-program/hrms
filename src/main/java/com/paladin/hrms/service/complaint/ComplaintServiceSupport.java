@@ -54,7 +54,7 @@ public class ComplaintServiceSupport<T extends ComplaintModel> extends ServiceSu
 			}
 		}
 	}
-	
+
 	/**
 	 * 新增或修改申请
 	 * 
@@ -67,10 +67,11 @@ public class ComplaintServiceSupport<T extends ComplaintModel> extends ServiceSu
 			throw new BusinessException("没有选择申请人");
 		}
 		model.setStatus(ComplaintModel.STATUS_WAITING);
-		if(get(personnelId) != null){
-		    return update(model);
-		}else{
-		   return save(model); 
+
+		if (get(personnelId) != null) {
+			return update(model);
+		} else {
+			return save(model);
 		}
 	}
 
@@ -127,6 +128,7 @@ public class ComplaintServiceSupport<T extends ComplaintModel> extends ServiceSu
 
 	/**
 	 * 审核成功
+	 * 
 	 * @param personnelId
 	 * @param illustrate
 	 * @return
@@ -137,6 +139,7 @@ public class ComplaintServiceSupport<T extends ComplaintModel> extends ServiceSu
 
 	/**
 	 * 审核失败
+	 * 
 	 * @param personnelId
 	 * @param illustrate
 	 * @return

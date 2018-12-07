@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.paladin.framework.core.ControllerSupport;
 import com.paladin.framework.web.response.CommonResponse;
+import com.paladin.hrms.controller.org.pojo.OrgPersonnelBaseVO;
 import com.paladin.hrms.controller.org.pojo.OrgPersonnelCultivateVO;
 import com.paladin.hrms.controller.org.pojo.OrgPersonnelEducationVO;
 import com.paladin.hrms.controller.org.pojo.OrgPersonnelJobVO;
@@ -76,7 +78,8 @@ public class OrgPersonnelResource extends ControllerSupport{
 	@ResponseBody
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	public Object detail(@RequestParam String id){
-		return CommonResponse.getSuccessResponse(personnelService.get(id));
+		OrgPersonnelBaseVO orgPersonnelBaseVO = beanIncompleteCopy(personnelService.get(id), new OrgPersonnelBaseVO());
+		return CommonResponse.getSuccessResponse(orgPersonnelBaseVO);
 	}
 	
 	/**

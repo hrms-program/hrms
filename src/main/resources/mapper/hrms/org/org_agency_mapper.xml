@@ -70,37 +70,37 @@
         LEFT JOIN sys_user AS c ON b.id = c.user_id
         where 1=1
         <if test="permission.cityCode!=null">
-            AND agency.city_code =#{permission.cityCode}
+            AND a.city_code =#{permission.cityCode}
         </if>
         <if test="permission.cityCodes!=null">
-            AND agency.city_code IN
+            AND a.city_code IN
             <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
         <if test="permission.townCode!=null">
-            AND agency.town_code =#{permission.townCode}
+            AND a.town_code =#{permission.townCode}
         </if>
         <if test="permission.townCodes!=null">
-            AND agency.town_code IN
+            AND a.town_code IN
             <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
         <if test="permission.districtCode!=null">
-            AND agency.district_code =#{permission.districtCode}
+            AND a.district_code =#{permission.districtCode}
         </if>
         <if test="permission.districtCodes!=null">
-            AND agency.district_code IN
+            AND a.district_code IN
             <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
         <if test="permission.agencyId!=null">
-            AND agency.id =#{permission.agencyId}
+            AND a.id =#{permission.agencyId}
         </if>
         <if test="permission.agencyIds!=null">
-            AND agency.agency_id IN
+            AND a.agency_id IN
             <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
                 #{item}
             </foreach>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:include="hrms/header"/>
+<head th:include="/hrms/header"/>
 
 <body>
     <section class="content-header">
@@ -48,7 +48,7 @@
             </div>
         </div>
         </div>
-        <div th:include="hrms/footer" />
+        <div th:include="/hrms/footer" />
         <script type="text/javascript">
         $(function() {
             $("#file").fileinput({

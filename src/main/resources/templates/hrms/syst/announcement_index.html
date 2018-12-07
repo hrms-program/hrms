@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="hrms/header" />
+<head th:include="/hrms/header" />
 
 <body>
   <section class="content-header">
@@ -65,7 +65,7 @@
             </div>
         </div>
     </section>
-    <div th:include="hrms/footer" />
+    <div th:include="/hrms/footer" />
     <script type="text/javascript">
     /*<![CDATA[*/
     var table;
@@ -103,10 +103,11 @@
     function view() {
         var row = getSelectRow();
         if (row) {
-            window.location = '/hrms/system/announcement/view?id=' + row.id;
+        	var homePage = false;
+            window.location = '/hrms/system/announcement/view?homePage='+homePage+'&id=' + row.id;
         }
     }
-
+     
     function add() {
         window.location = '/hrms/system/announcement/add';
     }

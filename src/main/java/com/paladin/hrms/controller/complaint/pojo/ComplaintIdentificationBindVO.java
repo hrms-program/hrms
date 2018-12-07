@@ -16,6 +16,8 @@ public class ComplaintIdentificationBindVO {
 
     private String personnelId;
 
+    private String nowIdentificationNo;
+
     private Integer usedIdentificationType;
 
     private String usedIdentificationNo;
@@ -111,5 +113,13 @@ public class ComplaintIdentificationBindVO {
 
     public void setResult(Integer result) {
         this.result = result;
+    }
+
+    public String getNowIdentificationNo() {
+        return nowIdentificationNo;
+    }
+
+    public void setNowIdentificationNo(String nowIdentificationNo) {
+        this.nowIdentificationNo = nowIdentificationNo;
     }
 }

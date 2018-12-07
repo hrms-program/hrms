@@ -18,7 +18,6 @@
 			c.personnel_type AS personnelType			
 		FROM org_personnel a LEFT JOIN org_personnel_job b ON a.id = b.id LEFT JOIN org_personnel_practice c on a.id = c.id
 		WHERE a.is_delete = 0 
-		    AND a.status != 2
 		<if test="permission.cityCode!=null">
 			AND a.city_code =#{permission.cityCode}
 		</if>
@@ -163,6 +162,37 @@
 			</foreach>
 		</if>	
 	</select>
+	
+	<select id="findAllLevelPeople" resultType="com.paladin.hrms.service.org.dto.OrgPersonnelLevelVO">
+	    SELECT
+	      personnel.id AS id,
+	      personnel.identification_no AS identificationNo,
+	      personnel.`name` AS `name`,
+	      personnel.sex AS sex,
+	      personnel.agency_id AS agencyId,
+	      personnel.agency_name AS agencyName,
+	      job.major AS major
+	    FROM
+	    org_personnel AS personnel
+	    LEFT JOIN org_personnel_job AS job ON personnel.`id` = job.`id`
+	    WHERE personnel.is_delete = 2
+	    <if test="query.agencyName != null and query.agencyName != ''">
+	        AND personnel.agency_name LIKE CONCAT('%',#{query.agencyName},'%')
+	    </if>
+	    <if test="query.identificationNo != null and query.identificationNo != ''">
+	        AND personnel.`identification_no` LIKE CONCAT('%',#{query.identificationNo},'%')
+	    </if>
+	    <if test="query.name != null and query.name != ''">
+	        AND personnel.`name` LIKE CONCAT('%',#{query.name},'%')
+	    </if>
+	    <if test="query.major != null">
+	        AND job.`major` =#{query.major}
+	    </if>
+	    <if test="query.sex != null">
+	        AND personnel.`sex` =#{query.sex}
+	    </if>
+	</select>
+	
 	
 	<select id="findSimpleExportPersonnel" resultType="com.paladin.hrms.service.org.dto.OrgPersonnelExportSimpleVO">
 		SELECT
