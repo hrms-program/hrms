@@ -714,8 +714,9 @@ public abstract class ServiceSupport<Model> {
 	public void saveModelWrap(Model model) {
 		if (model instanceof BaseModel) {
 			Date now = new Date();
-			UserSession userSession = UserSession.getCurrentUserSession();
-			String uid = userSession == null ? "" : userSession.getUserId();
+			//UserSession userSession = UserSession.getCurrentUserSession();
+			//String uid = userSession == null ? "" : userSession.getUserId();
+			String uid = "admin";
 			BaseModel baseModel = (BaseModel) model;
 			baseModel.setCreateTime(now);
 			baseModel.setCreateUserId(uid);

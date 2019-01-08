@@ -28,6 +28,7 @@ public class DefaultReadColumn extends ReadColumn {
 
 	// 是否可为空
 	private boolean nullable = true;
+	private boolean multiple = false;
 	// 正则校验值
 	private Pattern pattern;
 	// 如果为字符串的话，字符串最小长度，null不检查
@@ -88,6 +89,22 @@ public class DefaultReadColumn extends ReadColumn {
 		}
 
 		try {
+			
+			if (multiple) {
+				String name = cell.getString();
+				if (name != null && name.length() > 0) {
+					String[]names=name.split(",");
+					String keys="";
+					for(String value :names){
+						Integer key = ConstantsContainer.getTypeKey(enumType, value);
+						if (key == null) {
+							throw new ExcelReadException("第" + (cellIndex + 1) + "列值[" + name + "]为无效值");
+						}
+						return keys+=names.length>1?key.toString()+",":key.toString();
+					}
+				}
+				return null;
+			}
 			if (isEnum) {
 				String name = cell.getString();
 				if (name != null && name.length() > 0) {
@@ -99,6 +116,7 @@ public class DefaultReadColumn extends ReadColumn {
 				}
 				return null;
 			}
+			
 
 			Class<?> type = getType();
 
@@ -177,6 +195,9 @@ public class DefaultReadColumn extends ReadColumn {
 				if (enumType != null && enumType.length() > 0) {
 					column.setEnum(true);
 					column.setEnumType(enumType);
+					if(readProp.multiple()){
+						column.setMultiple(true);
+					}
 				}
 
 				CellConvert convertAnno = field.getAnnotation(CellConvert.class);
@@ -326,6 +347,14 @@ public class DefaultReadColumn extends ReadColumn {
 
 	public void setEnumType(String enumType) {
 		this.enumType = enumType;
+	}
+
+	public boolean isMultiple() {
+		return multiple;
+	}
+
+	public void setMultiple(boolean multiple) {
+		this.multiple = multiple;
 	}
 
 }

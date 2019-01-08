@@ -6,7 +6,6 @@ import com.paladin.framework.common.GeneralCriteriaBuilder.Condition;
 import com.paladin.framework.common.PageResult;
 import com.paladin.framework.common.QueryType;
 import com.paladin.framework.core.ServiceSupport;
-import com.paladin.framework.core.UserSession;
 import com.paladin.framework.core.copy.SimpleBeanCopier.SimpleBeanCopyUtil;
 import com.paladin.framework.core.exception.BusinessException;
 
@@ -326,7 +325,7 @@ public class OrgPersonnelService extends ServiceSupport<OrgPersonnel> {
 		SimpleBeanCopyUtil.simpleCopy(dto, personnelPractice);
 		if (personnel != null) {
 			if (orgPersonnelPracticeService.get(personnel.getId()) != null) {
-				throw new BusinessException("身份证号码为[" + personnel.getIdentificationNo() + "]工作信息已存在");
+				throw new BusinessException("身份证号码为[" + dto.getIdcard() + "]工作信息已存在");
 			}
 			personnelPractice.setId(personnel.getId());
 			if (orgPersonnelPracticeService.save(personnelPractice) > 0) {
@@ -377,7 +376,7 @@ public class OrgPersonnelService extends ServiceSupport<OrgPersonnel> {
 					return null;
 				}
 			}
-			throw new BusinessException("身份证号码为[" + dto.getIdcard() + "]的人员" + orgPersonnelYearAssess.getYear() + "年度的考核数据已存在");
+			throw new BusinessException("身份证号码为[" + dto.getIdcard() + "]的人员" + dto.getYear() + "年度的考核数据已存在");
 		}
 		throw new BusinessException("系统中没有身份证号码为[" + dto.getIdcard() + "]的个人信息,请先上传该人员的个人信息");
 	}
@@ -423,9 +422,7 @@ public class OrgPersonnelService extends ServiceSupport<OrgPersonnel> {
 	 * @return:int
 	 */
 	public Object addAccounts() {
-		UserSession userSession = HrmsUserSession.getCurrentUserSession();
-		String[] agencyId = ((HrmsUserSession) userSession).getManageAgencyId();
-		DataPermissionCondition permission = DataPermissionUtil.getPermissionCondition(null, agencyId);
+		DataPermissionCondition permission = DataPermissionUtil.getPermissionCondition(null, null);
 		List<OrgPersonalAccountVO> peoples = personnelMapper.findPeopleByAgencyId(permission);
 		if (peoples == null || peoples.size() == 0) {
 			throw new BusinessException("无账号可生成");

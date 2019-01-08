@@ -3,6 +3,7 @@
 <head th:include="/hrms/header" />
 
 <body>
+<tt:agency />
 <section class="content-header">
         <h1>机构信息查询</h1>
     </section>
@@ -15,22 +16,26 @@
             <div class="box-body">
                 <form id="searchbar" class="form-horizontal">
                     <div class="form-group">
-                    <label for="name"  class="col-md-2 control-label">请输入机构名称</label>
-		                    <div class="col-md-2">
-		                        <div class="input-group">
-		                            <input type="text" name="agencyName" class="form-control tonto-agency" placeholder="请输入机构名称" th:value="${query?.agencyName}">
-		                            <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
-		                            <div class="input-group-btn">
-		                                <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
-		                            </div>
-		                        </div>
-		                    </div>
-                            <label for="address" style="width:130px" class="col-md-1 control-label">机构地址</label>
-                            <div class="col-md-2">
-                                <input type="text" name="address" placeholder="请输入机构地址" class="form-control" th:value="${query?.address}" />
-                            </div>
+                    	<label for="name" class="col-md-2 control-label">请输入机构名称</label>
+	                    <div class="col-md-2">
+	                            <input type="text" name="agencyName" class="form-control" placeholder="请输入机构名称" th:value="${query?.agencyName}">
+	                    </div>
+                        <label for="address" style="width:130px" class="col-md-1 control-label">机构地址</label>
+                        <div class="col-md-2">
+                            <input type="text" name="address" placeholder="请输入机构地址" class="form-control" th:value="${query?.address}" />
+                        </div>
+                        <label for="districtCode" style="width:130px" class="col-md-1 control-label">所在区镇</label>
+                        <div class="col-md-2">
+                            <input type="text" name="districtCode" placeholder="请选择所在区镇" class="form-control tonto-district-owned" />
+                        </div>
                     </div>
-                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+					<div class="form-group">
+						<label for="agencyCategory" class="col-md-2 control-label">机构类别</label>
+						<div class="col-md-2">
+							<input type="text" name="agencyCategory" class="form-control" placeholder="请输入机构类别">
+						</div>
+					</div>
+					<!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
                     <input type="text" style="display:none">
                 </form>
                 <div class="col-md-12">
@@ -52,10 +57,13 @@
                 <table id="dataGrid"></table>
                 <div id="toolbar">
                     <div class="btn-group">
-                        <a onclick="edit()" class="btn btn-default"><i class="glyphicon glyphicon-search"></i>查看</a>
-                        <a onclick="edit()" class="btn btn-default"><i class=" glyphicon glyphicon-plus"></i>新增</a>
+                        <a onclick="view()" class="btn btn-default"><i class="glyphicon glyphicon-search"></i>查看</a>
+                        <a onclick="add()" class="btn btn-default"><i class=" glyphicon glyphicon-plus"></i>新增</a>
                         <a onclick="edit()" class="btn btn-default"><i class=" glyphicon glyphicon-edit"></i>修改</a>
                         <a onclick="remove()" class="btn btn-default"><i class="glyphicon glyphicon-remove"></i>删除</a>
+                    </div>
+                    <div class="btn-group">
+                        <a onclick="exportAgency()" class="btn btn-success"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;导出&nbsp;&nbsp;</a>
                     </div>
                 </div>
             </div>
@@ -94,10 +102,22 @@
             showRefresh: true
         });
     }
+    function view() {
+        var row = getSelectRow();
+        if (row) {
+            window.location = '/hrms/org/agency/edit?id=' + row.id;
+        }
+    }
+
+    function add() {
+        window.location = '/hrms/org/agency/edit';
+    }
 
     function edit() {
         var row = getSelectRow();
+        if (row) {
         window.location = '/hrms/org/agency/edit' + (row ? ('?id=' + row.id) : '');
+        }
     }
 
     function remove() {
@@ -119,6 +139,13 @@
             $.errorMessage("请选中一条业务数据");
         }
         return row;
+    }
+
+    function exportAgency() {
+        var params = $("#searchbar").serializeObject({
+
+        });
+        window.open($.wrapGetUrl("/hrms/org/agency/export/do", params));
     }
     /*]]>*/
     </script>

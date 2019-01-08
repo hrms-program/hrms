@@ -5,9 +5,11 @@
 <link rel="stylesheet" href="/static/js/hrms/org/personal_edit.css">
 
 <body>
-    <tt:constant enumcode="practice-category-type,identification-type,sex,nationality,nation,political-affiliation,duty,practice-category,personnel-type,peronnel-status,academic-degree,education,education-type,major-type,personal-info-status,dept-type,work-post-type,formation,inorout,employ-post,work-content,major,positional-type,tech-post,reward_type,cultivate-type,cultivete-end-situation,assess-result,science-education-type,duty,paper-type,boolean" />
+    <tt:constant enumcode="practice-category-type,doc-train-cert,practice-scope,identification-type,sex,nationality,nation,political-affiliation,duty,practice-category,personnel-type,peronnel-status,academic-degree,education,education-type,major-type,personal-info-status,dept-type,work-post-type,formation,inorout,employ-post,work-content,major,positional-type,tech-post,reward_type,cultivate-type,cultivete-end-situation,assess-result,science-education-type,duty,paper-type,boolean" />
     <div class="container">
         <input type="hidden" id="personnel_id" th:value="${id}" />
+        <div>
+        <div>
         <div class="file-header">
             <div class="col-md-2 col-sm-12">
                 <div class="page-title-wrap">
@@ -28,7 +30,7 @@
                         <li class="top-twenty">
                             <a href="#practice_view">执业信息</a>
                         </li>
-                        <li class="top-twenty">
+                        <li class="top-fifty">
                             <a href="#scienceEducation_view">科教信息</a>
                         </li>
                         <li class="top-fifty">
@@ -49,12 +51,11 @@
                         <li class="top-fifty">
                             <a href="#yearassess_view">年度考核</a>
                         </li>
-                        <li class="top-fifty">
-                            <a href="javascript:void(0)">家庭成员</a>
-                        </li>
                     </ul>
                 </div>
             </div>
+        </div>
+        </div>
         </div>
         <div style="clear: both;"></div>
         <!--基本信息-->
@@ -157,11 +158,12 @@
                         <div class="form-group">
                             <label for="name" class="col-sm-3 control-label">姓名：</label>
                             <div class="col-sm-3">
-                                <input name="name" placeholder="请输入姓名" type="text" class="form-control" maxlength="20" required="required"/>
+                                <input name="name" placeholder="请输入姓名" type="text" class="form-control" maxlength="10" required="required"/>
                             </div>
                             <label for="sex" class="col-sm-3 control-label">性别：</label>
                             <div class="col-sm-3">
                                 <select name="sex" class="form-control tonto-select-constant" enumcode="sex" required="required">
+                                	<option value="">请选择</option>
                                 </select>
                             </div>
                         </div>
@@ -169,24 +171,25 @@
                             <label for="identificationType" class="col-sm-3 control-label">身份证类型：</label>
                             <div class="col-sm-3">
                                 <select name="identificationType" class="form-control tonto-select-constant" enumcode="identification-type" required="required">
+                                	<option value="">请选择</option>
                                 </select>
                             </div>
                             <label for="identificationNo" class="col-sm-3 control-label">身份证号码：</label>
                             <div class="col-sm-3">
-                                <input name="identificationNo" placeholder="请输入身份证号码" type="text" class="form-control" required="required"/>
+                                <input name="identificationNo" placeholder="请输入身份证号码" type="text" class="form-control" data-type="identity" required="required"/>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="nationality" class="col-sm-3 control-label">国籍：</label>
                         <div class="col-sm-3">
-                            <select name="nationality" class="form-control tonto-select-constant" enumcode="nationality" >
+                            <select name="nationality" class="form-control tonto-select-constant" enumcode="nationality" required="required" >
                                 <option value="">请选择</option>
                             </select>
                         </div>
                         <label for="nation" class="col-sm-3 control-label">民族：</label>
                         <div class="col-sm-3">
-                            <select name="nation" class="form-control tonto-select-constant" enumcode="nation">
+                            <select name="nation" class="form-control tonto-select-constant" enumcode="nation" required="required">
                                 <option value="">请选择</option>
                             </select>
                         </div>
@@ -198,13 +201,13 @@
                         </div>
                         <label for="birthday" class="col-sm-3 control-label">出生日期：</label>
                         <div class="col-sm-3">
-                            <input name="birthday" type="text" placeholder="请输入出生日期" class="form-control tonto-datepicker-date" />
+                            <input name="birthday" type="text" placeholder="请输入出生日期" class="form-control tonto-datepicker-date" required="required"  autocomplete="off"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="cellphone" class="col-sm-3 control-label">手机号码：</label>
                         <div class="col-sm-3">
-                            <input name="cellphone" placeholder="请输入手机号码" type="text" class="form-control" data-type="cellphone" />
+                            <input name="cellphone" placeholder="请输入手机号码" type="text" class="form-control" data-type="cellphone" required="required"/>
                         </div>
                         <label for="officePhone" class="col-sm-3 control-label">办公室电话：</label>
                         <div class="col-sm-3">
@@ -214,7 +217,7 @@
                     <div class="form-group">
                         <label for="joinPartyTime" class="col-sm-3 control-label">参加党派时间：</label>
                         <div class="col-sm-3">
-                            <input name="joinPartyTime" placeholder="请输入党派时间" type="text" class="form-control tonto-datepicker-date" />
+                            <input name="joinPartyTime" placeholder="请输入党派时间" type="text" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                         </div>
                         <label for="politicalAffiliation" class="col-sm-3 control-label">政治面貌：</label>
                         <div class="col-sm-3">
@@ -226,7 +229,7 @@
                     <div class="form-group">
                         <label for="startWorkTime" class="col-sm-3 control-label">参加工作时间：</label>
                         <div class="col-sm-3">
-                            <input name="startWorkTime" type="text" placeholder="请输入参加工作时间" class="form-control tonto-datepicker-date" />
+                            <input name="startWorkTime" type="text" placeholder="请输入参加工作时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -356,17 +359,17 @@
                     <div class="form-group">
                         <label for="employeeNo" class="col-sm-3 control-label">工号：</label>
                         <div class="col-sm-3">
-                            <input name="employeeNo" type="text" placeholder="工号" class="form-control" maxlength="32" />
+                            <input name="employeeNo" type="text" placeholder="请输入工号" class="form-control" maxlength="32" data-type="number" required="required"/>
                         </div>
                         <label for="dept" class="col-sm-3 control-label">所在科室：</label>
                         <div class="col-sm-3">
-                            <input id="dept_select" name="dept" type="text" class="form-control">
+                            <input id="dept_select" name="dept" type="text" placeholder="请选择所在科室" class="form-control" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="deptName" class="col-sm-3 control-label">科室具体名称：</label>
                         <div class="col-sm-3">
-                            <input name="deptName" placeholder="请输入科室具体名称" type="text" class="form-control" maxlength="20" />
+                            <input name="deptName" placeholder="请输入科室具体名称" type="text" class="form-control" maxlength="20" required="required" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -390,7 +393,7 @@
                         </div>
                         <label for="gainDate" class="col-sm-3 control-label">专业技术资格取得时间：</label>
                         <div class="col-sm-3">
-                            <input name="gainDate" type="text" placeholder="业技术资格取得时间" class="form-control tonto-datepicker-date" />
+                            <input name="gainDate" type="text" placeholder="业技术资格取得时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -402,7 +405,7 @@
                         </div>
                         <label for="employDate" class="col-sm-3 control-label">专业技术聘用时间：</label>
                         <div class="col-sm-3">
-                            <input name="employDate" type="text" placeholder="请输入专业技术聘用时间" class="form-control tonto-datepicker-date" />
+                            <input name="employDate" type="text" placeholder="请输入专业技术聘用时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -428,7 +431,7 @@
                         </div>
                         <label for="inoroutDate" class="col-sm-3 control-label">流入/流出时间：</label>
                         <div class="col-sm-3">
-                            <input name="inoroutDate" type="text" placeholder="请输入流入/流出时间" class="form-control tonto-datepicker-date" />
+                            <input name="inoroutDate" type="text" placeholder="请输入流入/流出时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -490,7 +493,7 @@
                         </div>
                         <label for="type" class="col-sm-3 control-label">医师执业证书编号：</label>
                         <div class="col-sm-3">
-                            <p name="type" class="form-control-static description"></p>
+                            <p name="docCertCode" class="form-control-static description"></p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -702,11 +705,11 @@
                     <div class="form-group">
                         <label for="docQualificationCode" class="col-sm-3 control-label">医师资格证书编号：</label>
                         <div class="col-sm-3">
-                            <input name="docQualificationCode" type="text" placeholder="医师资格证书编号" class="form-control" maxlength="32" />
+                            <input name="docQualificationCode" type="text" placeholder="医师资格证书编号" class="form-control" data-type="number" maxlength="32" />
                         </div>
                         <label for="docCertCode" class="col-sm-3 control-label">医师执业证书编号：</label>
                         <div class="col-sm-3">
-                            <input name="docCertCode" type="text" placeholder="医师执业证书编号" class="form-control" maxlength="32" />
+                            <input name="docCertCode" type="text" placeholder="医师执业证书编号" class="form-control" data-type="number" maxlength="32" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -740,7 +743,7 @@
                     <div class="form-group">
                         <label for="registrationDate" class="col-sm-3 control-label">执业注册时间(首次注册时间)：</label>
                         <div class="col-sm-3">
-                            <input name="registrationDate" type="text" placeholder="请输入执业注册时间" class="form-control tonto-datepicker-date" />
+                            <input name="registrationDate" type="text" placeholder="请输入执业注册时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                         </div>
                         <label for="practiceCategory" class="col-sm-3 control-label">医师执业类别：</label>
                         <div class="col-sm-3">
@@ -752,7 +755,7 @@
                     <div class="form-group">
                         <label for="practiceScope" class="col-sm-3 control-label">医师执业范围：</label>
                         <div class="col-sm-9">
-                           <select name="practiceScope" class="tonto-select-constant tonto-multiple-select" multiple="multiple" number-displayed="5" enumcode="personnel-type">
+                           <select name="practiceScope" class="tonto-select-constant tonto-multiple-select" multiple="multiple" number-displayed="5" enumcode="practice-scope">
                             </select>
                         </div>
                     </div>
@@ -795,14 +798,15 @@
                     <div class="form-group">
                         <label for="docTrainCert" class="col-sm-3 control-label">全科医生取得培训合格证书情况：</label>
                         <div class="col-sm-3">
-                             <input name="docTrainCert" type="text" placeholder="请输入全科医生取得培训合格证书情况" class="form-control" maxlength="32" />
+                            <select name="docTrainCert" class="tonto-select-constant tonto-multiple-select" multiple="multiple" number-displayed="5" enumcode="doc-train-cert">
+                            </select>
                         </div>
                     </div>
                     <!-- 护师类 -->
                     <div class="form-group">
                         <label for="nurseCertCode" class="col-sm-3 control-label">护士执业证书编号：</label>
                         <div class="col-sm-3">
-                            <input name="nurseCertCode" type="text" placeholder="护士执业证书编号" class="form-control" maxlength="32" />
+                            <input name="nurseCertCode" type="text" placeholder="护士执业证书编号" class="form-control" maxlength="32" data-type="number" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -812,7 +816,7 @@
                         </div>
                         <label for="lastRegistrationDate" class="col-sm-3 control-label">最后注册日期：</label>
                         <div class="col-sm-3">
-                            <input name="lastRegistrationDate" type="text" placeholder="最后注册日期" class="form-control tonto-datepicker-date" />
+                            <input name="lastRegistrationDate" type="text" placeholder="最后注册日期" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -826,13 +830,13 @@
                     <div class="form-group">
                         <label for="nurseExamTime" class="col-sm-3 control-label">护考时间：</label>
                         <div class="col-sm-3">
-                            <input name="nurseExamTime" type="text" placeholder="请输入护考时间" class="form-control tonto-datepicker-date" />
+                            <input name="nurseExamTime" type="text" placeholder="请输入护考时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="startWorkDate" class="col-sm-3 control-label">从事护士工作开始时间：</label>
                         <div class="col-sm-3">
-                            <input name="startWorkDate" type="text" placeholder="从事护士工作开始时间" class="form-control tonto-datepicker-date" />
+                            <input name="startWorkDate" type="text" placeholder="从事护士工作开始时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                         </div>
                         <label for="nurseCategory" class="col-sm-3 control-label">护士工作类别：</label>
                         <div class="col-sm-3">
@@ -853,17 +857,17 @@
                     <div class="form-group">
                         <label for="issueDate" class="col-sm-3 control-label">特殊岗位证书发证获得时间：</label>
                         <div class="col-sm-3">
-                            <input name="issueDate" type="text" placeholder="特殊岗位证书发证获得时间" class="form-control tonto-datepicker-date" />
+                            <input name="issueDate" type="text" placeholder="特殊岗位证书发证获得时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                         </div>
                         <label for="startDate" class="col-sm-3 control-label">特殊岗位证书有效期开始时间：</label>
                         <div class="col-sm-3">
-                            <input name="startDate" type="text" placeholder="特殊岗位证书有效期开始时间" class="form-control tonto-datepicker-date" />
+                            <input name="startDate" type="text" placeholder="特殊岗位证书有效期开始时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="endDate" class="col-sm-3 control-label">特殊岗位证书有效期结束时间：</label>
                         <div class="col-sm-3">
-                            <input name="endDate" type="text" placeholder="特殊岗位证书有效期结束时间" class="form-control tonto-datepicker-date" />
+                            <input name="endDate" type="text" placeholder="特殊岗位证书有效期结束时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                         </div>
                     </div>
                     <!-- 乡村医生 -->
@@ -878,17 +882,17 @@
                     <div class="form-group">
                         <label for="vdocCertCode" class="col-sm-3 control-label">乡村医生执业证书编号：</label>
                         <div class="col-sm-3">
-                            <input name="vdocCertCode" type="text" placeholder="乡村医生执业证书编号" class="form-control" maxlength="32" />
+                            <input name="vdocCertCode" type="text" placeholder="乡村医生执业证书编号" class="form-control" data-type="number" maxlength="32" />
                         </div>
                         <label for="registVillageAgency" class="col-sm-3 control-label">注册村级卫生机构名称：</label>
                         <div class="col-sm-3">
-                            <input name="registVillageAgency" type="text" placeholder="乡村医生执业证书编号" class="form-control" maxlength="32" />
+                            <input name="registVillageAgency" type="text" placeholder="注册村级卫生机构名称" class="form-control" maxlength="32" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="registDate" class="col-sm-3 control-label">注册时间(首次注册时间)：</label>
                         <div class="col-sm-3">
-                            <input name="registDate" type="text" placeholder="注册时间(首次注册时间)" class="form-control tonto-datepicker-date" />
+                            <input name="registDate" type="text" placeholder="注册时间(首次注册时间)" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                         </div>
                         <label for="totalIncome" class="col-sm-3 control-label">上年总收入：</label>
                         <div class="col-sm-3">
@@ -959,7 +963,7 @@
                         <div class="form-group">
                             <label for="schoolName" class="col-sm-3 control-label">学校名称：</label>
                             <div class="col-sm-3">
-                                <input name="schoolName" placeholder="请输入学校名称" type="text" class="form-control" />
+                                <input name="schoolName" placeholder="请输入学校名称" type="text" class="form-control" maxlength="35"/>
                             </div>
                             <label for="schoolAddress" class="col-sm-3 control-label">学校地址：</label>
                             <div class="col-sm-3">
@@ -975,7 +979,7 @@
                             </div>
                             <label for="diplomaNo" class="col-sm-3 control-label">毕业证书编号：</label>
                             <div class="col-sm-3">
-                                <input name="diplomaNo" placeholder="请输入毕业证书编号" type="text" class="form-control" />
+                                <input name="diplomaNo" placeholder="请输入毕业证书编号" type="text" class="form-control" data-type="number"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -987,7 +991,7 @@
                             </div>
                             <label for="academicDegreeNo" class="col-sm-3 control-label">学位证书编号：</label>
                             <div class="col-sm-3">
-                                <input name="academicDegreeNo" placeholder="请输入学位证书编号" type="text" class="form-control" />
+                                <input name="academicDegreeNo" placeholder="请输入学位证书编号" type="text" class="form-control" data-type="number" />
                             </div>
                         </div>
                         <div class="form-group"><label for="major" class="col-sm-3 control-label">所学专业：</label>
@@ -1006,21 +1010,21 @@
                         <div class="form-group">
                             <label for="joinSchoolTime" class="col-sm-3 control-label">入学时间：</label>
                             <div class="col-sm-3">
-                                <input name="joinSchoolTime" placeholder="请输入入学时间" type="text" class="form-control tonto-datepicker-date" />
+                                <input name="joinSchoolTime" placeholder="请输入入学时间" type="text" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                             </div>
                             <label for="graduationTime" class="col-sm-3 control-label">毕业时间：</label>
                             <div class="col-sm-3">
-                                <input name="graduationTime" placeholder="请输入毕业时间" type="text" class="form-control tonto-datepicker-date" />
+                                <input name="graduationTime" placeholder="请输入毕业时间" type="text" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="hasRecordStatus" class="col-sm-3 control-label">取得证书情况：</label>
                             <div class="col-sm-3">
-                                <input name="hasRecordStatus" placeholder="请输入毕业时间" type="text" class="form-control" />
+                                <input name="hasRecordStatus" placeholder="请输入取得证书情况" type="text" class="form-control" />
                             </div>
                             <label for="otherInstructions" class="col-sm-3 control-label">补充说明：</label>
                             <div class="col-sm-3">
-                                <input name="otherInstructions" placeholder="请输入毕业时间" type="text" class="form-control" />
+                                <input name="otherInstructions" placeholder="请输入补充说明" type="text" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -1057,7 +1061,7 @@
                         <div class="form-group">
                             <label for="workUnit" class="col-sm-3 control-label">工作单位：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="请输入工作单位" class="form-control" name="workUnit" />
+                                <input type="text" placeholder="请输入工作单位" class="form-control" name="workUnit" maxlength="32"/>
                             </div>
                             <label for="workPlace" class="col-sm-3 control-label">工作地点：</label>
                             <div class="col-sm-3">
@@ -1067,11 +1071,11 @@
                         <div class="form-group">
                             <label for="workStartTime" class="col-sm-3 control-label">工作开始时间：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="请选择工作开始时间" class="form-control tonto-datepicker-date" name="workStartTime" />
+                                <input type="text" placeholder="请选择工作开始时间" class="form-control tonto-datepicker-date" name="workStartTime"  autocomplete="off"/>
                             </div>
                             <label for="workEndTime" class="col-sm-3 control-label">工作结束时间：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="请选择工作结束时间" class="form-control tonto-datepicker-date" name="workEndTime" />
+                                <input type="text" placeholder="请选择工作结束时间" class="form-control tonto-datepicker-date" name="workEndTime"  autocomplete="off"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -1136,7 +1140,7 @@
                         <div class="form-group">
                             <label for="positionalTitleName" class="col-sm-3 control-label">职称名称：</label>
                             <div class="col-sm-3">
-                                <input name="positionalTitleName" type="text" placeholder="请输入职称名称" class="form-control" />
+                                <input name="positionalTitleName" type="text" placeholder="请输入职称名称" class="form-control" maxlength="32"/>
                             </div>
                             <label for="positionalTitleType" class="col-sm-3 control-label">职称类型：</label>
                             <div class="col-sm-3">
@@ -1154,7 +1158,7 @@
                             </div>
                             <label for="positionalTitleTime" class="col-sm-3 control-label">获得时间：</label>
                             <div class="col-sm-3">
-                                <input name="positionalTitleTime" type="text" placeholder="请选择获得时间" class="form-control tonto-datepicker-date" />
+                                <input name="positionalTitleTime" type="text" placeholder="请选择获得时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -1245,7 +1249,7 @@
                             </div>
                             <label for="awardTime" class="col-sm-3 control-label">获奖时间：</label>
                             <div class="col-sm-3">
-                                <input name="awardTime" type="text" placeholder="请输入获奖时间" class="form-control tonto-datepicker-date" />
+                                <input name="awardTime" type="text" placeholder="请输入获奖时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -1263,7 +1267,7 @@
                         <div class="form-group">
                             <label for="endTime" class="col-sm-3 control-label">结题时间：</label>
                             <div class="col-sm-3">
-                                <input name="endTime" type="text" placeholder="请选择结题时间" class="form-control tonto-datepicker-date" />
+                                <input name="endTime" type="text" placeholder="请选择结题时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                             </div>
                             <label for="dept" class="col-sm-3 control-label">立项部门：</label>
                             <div class="col-sm-3">
@@ -1293,7 +1297,7 @@
                         <div class="form-group">
                             <label for="paperReleaseTime" class="col-sm-3 control-label">论文发布时间：</label>
                             <div class="col-sm-3">
-                                <input name="paperReleaseTime" type="text" placeholder="请选择论文发布时间" class="form-control tonto-datepicker-date" />
+                                <input name="paperReleaseTime" type="text" placeholder="请选择论文发布时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                             </div>
                             <label for="paperType" class="col-sm-3 control-label">论文种类：</label>
                             <div class="col-sm-3">
@@ -1360,13 +1364,13 @@
                             </div>
                             <label for="rewardTime" class="col-sm-3 control-label">奖励时间：</label>
                             <div class="col-sm-3">
-                                <input name="rewardTime" type="text" placeholder="请选择奖励时间" class="form-control tonto-datepicker-date" />
+                                <input name="rewardTime" type="text" placeholder="请选择奖励时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="awardPrizeDept" class="col-sm-3 control-label">授奖部门：</label>
                             <div class="col-sm-3">
-                                <input name="awardPrizeDept" type="text" placeholder="请输入授奖部门" class="form-control" />
+                                <input name="awardPrizeDept" type="text" placeholder="请输入授奖部门" class="form-control" maxlength="32"/>
                             </div>
                             <label for="isRevoke" class="col-sm-3 control-label">是否撤销：</label>
                             <div class="col-sm-3">
@@ -1378,7 +1382,7 @@
                         <div class="form-group">
                             <label for="rewardMoney" class="col-sm-3 control-label">获奖金额：</label>
                             <div class="col-sm-3">
-                                <input name="rewardMoney" type="text" placeholder="请输入获奖金额" class="form-control" />
+                                <input name="rewardMoney" type="number" placeholder="请输入获奖金额" class="form-control" maxlength="11"/>
                             </div>
                             <label for="rewardReason" class="col-sm-3 control-label">获奖原因：</label>
                             <div class="col-sm-3">
@@ -1433,7 +1437,7 @@
                         <div class="form-group">
                             <label for="cultivateUnit" class="col-sm-3 control-label">培训单位：</label>
                             <div class="col-sm-3">
-                                <input name="cultivateUnit" type="text" placeholder="请输入培训单位" class="form-control" />
+                                <input name="cultivateUnit" type="text" placeholder="请输入培训单位" class="form-control" maxlength="32" />
                             </div>
                             <label for="cultivatePlace" class="col-sm-3 control-label">培训地点：</label>
                             <div class="col-sm-3">
@@ -1443,11 +1447,11 @@
                         <div class="form-group">
                             <label for="cultivateStartTime" class="col-sm-3 control-label">开始时间：</label>
                             <div class="col-sm-3">
-                                <input name="cultivateStartTime" type="text" placeholder="请选择开始时间" class="form-control tonto-datepicker-date" />
+                                <input name="cultivateStartTime" type="text" placeholder="请选择开始时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                             </div>
                             <label for="cultivateEndTime" class="col-sm-3 control-label">结束时间：</label>
                             <div class="col-sm-3">
-                                <input name="cultivateEndTime" type="text" placeholder="请选择结束时间" class="form-control tonto-datepicker-date" />
+                                <input name="cultivateEndTime" type="text" placeholder="请选择结束时间" class="form-control tonto-datepicker-date"  autocomplete="off"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -1508,21 +1512,21 @@
                         <div class="form-group">
                             <label for="year" class="col-sm-3 control-label">年度：</label>
                             <div class="col-sm-3">
-                                <input name="year" type="text" placeholder="请选择年度" class="form-control tonto-datepicker-year" />
+                                <input name="year" type="text" placeholder="请选择年度" class="form-control tonto-datepicker-year" autocomplete="off" />
                             </div>
                             <label for="wages" class="col-sm-3 control-label">当年工资(元)：</label>
                             <div class="col-sm-3">
-                                <input name="wages" type="text" placeholder="请输入当年工资(元)" class="form-control" />
+                                <input name="wages" type="number" placeholder="请输入当年工资(元)" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="bonus" class="col-sm-3 control-label">当年奖金(元)</label>
                             <div class="col-sm-3">
-                                <input name="bonus" type="text" placeholder="请输入当年奖金(元)" class="form-control" />
+                                <input name="bonus" type="number" placeholder="请输入当年奖金(元)" class="form-control" />
                             </div>
                             <label for="otherIncome" class="col-sm-3 control-label">当年其他收入(元)：</label>
                             <div class="col-sm-3">
-                                <input name="otherIncome" type="text" placeholder="请输入当年其他收入(元)" class="form-control" />
+                                <input name="otherIncome" type="number" placeholder="请输入当年其他收入(元)" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -1534,7 +1538,7 @@
                             </div>
                             <label for="technicalPost" class="col-sm-3 control-label">受聘专业技术职务(岗位)：</label>
                             <div class="col-sm-3">
-                                <input name="technicalPost" type="text" placeholder="请输入受聘专业技术职务(岗位)" class="form-control" />
+                                <input name="technicalPost" type="text" placeholder="请输入受聘专业技术职务(岗位)" class="form-control" maxlength="32"/>
                             </div>
                         </div>
                         <div class="form-group">

@@ -1,25 +1,34 @@
 package com.paladin.hrms.controller.report.pojo;
 
+import com.paladin.framework.excel.write.WriteProperty;
+
 public class ReportPersonnelInforDTO {
 	
 	public String personnelId;
 
 	public String identificationNo;
-	
+
+    @WriteProperty(name = "姓名",cellIndex = 0)
 	public String name;
 	
 	public String reportState;//上报状态
-	
+
+    @WriteProperty(name = "上报时间",cellIndex = 1,width = 15)
 	public String reportTime;
-	
+
+    @WriteProperty(name = "上报确认人",cellIndex = 2,width = 15)
 	public String reportUser;
-	
+
+    @WriteProperty(name = "上报确认人",cellIndex = 3,width = 15)
 	public String basicInforStatus;//基本信息规范与否
-	
+
+    @WriteProperty(name = "上报确认人",cellIndex = 4,width = 15)
 	public String workingInforStatus;//工作信息规范与否
-	
+
+    @WriteProperty(name = "上报确认人",cellIndex = 5,width = 15)
 	public String licenseInforStatus;//执业信息规范与否
-	
+
+    @WriteProperty(name = "上报确认人",cellIndex = 6,width = 15)
 	public String educationInforStatus;//教育信息规范与否
 	
 	public String getPersonnelId() {

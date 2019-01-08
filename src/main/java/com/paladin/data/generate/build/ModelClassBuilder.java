@@ -20,8 +20,6 @@ import java.util.Set;
 import com.paladin.data.generate.GenerateColumnOption;
 import com.paladin.data.generate.GenerateEnvironment;
 import com.paladin.data.generate.GenerateTableOption;
-import com.paladin.data.generate.GenerateType;
-import com.paladin.data.generate.GenerateUtil;
 import com.paladin.framework.utils.reflect.NameUtil;
 import com.paladin.framework.utils.reflect.ReflectUtil;
 
@@ -132,7 +130,7 @@ public class ModelClassBuilder extends SpringBootClassBuilder {
 
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("package ").append(GenerateUtil.getClassPackage(tableOption, GenerateType.MODEL)).append(";\n\n");
+		sb.append("package ").append(getClassPackage(tableOption)).append(";\n\n");
 
 		String[] classNames = new String[importClassSet.size()];
 
@@ -155,9 +153,9 @@ public class ModelClassBuilder extends SpringBootClassBuilder {
 		sb.append(" {\n\n");
 
 		for (GenerateColumnOption columnOption : columnOptions) {
-			
+
 			sb.append(tab).append("// ").append(columnOption.getColumn().getComment()).append("\n");
-			
+
 			if (columnOption.isPrimary()) {
 				sb.append(tab).append("@Id").append("\n");
 			}
@@ -186,8 +184,18 @@ public class ModelClassBuilder extends SpringBootClassBuilder {
 	}
 
 	@Override
-	public GenerateType getGenerateType() {
-		return GenerateType.MODEL;
+	public BuilderType getBuilderType() {
+		return BuilderType.MODEL;
+	}
+
+	@Override
+	public String getPackage(GenerateTableOption tableOption) {
+		return "model";
+	}
+
+	@Override
+	public String getClassName(GenerateTableOption tableOption) {
+		return tableOption.getModelName();
 	}
 
 }

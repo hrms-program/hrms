@@ -102,6 +102,26 @@ public class StringUtil {
     }
 
     /**
+     * 将驼峰风格替换为中划线风格
+     */
+    public static String camelhumpToMiddleline(String str) {
+        final int size;
+        final char[] chars;
+        final StringBuilder sb = new StringBuilder(
+                (size = (chars = str.toCharArray()).length) * 3 / 2 + 1);
+        char c;
+        for (int i = 0; i < size; i++) {
+            c = chars[i];
+            if (isUppercaseAlpha(c)) {
+                sb.append('-').append(toLowerAscii(c));
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.charAt(0) == '-' ? sb.substring(1) : sb.toString();
+    }
+
+    /**
      * 将下划线风格替换为驼峰风格
      */
     public static String underlineToCamelhump(String str) {

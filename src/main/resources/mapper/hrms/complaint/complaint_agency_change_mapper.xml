@@ -16,42 +16,6 @@
         LEFT JOIN complaint_agency_change c ON c.personnel_id = a.id
         LEFT JOIN org_agency d ON c.target_agency = d.id
         WHERE a.is_delete = 0
-        <if test="permission.cityCode!=null">
-            AND a.city_code =#{permission.cityCode}
-        </if>
-        <if test="permission.cityCodes!=null">
-            AND a.city_code IN
-            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
-        <if test="permission.townCode!=null">
-            AND a.town_code =#{permission.townCode}
-        </if>
-        <if test="permission.townCodes!=null">
-            AND a.town_code IN
-            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
-        <if test="permission.districtCode!=null">
-            AND a.district_code =#{permission.districtCode}
-        </if>
-        <if test="permission.districtCodes!=null">
-            AND a.district_code IN
-            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
-        <if test="permission.agencyId!=null">
-            AND a.agency_id =#{permission.agencyId}
-        </if>
-        <if test="permission.agencyIds!=null">
-            AND a.agency_id IN
-            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
         <if test="query.name!=null and query.name !=''">
             AND a.name LIKE CONCAT('%',#{query.name},'%')
         </if>

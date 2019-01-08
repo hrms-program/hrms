@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <label for="identificationNo" class="col-sm-3 control-label">身份证号：</label>
                         <div class="col-sm-2" >
-                            <input type="text" class="form-control" onblur="getIdcard(this)" name="identificationNo" th:value="${identificationNo}"  placeholder="请输入身份号码" required>
+                            <input type="text" class="form-control" onblur="getIdcard(this)" name="identificationNo" th:value="${identificationNo}"  placeholder="请输入身份号码" data-type="identity" required>
                         </div>
                         <label for="name" class="col-sm-2 control-label">姓名：</label>
                         <div class="col-sm-2">
@@ -42,17 +42,17 @@
                     <div class="form-group">
                         <label for="assessCycle" class="col-sm-3 control-label">考核周期： </label>
                         <div class="col-sm-2" >
-                            <input type="text" class="form-control tonto-datepicker-year" id="startTime" name="startTime" th:value="${startTime}"  placeholder="请选择考核开始时间" required>
+                            <input type="text" class="form-control tonto-datepicker-year" style="width: 170px" id="startTime" name="startTime" th:value="${startTime}"  placeholder="请选择考核开始时间" required>
                         </div>
-                        <label class="col-sm-1 control-label"  style="width: 50px">至</label>
+                        <label class="col-sm-1 control-label"  style="width: 65px">至</label>
                         <div class="col-sm-2"  >
-                            <input type="text" class="form-control tonto-datepicker-year" id="endTime" name="endTime" th:value="${endTime}"   placeholder="请选择考核结束时间" required>
+                            <input type="text" class="form-control tonto-datepicker-year"style="width: 170px" id="endTime" name="endTime" th:value="${endTime}"   placeholder="请选择考核结束时间" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="advanceAssessTime" class="col-sm-3 control-label">提前考核时间：</label>
                         <div class="col-sm-2"   >
-                            <input type="text" class="form-control tonto-datepicker-date" id="advanceAssessTime" placeholder="请选择提前考核时间" name="advanceAssessTime" th:value="${advanceAssessTime}">
+                            <input type="text" class="form-control tonto-datepicker-date" style="width: 170px" id="advanceAssessTime" placeholder="请选择提前考核时间" name="advanceAssessTime" th:value="${advanceAssessTime}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -107,6 +107,9 @@
                
     function getIdcard(id){
     	var identificationNo =id.value.toUpperCase();
+    	if(identificationNo == null || identificationNo == ''){
+    		return false;
+    	}
     	$.post("/hrms/yskh/idCard",{identificationNo:identificationNo},function(res){
     		if(res.result == null){
     			$.errorMessage("该人员不存在,请重新输入！")

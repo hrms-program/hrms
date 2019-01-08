@@ -180,4 +180,70 @@
 				</where>
 				group by ag.id
             </select>
+    <select id="searchOrgListExport"
+            resultType="com.paladin.hrms.controller.report.confirm.pojo.AgencyReportInforExport">
+        SELECT
+        ag.name as agencyName,
+        count(per.identification_no) as todo,
+        sum(case when per.report_state=1
+        and per.basic_infor_status=1
+        and per.working_infor_status=1
+        and per.license_infor_status=1
+        and per.education_infor_status=1
+        then 1 else 0 end) as y,
+        sum(case when per.report_state=1
+        and (per.basic_infor_status=0
+        or per.working_infor_status=0
+        or per.license_infor_status=0
+        or per.education_infor_status=0)
+        then 1 else 0 end) as n,
+        sum(case when per.report_state=1 then 0 else 1 end ) as un,	<!-- 已上报的不计入 -->
+        case org.confirm_state when 1 then '已上报' else '未上报' end as confirmState
+        FROM org_agency ag
+        left join report_confirm_org org on ag.id=org.org_id and org.state=1
+        left join	v_report_personnel_infor per on ag.id=per.agency_id
+        <where>
+            and ag.is_delete=0
+            <if test="permission.cityCode!=null">
+                AND ag.city_code =#{permission.cityCode}
+            </if>
+            <if test="permission.cityCodes!=null">
+                AND ag.city_code IN
+                <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="permission.townCode!=null">
+                AND ag.town_code =#{permission.townCode}
+            </if>
+            <if test="permission.townCodes!=null">
+                AND ag.town_code IN
+                <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="permission.districtCode!=null">
+                AND ag.district_code =#{permission.districtCode}
+            </if>
+            <if test="permission.districtCodes!=null">
+                AND ag.district_code IN
+                <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="permission.agencyId!=null">
+                AND ag.id =#{permission.agencyId}
+            </if>
+            <if test="permission.agencyIds!=null">
+                AND ag.agency_id IN
+                <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="query.agencyName !=null and query.agencyName !='' ">
+                AND ag.name LIKE CONCAT('%',#{query.agencyName},'%')
+            </if>
+        </where>
+        group by ag.id
+    </select>
 </mapper>

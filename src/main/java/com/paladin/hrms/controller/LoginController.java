@@ -103,7 +103,7 @@ public class LoginController extends ControllerSupport {
 				WebUtil.sendJson(response, CommonResponse.getFailResponse("登录失败,用户名或密码错误！"));
 				return null;
 			}
-			
+
 			if (isAjax) {
 				WebUtil.sendJson(response, CommonResponse.getFailResponse("登录失败,用户名或密码错误！"));
 				return null;

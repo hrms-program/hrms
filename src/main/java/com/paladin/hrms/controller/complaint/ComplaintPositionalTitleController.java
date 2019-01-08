@@ -115,13 +115,9 @@ public class ComplaintPositionalTitleController extends ControllerSupport {
 		dto.setAttachmentId(attachmentService.splicingAttachmentId(attachments));
 
 		ComplaintPositionalTitle title = beanCopy(dto, new ComplaintPositionalTitle());
-		if(title.getModifyType() == ComplaintPositionalTitle.MODIFY_TYPE_DELETE){
-		 return CommonResponse.getResponse(complaintPositionalTitleService.removeByPrimaryKey(title.getId()));   
-		}else{
-		return CommonResponse.getResponse(complaintPositionalTitleService.applyOrModifyComplaint(title));	
-		}
+		return CommonResponse.getResponse(complaintPositionalTitleService.applyOrModifyComplaint(title));
 	}
-	
+
 	/**
 	 * 职称变更确认 首页
 	 * 

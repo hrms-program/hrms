@@ -55,9 +55,13 @@ public class AjaxFormAuthenticationFilter extends FormAuthenticationFilter {
 
 	protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
 		if (WebUtil.isApp((HttpServletRequest) request)) {
-			HrmsUserSession userSession = (HrmsUserSession) subject.getPrincipal();
+			HrmsUserSession userSession = HrmsUserSession.getCurrentUserSession();
 			Map<String, Object> map = new HashMap<>();
-			map.put("userSession", userSession);
+			if(userSession.isPersonalUser()){
+				map.put("userSession", userSession);
+			}else{
+				map.put("userSession", "");
+			}
 			map.put("token", subject.getSession().getId());
 			WebUtil.sendJson((HttpServletResponse) response, CommonResponse.getSuccessResponse("登录成功", map));
 			return false;

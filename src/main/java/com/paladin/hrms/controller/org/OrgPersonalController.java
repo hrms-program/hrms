@@ -583,7 +583,7 @@ public class OrgPersonalController extends ControllerSupport {
 	/**
 	 * 上传头像
 	 * 
-	 * @param yearassess
+	 * @param base
 	 * @return
 	 */
 	@RequestMapping("/upload/profile")

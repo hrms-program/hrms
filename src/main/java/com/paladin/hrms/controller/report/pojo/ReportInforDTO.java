@@ -1,21 +1,28 @@
 package com.paladin.hrms.controller.report.pojo;
 
+import com.paladin.framework.excel.write.WriteProperty;
+
 public class ReportInforDTO {
 
 	public String area;
-	
+
+    @WriteProperty(name = "机构名称",cellIndex = 0,width = 40)
 	public String agencyName;
 	
 	public String org;
-	
+
+    @WriteProperty(name = "应上报人数",cellIndex = 1,width = 15)
 	public String todo;//应上报人数
-	
+
+    @WriteProperty(name = "已上报合格人数",cellIndex = 2,width = 15)
 	public String y;//已上报合格人数
-	
+
+    @WriteProperty(name = "上报不合格人数",cellIndex = 3,width = 15)
 	public String n;//已上报不合格人数
-	
+
+    @WriteProperty(name = "未上报人数",cellIndex = 4,width = 15)
 	public String un;//未上报人数
-	
+
 	public String confirmState;
 
 	public String getArea() {

@@ -5,9 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.paladin.framework.core.ControllerSupport;
 import com.paladin.framework.web.response.CommonResponse;
-import com.paladin.hrms.controller.complaint.pojo.ComplaintPersonnelVO;
+import com.paladin.hrms.model.complaint.ComplaintPersonnel;
 import com.paladin.hrms.service.complaint.ComplaintPersonnelService;
 import com.paladin.hrms.service.org.OrgPersonnelService;
 import com.paladin.hrms.service.org.dto.OrgPersonnelVO;
@@ -36,8 +37,8 @@ public class PersonalComplaintResource extends ControllerSupport{
     @RequestMapping("/edit")
     @ResponseBody
     public Object view(@RequestParam String id){
-    	ComplaintPersonnelVO complaintPersonnelVO = beanIncompleteCopy(complaintPersonnelService.get(id), new ComplaintPersonnelVO());
-        return CommonResponse.getSuccessResponse(complaintPersonnelVO);
+    	ComplaintPersonnel complaintPersonnel =complaintPersonnelService.get(id);
+        return CommonResponse.getSuccessResponse(complaintPersonnel);
     }
     
     @RequestMapping("/check")

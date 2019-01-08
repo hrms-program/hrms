@@ -6,7 +6,7 @@
 <body>
     <tt:constant enumcode="complaint-problem-type" />
     <section class="content-header">
-        <h1>申诉管理</h1>
+        <h1>申诉列表</h1>
     </section>
     <section class="content">
         <div class="box box-solid">
@@ -34,7 +34,7 @@
                         <label for="name" style="width:130px" class="col-sm-1 control-label">申诉问题</label>
                         <div class="col-md-2">
                             <select class="form-control tonto-select-constant" name="type" th:attr="selectedvalue=${query?.type}" enumcode="complaint-problem-type">
-                                <option value="">--请选择申诉问题类型--</option>
+                                <option value="">请选择申诉问题类型</option>
                             </select>
                         </div>
                     </div>

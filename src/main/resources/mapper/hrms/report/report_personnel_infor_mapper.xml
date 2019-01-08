@@ -73,6 +73,27 @@
 				</if>
 				GROUP BY per.id  -->
             </select>
-            
-            
+    <select id="searchTableListExport" resultType="com.paladin.hrms.controller.report.pojo.ReportPersonnelInforDTO">
+             select identification_no as identificationNo,name,
+                                report_time as reportTime,report_user as reportUser,
+                                case basic_infor_status when 1 then '规范' else '不规范' end as basicInforStatus,
+                                case working_infor_status when 1 then '规范' else '不规范' end as workingInforStatus,
+                                case license_infor_status when 1 then '规范' else '不规范' end as licenseInforStatus,
+                                case education_infor_status when 1 then '规范' else '不规范' end as educationInforStatus
+                                from v_report_personnel_infor per
+        <where> 1 = 1
+            <if test="permission.agencyId!=null">
+                AND per.agency_id =#{permission.agencyId}
+            </if>
+            <if test="permission.agencyIds!=null">
+                AND per.agency_id IN
+                <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="query.name != null and query.name != ''">
+                and per.name LIKE CONCAT ("%",#{query.name},"%")
+            </if>
+        </where>
+    </select>
 </mapper>

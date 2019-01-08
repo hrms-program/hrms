@@ -34,6 +34,8 @@ public class SysAttachmentService extends ServiceSupport<SysAttachment> {
 
 	private long maxFileByteSize;
 
+	private int maxFileNameSize = 50;
+
 	@PostConstruct
 	protected void initialize() {
 		attachmentPath = attachmentPath.replaceAll("\\\\", "/");
@@ -142,15 +144,92 @@ public class SysAttachmentService extends ServiceSupport<SysAttachment> {
 		return attachment;
 	}
 
+	/**
+	 * 创建附件（字节格式）
+	 * 
+	 * @param data
+	 * @param filename
+	 * @param type
+	 * @return
+	 */
+	public SysAttachment createAttachment(byte[] data, String filename, String type) {
+		return createAttachment(data, filename, type, null);
+	}
+
+	/**
+	 * 创建附件（字节格式）
+	 * 
+	 * @param base64String
+	 * @param filename
+	 * @param subFilePath
+	 *            子路径
+	 * @return
+	 */
+	public SysAttachment createAttachment(byte[] data, String filename, String type, String subFilePath) {
+		String id = UUIDUtil.createUUID();
+		long size = data.length;
+		if (size > maxFileByteSize) {
+			throw new BusinessException("上传附件不能大于" + maxFileSize + "MB");
+		}
+
+		SysAttachment attachment = new SysAttachment();
+		attachment.setId(id);
+		attachment.setSize(size);
+		attachment.setType(type);
+
+		if (filename != null && filename.length() > 0) {
+			int i = filename.lastIndexOf(".");
+			if (i >= 0) {
+				String suffix = filename.substring(i);
+				attachment.setSuffix(suffix);
+				attachment.setName(filename.substring(0, i));
+			} else {
+				attachment.setName(filename);
+			}
+		} else {
+			throw new BusinessException("文件名不能为空");
+		}
+
+		try {
+			saveFile(data, attachment, subFilePath);
+		} catch (IOException e) {
+			throw new SystemException("保存附件文件失败", e);
+		}
+		save(attachment);
+		return attachment;
+	}
+
 	private SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 
+	/**
+	 * 保存文件，并生成相对路径到附件数据中，子路径为当前日期
+	 * 
+	 * @param data
+	 * @param attachment
+	 * @throws IOException
+	 */
 	private void saveFile(byte[] data, SysAttachment attachment) throws IOException {
+		saveFile(data, attachment, null);
+	}
+
+	/**
+	 * 保存文件，并生成相对路径到附件数据中
+	 * 
+	 * @param data
+	 * @param attachment
+	 * @param subPath
+	 * @throws IOException
+	 */
+	private void saveFile(byte[] data, SysAttachment attachment, String subPath) throws IOException {
 		if (data == null || data.length == 0) {
 			throw new SystemException("文件为空");
 		}
 
-		String date = format.format(new Date());
-		Path path = Paths.get(attachmentPath, date);
+		if (subPath == null || subPath.length() == 0) {
+			subPath = format.format(new Date());
+		}
+
+		Path path = Paths.get(attachmentPath, subPath);
 		if (!Files.exists(path)) {
 			try {
 				Files.createDirectory(path);
@@ -165,10 +244,16 @@ public class SysAttachmentService extends ServiceSupport<SysAttachment> {
 			filename += suffix;
 		}
 
-		String pelativePath = date + "/" + filename;
+		String pelativePath = subPath + "/" + filename;
 		Files.write(Paths.get(attachmentPath + pelativePath), data);
 
 		attachment.setPelativePath(pelativePath);
+
+		// 附件名称太长则截取
+		String attachmentName = attachment.getName();
+		if (attachmentName != null && attachmentName.length() > maxFileNameSize) {
+			attachment.setName(attachmentName.substring(0, maxFileNameSize));
+		}
 	}
 
 	/**

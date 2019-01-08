@@ -56,4 +56,57 @@
             </foreach>
         </if>
     </select>
+    <select id="findAgencyScoreExport" resultType="com.paladin.hrms.service.analysis.dto.AnalysisAgencyExport">
+        SELECT
+        a.name AS agencyName,
+        c.base_score AS baseScore,
+        c.job_score AS jobScore,
+        c.practice_score AS practiceScore,
+        c.education_score AS educationScore,
+        c.work_experience_score AS workExperienceScore,
+        c.positional_info_score AS positionalInfoScore,
+        c.science_education_score AS scienceEducationScore,
+        c.reward_info_score AS rewardInfoScore,
+        c.cultivate_score AS cultivateScore,
+        c.year_assess_score AS yearAssessScore,
+        c.sum_score AS sumScore
+        FROM org_agency a LEFT JOIN analysis_agency_data_score c ON c.agency_id = a.id
+        WHERE a.is_delete = 0
+        <if test="permission.cityCode!=null">
+            AND a.city_code =#{permission.cityCode}
+        </if>
+        <if test="permission.cityCodes!=null">
+            AND a.city_code IN
+            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.townCode!=null">
+            AND a.town_code =#{permission.townCode}
+        </if>
+        <if test="permission.townCodes!=null">
+            AND a.town_code IN
+            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.districtCode!=null">
+            AND a.district_code =#{permission.districtCode}
+        </if>
+        <if test="permission.districtCodes!=null">
+            AND a.district_code IN
+            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.agencyId!=null">
+            AND a.id =#{permission.agencyId}
+        </if>
+        <if test="permission.agencyIds!=null">
+            AND a.id IN
+            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
 </mapper>

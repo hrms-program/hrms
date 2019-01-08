@@ -133,74 +133,81 @@
     }
 
     function transferFormatter(value, row, index) {
-        var targetAgencyName;
-        if (row.targetAgencyName == null) {
-            targetAgencyName = "无";
-        } else {
-            targetAgencyName = row.targetAgencyName;
-        }
-        return row.agencyName + '<span style="margin-left:20px;margin-right:20px" class="label bg-aqua">转移到</span>' + targetAgencyName;
+        return (row.agencyName == null?'无':row.agencyName) + '<span style="margin-left:20px;margin-right:20px" class="label bg-aqua">转移到</span>' + (row.targetAgencyName == null?'无':row.targetAgencyName);
     }
 
     var index;
 
     function isAgree(result, row) {
+    	
         var title = row.name + '-机构变更操作';
+        
+        var html = '<div class="form-horizontal">' +
+        '<input type="hidden" id="result" value=' + result + '>' +
+        '<div>' +
+        '<label class="col-sm-2 control-label">姓名：</label>' +
+        '<div class="col-sm-10">' +
+        '<p class="form-control-static description">' + row.name + '</p>' +
+        '</div>' +
+        '</div>' +
+        '<div>' +
+        '<label class="col-sm-2 control-label">性别：</label>' +
+        '<div class="col-sm-4">' +
+        '<p class="form-control-static">' + sex(row.sex) + '</p>' +
+        '</div>' +
+        '<label class="col-sm-2 control-label">身份证号码：</label>' +
+        '<div class="col-sm-4">' +
+        '<p name="usedName" class="form-control-static description">' + row.identificationNo + '</p>' +
+        '</div>' +
+        '</div>' +
+        '<div>' +
+        '<label class="col-sm-2 control-label">现所在机构：</label>' +
+        '<div class="col-sm-4">' +
+        '<p class="form-control-static description">' + (row.agencyName == null?'无':row.agencyName) + '</p>' +
+        '</div>' +
+        '<label class="col-sm-2 control-label"> 目的机构：</label>' +
+        '<div class="col-sm-3">' +
+        '<p class="form-control-static description">' + (row.targetAgencyName == null?'无':row.targetAgencyName) + '</p>' +
+        '</div>' +
+        '</div>' +
+        '<div>' +
+        '<label class="col-sm-2 control-label">处理说明：</label>' +
+        '<div class="col-sm-9">' +
+        '<textarea name="illustrate" id="illustrate" class="form-control" rows="5" style="resize: none;"></textarea>' +
+        '</div>' +
+        '</div>' +
+        '<div>' +
+        '<div class="col-sm-offset-5 col-sm-2" style="margin-top: 15px;">' +
+        '<button type="button" id="submitBtn" class="btn btn-primary btn-block">确定</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+        
         index = layer.open({
             type: 1,
             shadeClose: false,
             title: title,
             maxmin: true, //开启最大化最小化按钮
             area: $.getOpenLayerSize(850, 380),
-            content: html(row, result)
+            content: html,
+            success: function(layero, index) {
+                claim(index, row);
+            }
         });
-        //$.openPageLayer(html(row),title);
     }
 
-
-    function html(row, result) {
-
-        var html = '<div class="form-horizontal">' +
-            '<input type="hidden" id="result" value=' + result + '>' +
-            '<div>' +
-            '<label class="col-sm-2 control-label">姓名：</label>' +
-            '<div class="col-sm-10">' +
-            '<p class="form-control-static description">' + row.name + '</p>' +
-            '</div>' +
-            '</div>' +
-            '<div>' +
-            '<label class="col-sm-2 control-label">性别：</label>' +
-            '<div class="col-sm-4">' +
-            '<p class="form-control-static">' + sex(row.sex) + '</p>' +
-            '</div>' +
-            '<label class="col-sm-2 control-label">身份证号码：</label>' +
-            '<div class="col-sm-4">' +
-            '<p name="usedName" class="form-control-static description">' + row.identificationNo + '</p>' +
-            '</div>' +
-            '</div>' +
-            '<div>' +
-            '<label class="col-sm-2 control-label">现所在机构：</label>' +
-            '<div class="col-sm-4">' +
-            '<p class="form-control-static description">' + row.agencyName + '</p>' +
-            '</div>' +
-            '<label class="col-sm-2 control-label"> 目的机构：</label>' +
-            '<div class="col-sm-3">' +
-            '<p class="form-control-static description">' + row.targetAgencyName + '</p>' +
-            '</div>' +
-            '</div>' +
-            '<div>' +
-            '<label class="col-sm-2 control-label">处理说明：</label>' +
-            '<div class="col-sm-9">' +
-            '<textarea name="illustrate" id="illustrate" class="form-control" rows="5" style="resize: none;"></textarea>' +
-            '</div>' +
-            '</div>' +
-            '<div>' +
-            '<div class="col-sm-offset-5 col-sm-2" style="margin-top: 15px;">' +
-            '<button type="submit" id="result" onclick="save(' + row.id + ')" class="btn btn-primary btn-block">确定</button>' +
-            '</div>' +
-            '</div>' +
-            '</div>';
-        return html;
+    function claim(index, row) {
+    	 $("#submitBtn").click(function() {
+    		 var illustrate = $("#illustrate").val();
+    	        var result = $("#result").val();
+    	        layer.confirm('是否确定提交吗?', function() {
+    	            $.postAjax("/hrms/complaint/agency/confirm/save", { personnelId: row.id, illustrate: illustrate, result: result }, function() {
+    	                $.successMessage("操作成功");
+    	                layer.close(index);
+    	                query();
+    	            })
+    	        });
+    	});
     }
 
     function sex(id) {
@@ -211,18 +218,6 @@
                 return item[i].value;
             }
         }
-    }
-
-    function save(id) {
-        var illustrate = $("#illustrate").val();
-        var result = $("#result").val();
-        layer.confirm('是否确定提交吗?', function() {
-            $.postAjax("/hrms/complaint/agency/confirm/save", { personnelId: id, illustrate: illustrate, result: result }, function() {
-                $.successMessage("操作成功");
-                layer.close(index);
-                query();
-            })
-        });
     }
 
     function query() {

@@ -58,11 +58,17 @@
                 <div id="table1">
                     <table id="dataGrid"></table>
                     <div id="toolbar">
+                        <div class="btn-group">
+                            <a onclick="exportAgencyData()" class="btn btn-success"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;导出&nbsp;&nbsp;</a>
+                        </div>
                     </div>
                 </div>
                 <div id="table2">
                     <table id="dataGrid2"></table>
                     <div id="toolbar2">
+                        <div class="btn-group">
+                            <a onclick="exportPersonnelData()" class="btn btn-success"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;导出&nbsp;&nbsp;</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,6 +83,7 @@
     var isAgency = true;
 
     $(function() {
+        showAgency();
         initDataGrid1();
     });
 
@@ -174,6 +181,24 @@
             $('form')[0].reset();
         }
     }
+
+    function exportAgencyData() {
+        var params = $("#searchbar").serializeObject({
+
+        });
+        window.open($.wrapGetUrl("/hrms/analysis/agency/data/score/export/do", params));
+    }
+
+    function exportPersonnelData() {
+
+        var params = $("#searchbar").serializeObject({
+            agencyId : selectedAgencyId
+        });
+        window.open($.wrapGetUrl("/hrms/analysis/personnel/data/score/export/do", params));
+    }
+
+
+
 
     function initDataGrid2() {
         if (table2) {

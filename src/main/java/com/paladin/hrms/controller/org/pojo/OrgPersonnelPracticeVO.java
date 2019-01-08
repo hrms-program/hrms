@@ -22,7 +22,7 @@ public class OrgPersonnelPracticeVO {
 	// 执业注册时间(首次注册时间)
 	private Date registrationDate;
 	// 医师执业类别
-	private String practiceCategory;
+	private Integer practiceCategory;
 	// 医师执业范围
 	private String practiceScope;
 	// 是否由乡镇卫生院或社区卫生服务机构派驻村卫生室工作
@@ -30,9 +30,9 @@ public class OrgPersonnelPracticeVO {
 	// 是否多地点职业
 	private Integer isMultisite;
 	// 第2执业单位类别
-	private String secondCategory;
+	private Integer secondCategory;
 	// 第3执业单位类别
-	private String thirdCategory;	
+	private Integer thirdCategory;	
 	// 专业特长
 	private String expertise;
 	// 全科医生取得培训合格证书情况
@@ -157,11 +157,11 @@ public class OrgPersonnelPracticeVO {
 		this.registrationDate = registrationDate;
 	}
 
-	public String getPracticeCategory() {
+	public Integer getPracticeCategory() {
 		return practiceCategory;
 	}
 
-	public void setPracticeCategory(String practiceCategory) {
+	public void setPracticeCategory(Integer practiceCategory) {
 		this.practiceCategory = practiceCategory;
 	}
 
@@ -189,19 +189,19 @@ public class OrgPersonnelPracticeVO {
 		this.isMultisite = isMultisite;
 	}
 
-	public String getSecondCategory() {
+	public Integer getSecondCategory() {
 		return secondCategory;
 	}
 
-	public void setSecondCategory(String secondCategory) {
+	public void setSecondCategory(Integer secondCategory) {
 		this.secondCategory = secondCategory;
 	}
 
-	public String getThirdCategory() {
+	public Integer getThirdCategory() {
 		return thirdCategory;
 	}
 
-	public void setThirdCategory(String thirdCategory) {
+	public void setThirdCategory(Integer thirdCategory) {
 		this.thirdCategory = thirdCategory;
 	}
 

@@ -79,59 +79,56 @@
 }
 
 #anchor-point ul li:nth-child(1) {
-    left: 294px;
+    left: 400px;
     background-color: rgb(26, 146, 244);
 }
 
 #anchor-point ul li:nth-child(2) {
-    left: 400px;
+    left: 506px;
     background-color: rgb(222, 180, 6);
 }
 
 #anchor-point ul li:nth-child(3) {
-    left: 506px;
+    left: 612px;
     background-color: rgb(1, 159, 126);
 }
 
 #anchor-point ul li:nth-child(4) {
-    left: 612px;
+    left: -5px;
     background-color: rgb(0, 117, 169);
 }
 
 #anchor-point ul li:nth-child(5) {
-    left: 0px;
+    left: 100px;
     background-color: rgb(1, 159, 126);
 }
 
 #anchor-point ul li:nth-child(6) {
-    left: 106px;
+    left: 206px;
     background-color: rgb(52, 166, 199);
 }
 
 #anchor-point ul li:nth-child(7) {
-    left: 212px;
+    left: 312px;
     background-color: rgb(0, 153, 68);
 }
 
 #anchor-point ul li:nth-child(8) {
-    left: 318px;
+    left: 418px;
     background-color: rgb(0, 117, 169);
 }
 
 #anchor-point ul li:nth-child(9) {
-    left: 425px;
+    left: 525px;
     background-color: rgb(2, 126, 104);
 }
 
 #anchor-point ul li:nth-child(10) {
-    left: 531px;
+    left: 631px;
     background-color: rgb(207, 169, 114);
 }
 
-#anchor-point ul li:nth-child(11) {
-    left: 637px;
-    background-color: rgb(8, 173, 234);
-}
+
 
 #anchor-point a {
     display: block;

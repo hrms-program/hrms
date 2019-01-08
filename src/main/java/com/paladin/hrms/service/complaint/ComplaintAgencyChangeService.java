@@ -36,10 +36,7 @@ public class ComplaintAgencyChangeService extends ComplaintServiceSupport<Compla
 
 	public PageResult<PersonnelForAgencyChangeVO> findPersonnelForChange(PersonnelForAgencyQueryDTO query) {
 		Page<PersonnelForAgencyChangeVO> page = PageHelper.offsetPage(query.getOffset(), query.getLimit());
-		String agencyId = query.getAgencyId();
-		String[] agencyIds = (agencyId == null || agencyId.length() == 0) ? null : new String[] { agencyId };
-		DataPermissionCondition permission = DataPermissionUtil.getPermissionCondition(null, agencyIds);
-		complaintAgencyChangeMapper.findPersonnelForChange(query, permission);
+		complaintAgencyChangeMapper.findPersonnelForChange(query);
 		return new PageResult<>(page);
 	}
 

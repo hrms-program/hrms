@@ -23,13 +23,7 @@
                     </div>
                  <label for="name" style="width:130px" class="col-md-1 control-label">请输入机构名称</label>
                     <div class="col-md-2">
-                        <div class="input-group">
-                            <input type="text" name="agencyName" class="form-control tonto-agency" placeholder="请输入机构名称" th:value="${query?.agencyName}">
-                            <input type="hidden" name="agencyId" th:value="${query?.agencyId}" />
-                            <div class="input-group-btn">
-                                <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
-                            </div>
-                        </div>
+                            <input type="text" name="agencyName" class="form-control" placeholder="请输入机构名称" th:value="${query?.agencyName}">
                     </div>
                     <label for="name" style="width:143px" class="col-md-2 control-label">请输入身份证号码</label>
                     <div class="col-md-2">

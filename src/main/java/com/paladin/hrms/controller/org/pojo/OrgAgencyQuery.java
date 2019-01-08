@@ -15,6 +15,10 @@ public class OrgAgencyQuery extends OffsetPage{
     private String address;
     
     private String agencyId;
+    
+    private String districtCode;
+    
+    private String agencyCategory;
 
     @QueryCondition(type = QueryType.LIKE)
     public String getAddress()
@@ -46,4 +50,25 @@ public class OrgAgencyQuery extends OffsetPage{
     {
         this.agencyId = agencyId;
     }
+
+    public String getDistrictCode()
+    {
+        return districtCode;
+    }
+
+    public void setDistrictCode(String districtCode)
+    {
+        this.districtCode = districtCode;
+    }
+
+    public String getAgencyCategory()
+    {
+        return agencyCategory;
+    }
+
+    public void setAgencyCategory(String agencyCategory)
+    {
+        this.agencyCategory = agencyCategory;
+    }
+
 }

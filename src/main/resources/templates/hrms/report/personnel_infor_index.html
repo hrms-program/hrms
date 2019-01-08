@@ -41,9 +41,17 @@
             </div>
             <div id="result" class="box-body">
                 <table id="dataGrid"></table>
+                <div id="toolbar">
+                    <div class="btn-group">
+                        <a onclick="exportPersonnelReportInfor()" class="btn btn-success"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;导出&nbsp;&nbsp;</a>
+                    </div>
+                </div>
             </div>
             <div class="toolbar">
-            <a href="/hrms/report/infor/index" class="btn toolbar-item"><i class="glyphicon glyphicon-menu-left"></i></a>
+                <div class="btn-group">
+                     <a href="/hrms/report/infor/index" class="btn toolbar-item"><i class="glyphicon glyphicon-menu-left"></i></a>
+                </div>
+            </div>
         </div>
         </div>
     </section>
@@ -82,6 +90,12 @@
             toolbar: "#toolbar",
             showRefresh: true
         });
+    }
+    function exportPersonnelReportInfor() {
+        var params = $("#searchbar").serializeObject({
+
+        });
+        window.open($.wrapGetUrl("/hrms/report/personnel/infor/export/do", params));
     }
     /*]]>*/
     </script>

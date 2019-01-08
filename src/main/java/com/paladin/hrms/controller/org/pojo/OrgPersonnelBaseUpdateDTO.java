@@ -9,6 +9,8 @@ public class OrgPersonnelBaseUpdateDTO {
 	private String usedName;
 	
 	private String cellphone;
+	
+    private String profilePhoto;
 
 	private String officePhone;
 
@@ -122,6 +124,14 @@ public class OrgPersonnelBaseUpdateDTO {
 
 	public void setNativePlace(String nativePlace) {
 		this.nativePlace = nativePlace;
+	}
+
+	public String getProfilePhoto() {
+		return profilePhoto;
+	}
+
+	public void setProfilePhoto(String profilePhoto) {
+		this.profilePhoto = profilePhoto;
 	}
 	
 }

@@ -16,7 +16,7 @@ public @interface ReadProperty {
 	
 	// 处理常量
 	public String enumType() default "";
-	
+	public boolean multiple() default false;
 	//验证部分
 	public boolean nullable() default true;
 	public String regex() default "";

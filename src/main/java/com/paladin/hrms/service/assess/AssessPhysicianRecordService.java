@@ -45,8 +45,8 @@ public class AssessPhysicianRecordService extends ServiceSupport<AssessPhysician
          return titles.size();
     }
 
-    public PageResult<List<AssessPhysicianRecordExport>> findExportPersonnel(PhysicianAssessQuery query) {
-        Page<List<AssessPhysicianRecordExport>> page  =  PageHelper.offsetPage(query.getOffset(), query.getLimit());
+    public PageResult<AssessPhysicianRecordExport> findExportPersonnel(PhysicianAssessQuery query) {
+        Page<AssessPhysicianRecordExport> page  =  PageHelper.offsetPage(query.getOffset(), query.getLimit());
         String agencyId = query.getAgencyId();
         String[] agencyIds = (agencyId == null || agencyId.length() == 0) ? null : new String[] { agencyId };
         DataPermissionCondition permission = DataPermissionUtil.getPermissionCondition(null, agencyIds);
@@ -65,14 +65,14 @@ private  static  final  WriteRow assessPhysicianRecordRow = DefaultWriteRow.crea
     public void export( PhysicianAssessQuery query, OutputStream output) {
         SXSSFWorkbook workbook = new SXSSFWorkbook();
         try {
-            ExcelWriter<List<AssessPhysicianRecordExport>> writer = new ExcelWriter<>(workbook, assessPhysicianRecordRow);
+            ExcelWriter<AssessPhysicianRecordExport> writer = new ExcelWriter<>(workbook, assessPhysicianRecordRow);
             writer.openNewSheet("医师定期考核统计表");
 
             int offset = 0;
             int limit = 500;
 
-            PageResult<List<AssessPhysicianRecordExport>> pageResult = null;
-            List<List<AssessPhysicianRecordExport>> data = null;
+            PageResult<AssessPhysicianRecordExport> pageResult = null;
+            List<AssessPhysicianRecordExport> data = null;
 
             int i = 0;
             while (true) {

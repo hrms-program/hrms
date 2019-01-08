@@ -1,5 +1,32 @@
 package com.paladin.hrms.service.analysis;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.paladin.framework.common.PageResult;
+import com.paladin.framework.core.ServiceSupport;
+import com.paladin.framework.core.exception.BusinessException;
+import com.paladin.framework.excel.write.DefaultWriteRow;
+import com.paladin.framework.excel.write.ExcelWriter;
+import com.paladin.framework.excel.write.WriteRow;
+import com.paladin.framework.utils.reflect.Entity;
+import com.paladin.framework.utils.reflect.EntityField;
+import com.paladin.framework.utils.reflect.NameUtil;
+import com.paladin.hrms.core.DataPermissionUtil;
+import com.paladin.hrms.core.DataPermissionUtil.DataPermissionCondition;
+import com.paladin.hrms.mapper.analysis.AnalysisPersonnelDataScoreMapper;
+import com.paladin.hrms.model.analysis.AnalysisAgencyDataScore;
+import com.paladin.hrms.model.analysis.AnalysisPersonnelDataScore;
+import com.paladin.hrms.model.org.*;
+import com.paladin.hrms.service.analysis.dto.*;
+import com.paladin.hrms.service.org.OrgAgencyService;
+import com.paladin.hrms.service.org.OrgPersonnelJobService;
+import com.paladin.hrms.service.org.OrgPersonnelPracticeService;
+import com.paladin.hrms.service.org.OrgPersonnelService;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.ServletOutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
@@ -7,40 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.paladin.hrms.core.DataPermissionUtil;
-import com.paladin.hrms.core.DataPermissionUtil.DataPermissionCondition;
-import com.paladin.hrms.mapper.analysis.AnalysisPersonnelDataScoreMapper;
-import com.paladin.hrms.model.analysis.AnalysisAgencyDataScore;
-import com.paladin.hrms.model.analysis.AnalysisPersonnelDataScore;
-import com.paladin.hrms.model.org.OrgAgency;
-import com.paladin.hrms.model.org.OrgPersonnel;
-import com.paladin.hrms.model.org.OrgPersonnelCultivate;
-import com.paladin.hrms.model.org.OrgPersonnelEducation;
-import com.paladin.hrms.model.org.OrgPersonnelJob;
-import com.paladin.hrms.model.org.OrgPersonnelPositionalInfo;
-import com.paladin.hrms.model.org.OrgPersonnelPractice;
-import com.paladin.hrms.model.org.OrgPersonnelRewardInfo;
-import com.paladin.hrms.model.org.OrgPersonnelScienceEducation;
-import com.paladin.hrms.model.org.OrgPersonnelWorkExperience;
-import com.paladin.hrms.model.org.OrgPersonnelYearAssess;
-import com.paladin.hrms.service.analysis.dto.AgencyDataSumScoreDTO;
-import com.paladin.hrms.service.analysis.dto.AnalysisPersonnelDataScoreQueryDTO;
-import com.paladin.hrms.service.analysis.dto.AnalysisPersonnelDataScoreVO;
-import com.paladin.hrms.service.org.OrgAgencyService;
-import com.paladin.hrms.service.org.OrgPersonnelJobService;
-import com.paladin.hrms.service.org.OrgPersonnelPracticeService;
-import com.paladin.hrms.service.org.OrgPersonnelService;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.paladin.framework.common.PageResult;
-import com.paladin.framework.core.ServiceSupport;
-import com.paladin.framework.utils.reflect.Entity;
-import com.paladin.framework.utils.reflect.EntityField;
-import com.paladin.framework.utils.reflect.NameUtil;
 
 @Service
 public class AnalysisPersonnelDataScoreService extends ServiceSupport<AnalysisPersonnelDataScore> {
@@ -71,6 +64,15 @@ public class AnalysisPersonnelDataScoreService extends ServiceSupport<AnalysisPe
 		analysisPersonnelDataScoreMapper.findPersonnelScore(query, permission);
 		return new PageResult<>(page);
 	}
+
+    private PageResult<AnalysisPersonnelExport> findPersonnelData(AnalysisPersonnelDataScoreQueryDTO query) {
+        Page<AnalysisPersonnelExport> page = PageHelper.offsetPage(query.getOffset(), query.getLimit());
+        String agencyId = query.getAgencyId();
+        String[] agencyIds = (agencyId == null || agencyId.length() == 0) ? null : new String[] { agencyId };
+        DataPermissionCondition permission = DataPermissionUtil.getPermissionCondition(null, agencyIds);
+        analysisPersonnelDataScoreMapper.findPersonnelScoreExport(query, permission);
+        return new PageResult<>(page);
+    }
 
 	public void figureOutScore() {
 		figureOutPersonnelScore();
@@ -286,8 +288,7 @@ public class AnalysisPersonnelDataScoreService extends ServiceSupport<AnalysisPe
 		otherPracticeDoctorScoreAnalyzer.addScoreRules(1, "startDate", "endDate");
 
 	}
-
-	public static class ScoreAnalyzer<T> {
+    public static class ScoreAnalyzer<T> {
 
 		private Entity entity;
 		private Map<String, Integer> field2scoreMap;
@@ -329,4 +330,45 @@ public class AnalysisPersonnelDataScoreService extends ServiceSupport<AnalysisPe
 			return score;
 		}
 	}
+
+    private  static  final WriteRow analysisPersonnelRow = DefaultWriteRow.createWriteRow(AnalysisPersonnelExport.class, null);
+
+    public void export(AnalysisPersonnelDataScoreQueryDTO query, ServletOutputStream output) {
+        SXSSFWorkbook workbook = new SXSSFWorkbook();
+        try {
+            ExcelWriter<AnalysisPersonnelExport> writer = new ExcelWriter<>(workbook, analysisPersonnelRow);
+            writer.openNewSheet("人员");
+
+            int offset = 0;
+            int limit = 500;
+
+            PageResult<AnalysisPersonnelExport> pageResult = null;
+            List<AnalysisPersonnelExport> data = null;
+
+            int i = 0;
+            while (true) {
+                query.setOffset(offset);
+                query.setLimit(limit);
+
+                pageResult = findPersonnelData(query) ;
+                data = pageResult.getData();
+                writer.write(data);
+                offset += limit;
+                if (offset >= pageResult.getTotal()) {
+                    break;
+                }else {
+                    i++;
+                    pageResult = null;
+                    data = null;
+                    writer.openNewSheet("人员-"+ i);
+                }
+            }
+            writer.output(output);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException("导出Excel失败", e);
+        }
+    }
+
+
 }

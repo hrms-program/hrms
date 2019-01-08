@@ -12,6 +12,11 @@
             </div>
             <div id="result" class="box-body">
                 <table id="dataGrid"></table>
+                <div id="toolbar">
+                    <div class="btn-group">
+                        <a onclick="exportOrgReportInfor()" class="btn btn-success"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;导出&nbsp;&nbsp;</a>
+                    </div>
+                </div>
             </div>
              <div class="toolbar">
             <a href="/hrms/report/confirm/index" class="btn toolbar-item"><i class="glyphicon glyphicon-menu-left"></i></a>
@@ -87,6 +92,13 @@
            edit(row.agencyName,row.id);
         }
     };
+
+    function exportOrgReportInfor() {
+        var params = $("#searchbar").serializeObject({
+
+        });
+        window.open($.wrapGetUrl("/hrms/report/confirm/export/do", params));
+    }
     
     /*]]>*/
     </script>

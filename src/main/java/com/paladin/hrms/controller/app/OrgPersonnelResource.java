@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.paladin.common.model.syst.SysAttachment;
+import com.paladin.common.service.syst.SysAttachmentService;
 import com.paladin.framework.core.ControllerSupport;
 import com.paladin.framework.web.response.CommonResponse;
 import com.paladin.hrms.controller.org.pojo.OrgPersonnelBaseVO;
@@ -66,6 +68,8 @@ public class OrgPersonnelResource extends ControllerSupport{
     @Autowired
     private OrgPersonnelScienceEducationService orgPersonnelScienceEducationService;
 
+    @Autowired
+	private SysAttachmentService attachmentService;
     
 	/**
 	 * 基本信息
@@ -343,4 +347,23 @@ public class OrgPersonnelResource extends ControllerSupport{
     public Object detailYearassessDetails(@RequestParam String id){
         return CommonResponse.getSuccessResponse(orgPersonnelYearAssessService.get(id));
     }
+    
+    /**
+	 * 上传头像
+	 * 
+	 * @param personnelId imageStr imageName
+	 * @return
+	 */
+	@RequestMapping("/upload/filePhoto/base64")
+	@ResponseBody
+	public Object uploadImageByBase64(@RequestParam String personnelId,@RequestParam("imageStr") String imageStr, @RequestParam(value = "imageName", required = false) String imageName) {
+		if (imageStr == null || imageStr.length() == 0) {
+			return CommonResponse.getErrorResponse("上传图片的图片为空");
+		}
+		SysAttachment attachment = attachmentService.createAttachment(imageStr, imageName == null || imageName.length() == 0 ? "附件" : imageName, "image/jpeg");
+		if (attachment != null) {
+			return CommonResponse.getResponse(personnelService.updateProfilePhoto(personnelId, attachment.getId()));
+		}
+		return CommonResponse.getFailResponse();
+	}
 }

@@ -19,7 +19,7 @@
                         </div>
                         <label for="identificationNo" class="col-sm-2 control-label">身份证：</label>
                         <div class="col-sm-3">
-                            <input class="form-control" required="required" placeholder="请输入身份证" name="identificationNo" th:field="*{identificationNo}"/> 
+                            <input class="form-control" required="required" placeholder="请输入身份证" name="identificationNo" th:field="*{identificationNo}" data-type="identity"/> 
                         </div>
                     </div>
                     <div class="form-group">
@@ -29,7 +29,7 @@
                         </div>
                         <label for="cellphone" class="col-sm-2 control-label">手机号：</label>
                         <div class="col-sm-3">
-                            <input class="form-control" required="required" placeholder="请输入手机号" name="" th:field="*{cellphone}"/> 
+                            <input class="form-control" required="required" placeholder="请输入手机号" name="" th:field="*{cellphone}" data-type="*{cellphone}"/> 
                         </div>
                     </div>
                     <div class="form-group">
@@ -41,7 +41,7 @@
                         </div>
                         <label for="email" class="col-sm-2 control-label">邮箱：</label>
                         <div class="col-sm-3">
-                            <input class="form-control" placeholder="请输入邮箱" name="email" th:field="*{email}"/> 
+                            <input class="form-control" placeholder="请输入邮箱" name="email" th:field="*{email}" data-type="email"/> 
                         </div>
                     </div>
                     <div class="form-group">

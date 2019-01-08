@@ -15,8 +15,7 @@ import com.paladin.hrms.service.complaint.dto.PersonnelForAgencyQueryDTO;
 
 public interface ComplaintAgencyChangeMapper extends CustomMapper<ComplaintAgencyChange> {
 
-	public List<PersonnelForAgencyChangeVO> findPersonnelForChange(@Param("query") PersonnelForAgencyQueryDTO query,
-			@Param("permission") DataPermissionCondition permission);
+	public List<PersonnelForAgencyChangeVO> findPersonnelForChange(@Param("query") PersonnelForAgencyQueryDTO query);
 
 	public List<ComplaintAgencyChangeSimpleVO> findAgencyChange(@Param("query") ComplaintAgencyAppealsQueryDTO query,
 			@Param("permission") DataPermissionCondition permission);

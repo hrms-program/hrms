@@ -29,7 +29,7 @@
                         <li class="top-twenty">
                             <a href="#practice_view">执业信息</a>
                         </li>
-                        <li class="top-twenty">
+                        <li class="top-fifty">
                             <a href="#scienceEducation_view">科教信息</a>
                         </li>
                         <li class="top-fifty">
@@ -49,9 +49,6 @@
                         </li>
                         <li class="top-fifty">
                             <a href="#yearassess_view">年度考核</a>
-                        </li>
-                        <li class="top-fifty">
-                            <a href="javascript:void(0)">家庭成员</a>
                         </li>
                     </ul>
                 </div>
@@ -181,13 +178,13 @@
                     <div class="form-group">
                         <label for="nationality" class="col-sm-3 control-label">国籍：</label>
                         <div class="col-sm-3">
-                            <select name="nationality" class="form-control tonto-select-constant" enumcode="nationality">
+                            <select name="nationality" class="form-control tonto-select-constant" required="required" enumcode="nationality">
                                 <option value="">请选择</option>
                             </select>
                         </div>
                         <label for="nation" class="col-sm-3 control-label">民族：</label>
                         <div class="col-sm-3">
-                            <select name="nation" class="form-control tonto-select-constant" enumcode="nation">
+                            <select name="nation" class="form-control tonto-select-constant" enumcode="nation" required="required">
                                 <option value="">请选择</option>
                             </select>
                         </div>
@@ -356,7 +353,7 @@
                     <div class="form-group">
                         <label for="employeeNo" class="col-sm-3 control-label">工号：</label>
                         <div class="col-sm-3">
-                            <input name="employeeNo" type="text" placeholder="工号" class="form-control" maxlength="32" />
+                            <input name="employeeNo" type="text" placeholder="工号" class="form-control" maxlength="32" data-type="number"/>
                         </div>
                         <label for="dept" class="col-sm-3 control-label">所在科室：</label>
                         <div class="col-sm-3">
@@ -972,7 +969,7 @@
                             </div>
                             <label for="diplomaNo" class="col-sm-3 control-label">毕业证书编号：</label>
                             <div class="col-sm-3">
-                                <input name="diplomaNo" placeholder="请输入毕业证书编号" type="text" class="form-control" />
+                                <input name="diplomaNo" placeholder="请输入毕业证书编号" type="text" class="form-control" data-type="number" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -984,7 +981,7 @@
                             </div>
                             <label for="academicDegreeNo" class="col-sm-3 control-label">学位证书编号：</label>
                             <div class="col-sm-3">
-                                <input name="academicDegreeNo" placeholder="请输入学位证书编号" type="text" class="form-control" />
+                                <input name="academicDegreeNo" placeholder="请输入学位证书编号" type="text" class="form-control" data-type="number"/>
                             </div>
                         </div>
                         <div class="form-group"><label for="major" class="col-sm-3 control-label">所学专业：</label>
@@ -1054,7 +1051,7 @@
                         <div class="form-group">
                             <label for="workUnit" class="col-sm-3 control-label">工作单位：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="请输入工作单位" class="form-control" name="workUnit" />
+                                <input type="text" placeholder="请输入工作单位" class="form-control" name="workUnit" maxlength="32"/>
                             </div>
                             <label for="workPlace" class="col-sm-3 control-label">工作地点：</label>
                             <div class="col-sm-3">
@@ -1133,7 +1130,7 @@
                         <div class="form-group">
                             <label for="positionalTitleName" class="col-sm-3 control-label">职称名称：</label>
                             <div class="col-sm-3">
-                                <input name="positionalTitleName" type="text" placeholder="请输入职称名称" class="form-control" />
+                                <input name="positionalTitleName" type="text" placeholder="请输入职称名称" class="form-control" maxlength="32"/>
                             </div>
                             <label for="positionalTitleType" class="col-sm-3 control-label">职称类型：</label>
                             <div class="col-sm-3">
@@ -1208,7 +1205,7 @@
                         <div class="form-group">
                             <label for="topicNumber" class="col-sm-3 control-label">课题编号：</label>
                             <div class="col-sm-3">
-                                <input name="topicNumber" type="text" placeholder="请输入课题编号" class="form-control" />
+                                <input name="topicNumber" type="text" placeholder="请输入课题编号" class="form-control" data-type="number"/>
                             </div>
                             <label for="topicSource" class="col-sm-3 control-label">课题项目来源：</label>
                             <div class="col-sm-3">
@@ -1222,7 +1219,7 @@
                             </div>
                             <label for="money" class="col-sm-3 control-label">金额：</label>
                             <div class="col-sm-3">
-                                <input name="money" type="text" placeholder="请输入金额" class="form-control" />
+                                <input name="money" type="number" placeholder="请输入金额" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -1375,7 +1372,7 @@
                         <div class="form-group">
                             <label for="rewardMoney" class="col-sm-3 control-label">获奖金额：</label>
                             <div class="col-sm-3">
-                                <input name="rewardMoney" type="text" placeholder="请输入获奖金额" class="form-control" />
+                                <input name="rewardMoney" type="number" placeholder="请输入获奖金额" class="form-control" />
                             </div>
                             <label for="rewardReason" class="col-sm-3 control-label">获奖原因：</label>
                             <div class="col-sm-3">
@@ -1509,17 +1506,17 @@
                             </div>
                             <label for="wages" class="col-sm-3 control-label">当年工资(元)：</label>
                             <div class="col-sm-3">
-                                <input name="wages" type="text" placeholder="请输入当年工资(元)" class="form-control" />
+                                <input name="wages" type="number" placeholder="请输入当年工资(元)" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="bonus" class="col-sm-3 control-label">当年奖金(元)</label>
                             <div class="col-sm-3">
-                                <input name="bonus" type="text" placeholder="请输入当年奖金(元)" class="form-control" />
+                                <input name="bonus" type="number" placeholder="请输入当年奖金(元)" class="form-control" />
                             </div>
                             <label for="otherIncome" class="col-sm-3 control-label">当年其他收入(元)：</label>
                             <div class="col-sm-3">
-                                <input name="otherIncome" type="text" placeholder="请输入当年其他收入(元)" class="form-control" />
+                                <input name="otherIncome" type="number" placeholder="请输入当年其他收入(元)" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group">

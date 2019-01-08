@@ -5,6 +5,7 @@
 <body>
 <tt:constant enumcode="sex,identification-type,complaint-status"/>
 <input type="hidden" id="personnelId" th:value="${personnelId}" />
+<div class="container">
 <section class="content-header">
     <h1>申诉管理</h1>
 </section>
@@ -55,12 +56,14 @@
                         <button type="button" id="unpassBtn" onclick="checkFail()" class="btn btn-danger btn-block"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;审核不通过</button>
                     </div>
                 </div>
-
+                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                    <input type="text" style="display:none">
             </form>
         </div>
     </div>
 
 </section>
+</div>
 <div th:include="/hrms/footer"/>
 <script type="text/javascript">
     /*<![CDATA[*/

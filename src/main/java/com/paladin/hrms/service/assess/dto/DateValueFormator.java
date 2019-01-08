@@ -25,7 +25,7 @@ public class DateValueFormator implements ValueFormator {
             String format = formatLocal.get().format((Date) value);
             return format;
         } else {
-            return "无法转义!";
+            return "无";
         }
     }
 }

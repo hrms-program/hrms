@@ -9,7 +9,7 @@
         <div class="box box-solid">
             <div class="box-header with-border">
                 <i class="fa fa-list-alt"></i>
-                <h3 class="box-title">表单</h3>
+                <h3 class="box-title">职称变更编辑</h3>
                 <div class="pull-right box-tools">
                     <a class="btn btn-default btn-sm" href="/hrms/complaint/positional/index">
                         <i class="fa fa-times"></i>
@@ -140,15 +140,17 @@
     });
 
     function init(data) {
-        data.modifyType = 1;
         data.newPositionalTitleName = data.newPositionalTitleName || data.positionalTitleName;
         data.newPositionalLevelLevel = data.newPositionalLevelLevel || data.positionalLevelLevel;
         data.newPositionalTitleTime = data.newPositionalTitleTime || data.positionalTitleTime;
 
-        viewModel = new tonto.Model("view", viewColumns);
+        viewModel = new tonto.Model("view", viewColumns, {
+            pattern:"view"
+        });
         viewModel.setData(data);
 
         editModel = new tonto.Model("edit", editColumns, {
+            pattern: "edit",
             successCallback: function(data) {
                 $.successAlert("保存成功", function() {
                     window.location = '/hrms/complaint/positional/index';
@@ -161,7 +163,6 @@
             }
         });
         editModel.setData(data);
-        editModel.toEdit();
     }
 
 

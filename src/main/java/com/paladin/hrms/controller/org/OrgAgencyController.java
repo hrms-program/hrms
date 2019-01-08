@@ -1,9 +1,16 @@
 package com.paladin.hrms.controller.org;
 
-import java.util.HashMap;
-
-import javax.validation.Valid;
-
+import com.paladin.framework.core.ControllerSupport;
+import com.paladin.framework.core.exception.BusinessException;
+import com.paladin.framework.core.query.QueryInputMethod;
+import com.paladin.framework.core.query.QueryOutputMethod;
+import com.paladin.framework.utils.uuid.UUIDUtil;
+import com.paladin.framework.web.response.CommonResponse;
+import com.paladin.hrms.controller.org.pojo.*;
+import com.paladin.hrms.model.org.OrgAgency;
+import com.paladin.hrms.model.org.OrgAgencyDetail;
+import com.paladin.hrms.service.org.OrgAgencyDetailService;
+import com.paladin.hrms.service.org.OrgAgencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,21 +18,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.paladin.framework.core.ControllerSupport;
-import com.paladin.framework.core.query.QueryInputMethod;
-import com.paladin.framework.core.query.QueryOutputMethod;
-import com.paladin.framework.utils.uuid.UUIDUtil;
-import com.paladin.framework.web.response.CommonResponse;
-import com.paladin.hrms.controller.org.pojo.OrgAgencyDTO;
-import com.paladin.hrms.controller.org.pojo.OrgAgencyDetailDTO;
-import com.paladin.hrms.controller.org.pojo.OrgAgencyDetailVO;
-import com.paladin.hrms.controller.org.pojo.OrgAgencyQuery;
-import com.paladin.hrms.controller.org.pojo.OrgAgencyVO;
-import com.paladin.hrms.model.org.OrgAgency;
-import com.paladin.hrms.model.org.OrgAgencyDetail;
-import com.paladin.hrms.service.org.OrgAgencyDetailService;
-import com.paladin.hrms.service.org.OrgAgencyService;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.HashMap;
 
 /**
  * @author 黄伟华
@@ -175,4 +172,24 @@ public class OrgAgencyController extends ControllerSupport {
 	public Object delete(@RequestParam String id) {
 		return CommonResponse.getResponse(agencyService.removeByPrimaryKey(id));
 	}
+
+    /**
+     * 功能描述: <br>
+     * 〈机构信息导出〉
+     * @param query
+     * @param response
+     * @return:void
+     */
+    @RequestMapping("/export/do")
+    public void exportDo(OrgAgencyQuery query, HttpServletResponse response) {
+        try {
+            // 1.设置文件ContentType类型，这样设置，会自动判断下载文件类型
+            response.setContentType("multipart/form-data");
+            // 2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)
+            response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode("机构信息统计表.xlsx", "UTF-8"));
+            agencyService.export(query, response.getOutputStream());
+        } catch (IOException e) {
+            throw new BusinessException("导出机构信息统计表失败");
+        }
+    }
 }

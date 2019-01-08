@@ -1,12 +1,15 @@
 package com.paladin.hrms.model.complaint;
 
 import com.paladin.framework.common.BaseModel;
+
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 public class ComplaintAgencyChangeRecord extends BaseModel {
 
 	// 
 	@Id
+	@GeneratedValue(generator = "UUID")
 	private String id;
 
 	// 

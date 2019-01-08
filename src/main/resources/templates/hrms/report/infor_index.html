@@ -47,6 +47,11 @@
             </div>
             <div id="result" class="box-body">
                 <table id="dataGrid"></table>
+                <div id="toolbar">
+                    <div class="btn-group">
+                        <a onclick="exportReportInfor()" class="btn btn-success"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;导出&nbsp;&nbsp;</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -87,6 +92,13 @@
             showRefresh: true
         });
     }
+    function exportReportInfor() {
+        var params = $("#searchbar").serializeObject({
+
+        });
+        window.open($.wrapGetUrl("/hrms/report/infor/export/do", params));
+    }
+
     /*]]>*/
     </script>
 </body>

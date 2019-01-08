@@ -1,13 +1,15 @@
 package com.paladin.hrms.mapper.report;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.github.pagehelper.Page;
 import com.paladin.framework.mybatis.CustomMapper;
+import com.paladin.hrms.controller.report.confirm.pojo.AgencyReportInforExport;
 import com.paladin.hrms.controller.report.pojo.ReportInforDTO;
 import com.paladin.hrms.controller.report.pojo.ReportInforQuery;
 import com.paladin.hrms.core.DataPermissionUtil.DataPermissionCondition;
 import com.paladin.hrms.model.report.ReportPersonnelInfor;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface ReportInforMapper extends CustomMapper<ReportInforDTO>{
 
@@ -21,7 +23,6 @@ public interface ReportInforMapper extends CustomMapper<ReportInforDTO>{
 
 	void removeReportPersonnelInfor(String personnelId);
 
-	
-	
 
+    List<AgencyReportInforExport> searchOrgListExport(@Param("query") ReportInforQuery query, @Param("permission") DataPermissionCondition permission);
 }
