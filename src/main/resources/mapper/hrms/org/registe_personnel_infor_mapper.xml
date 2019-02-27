@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.registe.RegistePersonnelInforMapper">
+	<select id="searchTableList" parameterType="com.paladin.hrms.controller.registe.pojo.RegistePersonnelInforQuery" 
+             resultType="com.paladin.hrms.controller.registe.pojo.RegistePersonnelInforDTO">
+       select id as id,
+       		  change_item as changeItem,
+       		  agency_check_status as agencyCheckStatus,
+       		  admin_check_status as adminCheckStatus,
+       		  apply_date as applyDate
+       from registe_personnel_infor
+       where is_delete='0'
+   	  <if test="query.applyDate !=null and query.applyDate != '' ">
+   	  	and DATE_FORMAT(apply_date,'%Y-%m-%d')=#{query.applyDate}
+   	  </if>
+   	  <if test="query.agencyCheckStatus != null and query.agencyCheckStatus.size > 0">
+   	  	and agency_check_status in 
+   	  	<foreach collection="query.agencyCheckStatus" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+   	  </if>
+   	  <if test="query.adminCheckStatus != null and query.adminCheckStatus.size > 0">
+   	  	and admin_check_status in <foreach collection="query.adminCheckStatus" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+   	  </if>
+   	  order by apply_date desc
+	</select>
+            
+         
+</mapper>

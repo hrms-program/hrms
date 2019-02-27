@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/hrms/header" />
+<style>
+select{
+	width:100%
+}
+
+</style>
+<body>
+<tt:constant enumcode="registe-change-item,practice-scope,practice-category-type,registe-check-status"/>
+<div class="container">
+	<section class="content-header">
+    	<h1>备案信息变更机构审核</h1>
+	</section>
+	<section class="content">
+        <div class="box box-solid">
+            <div class="box-header form-horizontal" th:object="${registePersonnelInfor}">
+            	<div class="form-group">
+                        <label for="changeItem"  class="col-sm-2 control-label">拟变更注册事项：</label>
+                        <div class="col-sm-6">
+                            <select name="changeItem" disabled="disabled" required="required" 
+								class="form-control tonto-select-constant tonto-multiple-select" 
+                            	multiple="multiple" number-displayed="5" placeholder="请选择" 
+                            	enumcode="registe-change-item" th:field="*{changeItem}" 
+                            	th:attr="selectedvalue=${registePersonnelInfor.changeItem}"></select> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="changeReason" class="col-sm-2 control-label">申请注册变更理由：</label>
+                        <div class="col-sm-6">
+                            <textarea class="form-control" readonly="readonly" rows="5" required="required" name="changeReason" 
+                            placeholder="1、变更执业地点（变更主执业机构）：应聘、工作变动、开办个体诊所；&#10;2、变更执业级别：获得执业医师资格；&#10;3、变更执业类别：获得相应类别医师资格证书；&#10;4、变更执业范围：获得相应专业高一层次学历或累计2年相应专业进修合格证明等。"
+                            th:field="*{changeReason}"></textarea> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="oldPracticeLevel" class="col-sm-2 control-label">原执业级别：</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" required="required" name="oldPracticeLevel" th:value="*{oldPracticeLevel}"/> 
+                        </div>
+                        <label for="oldPracticeCategory" class="col-sm-2 control-label">原执业类别：</label>
+                        <div class="col-sm-3">
+                            <select name="oldPracticeCategory" disabled="disabled" required="required" class="form-control tonto-select-constant tonto-multiple-select" 
+                            	multiple="multiple" number-displayed="5" placeholder="请选择" enumcode="practice-category-type" th:field="*{oldPracticeCategory}" 
+                            	th:attr="selectedvalue=${registePersonnelInfor.oldPracticeCategory}"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="oldPracticeRange" class="col-sm-2 control-label">原执业范围：</label>
+                        <div class="col-sm-3">
+                             <select name="oldPracticeRange" disabled="disabled" required="required" class="form-control tonto-select-constant tonto-multiple-select" 
+                            	multiple="multiple" number-displayed="5" placeholder="请选择" enumcode="practice-scope" th:field="*{oldPracticeRange}" 
+                            	th:attr="selectedvalue=${registePersonnelInfor.oldPracticeRange}"></select> 
+                        </div>
+                        <label for="oldPracticeAgency" class="col-sm-2 control-label">原执业机构名称：</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" readonly="readonly" required="required" name="oldPracticeAgency" th:field="*{oldPracticeAgency}"/> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="oldAgencyRegisteCode" class="col-sm-2 control-label">原机构登记编码：</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" readonly="readonly" required="required" name="oldAgencyRegisteCode" th:value="*{oldAgencyRegisteCode}"/> 
+                        </div>
+                        <label for="oldOrgPhone" class="col-sm-2 control-label">单位电话：</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" readonly="readonly" required="required" name="oldOrgPhone" th:field="*{oldOrgPhone}"/> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="oldZipCode" class="col-sm-2 control-label">邮政编码：</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" readonly="readonly" required="required" name="oldZipCode" th:value="*{oldZipCode}"/> 
+                        </div>
+                        <label for="oldAddress" class="col-sm-2 control-label">地址：</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" readonly="readonly" required="required" name="oldAddress" th:field="*{oldAddress}"/> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="plannedPracticeLevel" class="col-sm-2 control-label">拟执业级别：</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" readonly="readonly" required="required" name="plannedPracticeLevel" th:value="*{plannedPracticeLevel}"/> 
+                        </div>
+                        <label for="plannedPracticeCategory" class="col-sm-2 control-label">拟执业类别：</label>
+                        <div class="col-sm-3">
+                            <select name="plannedPracticeCategory" disabled="disabled" required="required" class="form-control tonto-select-constant tonto-multiple-select" 
+                            	multiple="multiple" number-displayed="5" placeholder="请选择" enumcode="practice-category-type" th:field="*{plannedPracticeCategory}" 
+                            	th:attr="selectedvalue=${registePersonnelInfor.plannedPracticeCategory}"></select> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="plannedPracticeRange" class="col-sm-2 control-label">拟执业范围：</label>
+                        <div class="col-sm-3">
+                             <select name="plannedPracticeRange" disabled="disabled" required="required" class="form-control tonto-select-constant tonto-multiple-select" 
+                            	multiple="multiple" number-displayed="5" placeholder="请选择" enumcode="practice-scope" th:field="*{plannedPracticeRange}" 
+                            	th:attr="selectedvalue=${registePersonnelInfor.plannedPracticeRange}"></select> 
+                        </div>
+                        <label for="plannedPracticeAgency" class="col-sm-2 control-label">拟执业机构名称：</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" readonly="readonly" required="required" name="plannedPracticeAgency" th:field="*{plannedPracticeAgency}"/> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="plannedAgencyRegisteCode" class="col-sm-2 control-label">拟机构登记编码：</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" readonly="readonly" required="required" name="plannedAgencyRegisteCode" th:value="*{plannedAgencyRegisteCode}"/> 
+                        </div>
+                        <label for="plannedOrgPhone" class="col-sm-2 control-label">单位电话：</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" readonly="readonly" required="required" name="plannedOrgPhone" th:field="*{plannedOrgPhone}"/> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="plannedZipCode" class="col-sm-2 control-label">邮政编码：</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" readonly="readonly" required="required" name="plannedZipCode" th:value="*{plannedZipCode}"/> 
+                        </div>
+                        <label for="plannedAddress" class="col-sm-2 control-label">地址：</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" readonly="readonly" required="required" name="plannedAddress" th:field="*{plannedAddress}"/> 
+                        </div>
+                    </div>
+                    
+                    <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                    <form class="form-horizontal tonto-form-validate" action="/hrms/registe/personnel/infor/check/agencycheck" callback-url="/hrms/registe/personnel/infor/check/index/agency" method="post">
+                    <input type="hidden" name="id" id="id" th:field="*{id}" />
+                    <input type="hidden" name="busiId" id="busiId" th:field="*{busiId}" />
+                    <div class="form-group">
+                        <label for="agencyCheckStatus" class="col-sm-2 control-label">审核：</label>
+                        <div class="col-sm-3">
+                            <select name="agencyCheckStatus"  required="required" class="form-control tonto-select-constant" 
+                            	number-displayed="5" placeholder="请选择" enumcode="registe-check-status" th:field="*{agencyCheckStatus}" 
+                            	th:attr="selectedvalue=${registePersonnelInfor.agencyCheckStatus}"></select> 
+                        </div>
+                        <label for="agencyCheckOpinion" class="col-sm-2 control-label">备注：</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" required="required" name="agencyCheckOpinion" th:field="*{agencyCheckOpinion}"/> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-5 col-sm-2">
+                        	<button type="submit" class="btn btn-primary">保存</button>
+                            <a type="submit" href="/hrms/registe/personnel/infor/check/index/agency" class="btn btn-default">返回</a>
+                        </div>
+                    </div>
+                </form>
+                    
+                    
+            </div>
+        </div>
+    </section>
+</div>
+
+    <div th:include="/hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+   
+    /*]]>*/
+    </script>
+</body>
+
+</html>

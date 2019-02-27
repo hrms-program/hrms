@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/hrms/header" />
+<body>
+<div class="container">
+	<section class="content">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title">备案机构变更</h3>
+				<div class="box-tools pull-right">
+					<a class="btn" id="registe_edit_btn" href="javascript:void(0)"><i
+						class="fa fa-edit"></i>编辑</a>
+				</div>
+			</div>
+			<div id="registe_view" class="box-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+                        <label for="agencyName" class="col-sm-3 control-label">拟备案机构名称：</label>
+                        <div class="col-sm-3">
+                           <p name="agencyName" class="form-control-static description"></p>
+                        </div>
+                        <label for="agencyRegisterCode" class="col-sm-2 control-label">机构登记编码：</label>
+                        <div class="col-sm-4">
+                           <div name="agencyRegisterCode" class="form-control-static description"></div>
+                        </div>
+                    </div>
+                      <div class="form-group">
+                        <label for="phone" class="col-sm-3 control-label">单位电话：</label>
+                        <div class="col-sm-3">
+                           <div name="phone" class="form-control-static description"></div>
+                        </div>
+                        <label for="postalCode" class="col-sm-2 control-label">邮政编码：</label>
+                        <div class="col-sm-4">
+                           <div name="postalCode" class="form-control-static description"></div>
+                        </div>
+                    </div>
+				    <div class="form-group">
+                        <label for="effectiveStartTime" class="col-sm-3 control-label">有效开始时间：</label>
+                        <div class="col-sm-3">
+                           <div name="effectiveStartTime" class="form-control-static description"></div>
+                        </div>
+                        <label for="effectiveEndTime" class="col-sm-2 control-label">有效结束时间：</label>
+                        <div class="col-sm-4">
+                           <div name="effectiveEndTime" class="form-control-static description"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="col-sm-3 control-label">地址：</label>
+                        <div class="col-sm-8">
+                           <div name="address" class="form-control-static description"></div>
+                        </div>
+                    </div>
+				</form>
+				<div class="form-group">
+                <div class="col-sm-2 col-sm-offset-5" style="margin-top: 10px;">
+                    <a href="/hrms/registe/agency/infor/index" class="btn btn-primary btn-block"><span id="toEditbtn">返回</span></a>
+                </div>
+            	</div>
+			</div>
+			<div id="registe_edit" class="box-body" style="display: none">
+				<form id="registe_form" action="/hrms/registe/agency/infor/save" method="post" class="form-horizontal edit-body">
+					<input type="hidden" id="id" name="id" th:value="${id}"/>
+					<div class="form-group">
+						<label for="agencyName" class="col-sm-2 control-label">拟备案机构名称：</label>
+						<div class="col-sm-4">
+							<input name="agencyName" required="required" placeholder="请输入拟备案机构名称" type="text" class="form-control" />
+						</div>
+						<label for="agencyRegisterCode" class="col-sm-2 control-label">机构登记编码：</label>
+						<div class="col-sm-4">
+							<input name="agencyRegisterCode" required="required" placeholder="请输入机构登记编码" type="text" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="phone" class="col-sm-2 control-label">单位电话：</label>
+						<div class="col-sm-4">
+							<input name="phone" required="required" placeholder="请输入单位电话" type="text" class="form-control" />
+						</div>
+						<label for="postalCode" class="col-sm-2 control-label">邮政编码：</label>
+						<div class="col-sm-4">
+							<input name="postalCode" required="required" placeholder="请输入邮政编码" type="text" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="effectiveStartTime" class="col-sm-2 control-label">有效开始时间：</label>
+						<div class="col-sm-4">
+							<input name="effectiveStartTime" required="required" placeholder="请选择有效开始时间" type="text" class="form-control tonto-datepicker-date" />
+						</div>
+						<label for="effectiveEndTime" class="col-sm-2 control-label">有效结束时间：</label>
+						<div class="col-sm-4">
+							<input name="effectiveEndTime" required="required" placeholder="请选择有效结束时间" type="text" class="form-control tonto-datepicker-date" />
+						</div>
+					</div>
+					 <div class="form-group">
+                        <label for="address" class="col-sm-2 control-label">地址：</label>
+                        <div class="col-sm-10">
+                        <input name="address" required="required" placeholder="请输入地址" type="text" class="form-control" />
+                        </div>
+                    </div>
+					<div class="form-group">
+						<div class="col-sm-2 col-sm-offset-3">
+							<button type="submit" id="registe_form_submit_btn"
+								class="btn btn-primary btn-block">保存</button>
+						</div>
+						<div class="col-sm-2 col-sm-offset-1">
+							<button type="button" id="registe_form_cancel_btn"
+								class="btn btn-default btn-block">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+	</div>
+	<div th:include="/hrms/footer" />
+	
+	<script type="text/javascript">
+	
+	var registeModelConfig = {
+	        id: "registe",
+	        name: "备案机构变更",
+	        columns: [
+	            { name: "agencyName", inputType: "TEXT", title: "拟备案机构名称" },
+	            { name: "agencyRegisterCode", inputType: "TEXT", title: "机构登记编码" },
+	            { name: "phone", inputType: "TEXT", title: "单位电话" },
+	            { name: "postalCode", inputType: "TEXT", title: "邮政编码" },
+	            { name: "effectiveStartTime", inputType: "DATE",title: "有效开始时间" },
+	            { name: "effectiveEndTime", inputType: "DATE", title: "有效结束时间" },
+	            { name: "address", inputType: "TEXT", title: "地址", colspan: 2 }
+	        ]
+	    };
+
+		var baseModel;
+		  var id;
+		  $(function() {
+		      id = $("#id").val();
+		      baseModel = new tonto.Model(registeModelConfig.id, registeModelConfig.columns, {
+		          successCallback: function(data) {
+		              $.successMessage("保存成功");
+		              window.location.href="/hrms/registe/agency/infor/index";
+		          }
+		      });
+		      if (id) {
+		          $.getAjax("/hrms/registe/agency/infor/get?id=" + id, function(data) {
+		              baseModel.setData(data);
+		          });
+		      } else {
+		          baseModel.setData(null);
+		      }
+		  }) 
+	</script>
+</body>
+
+</html>

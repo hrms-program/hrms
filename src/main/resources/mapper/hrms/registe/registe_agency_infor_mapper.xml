@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paladin.hrms.mapper.registe.RegisteAgencyInforMapper">
+
+<select id="findRegisteAgencyPage" resultType="com.paladin.hrms.service.registe.vo.RegisteAgencyInforVO">
+
+SELECT 
+  `id`,
+  `personnel_id` AS personnelId,
+  `agency_name` AS agencyName,
+  `agency_register_code` AS agencyRegisterCode,
+  `phone`,
+  `postal_code` AS postalCode,
+  `address`,
+  `apply_time` AS applyTime ,
+  `effective_start_time` AS effectiveStartTime,
+  `effective_end_time` AS effectiveEndTime,
+  `agency_check_status` AS agencyCheckStatus,
+  `admin_check_status` AS adminCheckStatus
+FROM
+  `registe_agency_infor` where personnel_id=#{personnelId} 
+  
+  <if test="applyTime != null and applyTime != '' ">
+   and apply_time = #{applyTime}
+  </if>
+  
+  <if test="agencyCheckStatus != null and agencyCheckStatus != '' ">
+   and agency_check_status = #{agencyCheckStatus}
+  </if>
+  
+  <if test="adminCheckStatus != null and adminCheckStatus != '' ">
+    and admin_check_status = #{adminCheckStatus}
+  </if>
+  
+  ORDER BY update_time DESC
+</select>
+
+<select id="findRegisteAgencyCheckPage" resultType="com.paladin.hrms.service.registe.vo.RegisteAgencyInforVO">
+SELECT 
+  r.`id`,
+  r.`personnel_id` AS personnelId,
+  r.`agency_name` AS agencyName,
+  r.`agency_register_code` AS agencyRegisterCode,
+  r.`phone`,
+  r.`postal_code` AS postalCode,
+  r.`address`,
+  r.`apply_time` AS applyTime ,
+  r.`effective_start_time` AS effectiveStartTime,
+  r.`effective_end_time` AS effectiveEndTime,
+  r.`agency_check_status` AS agencyCheckStatus,
+  r.`admin_check_status` AS adminCheckStatus
+FROM
+  `registe_agency_infor` AS r 
+  LEFT JOIN org_personnel AS a ON r.`personnel_id` = a.`id`
+  where 1=1 
+  <if test="permission.cityCode!=null">
+      AND a.city_code =#{permission.cityCode}
+  </if>
+  <if test="permission.cityCodes!=null">
+      AND a.city_code IN
+      <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+      </foreach>
+  </if>
+  <if test="permission.townCode!=null">
+      AND a.town_code =#{permission.townCode}
+  </if>
+  <if test="permission.townCodes!=null">
+      AND a.town_code IN
+      <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+      </foreach>
+  </if>
+  <if test="permission.districtCode!=null">
+      AND a.district_code =#{permission.districtCode}
+  </if>
+  <if test="permission.districtCodes!=null">
+      AND a.district_code IN
+      <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+      </foreach>
+  </if>
+  <if test="permission.agencyId!=null">
+      AND a.agency_id =#{permission.agencyId}
+  </if>
+  <if test="permission.agencyIds!=null">
+      AND a.agency_id IN
+      <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+      </foreach>
+  </if>
+  
+  <if test="query.applyTime != null and query.applyTime != '' ">
+   and apply_time = #{query.applyTime}
+  </if>
+  
+  <if test="query.agencyCheckStatus != null and query.agencyCheckStatus != '' ">
+   and agency_check_status = #{query.agencyCheckStatus}
+  </if>
+  
+  <if test="query.adminCheckStatus != null and query.adminCheckStatus != '' ">
+    and admin_check_status = #{query.adminCheckStatus}
+  </if>
+  
+  ORDER BY r.update_time DESC      
+        
+</select>
+  
+</mapper>

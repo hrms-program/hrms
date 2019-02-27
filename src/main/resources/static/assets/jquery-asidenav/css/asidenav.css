@@ -112,6 +112,16 @@ body {
 	-moz-transform: translate3d(0, 135%, 0);
 	transform: translate3d(0, 135%, 0)
 }
+.aside-nav:hover .menu-fifth{
+	-webkit-transform: translate3d(120%, 70%, 0);
+	-moz-transform: translate3d(120%, 70%, 0);
+	transform: translate3d(120%, 70%, 0)
+}
+.aside-nav:hover .menu-sixth{
+	-webkit-transform: translate3d(120%, -70%, 0);
+	-moz-transform: translate3d(120%, -70%, 0);
+	transform: translate3d(120%, -70%, 0)
+}
 @-webkit-keyframes jello {
 from, 11.1%, to {
 -webkit-transform:none;

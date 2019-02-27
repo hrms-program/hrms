@@ -14,7 +14,8 @@
         </div>
         <div id="base_view" class="box-body">
             <form class="form-horizontal">
-                <div class="form-group"><label for="name" class="col-sm-3 control-label">机构名称：</label>
+                <div class="form-group">
+                    <label for="name" class="col-sm-3 control-label">机构名称：</label>
                     <div class="col-sm-3">
                         <p name="name" class="form-control-static description"></p>
                     </div>
@@ -23,7 +24,18 @@
                         <p name="code" class="form-control-static description"></p>
                     </div>
                 </div>
-                <div class="form-group"><label for="sname" class="col-sm-3 control-label">机构简称：</label>
+                <div class="form-group">
+                    <label for="districtCode" class="col-sm-3 control-label">所在区镇：</label>
+                    <div class="col-sm-3">
+                        <p name="districtCode" class="form-control-static description"></p>
+                    </div>
+                    <label for="creditCode" class="col-sm-2 control-label">统一社会信用代码：</label>
+                    <div class="col-sm-3">
+                        <p name="creditCode" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="sname" class="col-sm-3 control-label">机构简称：</label>
                     <div class="col-sm-3">
                         <p name="sname" class="form-control-static description"></p>
                     </div>
@@ -32,7 +44,8 @@
                         <p name="isStateRun" class="form-control-static description"></p>
                     </div>
                 </div>
-                <div class="form-group"><label for="orgType" class="col-sm-3 control-label">机构类别：</label>
+                <div class="form-group">
+                    <label for="orgType" class="col-sm-3 control-label">机构类别：</label>
                     <div class="col-sm-3">
                         <p name="orgType" class="form-control-static description"></p>
                     </div>
@@ -41,14 +54,26 @@
                         <p name="orgLevel" class="form-control-static description"></p>
                     </div>
                 </div>
-                <div class="form-group"><label for="townStreet" class="col-sm-3 control-label">所在乡镇街道：</label>
+                <div class="form-group">
+                    <label for="townStreet" class="col-sm-3 control-label">所在乡镇街道：</label>
                     <div class="col-sm-3">
                         <p name="townStreet" class="form-control-static description"></p>
                     </div>
+                    <label for="technicalCatalogue" class="col-sm-2 control-label">限制类医疗技术目录：</label>
+                    <div class="col-sm-3">
+                        <p name="technicalCatalogue" class="form-control-static description"></p>
+                    </div>
                 </div>
-                <div class="form-group"><label for="address" class="col-sm-3 control-label">机构地址：</label>
+                <div class="form-group">
+                    <label for="address" class="col-sm-3 control-label">机构地址：</label>
                     <div class="col-sm-8">
                         <p name="address" class="form-control-static description"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PracticeScore" class="col-sm-3 control-label">不良执业行为记分记录：</label>
+                    <div class="col-sm-8">
+                        <p name="practiceScore" class="form-control-static description"></p>
                     </div>
                 </div>
             </form>
@@ -286,14 +311,17 @@
         id: "base",
         name: "基本信息",
         columns: [
-            { name: "id", inputType: "ID" },
             { name: "name", inputType: "TEXT", title: "机构名称" },
             { name: "code", inputType: "TEXT", title: "机构代码" },
+            { name: "districtCode", inputType: "TEXT", title: "所在区镇" },
+            { name: "creditCode", inputType: "TEXT", title: "统一社会信用代码" },
             { name: "sname", inputType: "TEXT", title: "机构简称" },
             { name: "isStateRun", inputType: "SELECT", enum: "boolean", title: "是否公立机构或医院" },
             { name: "orgType", inputType: "SELECT", enum: "org-type", title: "机构类别" },
             { name: "orgLevel", inputType: "SELECT", enum: "org-level", title: "机构级别" },
             { name: "townStreet", inputType: "TEXT", title: "所在乡镇街道" },
+            { name: "technicalCatalogue", inputType: "TEXT", title: "限制类医疗技术目录" },
+            { name: "practiceScore", inputType: "TEXT", title: "不良执业行为记分记录", colspan: 2  },
             { name: "address", inputType: "TEXT", title: "机构地址", colspan: 2 }
         ]
     };

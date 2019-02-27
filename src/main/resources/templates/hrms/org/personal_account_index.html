@@ -160,37 +160,39 @@
         }
         if (row.state === 5) {
             return [
-                '<a class="reset" href="javascript:void(0);" >',
-                '<i class="glyphicon glyphicon-repeat"></i>重置密码',
-                '</a>&nbsp;&nbsp;&nbsp;&nbsp;',
                 '<a class="cancel" href="javascript:void(0);" >',
                 '<i class="glyphicon glyphicon-remove-circle"></i>注销账号',
                 '</a>&nbsp;&nbsp;&nbsp;&nbsp;',
-               /* '<a class="synchronized" href="javascript:void(0);" >',
-                '<i class="glyphicon glyphicon-refresh"></i>同步',
-                '</a> &nbsp;&nbsp;&nbsp;&nbsp;',*/
+                /* '<a class="synchronized" href="javascript:void(0);" >',
+                 '<i class="glyphicon glyphicon-refresh"></i>同步',
+                 '</a> &nbsp;&nbsp;&nbsp;&nbsp;',*/
                 '<a class="unlock" href="javascript:void(0);" >',
                 '<i class="fa fa-unlock"></i>解锁',
                 '</a> ',
             ].join('');
         }
+
+        if (row.state === 2) {
             return [
-                /*'<a class="view" href="javascript:void(0);" >',
-                '<i class="glyphicon glyphicon-eye-open"></i>查看',
-                '</a>&nbsp;&nbsp;&nbsp;&nbsp;',
-                '<a class="edit" href="javascript:void(0);" >',
-                '<i class="glyphicon glyphicon-edit"></i>编辑',
-                '</a>&nbsp;&nbsp;&nbsp;&nbsp;',*/
-                '<a class="reset" href="javascript:void(0);" >',
-                '<i class="glyphicon glyphicon-repeat"></i>重置密码',
+                '<a class="restart" href="javascript:void(0);" >',
+                '<i class="glyphicon glyphicon-cog"></i>启用账号',
                 '</a>&nbsp;&nbsp;&nbsp;&nbsp;',
                 '<a class="cancel" href="javascript:void(0);" >',
                 '<i class="glyphicon glyphicon-remove-circle"></i>注销账号',
                 '</a>&nbsp;&nbsp;&nbsp;&nbsp;',
-                /*'<a class="synchronized" href="javascript:void(0);" >',
-                '<i class="glyphicon glyphicon-refresh"></i>同步',
-                '</a>  ',*/
             ].join('');
+        }
+        return [
+            '<a class="reset" href="javascript:void(0);" >',
+            '<i class="glyphicon glyphicon-repeat"></i>重置密码',
+            '</a>&nbsp;&nbsp;&nbsp;&nbsp;',
+            '<a class="cancel" href="javascript:void(0);" >',
+            '<i class="glyphicon glyphicon-remove-circle"></i>注销账号',
+            '</a>&nbsp;&nbsp;&nbsp;&nbsp;',
+            /*'<a class="synchronized" href="javascript:void(0);" >',
+            '<i class="glyphicon glyphicon-refresh"></i>同步',
+            '</a>  ',*/
+        ].join('');
     }
 
     window.operateEvents = {
@@ -202,6 +204,8 @@
             add(row.id,row.identificationNo,row.name);
         },'click .unlock' : function (e, value, row, index) {
             unlock(row.account,row.name);
+        },'click .restart' : function (e, value, row, index) {
+            restart(row.account)
         }
     };
 
@@ -261,6 +265,17 @@
             layer.close(index);
         });
     }
+
+    function restart(account) {
+        layer.confirm('确定要启用该账号', {icon: 3, title:'启用账号确认'}, function(index){
+            $.postAjax('/hrms/account/personal/restart',{account:account}, function () {
+                $.successMessage("启用账号成功");
+                table.refresh()
+            });
+            layer.close(index);
+        });
+    }
+
     function cancel(id,account) {
         layer.confirm('确定要注销该账号吗？（注销后将无法恢复该账号）', {icon: 3, title:'注销账号确认'}, function(index){
             $.postAjax('/hrms/account/personal/cancel', {id:id,account:account}, function () {

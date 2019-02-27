@@ -18,6 +18,8 @@ public class ComplaintPersonnelArchivesCheckQueryDTO extends OffsetPage {
     
     private String dept;
 
+    private  Integer checkStatus;
+
 	public String getName() {
 		return name;
 	}
@@ -73,7 +75,12 @@ public class ComplaintPersonnelArchivesCheckQueryDTO extends OffsetPage {
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-    
 
-    
+	public Integer getCheckStatus() {
+		return checkStatus;
+	}
+
+	public void setCheckStatus(Integer checkStatus) {
+		this.checkStatus = checkStatus;
+	}
 }

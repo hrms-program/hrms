@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/hrms/header" />
+<body>
+<div class="container">
+	<section class="content">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title">备案机构变更</h3>
+				<div class="box-tools pull-right">
+                <a class="btn btn-box-tool" th:href="${backUrl}"><i class="fa fa-times"></i></a>
+            </div>
+			</div>
+			<div id="registe_view" class="box-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+                        <label for="agencyName" class="col-sm-3 control-label">拟备案机构名称：</label>
+                        <div class="col-sm-3">
+                           <p name="agencyName" class="form-control-static description" th:text="${info.agencyName}"></p>
+                        </div>
+                        <label for="agencyRegisterCode" class="col-sm-2 control-label">机构登记编码：</label>
+                        <div class="col-sm-4">
+                           <div name="agencyRegisterCode" class="form-control-static description" th:text="${info.agencyRegisterCode}"></div>
+                        </div>
+                    </div>
+                      <div class="form-group">
+                        <label for="phone" class="col-sm-3 control-label">单位电话：</label>
+                        <div class="col-sm-3">
+                           <div name="phone" class="form-control-static description" th:text="${info.phone}"></div>
+                        </div>
+                        <label for="postalCode" class="col-sm-2 control-label">邮政编码：</label>
+                        <div class="col-sm-4">
+                           <div name="postalCode" class="form-control-static description" th:text="${info.postalCode}"></div>
+                        </div>
+                    </div>
+				    <div class="form-group">
+                        <label for="effectiveStartTime" class="col-sm-3 control-label">有效开始时间：</label>
+                        <div class="col-sm-3">
+                           <div name="effectiveStartTime" class="form-control-static description" th:text="${#dates.format(info.effectiveStartTime, 'yyyy-MM-dd')}"></div>
+                        </div>
+                        <label for="effectiveEndTime" class="col-sm-2 control-label">有效结束时间：</label>
+                        <div class="col-sm-4">
+                           <div name="effectiveEndTime" class="form-control-static description" th:text="${#dates.format(info.effectiveEndTime, 'yyyy-MM-dd')}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="col-sm-3 control-label">地址：</label>
+                        <div class="col-sm-8">
+                           <div name="address" class="form-control-static description" th:text="${info.address}"></div>
+                        </div>
+                    </div>
+				</form>
+				<div class="form-group">
+                <div class="col-sm-2 col-sm-offset-5" style="margin-top: 10px;">
+                    <a th:href="${backUrl}" class="btn btn-primary btn-block"><span id="toEditbtn">返回</span></a>
+                </div>
+            	</div>
+			</div>
+		</div>
+	</section>
+	</div>
+	<div th:include="/hrms/footer" />
+</body>
+
+</html>

@@ -13,7 +13,7 @@
         FROM complaint_personnel_archives_check AS cpac
         LEFT JOIN org_personnel op ON cpac.personnel_id = op.id
         LEFT JOIN org_personnel_job opj ON opj.id = cpac.personnel_id
-        WHERE cpac.check_status = 0
+        WHERE cpac.check_status in (0,1)
         <if test="query.name != null and query.name != ''">
             AND op.`name` like concat ('%',#{query.name},'%')
         </if>
@@ -70,13 +70,21 @@
             op.agency_name AS agencyName,
             cpac.record_type AS recordType,
             cpac.record_id AS recordId,
+            opj.dept_name AS deptName,
+            opj.dept AS dept,
             cpac.update_time AS createTime
         FROM complaint_personnel_archives_check AS cpac
         LEFT JOIN org_personnel op ON cpac.personnel_id = op.id
-        WHERE cpac.personnel_id = #{query.personnelId}
-        AND cpac.check_status = 0
+        LEFT JOIN org_personnel_job opj ON opj.id = cpac.personnel_id
+        WHERE cpac.check_status = 0
         <if test="query.agencyId != null">
             AND op.agency_id = #{query.agencyId}
+        </if>
+        <if test="query.dept != null and query.dept != ''">
+            AND opj.dept = #{query.dept}
+        </if>
+        <if test="query.name != null and query.name != ''" >
+            AND op.name = #{query.name}
         </if>
         <if test="query.recordType != null and query.recordType != ''">
             AND cpac.record_type = #{query.recordType}
@@ -117,12 +125,86 @@
                 #{item}
             </foreach>
         </if>
+        ORDER BY cpac.update_time desc
+    </select>
+    <select id="searchDistrictAppliacationList"
+            resultType="com.paladin.hrms.service.complaint.dto.ComplaintPersonnelArchivesCheckVO">
+        SELECT
+        cpac.id AS id,
+        op.id AS personnelId,
+        op.`name` AS personnelName,
+        op.agency_name AS agencyName,
+        cpac.record_type AS recordType,
+        cpac.record_id AS recordId,
+        cpac.check_status AS result,
+        opj.dept_name AS deptName,
+        opj.dept AS dept,
+        cpac.update_time AS createTime
+        FROM complaint_personnel_archives_check AS cpac
+        LEFT JOIN org_personnel op ON cpac.personnel_id = op.id
+        LEFT JOIN org_personnel_job opj ON opj.id = cpac.personnel_id
+        WHERE cpac.check_status in (0,1)
+        <if test="query.agencyId != null">
+            AND op.agency_id = #{query.agencyId}
+        </if>
+        <if test="query.personnelId != null">
+            AND cpac.personnel_id = #{query.personnelId}
+        </if>
+        <if test="query.checkStatus != null">
+            AND cpac.check_status = #{query.checkStatus}
+        </if>
+        <if test="query.dept != null and query.dept != ''">
+            AND opj.dept = #{query.dept}
+        </if>
+        <if test="query.name != null and query.name != ''" >
+            AND op.name = #{query.name}
+        </if>
+        <if test="query.recordType != null and query.recordType != ''">
+            AND cpac.record_type = #{query.recordType}
+        </if>
+        <if test="permission.cityCode!=null">
+            AND op.city_code =#{permission.cityCode}
+        </if>
+        <if test="permission.cityCodes!=null">
+            AND op.city_code IN
+            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.townCode!=null">
+            AND op.town_code =#{permission.townCode}
+        </if>
+        <if test="permission.townCodes!=null">
+            AND op.town_code IN
+            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.districtCode!=null">
+            AND op.district_code =#{permission.districtCode}
+        </if>
+        <if test="permission.districtCodes!=null">
+            AND op.district_code IN
+            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.agencyId!=null">
+            AND op.agency_id =#{permission.agencyId}
+        </if>
+        <if test="permission.agencyIds!=null">
+            AND op.agency_id IN
+            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        ORDER BY cpac.update_time desc
     </select>
 
     <update id="updateStatusForCheck">
         UPDATE complaint_personnel_archives_check
         SET check_status = #{status}, update_time = now()
-        WHERE record_id = #{id} AND record_type = #{type} AND check_status = 0
+        WHERE record_id = #{id} AND record_type = #{type} AND check_status in (0,1)
     </update>
     
     <update id="updateStatus">

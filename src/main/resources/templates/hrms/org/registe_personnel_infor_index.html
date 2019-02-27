@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="/hrms/header" />
+
+<body>
+	<div class="container">
+    <tt:constant enumcode="registe-change-item,registe-check-status" />
+    <section class="content-header">
+      	<h1>备案信息变更</h1>
+  	</section>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-search"></i>
+                <h3 class="box-title">查询</h3>
+            </div>
+            <div class="box-body">
+                <div class="col-md-12">
+                    <form id="searchbar" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="applyDate" class="col-md-1 control-label">申请时间</label>
+                            <div class="col-md-2">
+                                <input type="text" name="applyDate" class="form-control tonto-datepicker-date" th:value="${query?.applyDate}" />
+                            </div>
+                            <label for="agencyCheckStatus" class="col-md-2 control-label">机构审核结果</label>
+                            <div class="col-md-1">
+                                <select name="agencyCheckStatus" class="tonto-select-constant tonto-multiple-select" multiple="multiple" number-displayed="3" placeholder="请选择" th:attr="selectedvalue=${query?.adminCheckStatus}" enumcode="registe-check-status">
+                                </select>
+                            </div>
+                            <label for="adminCheckStatus" class="col-md-2 control-label">行政审核结果</label>
+                            <div class="col-md-1">
+                                <select name="adminCheckStatus" class="tonto-select-constant tonto-multiple-select" multiple="multiple" number-displayed="3" placeholder="请选择" th:attr="selectedvalue=${query?.adminCheckStatus}" enumcode="registe-check-status">
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        		<button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+        </div>
+        <div class="box box-solid" style="margin-top:20px">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+            </div>
+            <div id="result" class="box-body">
+                <table id="dataGrid"></table>
+                <div id="toolbar">
+                    <div class="btn-group">
+                        <a onclick="view()" class="btn btn-default"><i class="glyphicon glyphicon-search"></i>查看</a>
+                        <a onclick="add()" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>新增</a>
+                        <a onclick="edit()" class="btn btn-default"><i class="glyphicon glyphicon-edit"></i>修改</a>              
+                        <a onclick="remove()" class="btn btn-default"><i class="glyphicon glyphicon-remove"></i>删除</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+    <script type="text/javascript" src="/static/js/hrms/org/personal_tree_constant.js"></script>
+    <div th:include="/hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function() {
+        initDataGrid();
+    });
+
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [
+                    { radio: true },
+                    { title: "拟变更注册事项", field: "changeItem" , enumcode: "registe-change-item",formatter:function(value,row,index){
+                    	var re=[];
+                    	$.each(value.split(','),function(i,v){
+                    		re.push($.getConstantEnumValue('registe-change-item',v));
+                    	});
+                    	return re.join(',');
+                    }},
+                    { title: "机构审核结果", field: "agencyCheckStatus", enumcode: "registe-check-status" ,formatter: checkStatusFormatter},
+                    { title: "行政审核结果", field: "adminCheckStatus", enumcode: "registe-check-status",formatter: checkStatusFormatter},
+                    { title: "申请时间", field: "applyDate",formatter: "datetime",sortable: true  }
+                ]
+            ],
+            url: '/hrms/registe/personnel/infor/list',
+            searchbar: '#searchbar',
+            joinArrayValue: true, // 开启多选值拼接
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            clickToSelect: true,
+            toolbar: "#toolbar",
+            showRefresh: true
+        });
+    }
+
+    function checkStatusFormatter(value, row, index){
+         if (value == 0) {
+             return '<span class="label label-info"><i class="fa fa-clock-o"></i>未审核</span>';
+         }
+         if (value == 1) {
+              return '<span class="label label-success"><i class="glyphicon glyphicon-ok"></i>审核通过</span>';
+          }
+          if (value == 2) {
+              return '<span class="label label-danger"><i class="glyphicon glyphicon-remove"></i>审核不通过</span>';
+          }
+          if (value == 3) {
+              return '<span class="label label-warning"><i class="glyphicon glyphicon-remove"></i>驳回</span>';
+          }
+    }
+
+    function view() {
+        var row = getSelectRow();
+        if (row) {
+            window.location = '/hrms/registe/personnel/infor/view?id=' + row.id;
+        }
+    }
+
+    function add() {
+        window.location = '/hrms/registe/personnel/infor/add';
+    }
+
+    function edit() {
+        var row = getSelectRow();
+        if (row) {
+            window.location = '/hrms/registe/personnel/infor/edit?id=' + row.id;
+        }
+    }
+
+    function remove() {
+        var row = getSelectRow();
+        if (row) {
+            layer.confirm('确定删除变更申请吗?', function() {
+                $.getAjax('/hrms/registe/personnel/infor/remove?id=' + row.id, function() {
+                    $.successMessage("删除变更申请成功");
+                    table.refresh();
+                });
+            });
+        }
+    }
+
+    function getSelectRow(notShowError) {
+        var rows = table.getSelections();
+        var row = rows.length > 0 ? rows[0] : null;
+        if (!notShowError && !row) {
+            $.errorMessage("请选中一条业务数据");
+        }
+        return row;
+    }
+    /*]]>*/
+    </script>
+</body>
+
+</html>

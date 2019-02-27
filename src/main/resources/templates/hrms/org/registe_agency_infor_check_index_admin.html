@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="/hrms/header" />
+
+<body>
+<section class="content-header">
+        <h1>备案机构变更-行政审核</h1>
+    </section>
+    <tt:constant enumcode="registe-check-status" />
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-search"></i>
+                <h3 class="box-title">查询</h3>
+            </div>
+            <div class="box-body">
+                <form id="searchbar" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="name" style="width:130px" class="col-md-1 control-label">申请时间</label>
+                        <div class="col-md-2">
+                            <input type="text" name="applyTime" class="form-control tonto-datepicker-date" placeholder="请选择时间" th:value="${query?.applyTime}" />
+                        </div>
+                        <label for="name" style="width:130px" class="col-md-1 control-label">机构审核结果</label>
+                        <div class="col-md-2">
+                            <select class="form-control tonto-select-constant" name="agencyCheckStatus" th:attr="selectedvalue=${query?.agencyCheckStatus}" enumcode="registe-check-status">
+                                <option value="">请选择审核结果</option>
+                            </select>
+                        </div>
+                        <label for="name" style="width:130px" class="col-md-1 control-label">行政审核结果</label>
+                        <div class="col-md-2">
+                            <select class="form-control tonto-select-constant" name="adminCheckStatus" th:attr="selectedvalue=${query?.adminCheckStatus}" enumcode="registe-check-status">
+                                <option value="">请选择审核结果</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                    <input type="text" style="display:none">
+                </form>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
+                    </div>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+        </div>
+        <div class="box box-solid" style="margin-top:20px">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+            </div>
+            <div id="result" class="box-body">
+                <table id="dataGrid"></table>
+                <div id="toolbar">
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:include="/hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function() {
+        initDataGrid();
+    });
+
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                      [
+                          { title: "拟备案机构名称", field: "agencyName" },
+                          { title: "申请时间", field: "applyTime",formatter:"date"},
+                          { title: "机构审核结果", field: "agencyCheckStatus", enumcode: "registe-check-status",formatter: checkStatusFormatter},
+                          { title: "行政审核结果", field: "adminCheckStatus",enumcode: "registe-check-status" ,formatter: checkStatusFormatter},
+                          {
+                              title: "操作",
+                              align: "center",
+                              width: "200px",
+                              events: {
+                                  'click .check': function(e, value, row, index) {
+                                	  check(row);
+                                  },
+                                  'click .view': function(e, value, row, index) {
+                                	  view(row);
+                                  }
+                              },
+                              formatter: function operateFormatter(value, row, index) {
+                            	  var html;
+                            	  if(row.adminCheckStatus != 0 ){
+                            		  return html='<button class="view btn btn-xs btn-info" style="margin-right:10px"><i class="glyphicon glyphicon-eye-open"></i>查看</button>';
+                            	  }else if(row.adminCheckStatus == 0){
+                            		  return html= '<button class="check btn btn-xs btn-success" style="margin-right:10px"><i class="glyphicon glyphicon-edit"></i>审核</button>';
+                            	  }else{
+                            		  return  thml='';
+                            	  }
+                              }
+                          }
+                      ]
+                  ],
+            url: '/hrms/registe/agency/check/find/page',
+            searchbar: '#searchbar',
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            clickToSelect: true,
+            toolbar: "#toolbar",
+            showRefresh: true
+        });
+    }
+
+      function check(row) {
+        $.openUrlLayerOrLocate('/hrms/registe/agency/check/examine?id=' + row.id , { title: "备案机构变更审核" });
+      } 
+      
+      function view (row){
+    	  window.location = '/hrms/registe/agency/check/view?id='+row.id;
+      }
+      
+      function checkCallback(){
+          layer.closeAll();
+          table.refresh();
+      }
+      
+      function checkStatusFormatter(value, row, index){
+          if (value == 0) {
+              return '<span class="label label-info"><i class="fa fa-clock-o"></i>未审核</span>';
+          }
+          if (value == 1) {
+               return '<span class="label label-success"><i class="glyphicon glyphicon-ok"></i>审核通过</span>';
+           }
+           if (value == 2) {
+               return '<span class="label label-danger"><i class="glyphicon glyphicon-remove"></i>审核不通过</span>';
+           } 
+           if (value == 3) {
+               return '<span class="label label-danger"><i class="glyphicon glyphicon-remove"></i>被驳回</span>';
+           } 
+     }
+      
+    /*]]>*/
+    </script>
+</body>
+
+</html>

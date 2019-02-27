@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/hrms/header" />
+<body>
+    <input type="hidden" id="id" th:value="${info.id}"/> 
+	<section class="content">
+		<div class="box box-solid">
+			<div id="registe_view" class="box-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+                        <label for="agencyName" class="col-sm-3 control-label">拟备案机构名称：</label>
+                        <div class="col-sm-3">
+                           <p name="agencyName" class="form-control-static description" th:text="${info.agencyName}"></p>
+                        </div>
+                        <label for="agencyRegisterCode" class="col-sm-2 control-label">机构登记编码：</label>
+                        <div class="col-sm-4">
+                           <div name="agencyRegisterCode" class="form-control-static description" th:text="${info.agencyRegisterCode}"></div>
+                        </div>
+                    </div>
+                      <div class="form-group">
+                        <label for="phone" class="col-sm-3 control-label">单位电话：</label>
+                        <div class="col-sm-3">
+                           <div name="phone" class="form-control-static description" th:text="${info.phone}"></div>
+                        </div>
+                        <label for="postalCode" class="col-sm-2 control-label">邮政编码：</label>
+                        <div class="col-sm-4">
+                           <div name="postalCode" class="form-control-static description" th:text="${info.postalCode}"></div>
+                        </div>
+                    </div>
+				    <div class="form-group">
+                        <label for="effectiveStartTime" class="col-sm-3 control-label">有效开始时间：</label>
+                        <div class="col-sm-3">
+                           <div name="effectiveStartTime" class="form-control-static description" th:text="${#dates.format(info.effectiveStartTime, 'yyyy-MM-dd')}"></div>
+                        </div>
+                        <label for="effectiveEndTime" class="col-sm-2 control-label">有效结束时间：</label>
+                        <div class="col-sm-4">
+                           <div name="effectiveEndTime" class="form-control-static description" th:text="${#dates.format(info.effectiveEndTime, 'yyyy-MM-dd')}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="col-sm-3 control-label">地址：</label>
+                        <div class="col-sm-8">
+                           <div name="address" class="form-control-static description" th:text="${info.address}"></div>
+                        </div>
+                    </div>
+				</form>
+				<div id="content" style="border-bottom:1px #dedede solid"></div>
+				<form class="form-horizontal">
+                <div class="form-group" style="margin-top: 20px">
+                    <label for="illustrate" class="col-sm-3 control-label">审核意见：</label>
+                    <div class="col-sm-6">
+                        <input name="agencyCheckRemarks" id="agencyCheckRemarks" placeholder="请输入审核意见" type="text" class="form-control" maxlength="200">
+                    </div>
+                </div>
+                <div class="form-group" style="padding-top:20px">
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <button type="button" id="passBtn" class="btn btn-success btn-block"><i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;审核通过</button>
+                    </div>
+                    <div class="col-sm-2 col-sm-offset-0">
+                        <button type="button" id="unpassBtn" class="btn btn-danger btn-block"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;审核不通过</button>
+                    </div>
+                     <div class="col-sm-2 col-sm-offset-0">
+                        <button type="button" id="rebutBtn" class="btn btn-warning btn-block"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;驳回</button>
+                    </div>
+                </div>
+                   <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                    <input type="text" style="display:none">
+            </form>
+			</div>
+		</div>
+	</section>
+	<div th:include="/hrms/footer" />
+	<script type="text/javascript">
+    /*<![CDATA[*/
+     $(function(){
+    	 var id=$("#id").val();
+    	 
+    	 //审核成功
+    	 $("#passBtn").click(function() {
+             $.postAjax("/hrms/registe/agency/check/success", {
+            	 id: id,
+            	 'agencyCheckRemarks': $("#agencyCheckRemarks").val(),
+             }, function() {
+                 $.successAlert("操作成功", function() {
+                     if (window.parent && window.parent.checkCallback) {
+                         window.parent.checkCallback();
+                     }
+                 });
+             });
+         });
+    	 
+    	 //审核失败
+    	 $("#unpassBtn").click(function() {
+             $.postAjax("/hrms/registe/agency/check/fail", {
+            	 id: id,
+            	 'agencyCheckRemarks': $("#agencyCheckRemarks").val(),
+             }, function() {
+                 $.successAlert("操作成功", function() {
+                     if (window.parent && window.parent.checkCallback) {
+                         window.parent.checkCallback();
+                     }
+                 });
+             });
+         });
+    	 
+    	 //驳回
+    	 $("#rebutBtn").click(function() {
+             $.postAjax("/hrms/registe/agency/check/rebut", {
+            	 id: id,
+            	 'agencyCheckRemarks': $("#agencyCheckRemarks").val(),
+             }, function() {
+                 $.successAlert("操作成功", function() {
+                     if (window.parent && window.parent.checkCallback) {
+                         window.parent.checkCallback();
+                     }
+                 });
+             });
+         });
+     })          
+               
+     /*]]>*/
+    </script>
+</body>
+
+
+
+</html>

@@ -83,6 +83,12 @@ public class OrgPersonalAccountController extends ControllerSupport {
         return  CommonResponse.getResponse(sysUserService.resetPasswordByAccount(account));
     }
 
+    @RequestMapping(value = "/restart", method = RequestMethod.POST)
+    @ResponseBody
+    public Object restart(@RequestParam String account) {
+        return  CommonResponse.getResponse(sysUserService.updateState(account,SysUser.STATE_ENABLED));
+    }
+
     @RequestMapping(value = "/cancel", method = RequestMethod.POST)
     @ResponseBody
     public Object cancel (@RequestParam String id,@RequestParam String account) {

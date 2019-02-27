@@ -22,6 +22,8 @@ public class ComplaintPersonnelArchivesCheckVO {
 	
 	private Integer applicationAmount;
 
+	private  Integer result;
+
 	private Date createTime;
 
 	public String getId() {
@@ -104,4 +106,11 @@ public class ComplaintPersonnelArchivesCheckVO {
 		this.applicationAmount = applicationAmount;
 	}
 
+	public Integer getResult() {
+		return result;
+	}
+
+	public void setResult(Integer result) {
+		this.result = result;
+	}
 }

@@ -34,6 +34,7 @@ public abstract class PersonnelContextServiceSupport<T extends PersonnelContextM
 		if(id == null || id.length() == 0) {
 			id = UUIDUtil.createUUID();
 		}
+		model.setId(id);
 		int effect = super.save(model);
 		if (effect > 0) {
 			return complaintPersonnelArchivesCheckService.addArchivesCheck(id, model.getPersonnelId(), getPersonnelArchivesCheckType()) ? 1 : 0;

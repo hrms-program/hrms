@@ -21,4 +21,6 @@ public interface ComplaintPersonnelArchivesCheckMapper extends CustomMapper<Comp
 	public int updateStatusForCheck(@Param("id") String recordId, @Param("type") Integer recordType, @Param("status") Integer status);
 	
 	public int updateStatus(@Param("id") String recordId, @Param("type") Integer recordType, @Param("status") Integer status);
+
+	Page<ComplaintPersonnelArchivesCheckVO>  searchDistrictAppliacationList(@Param("query") ComplaintPersonnelArchivesCheckQueryDTO query, @Param("permission") DataPermissionCondition permission);
 }

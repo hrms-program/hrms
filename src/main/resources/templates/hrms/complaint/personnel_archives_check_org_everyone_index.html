@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="/hrms/header" />
+
+<body>
+    <tt:constant enumcode="hr_info_check_type" />
+    <section class="content-header">
+      <h1>人员信息变更-机构审核</h1>
+    </section>
+    <section class="content">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-search"></i>
+                <h3 class="box-title">查询</h3>
+                <div class="pull-right box-tools">
+                    <a class="btn btn-default btn-sm" href="/hrms/complaint/personnel/archives/org/everyone/index">
+                    <i class="fa fa-times"></i>
+                </a>
+                </div>
+            </div>
+            <div class="box-body">
+                <form id="searchbar" class="form-horizontal">
+                    <input type="hidden" id="personnelId" name="personnelId" th:value="${personnelId}" />
+                    <div class="form-group">
+                        <label for="name" class="col-sm-1 control-label">姓名</label>
+                        <div class="col-sm-2">
+                            <input type="text" name="name"  class="form-control" placeholder="请输入姓名"/>
+                        </div>
+                        <label for="dept" class="col-sm-1 control-label">科室</label>
+                        <div class="col-sm-2">
+                            <input type="text" name="dept" id="dept_select" class="form-control" th:attr="selectedvalue=${query?.dept}" />
+                        </div>
+                        <label for="recordType" class="col-sm-1 control-label">审核类型</label>
+                        <div class="col-sm-2">
+                            <select name="recordType" class="form-control tonto-select-constant" enumcode="hr_info_check_type">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- 表单仅有一个text-input时回车会提交表单，这里添加一个无用的防止回车提交 -->
+                    <input type="text" style="display:none">
+                </form>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" style="width:100px" class="btn btn-primary tonto-btn-search" onclick="table.refresh()"><i class="fa fa-search"></i>查询</button>
+                        <button type="button" style="width:100px" class="btn btn-default" onclick="$('form')[0].reset()"><i class="fa fa-repeat"></i>重置</button>
+                    </div>
+                </div>
+                <input type="hidden" id="pageLimit" th:value="${query?.limit}" />
+                <input type="hidden" id="pageOffset" th:value="${query?.offset}" />
+            </div>
+        </div>
+        <div class="box box-solid" style="margin-top:20px">
+            <div class="box-header with-border">
+                <i class="fa fa-list-alt"></i>
+                <h3 class="box-title">结果</h3>
+            </div>
+            <div class="box-body">
+                <table id="dataGrid"></table>
+                <div id="toolbar">
+                    <div class="btn-group">
+                        <a onclick="passAll()" class="btn btn-info"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;批量审核</a>
+                    </div>
+                    <div class="btn-group">
+                        <a onclick="checkedRecords()" class="btn btn-success"><i class="fa fa-list"></i>&nbsp;&nbsp;已审核记录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript" src="/static/js/hrms/org/personal_tree_constant.js"></script>
+    <div th:include="/hrms/footer" />
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var table;
+    $(function() {
+        var departmentTypes = tree_constant["department-type"];
+        $.createTreeSelectComponment("#dept_select").setData(departmentTypes);
+        initDataGrid();
+    });
+
+    function initDataGrid() {
+        var limit = $("#pageLimit").val();
+        var offset = $("#pageOffset").val();
+        var page = (limit && offset) ? offset / limit + 1 : 1;
+
+        table = $.createTable("#dataGrid", {
+            idField: "id",
+            columns: [
+                [
+                    { checkbox: true },
+                    { title: "姓名", align: "center", field: "personnelName" },
+                    { title: "所属机构", align: "center", field: "agencyName" },
+                    { title: "所属科室", align: "center", field: "deptName" },
+                    { title: "数据提交时间", align: "center", field: "createTime", formatter: "datetime" },
+                    { title: "审核业务类型", align: "center", field: "recordType", enumcode: "hr_info_check_type" },
+                    {
+                        title: "操作",
+                        align: "center",
+                        events: {
+                            'click .edit': function(e, value, row, index) {
+                                check(row);
+                            }
+                        },
+                        formatter: function(index, row) {
+                            return '<a class="edit" href="javascript:void(0);"><i class="glyphicon glyphicon-edit"></i>审查</a>';
+                        }
+                    }
+                ]
+            ],
+            url: '/hrms/complaint/personnel/archives/everyone/appliacation/list',
+            searchbar: '#searchbar',
+            showColumns: true,
+            pageSize: limit || undefined,
+            pageNumber: page || 1,
+            pagination: true,
+            clickToSelect: true,
+            toolbar: "#toolbar",
+            showRefresh: true
+        });
+    }
+
+
+    function check(row) {
+        $.openUrlLayerOrLocate('/hrms/complaint/personnel/archives/check/view?recordId=' + row.recordId + '&recordType=' + row.recordType +'&isOrg=1', { title: "信息审核" });
+    }
+
+    function checkCallback(){
+        layer.closeAll();
+        table.refresh();
+    }
+
+    function checkedRecords() {
+        window.location = "/hrms/complaint/personnel/archives/check/records/index"
+    }
+
+    function passAll() {
+        var rows = table.getSelections();
+        if (rows && rows.length > 0) {
+            var ids = [];
+            rows.forEach(function(row) {
+                ids.push(row.id);
+            });
+
+            layer.confirm('确定审核通过共' + ids.length + '条记录吗?', function() {
+                $.postAjax("/hrms/complaint/personnel/archives/org/check/records/successes", { ids: ids }, function(effect) {
+                    $.successMessage("共审核通过" + effect + "条记录！");
+                    table.refresh();
+                });
+            });
+        } else {
+            $.errorMessage("请至少选择一条记录");
+        }
+    }
+
+    /*]]>*/
+    </script>
+</body>
+
+</html>

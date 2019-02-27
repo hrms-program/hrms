@@ -1,8 +1,8 @@
 package com.paladin.hrms.model.complaint;
 
-import javax.persistence.Id;
-
 import com.paladin.framework.common.BaseModel;
+
+import javax.persistence.Id;
 
 public class ComplaintModel extends BaseModel {
 	
@@ -11,9 +11,19 @@ public class ComplaintModel extends BaseModel {
     
 	
 	public final static int STATUS_WAITING = 0;
-	public final static int STATUS_SUCCESS = 1;
-	public final static int STATUS_FAIL = 2;
-	
+	//机构审核通过
+	public final static int STATUS_ORG_SUCCESS = 1;
+	//机构审核不通过
+	public final static int STATUS_ORG_FAIL = 2;
+	//行政审核通过
+	public final static int STATUS_DISTRICT_SUCCESS = 3;
+	//行政审核不通过
+	public final static int STATUS_DISTRICT_FAIL = 4;
+
+	public static final int STATUS_SUCCESS = 1;
+
+	public static final int STATUS_FAIL = 2;
+
 	@Id
 	private String personnelId;
 	

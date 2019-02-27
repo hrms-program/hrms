@@ -11,7 +11,7 @@
 		  COUNT(a.check_status = 0 OR NULL) AS pendCount,
 		  COUNT(a.check_status = 1 OR NULL) AS passCount,
 		  COUNT(a.check_status = 2 OR NULL) AS nopassCount,
-		  COUNT(a.check_status != 0 OR NULL) AS checkedCount
+		  COUNT(a.check_status in (1,2) OR NULL) AS checkedCount
 		  FROM complaint_personnel_archives_check AS a
 		  LEFT JOIN org_personnel AS o
 		  ON a.personnel_id=o.id 
@@ -52,5 +52,136 @@
                 #{item}
             </foreach>
         </if>
+    </select>
+    <select id="indexDistrictShowCount"  resultType="com.paladin.hrms.model.complaint.ComplaintCheckCount">
+        SELECT
+        COUNT(a.check_status in (0,1) OR NULL) AS pendCount,
+        COUNT(a.check_status = 3 OR NULL) AS passCount,
+        COUNT(a.check_status = 4 OR NULL) AS nopassCount,
+        COUNT(a.check_status in (3,4) OR NULL) AS checkedCount
+        FROM complaint_personnel_archives_check AS a
+        LEFT JOIN org_personnel AS o
+        ON a.personnel_id=o.id
+        WHERE 1=1
+        <if test="permission.cityCode!=null">
+            AND o.city_code =#{permission.cityCode}
+        </if>
+        <if test="permission.cityCodes!=null">
+            AND o.city_code IN
+            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.townCode!=null">
+            AND o.town_code =#{permission.townCode}
+        </if>
+        <if test="permission.townCodes!=null">
+            AND o.town_code IN
+            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.districtCode!=null">
+            AND o.district_code =#{permission.districtCode}
+        </if>
+        <if test="permission.districtCodes!=null">
+            AND o.district_code IN
+            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.agencyId!=null">
+            AND o.agency_id =#{permission.agencyId}
+        </if>
+        <if test="permission.agencyIds!=null">
+            AND o.agency_id IN
+            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <select id="showCheckRecords"
+            resultType="com.paladin.hrms.service.complaint.dto.ComplaintPersonnelArchivesCheckVO">
+        SELECT
+        cpacr.id AS id,
+        op.id AS personnelId,
+        op.`name` AS personnelName,
+        op.agency_name AS agencyName,
+        cpacr.record_type AS recordType,
+        cpacr.record_id AS recordId,
+        cpacr.result,
+        cpacr.update_time AS createTime
+        FROM complaint_personnel_archives_check_record AS cpacr
+        LEFT JOIN org_personnel op ON cpacr.personnel_id = op.id
+        WHERE 1=1
+        <if test="query.agencyId != null">
+            AND op.agency_id = #{query.agencyId}
+        </if>
+        <if test="query.checkStatus != null">
+            AND cpacr.result = #{query.checkStatus}
+        </if>
+        <if test="query.name != null and query.name != ''" >
+            AND op.name = #{query.name}
+        </if>
+        <if test="query.recordType != null and query.recordType != ''">
+            AND cpacr.record_type = #{query.recordType}
+        </if>
+        <if test="permission.cityCode!=null">
+            AND op.city_code =#{permission.cityCode}
+        </if>
+        <if test="permission.cityCodes!=null">
+            AND op.city_code IN
+            <foreach collection="permission.cityCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.townCode!=null">
+            AND op.town_code =#{permission.townCode}
+        </if>
+        <if test="permission.townCodes!=null">
+            AND op.town_code IN
+            <foreach collection="permission.townCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.districtCode!=null">
+            AND op.district_code =#{permission.districtCode}
+        </if>
+        <if test="permission.districtCodes!=null">
+            AND op.district_code IN
+            <foreach collection="permission.districtCodes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="permission.agencyId!=null">
+            AND op.agency_id =#{permission.agencyId}
+        </if>
+        <if test="permission.agencyIds!=null">
+            AND op.agency_id IN
+            <foreach collection="permission.agencyIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        ORDER BY cpacr.update_time desc
+    </select>
+    <select id="showCheckRecordByRecordId"
+            resultType="com.paladin.hrms.service.complaint.dto.ComplaintPersonnelArchivesCheckRecordVO">
+      SELECT
+      id,
+	check_content as checkContent,
+	illustrate,
+	result,
+	create_time as createTime,
+	create_user_id as createUserId,
+	update_time as updateTime
+    FROM
+        complaint_personnel_archives_check_record
+    WHERE 1 =1
+    <if test="recordId != null">
+        AND record_id = #{recordId}
+    </if>
+    <if test="recordType != null">
+        AND record_type = #{recordType}
+    </if>
     </select>
 </mapper>

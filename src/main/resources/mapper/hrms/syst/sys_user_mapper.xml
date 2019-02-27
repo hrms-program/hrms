@@ -9,7 +9,7 @@
                 sys_user.state = #{state}
             </if>
         </set>
-        WHERE sys_user.state = 5
+        WHERE sys_user.state IN (2,5)
         <if test="account != null and account != ''">
             AND sys_user.account = #{account}
         </if>
